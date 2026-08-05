@@ -13,8 +13,20 @@
 // The bands are WHITE by day — a full step off the field so the tear reads as
 // paper on board, not cream on cream. At night they are the navy stock the
 // shipped design hand-set (#1D2537 under, #151D2D→#0F1524 face).
+//
+// LIT FROM ABOVE, both of them. The web authors the console's gradient
+// reversed *because it then flips the layer* (`transform:scaleY(-1)`), so what
+// lands on screen is the same in both bands: the light tone at the top, the
+// dark tone at the bottom. A flat face loses that, and — worse — leaves the
+// head band's deckle at the field's own colour, where it disappears.
+//
+// The deckle itself is not a tonal step in the web either: `#FFFEFB` paper on
+// an `#FFFEFB` field. What draws it is the paper's DROP SHADOW, which is why
+// there is a third hem here, a hair's breadth past the underlayer.
 
 import type { ReactNode } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import type { ReactElement } from "react";
 import { StyleSheet, View, useWindowDimensions } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
@@ -78,16 +90,27 @@ export function TornBand({
   const { width } = useWindowDimensions();
   const night = mode === "dark";
 
-  // ::before is the bright underlayer, ::after the stock face. The face's
-  // gradient brightens toward the torn edge, so the console's is authored
-  // reversed — here that is just which colour sits nearer the tear.
+  // ::before is the bright underlayer, ::after the stock face — and the face
+  // is a GRADIENT, top-lit in both bands however each one is torn.
   const under = night ? "#1D2537" : "#FFFEFC";
-  const face = night ? "#151D2D" : edge === "bottom" ? "#FFFEFB" : "#FAF7EE";
+  const faceTop = night ? "#151D2D" : "#FFFEFB";
+  const faceBot = night ? "#0F1524" : "#FAF7EE";
+  // the first of the paper's drop-shadows: 0 ±1.4px .5px
+  const cast = night ? "rgba(224,183,112,.24)" : "rgba(24,12,4,.5)";
 
   const tearsDown = edge === "bottom";
+  // the deckle is cut from whichever end of the face's gradient it sits at
+  const hemFace = tearsDown ? faceBot : faceTop;
 
-  const hems = (
+  const hems: ReactElement = (
     <View style={styles.hems}>
+      {/* the cast shadow, a hair past the underlayer's own deckle */}
+      <Hem
+        width={width}
+        color={cast}
+        up={!tearsDown}
+        style={[styles.under, { top: tearsDown ? 5.4 : -5.4 }]}
+      />
       {/* the underlayer peeks ~4px further OUT than the face — below a head
           that tears down, above a console that tears up */}
       <Hem
@@ -96,14 +119,14 @@ export function TornBand({
         up={!tearsDown}
         style={[styles.under, { top: tearsDown ? 4 : -4 }]}
       />
-      <Hem width={width} color={face} up={!tearsDown} />
+      <Hem width={width} color={hemFace} up={!tearsDown} />
     </View>
   );
 
   return (
     <View style={style}>
       {!tearsDown ? hems : null}
-      <View style={{ backgroundColor: face }}>{children}</View>
+      <LinearGradient colors={[faceTop, faceBot]}>{children}</LinearGradient>
       {tearsDown ? hems : null}
     </View>
   );

@@ -231,169 +231,606 @@
       "title": "The Little Prince",
       "author": "Antoine de Saint-Exupéry",
       "voice": "Read by Ambrose Reed.",
+      "hasText": true,
+      "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+      "voices": [
+        {
+          "id": "en-GB-Ollie:DragonHDLatestNeural",
+          "name": "Ambrose Reed",
+          "note": "Unhurried, and a little dry. Reads a joke as though he has not noticed it.",
+          "hue": "#7E2D1F"
+        },
+        {
+          "id": "en-GB-Sonia:DragonHDLatestNeural",
+          "name": "Sylvia Wren",
+          "note": "Clear and close. Keeps the sentence's shape all the way to the full stop.",
+          "hue": "#9B7A4D"
+        }
+      ],
+      "pressings": {
+        "en-GB-Ollie:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+          "voiceLabel": "Ambrose Reed",
+          "seconds": 4757,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "I",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 173,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "II",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 208,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "III",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 129,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "IV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 234,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "V",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 219,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "VI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 65,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "VII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 231,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "VIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 214,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "IX",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 136,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "X",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 377,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "XI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 98,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "XII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 49,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "XIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 257,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+            },
+            {
+              "n": 13,
+              "title": "XIV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
+              "duration": 213,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.json"
+            },
+            {
+              "n": 14,
+              "title": "XV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
+              "duration": 251,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.json"
+            },
+            {
+              "n": 15,
+              "title": "XVI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
+              "duration": 81,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.json"
+            },
+            {
+              "n": 16,
+              "title": "XVII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
+              "duration": 163,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.json"
+            },
+            {
+              "n": 17,
+              "title": "XVIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
+              "duration": 33,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.json"
+            },
+            {
+              "n": 18,
+              "title": "XIX",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
+              "duration": 55,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.json"
+            },
+            {
+              "n": 19,
+              "title": "XX",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
+              "duration": 70,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.json"
+            },
+            {
+              "n": 20,
+              "title": "XXI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
+              "duration": 392,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.json"
+            },
+            {
+              "n": 21,
+              "title": "XXII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
+              "duration": 76,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.json"
+            },
+            {
+              "n": 22,
+              "title": "XXIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
+              "duration": 34,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.json"
+            },
+            {
+              "n": 23,
+              "title": "XXIV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
+              "duration": 206,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.json"
+            },
+            {
+              "n": 24,
+              "title": "XXV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
+              "duration": 228,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.json"
+            },
+            {
+              "n": 25,
+              "title": "XXVI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
+              "duration": 430,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.json"
+            },
+            {
+              "n": 26,
+              "title": "XXVII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
+              "duration": 135,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.json"
+            }
+          ]
+        },
+        "en-GB-Sonia:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Sonia:DragonHDLatestNeural",
+          "voiceLabel": "Sylvia Wren",
+          "seconds": 4634,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "I",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 162,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "II",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 197,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "III",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 126,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "IV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 222,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "V",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 207,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "VI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 61,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "VII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 219,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "VIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 209,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "IX",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 132,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "X",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 373,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "XI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 95,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "XII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 51,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "XIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 250,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.json"
+            },
+            {
+              "n": 13,
+              "title": "XIV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-14.mp3",
+              "duration": 207,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-14.json"
+            },
+            {
+              "n": 14,
+              "title": "XV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-15.mp3",
+              "duration": 247,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-15.json"
+            },
+            {
+              "n": 15,
+              "title": "XVI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-16.mp3",
+              "duration": 81,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-16.json"
+            },
+            {
+              "n": 16,
+              "title": "XVII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-17.mp3",
+              "duration": 164,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-17.json"
+            },
+            {
+              "n": 17,
+              "title": "XVIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-18.mp3",
+              "duration": 35,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-18.json"
+            },
+            {
+              "n": 18,
+              "title": "XIX",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-19.mp3",
+              "duration": 58,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-19.json"
+            },
+            {
+              "n": 19,
+              "title": "XX",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-20.mp3",
+              "duration": 69,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-20.json"
+            },
+            {
+              "n": 20,
+              "title": "XXI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-21.mp3",
+              "duration": 395,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-21.json"
+            },
+            {
+              "n": 21,
+              "title": "XXII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-22.mp3",
+              "duration": 76,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-22.json"
+            },
+            {
+              "n": 22,
+              "title": "XXIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-23.mp3",
+              "duration": 35,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-23.json"
+            },
+            {
+              "n": 23,
+              "title": "XXIV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-24.mp3",
+              "duration": 199,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-24.json"
+            },
+            {
+              "n": 24,
+              "title": "XXV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-25.mp3",
+              "duration": 223,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-25.json"
+            },
+            {
+              "n": 25,
+              "title": "XXVI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-26.mp3",
+              "duration": 411,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-26.json"
+            },
+            {
+              "n": 26,
+              "title": "XXVII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-27.mp3",
+              "duration": 130,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-27.json"
+            }
+          ]
+        }
+      },
       "seconds": 4757,
       "chapters": [
         {
           "n": 0,
           "title": "I",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
-          "duration": 173
+          "duration": 173,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
         },
         {
           "n": 1,
           "title": "II",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
-          "duration": 208
+          "duration": 208,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
         },
         {
           "n": 2,
           "title": "III",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
-          "duration": 129
+          "duration": 129,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
         },
         {
           "n": 3,
           "title": "IV",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
-          "duration": 234
+          "duration": 234,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
         },
         {
           "n": 4,
           "title": "V",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
-          "duration": 219
+          "duration": 219,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
         },
         {
           "n": 5,
           "title": "VI",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
-          "duration": 65
+          "duration": 65,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
         },
         {
           "n": 6,
           "title": "VII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
-          "duration": 231
+          "duration": 231,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
         },
         {
           "n": 7,
           "title": "VIII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
-          "duration": 214
+          "duration": 214,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
         },
         {
           "n": 8,
           "title": "IX",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
-          "duration": 136
+          "duration": 136,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
         },
         {
           "n": 9,
           "title": "X",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
-          "duration": 377
+          "duration": 377,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
         },
         {
           "n": 10,
           "title": "XI",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
-          "duration": 98
+          "duration": 98,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
         },
         {
           "n": 11,
           "title": "XII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
-          "duration": 49
+          "duration": 49,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
         },
         {
           "n": 12,
           "title": "XIII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
-          "duration": 257
+          "duration": 257,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
         },
         {
           "n": 13,
           "title": "XIV",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
-          "duration": 213
+          "duration": 213,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.json"
         },
         {
           "n": 14,
           "title": "XV",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
-          "duration": 251
+          "duration": 251,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.json"
         },
         {
           "n": 15,
           "title": "XVI",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
-          "duration": 81
+          "duration": 81,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.json"
         },
         {
           "n": 16,
           "title": "XVII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
-          "duration": 163
+          "duration": 163,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.json"
         },
         {
           "n": 17,
           "title": "XVIII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
-          "duration": 33
+          "duration": 33,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.json"
         },
         {
           "n": 18,
           "title": "XIX",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
-          "duration": 55
+          "duration": 55,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.json"
         },
         {
           "n": 19,
           "title": "XX",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
-          "duration": 70
+          "duration": 70,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.json"
         },
         {
           "n": 20,
           "title": "XXI",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
-          "duration": 392
+          "duration": 392,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.json"
         },
         {
           "n": 21,
           "title": "XXII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
-          "duration": 76
+          "duration": 76,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.json"
         },
         {
           "n": 22,
           "title": "XXIII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
-          "duration": 34
+          "duration": 34,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.json"
         },
         {
           "n": 23,
           "title": "XXIV",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
-          "duration": 206
+          "duration": 206,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.json"
         },
         {
           "n": 24,
           "title": "XXV",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
-          "duration": 228
+          "duration": 228,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.json"
         },
         {
           "n": 25,
           "title": "XXVI",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
-          "duration": 430
+          "duration": 430,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.json"
         },
         {
           "n": 26,
           "title": "XXVII",
           "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
-          "duration": 135
+          "duration": 135,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.json"
         }
       ]
     },
@@ -402,6 +839,10 @@
       "title": "Crime and Punishment",
       "author": "Fyodor Dostoevsky",
       "voice": "specimen recording — the narration is being read now",
+      "hasText": false,
+      "voiceId": null,
+      "voices": [],
+      "pressings": {},
       "seconds": 176,
       "chapters": [
         {
@@ -423,6 +864,10 @@
       "title": "Meditations",
       "author": "Marcus Aurelius",
       "voice": "specimen recording — the narration is being read now",
+      "hasText": false,
+      "voiceId": null,
+      "voices": [],
+      "pressings": {},
       "seconds": 168,
       "chapters": [
         {

@@ -31,21 +31,54 @@ import {
 import shelf from "../data/listeningShelf.json";
 import { audioUrl } from "./audioResolve";
 
-export type Chapter = { n: number; title: string; src: string; duration: number };
+export type Chapter = {
+  n: number;
+  title: string;
+  src: string;
+  duration: number;
+  /** Bucket key of this chapter's galley — the read-along's whole data need in
+   *  one fetch. Pressed editions only; a specimen has no text to follow. */
+  galley?: string;
+};
+
+/** One voice this book was pressed in, as the turntable prints it. */
+export type Voice = { id: string; name: string; note: string; hue: string };
+
+/** One pressing — the same reviewed text, read by one voice. */
+export type Pressing = {
+  voiceId: string | null;
+  voiceLabel: string | null;
+  seconds: number;
+  chapters: Chapter[];
+};
+
 export type Recording = {
   slug: string;
   title: string;
   author: string;
   voice: string;
+  /** True when every chapter carries a galley — the reader can follow the words. */
+  hasText: boolean;
+  /** The pressing the house puts on first. Null for a specimen. */
+  voiceId: string | null;
+  voices: Voice[];
+  pressings: Record<string, Pressing>;
   seconds: number;
   chapters: Chapter[];
 };
 
-const RECORDINGS = shelf.recordings as Record<string, Recording>;
+const RECORDINGS = shelf.recordings as unknown as Record<string, Recording>;
 
 export const recordingFor = (slug: string): Recording | null => RECORDINGS[slug] ?? null;
 
-type Now = { slug: string; band: number } | null;
+/**
+ * The chapters of one pressing. Falls back to the record's own flattened list,
+ * which is what a specimen — pressed in no voice at all — always uses.
+ */
+const chaptersOf = (rec: Recording | null, voiceId: string | null): Chapter[] =>
+  (voiceId ? rec?.pressings?.[voiceId]?.chapters : null) ?? rec?.chapters ?? [];
+
+type Now = { slug: string; band: number; voice: string | null } | null;
 
 type DeckValue = {
   /** What is on the platter — null when nothing has been started. */
@@ -58,8 +91,23 @@ type DeckValue = {
   duration: number;
   /** True while the chapter is still buffering. */
   loading: boolean;
+  /** Which pressing is in force, and every voice this book was pressed in. */
+  voice: string | null;
+  voices: Voice[];
+  /**
+   * Change the reader mid-sentence. Every pressing reads the SAME text in the
+   * same chapters, so the needle is restated by the ratio of the two run
+   * lengths rather than reset — the web's setNarrator, in the hand.
+   */
+  setNarrator: (voiceId: string) => void;
   /** Drop the needle on a book at a given band. */
   playBand: (slug: string, band?: number) => void;
+  /**
+   * Drop the needle at an exact spot in a band — what a finger on a printed
+   * word asks for. Unlike playBand this does not restart anything: whatever
+   * the deck was doing (playing, paused) it goes on doing, from there.
+   */
+  playAt: (slug: string, band: number, seconds: number) => void;
   /** Resume or pause whatever is loaded. */
   toggle: () => void;
   seekTo: (seconds: number) => void;
@@ -79,14 +127,25 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const [wantPlay, setWantPlay] = useState(false);
 
   const recording = now ? (RECORDINGS[now.slug] ?? null) : null;
-  const chapter = recording?.chapters[now?.band ?? 0] ?? null;
+  const chapters = chaptersOf(recording, now?.voice ?? null);
+  const chapter = chapters[now?.band ?? 0] ?? null;
   const uri = chapter ? audioUrl(chapter.src) : null;
+
+  // Where the needle must land once the NEXT source is loaded. A narrator
+  // switch changes the file under the needle, and a seek issued before the new
+  // pressing is ready is dropped on the floor — which reads as the switch
+  // throwing you back to the top of the chapter.
+  const pendingSeek = useRef<number | null>(null);
 
   // The documented path: hand the hook the source and let it own loading.
   // (An earlier version created the player sourceless and fed it replace() —
   // that leaves `isLoaded` false on some platforms, which is how the transport
   // ended up drawn but dead.)
-  const player = useAudioPlayer(uri ? { uri } : null, { updateInterval: 500 });
+  // 100ms, not the 500ms a transport needs: the READ-ALONG is what sets this
+  // floor. A narrator reads about four words a second, so a needle that
+  // reports twice a second gilds every other word and skips the rest — which
+  // reads as the highlight lagging, not as a cheaper tick.
+  const player = useAudioPlayer(uri ? { uri } : null, { updateInterval: 100 });
   const status = useAudioPlayerStatus(player);
 
   // Keep sounding with the ringer switch flipped — an audiobook the silent
@@ -109,6 +168,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     else player.pause();
   }, [uri, wantPlay, player]);
 
+  // The restated needle, landed as soon as the new pressing reports ready.
+  useEffect(() => {
+    if (pendingSeek.current == null || !status.isLoaded) return;
+    const at = pendingSeek.current;
+    pendingSeek.current = null;
+    player.seekTo(at);
+  }, [status.isLoaded, uri, player]);
+
   // Auto-advance — roll into the next chapter, and stop cleanly at the end of
   // the book rather than looping.
   const advancing = useRef(false);
@@ -116,7 +183,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     if (!status.didJustFinish || !recording || !now || advancing.current) return;
     advancing.current = true;
     const next = now.band + 1;
-    if (next < recording.chapters.length) setNow({ slug: now.slug, band: next });
+    if (next < chaptersOf(recording, now.voice).length) setNow({ ...now, band: next });
     else {
       setWantPlay(false);
       setNow(null);
@@ -128,10 +195,55 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   }, [status.didJustFinish, recording, now]);
 
   const playBand = useCallback((slug: string, band = 0) => {
-    if (!RECORDINGS[slug]) return;
-    setNow({ slug, band });
+    const rec = RECORDINGS[slug];
+    if (!rec) return;
+    setNow({ slug, band, voice: rec.voiceId ?? null });
     setWantPlay(true);
   }, []);
+
+  const playAt = useCallback(
+    (slug: string, band: number, seconds: number) => {
+      const rec = RECORDINGS[slug];
+      if (!rec) return;
+      // stay on the pressing already in force for this book
+      const voiceId = now?.slug === slug ? now.voice : (rec.voiceId ?? null);
+      const chapters = chaptersOf(rec, voiceId);
+      const ch = chapters[band];
+      if (!ch) return;
+      const at = Math.max(0, Math.min(ch.duration, seconds));
+      // same band, same file: the needle just moves. A setNow with identical
+      // values would not change the uri, so the pending-seek effect would
+      // never fire and the tap would look ignored.
+      if (now?.slug === slug && now.band === band) {
+        player.seekTo(at);
+        return;
+      }
+      pendingSeek.current = at;
+      setNow({ slug, band, voice: voiceId });
+    },
+    [now, player],
+  );
+
+  /**
+   * The turntable. Both pressings hold the same reviewed text in the same
+   * chapters — only the clock differs — so the place in the CHAPTER is a
+   * proportion, and that proportion is what survives the change of reader.
+   */
+  const setNarrator = useCallback(
+    (voiceId: string) => {
+      if (!now || !recording || now.voice === voiceId) return;
+      const from = chaptersOf(recording, now.voice)[now.band];
+      const to = chaptersOf(recording, voiceId)[now.band];
+      if (!from || !to) return; // this book has no such pressing
+      const at = status.currentTime ?? 0;
+      pendingSeek.current =
+        from.duration && from.duration !== to.duration
+          ? Math.max(0, Math.min(to.duration, at * (to.duration / from.duration)))
+          : Math.max(0, Math.min(to.duration, at));
+      setNow({ ...now, voice: voiceId });
+    },
+    [now, recording, status.currentTime],
+  );
 
   const toggle = useCallback(() => {
     // `wantPlay` is the intent, `status.playing` only reports what the platform
@@ -161,8 +273,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     (delta: 1 | -1) => {
       if (!recording || !now) return;
       const band = now.band + delta;
-      if (band < 0 || band >= recording.chapters.length) return;
-      setNow({ slug: now.slug, band });
+      if (band < 0 || band >= chaptersOf(recording, now.voice).length) return;
+      setNow({ ...now, band });
       setWantPlay(true);
     },
     [recording, now],
@@ -201,6 +313,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       position: status.currentTime ?? 0,
       duration: status.duration || (chapter?.duration ?? 0),
       loading: !!now && !status.isLoaded,
+      playAt,
+      voice: now?.voice ?? null,
+      voices: recording?.voices ?? [],
+      setNarrator,
       playBand,
       toggle,
       seekTo,
@@ -218,6 +334,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       status.currentTime,
       status.duration,
       status.isLoaded,
+      playAt,
+      setNarrator,
       playBand,
       toggle,
       seekTo,
