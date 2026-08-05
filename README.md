@@ -1,11 +1,19 @@
 # Roman Reads — the app
 
 The phone half of the Reading Room. **Sign in, and access what you already
-own.** Nothing is sold or browsed here — see
-[docs/APP.md](../docs/APP.md) for the plan, and its "Store rules" section for
-why that scope is commercial rather than aesthetic.
+own.** Nothing is sold or browsed here — see [`docs/APP.md`][plan] in the
+website repo for the plan, and its "Store rules" section for why that scope is
+commercial rather than aesthetic.
 
 Expo SDK 54 · React Native 0.81 · expo-router 6 · TypeScript.
+
+> **This repo is the app only.** The site, the catalogue, and the page builders
+> every screen is transcribed from live in [`Ali-Dionix/roman-reads`][site].
+> That split is why `src/data/` is generated rather than authored — see
+> [Where the data comes from](#where-the-data-comes-from).
+
+[plan]: https://github.com/Ali-Dionix/roman-reads/blob/main/docs/APP.md
+[site]: https://github.com/Ali-Dionix/roman-reads
 
 > **The SDK is pinned to what Expo Go can run.** Expo Go supports exactly one
 > SDK — the one it ships with — and the Play Store serves 54 to this project's
@@ -16,11 +24,15 @@ Expo SDK 54 · React Native 0.81 · expo-router 6 · TypeScript.
 ## Run it
 
 ```bash
-cd mobile && npm install && npx expo start
+npm install && npx expo start
 ```
 
 Then install **Expo Go** on your phone and scan the QR. No cable, no Android
 Studio, no Xcode — and no Mac at any point, including for iOS.
+
+That is enough to run the app: `src/data/` is committed, so the shelves paint
+without the website checkout. You only need the section below when the
+catalogue changes.
 
 ## Connect it to a backend
 
@@ -49,7 +61,7 @@ what guards the rows. For real builds these come from EAS, not from a commit.
 | `src/ui/` | Paper, TornEdge, Numeral, Rule, Type — the portal's paper devices, in native form |
 | `src/portal/` | The transcribed page furniture — slab, doors, slip, billboard, shelf row, card, nav bars |
 | `src/nav/rooms.ts` | `PORTAL_NAV` transcribed. The rooms are decided on the web, never here |
-| `src/data/` | **Generated.** Never hand-edit — run `npm run mobile:shelf` from the repo root |
+| `src/data/` | **Generated.** Never hand-edit — see [Where the data comes from](#where-the-data-comes-from) |
 | `src/lib/` | Storage seam, GoTrue/PostgREST client, session context |
 
 ## The screens are conversions, not lookalikes
@@ -60,10 +72,29 @@ file's **mobile media-query values** — the ≤620px slab overlay percentages, 
 screen needs changing, change the web page first and transcribe the diff; the
 comment at the top of each screen names its source file.
 
-Data crosses the same way. `scripts/gen-mobile-shelf.mjs` imports the site's
-own `audioLibrary.ts`, `portalShared.ts`, `libraryPage.ts` and `pricing.ts` and
-writes `src/data/*.json`. Nothing is retyped, and the price ladder crosses as
-**tiers**, never as formatted strings.
+## Where the data comes from
+
+Data crosses the same way the screens do — generated, never retyped.
+`scripts/gen-mobile-shelf.mjs` **lives in the website repo**, imports the site's
+own `audioLibrary.ts`, `portalShared.ts`, `libraryPage.ts` and `pricing.ts`, and
+writes this repo's `src/data/*.json`. The price ladder crosses as **tiers**,
+never as formatted strings.
+
+The generator writes to a hard-coded `mobile/src/data/`, so regenerating means
+putting the two trees in that relation on disk:
+
+```bash
+git clone https://github.com/Ali-Dionix/roman-reads.git
+git clone https://github.com/Ali-Dionix/reman-reads-expo-app.git roman-reads/mobile
+cd roman-reads && npm install && npm run mobile:shelf
+```
+
+`roman-reads/.gitignore` ignores `/mobile/`, so the app checkout stays its own
+repo — commit the regenerated JSON here, not there.
+
+**You do not need this to work on the app.** `src/data/` is committed; clone
+this repo alone and the shelves paint. Reach for the two-tree setup only when
+the catalogue itself has moved.
 
 ## Three things that will bite you
 
@@ -102,10 +133,9 @@ npm run typecheck
 ### Seeing it without a phone
 
 The project carries a **web target purely as a verification aid** — run
-`npx expo start --web` (or the `app-web` entry in `.claude/launch.json`) and the
-whole app renders in a browser, where layout, colours and playback can be
-inspected directly. It is not a shipping target: `app.json` has no web icon
-story and nothing is tested against it.
+`npx expo start --web` and the whole app renders in a browser, where layout,
+colours and playback can be inspected directly. It is not a shipping target:
+`app.json` has no web icon story and nothing is tested against it.
 
 **One web-only failure is expected.** `expo-audio`'s web build sets
 `crossOrigin` on its media element, and the R2 audio bucket sends no

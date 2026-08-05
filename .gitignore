@@ -33,6 +33,11 @@ yarn-error.*
 # local env files
 .env*.local
 
+# local agent/tooling settings — carried over from the website repo, which
+# ignored these while the app still lived inside it
+.claude/
+.openai/
+
 # typescript
 *.tsbuildinfo
 
