@@ -14,12 +14,13 @@
 
 import type { TextStyle } from "react-native";
 
-// EXACTLY the eight faces app/_layout.tsx loads — no more. A family named here
+// EXACTLY the nine faces app/_layout.tsx loads — no more. A family named here
 // but not loaded there does not throw; it silently falls back to the system
 // face, which is the hardest kind of visual bug to spot. Add to both or
 // neither.
 export const FONTS = {
   serif: "CormorantGaramond_600SemiBold",
+  serifMedium: "CormorantGaramond_500Medium",
   serifRegular: "CormorantGaramond_400Regular",
   serifItalic: "CormorantGaramond_600SemiBold_Italic",
   serifItalicLight: "CormorantGaramond_400Regular_Italic",

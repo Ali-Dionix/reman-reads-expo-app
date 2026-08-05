@@ -67,6 +67,9 @@ type DeckValue = {
   nudge: (seconds: number) => void;
   step: (delta: 1 | -1) => void;
   stop: () => void;
+  /** The dial — the platter's speed. 1 is 33⅓. */
+  rate: number;
+  setRate: (rate: number) => void;
 };
 
 const DeckContext = createContext<DeckValue | null>(null);
@@ -170,6 +173,25 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     setNow(null);
   }, []);
 
+  // The dial. Re-applied on every re-cue: a new source resets the platform
+  // player's rate to 1, and a dial that silently springs back reads as broken.
+  const [rate, setRateState] = useState(1);
+  const setRate = useCallback(
+    (r: number) => {
+      setRateState(r);
+      try {
+        player.setPlaybackRate(r);
+      } catch {}
+    },
+    [player],
+  );
+  useEffect(() => {
+    if (rate === 1) return;
+    try {
+      player.setPlaybackRate(rate);
+    } catch {}
+  }, [uri, player, rate]);
+
   const value = useMemo<DeckValue>(
     () => ({
       now,
@@ -185,6 +207,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       nudge,
       step,
       stop,
+      rate,
+      setRate,
     }),
     [
       now,
@@ -200,6 +224,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       nudge,
       step,
       stop,
+      rate,
+      setRate,
     ],
   );
 

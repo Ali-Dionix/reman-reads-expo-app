@@ -22,10 +22,12 @@
 // drawer. That is the other ~1,100 lines of the source file and it needs the
 // player underneath it, so it lands with Phase 3 rather than as dead scenery.
 
+import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import shelf from "../../src/data/listeningShelf.json";
 import { recordingFor, useDeck } from "../../src/lib/audioStore";
+import { Reader } from "../../src/portal/reader/Reader";
 import { Billboard } from "../../src/portal/Billboard";
 import { PortalPage } from "../../src/portal/PortalPage";
 import { ShelfRow, type ShelfCard } from "../../src/portal/ShelfRow";
@@ -38,11 +40,20 @@ export default function Listening() {
   const { ink, vw, mode } = useInk();
   const { colors } = useTheme();
   const { playBand, now } = useDeck();
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
 
-  /** A shelf card, or the billboard's seal, drops the needle at band I. */
+  /**
+   * `openAndBegin` — every play seal opens the room. A shelf card or the
+   * billboard's seal opens the volume AND drops the needle, exactly as the
+   * site does; the audio then continues room-wide through the deck singleton.
+   */
   const open = (slug: string) => {
-    if (recordingFor(slug)) playBand(slug, 0);
+    if (!recordingFor(slug)) return;
+    setOpenSlug(slug);
+    playBand(slug, 0);
   };
+
+  const opened = openSlug ? recordingFor(openSlug) : null;
 
   return (
     <PortalPage
@@ -94,7 +105,9 @@ export default function Listening() {
             marginHorizontal: -vw(5),
             paddingHorizontal: vw(5),
             borderTopColor: ink(0.12),
-            backgroundColor: mode === "dark" ? colors.cream1 : "#F6F1E6",
+            // theme.ts maps x-f6f1e6 → #1C253B at night: the band sits a step
+            // LIGHTER than the page, same as the billboard's surface
+            backgroundColor: mode === "dark" ? "#1C253B" : "#F6F1E6",
           },
         ]}
       >
@@ -105,6 +118,10 @@ export default function Listening() {
           same bands, your place kept.
         </Text>
       </View>
+
+      {/* The opened volume sits OVER the floor, as the web's dialog does —
+          the shelf stays behind it and the needle never lifts. */}
+      {opened ? <Reader recording={opened} onClose={() => setOpenSlug(null)} /> : null}
     </PortalPage>
   );
 }

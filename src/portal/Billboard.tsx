@@ -108,7 +108,10 @@ export function Billboard({
       style={[
         styles.bill,
         {
-          backgroundColor: mode === "dark" ? colors.cream1 : "#F6F1E6",
+          // theme.ts maps this exact surface (x-f6f1e6) to #1C253B at night —
+          // a band LIGHTER than the page, not the page's own navy. No mobile
+          // token carries the pair, so both halves are spelled out.
+          backgroundColor: mode === "dark" ? "#1C253B" : "#F6F1E6",
           // html[data-rr-theme="dark"] .rr-bill{border-color:rgba(201,166,98,.3)}
           borderColor: mode === "dark" ? "rgba(201,166,98,.3)" : ink(0.13),
         },
@@ -138,29 +141,33 @@ export function Billboard({
         <Text style={[styles.by, { color: ink(0.66) }]}>{book.author}</Text>
         <Text style={[styles.line, { color: ink(0.65) }]}>{book.blurb}</Text>
 
+        {/* The seal themes with the room: by day a cream pill with brick ink,
+            by night the navy band surface with the brightened brick — only the
+            brass ring holds its colour in both. (x-fbf5e4 → #1C253B; the ink
+            is the brick pair the tokens already carry.) */}
         <Pressable
           onPress={onPlay}
           accessibilityRole="button"
           style={({ pressed }) => [
             styles.btn,
+            { borderColor: "rgba(155,122,77,.9)" },
             pressed
-              ? { backgroundColor: colors.brick }
-              : { backgroundColor: "#FBF5E4", borderColor: "rgba(155,122,77,.9)" },
+              ? // :hover — the seal turns to the cloth itself, day or night
+                { backgroundColor: "#7E2D1F" }
+              : { backgroundColor: mode === "dark" ? "#1C253B" : "#FBF5E4" },
           ]}
         >
-          {({ pressed }) => (
-            <>
-              <Svg width={14} height={14} viewBox="0 0 14 14">
-                <Path
-                  d="M3 2.2v9.6l8-4.8-8-4.8Z"
-                  fill={pressed ? "#F1E4C4" : "#7E2D1F"}
-                />
-              </Svg>
-              <Text style={[styles.btnText, { color: pressed ? "#F1E4C4" : "#7E2D1F" }]}>
-                Begin listening
-              </Text>
-            </>
-          )}
+          {({ pressed }) => {
+            const sealInk = pressed ? "#F1E4C4" : colors.brick;
+            return (
+              <>
+                <Svg width={14} height={14} viewBox="0 0 14 14">
+                  <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" fill={sealInk} />
+                </Svg>
+                <Text style={[styles.btnText, { color: sealInk }]}>Begin listening</Text>
+              </>
+            );
+          }}
         </Pressable>
       </View>
     </View>
@@ -212,9 +219,10 @@ const styles = StyleSheet.create({
     // which is the closer miss of the two available.
     fontVariant: ["small-caps"],
   },
-  // clamp(26px,3.1vw,38px) — a phone sits on the 26px floor
+  // clamp(26px,3.1vw,38px) — a phone sits on the 26px floor. Weight 500: the
+  // site self-hosts Cormorant Medium for exactly this line.
   title: {
-    fontFamily: FONTS.serifRegular,
+    fontFamily: FONTS.serifMedium,
     fontSize: 26,
     lineHeight: 27.6,
     letterSpacing: em(26, -0.01),

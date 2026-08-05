@@ -13,6 +13,7 @@
 import { Caveat_600SemiBold } from "@expo-google-fonts/caveat/600SemiBold";
 import { CormorantGaramond_400Regular } from "@expo-google-fonts/cormorant-garamond/400Regular";
 import { CormorantGaramond_400Regular_Italic } from "@expo-google-fonts/cormorant-garamond/400Regular_Italic";
+import { CormorantGaramond_500Medium } from "@expo-google-fonts/cormorant-garamond/500Medium";
 import { CormorantGaramond_600SemiBold } from "@expo-google-fonts/cormorant-garamond/600SemiBold";
 import { CormorantGaramond_600SemiBold_Italic } from "@expo-google-fonts/cormorant-garamond/600SemiBold_Italic";
 import { Manrope_400Regular } from "@expo-google-fonts/manrope/400Regular";
@@ -32,6 +33,7 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     CormorantGaramond_400Regular,
     CormorantGaramond_400Regular_Italic,
+    CormorantGaramond_500Medium,
     CormorantGaramond_600SemiBold,
     CormorantGaramond_600SemiBold_Italic,
     Manrope_400Regular,

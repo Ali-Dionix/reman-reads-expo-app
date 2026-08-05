@@ -51,14 +51,23 @@ function TopBar() {
         </View>
 
         {/* ONE toggle implementation, shared with the login page's navbar —
-            two copies of a theme switch is two places for it to stop working */}
+            two copies of a theme switch is two places for it to stop working.
+            The web's ≤979px hamburger (.rr-pt-mbtn → the side drawer) is
+            RETIRED here: the tab bar IS the drawer's room nav, and sign-out
+            lives in Profile. Only the toggle keeps its seat. */}
         <View style={styles.ctrl}>
           <SunMoon size={37} ink={colors.brown} line={ink(0.3)} />
         </View>
       </LinearGradient>
 
-      {/* the torn hem, in the paper's own colour */}
-      <TornHem width={width} color={mode === "dark" ? paperGradient[1] : "#F7F1E2"} />
+      {/* the torn hem, in the paper's own colour. Out of flow, as the web's
+          mask overhang is (.rr-pt-top-paper::before{bottom:-19px}): the teeth
+          overlay the head padding below rather than pushing it down. */}
+      <TornHem
+        width={width}
+        color={mode === "dark" ? paperGradient[1] : "#F7F1E2"}
+        style={{ marginBottom: -17, zIndex: 1 }}
+      />
     </View>
   );
 }
@@ -86,9 +95,11 @@ export function PortalPage({
     <View style={{ flex: 1, backgroundColor: colors.paper }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        // .rr-pt-content — padding-bottom: calc(102px + safe-area)
-        contentContainerStyle={{ paddingBottom: 102 }}
-        stickyHeaderIndices={[0]}
+        // .rr-pt-content pads 102px + safe-area, but the web's bottom bar is
+        // position:fixed and overlays ~55px of it. Here the tab bar is in
+        // flow (and carries its own safe-area), so only the visible ~47px of
+        // clearance is transcribed.
+        contentContainerStyle={{ paddingBottom: 47 }}
       >
         <TopBar />
 

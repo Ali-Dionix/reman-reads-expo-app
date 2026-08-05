@@ -16,7 +16,14 @@
 
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 
 import { SITE_ORIGIN } from "../lib/config";
 import { useInk, em } from "../theme/ink";
@@ -40,9 +47,20 @@ export type ShelfCard = {
   dim?: boolean;
 };
 
-const CARD_W = 158; // .rr-shf-card{flex:0 0 158px}
+// ≤640px: .rr-shf-card{flex-basis:calc((100vw - 64px)/2.4)} — two sleeves and
+// a peek of the third. The desktop's fixed 158px only applies above 640px.
+const cardWidthFor = (window: number): number =>
+  window <= 640 ? (window - 64) / 2.4 : 158;
 
-function Card({ card, onPress }: { card: ShelfCard; onPress?: () => void }) {
+function Card({
+  card,
+  width,
+  onPress,
+}: {
+  card: ShelfCard;
+  width: number;
+  onPress?: () => void;
+}) {
   const { colors } = useTheme();
   const hasArt = !!card.art;
   const shade = Number.parseFloat(card.shade ?? "48") / 100;
@@ -54,13 +72,20 @@ function Card({ card, onPress }: { card: ShelfCard; onPress?: () => void }) {
       accessibilityLabel={card.title}
       style={({ pressed }) => [
         styles.card,
+        { width },
         // .rr-shf-go:hover .rr-shf-cover{transform:translateY(-4px)} — a press
         // on a phone, and it lifts the whole card rather than only the sleeve.
         pressed && { transform: [{ translateY: -4 }] },
-        card.dim && styles.dim,
       ]}
     >
-      <View style={[styles.cover, { backgroundColor: card.spine ?? "#efe2cc" }]}>
+      {/* .is-dim fades the COVER only — the meta line stays full-strength */}
+      <View
+        style={[
+          styles.cover,
+          { backgroundColor: card.spine ?? "#efe2cc" },
+          card.dim && styles.dim,
+        ]}
+      >
         {hasArt ? (
           <Image
             source={{ uri: `${SITE_ORIGIN}${card.art}` }}
@@ -72,9 +97,11 @@ function Card({ card, onPress }: { card: ShelfCard; onPress?: () => void }) {
 
         {/* has-baked-type → the art is the type; print nothing over it */}
         {card.baked ? null : hasArt ? (
+          // linear-gradient(transparent, rgba(11,10,8,.6) var(--shade,48%)) —
+          // full dark at the --shade stop, held solid to the bottom edge.
           <LinearGradient
             colors={["transparent", "rgba(11,10,8,.6)"]}
-            locations={[Math.max(0, 1 - shade), 1]}
+            locations={[0, Math.min(1, shade)]}
             style={styles.typeArt}
           >
             <Text style={styles.typeB} numberOfLines={3}>
@@ -133,6 +160,8 @@ export function ShelfRow({
   onOpen?: (card: ShelfCard) => void;
 }) {
   const { colors } = useTheme();
+  const { width: windowW } = useWindowDimensions();
+  const cardW = cardWidthFor(windowW);
 
   // fill rows are "absent, never empty" — the web bakes them hidden and the
   // enhancer stands them up. Same contract here.
@@ -150,11 +179,11 @@ export function ShelfRow({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.row}
         decelerationRate="fast"
-        snapToInterval={CARD_W + 14}
+        snapToInterval={cardW + 14}
         snapToAlignment="start"
       >
         {cards.map((c) => (
-          <Card key={c.slug} card={c} onPress={() => onOpen?.(c)} />
+          <Card key={c.slug} card={c} width={cardW} onPress={() => onOpen?.(c)} />
         ))}
       </ScrollView>
     </View>
@@ -168,7 +197,9 @@ const styles = StyleSheet.create({
   sub: { fontFamily: FONTS.sans, fontSize: 12.5, flexShrink: 1 },
 
   row: { gap: 14, paddingTop: 2, paddingHorizontal: 2, paddingBottom: 10 },
-  card: { width: CARD_W },
+  card: {},
+  // .is-dim also desaturates on the web (filter:saturate(.55)); RN has no
+  // filters, so the opacity carries the whole not-yet state.
   dim: { opacity: 0.8 },
 
   cover: {
@@ -192,7 +223,8 @@ const styles = StyleSheet.create({
     paddingBottom: 9,
     gap: 2,
   },
-  // :not(.has-art) — inset:0; a ruled box on the cloth
+  // :not(.has-art) — inset:0; a ruled box on the cloth. The web's flex column
+  // has no justify-content, so the type sits at the TOP of the box.
   typeCloth: {
     position: "absolute",
     top: 0,
@@ -201,7 +233,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingVertical: 14,
     paddingHorizontal: 10,
-    justifyContent: "flex-end",
     gap: 2,
     borderWidth: 1,
     borderColor: "rgba(155,122,77,.38)",

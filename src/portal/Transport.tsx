@@ -19,8 +19,8 @@ import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
 
-/** icBack15 / its mirror — the ± buttons. */
-function Jump({ back, color }: { back?: boolean; color: string }) {
+/** icBack15 / its mirror — the ± buttons. Shared with the Reading Desk. */
+export function Jump({ back, color }: { back?: boolean; color: string }) {
   return (
     <Svg width={19} height={19} viewBox="0 0 24 24" fill="none">
       <Path
@@ -58,19 +58,16 @@ export function Transport() {
     loading,
     toggle,
     nudge,
-    step,
     seekTo,
     now,
   } = useDeck();
   const { ink } = useInk();
-  const { colors } = useTheme();
+  const { colors, mode } = useTheme();
   const [grooveW, setGrooveW] = useState(0);
 
   if (!recording || !now) return null;
 
   const pct = duration > 0 ? Math.min(1, position / duration) : 0;
-  const first = now.band === 0;
-  const last = now.band >= recording.chapters.length - 1;
 
   const onGroove = (e: { nativeEvent: { locationX: number } }) => {
     if (!grooveW || !duration) return;
@@ -89,43 +86,53 @@ export function Transport() {
         </Text>
       </View>
 
-      {/* the groove — tap anywhere to set the needle down there */}
-      <Pressable
-        onPress={onGroove}
-        onLayout={(e: LayoutChangeEvent) => setGrooveW(e.nativeEvent.layout.width)}
-        accessibilityRole="adjustable"
-        accessibilityLabel="Position in this band"
-        style={[styles.groove, { backgroundColor: ink(0.1) }]}
-      >
-        <View style={[styles.grooveFill, { width: `${pct * 100}%`, backgroundColor: colors.brass }]} />
-        <View
-          style={[
-            styles.head,
-            { left: `${pct * 100}%`, backgroundColor: colors.brick, borderColor: colors.cream2 },
-          ]}
-        />
-      </Pressable>
-
-      <View style={styles.clock}>
-        <Text style={[styles.time, { color: ink(0.5) }]}>{mmss(position)}</Text>
-        <Text style={[styles.time, { color: ink(0.5) }]}>{mmss(duration)}</Text>
+      {/* the groove row — cur · groove · clock, exactly the web's one line.
+          The Pressable is a 28px transparent HIT strip; the visible track is
+          the 6px pill inside it. Tap anywhere to set the needle down there. */}
+      <View style={styles.grooveRow}>
+        <Text style={[styles.time, { color: ink(0.6) }]}>{mmss(position)}</Text>
+        <Pressable
+          onPress={onGroove}
+          onLayout={(e: LayoutChangeEvent) => setGrooveW(e.nativeEvent.layout.width)}
+          accessibilityRole="adjustable"
+          accessibilityLabel="Position in this band"
+          style={styles.groove}
+        >
+          <View style={[styles.track, { backgroundColor: ink(0.15) }]}>
+            <View
+              style={[
+                styles.grooveFill,
+                {
+                  width: `${pct * 100}%`,
+                  // the fill is the red ink of the needle's wake — #D2AF69 by
+                  // night (theme.ts's dark for it; brick's text-pair is not it)
+                  backgroundColor: mode === "dark" ? "#D2AF69" : "#7E2D1F",
+                },
+              ]}
+            />
+          </View>
+          {/* the head — a brass stud, flat where the web grinds a radial */}
+          <View
+            style={[
+              styles.head,
+              {
+                left: `${pct * 100}%`,
+                backgroundColor: colors.brass,
+                borderColor: mode === "dark" ? "rgba(0,0,0,.55)" : "rgba(43,30,16,.4)",
+              },
+            ]}
+          />
+        </Pressable>
+        <Text style={[styles.time, { color: ink(0.6) }]}>{mmss(duration)}</Text>
       </View>
 
-      {/* row two: the buttons */}
+      {/* row two: the buttons — the web console is exactly −15 · play · +15;
+          band steps live on the shelf and in the reader's head, not here */}
       <View style={styles.deck}>
-        <Pressable
-          onPress={() => step(-1)}
-          disabled={first}
-          accessibilityLabel="Previous band"
-          style={[styles.jog, { borderColor: ink(0.28), opacity: first ? 0.35 : 1 }]}
-        >
-          <Text style={[styles.jogText, { color: colors.ink2 }]}>‹</Text>
-        </Pressable>
-
         <Pressable
           onPress={() => nudge(-15)}
           accessibilityLabel="Back fifteen seconds"
-          style={[styles.jog, { borderColor: ink(0.28) }]}
+          style={[styles.jog, { borderColor: ink(0.22) }]}
         >
           <Jump back color={colors.ink2} />
         </Pressable>
@@ -151,18 +158,9 @@ export function Transport() {
         <Pressable
           onPress={() => nudge(15)}
           accessibilityLabel="Forward fifteen seconds"
-          style={[styles.jog, { borderColor: ink(0.28) }]}
+          style={[styles.jog, { borderColor: ink(0.22) }]}
         >
           <Jump color={colors.ink2} />
-        </Pressable>
-
-        <Pressable
-          onPress={() => step(1)}
-          disabled={last}
-          accessibilityLabel="Next band"
-          style={[styles.jog, { borderColor: ink(0.28), opacity: last ? 0.35 : 1 }]}
-        >
-          <Text style={[styles.jogText, { color: colors.ink2 }]}>›</Text>
         </Pressable>
       </View>
 
@@ -182,39 +180,43 @@ const styles = StyleSheet.create({
   title: { fontFamily: FONTS.serif, fontSize: 19, lineHeight: 23 },
   band: { fontFamily: FONTS.sans, fontSize: 11.5, marginTop: 2 },
 
-  groove: { height: 24, justifyContent: "center", borderRadius: 2, overflow: "visible" },
-  grooveFill: { position: "absolute", left: 0, height: 24, borderRadius: 2 },
+  grooveRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  // .rr-lr-groove — a 28px hit strip; the 6px pill inside is what shows
+  groove: { flex: 1, height: 28, justifyContent: "center" },
+  track: { height: 6, borderRadius: 999, overflow: "hidden" },
+  grooveFill: { position: "absolute", left: 0, top: 0, bottom: 0 },
   head: {
     position: "absolute",
-    width: 4,
-    height: 30,
-    marginLeft: -2,
-    borderRadius: 2,
+    top: 7,
+    width: 14,
+    height: 14,
+    marginLeft: -7,
+    borderRadius: 7,
     borderWidth: 1,
   },
-  clock: { flexDirection: "row", justifyContent: "space-between", marginTop: 6 },
-  time: { fontFamily: FONTS.sansSemi, fontSize: 10.5 },
+  // .rr-lr-time/.rr-lr-clock — the serif figures, in even columns
+  time: { fontFamily: FONTS.serifRegular, fontSize: 14, fontVariant: ["tabular-nums"] },
 
   deck: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
+    gap: 8,
     marginTop: 14,
   },
+  // ≤520px: 42px jogs, 46px platter
   jog: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     borderWidth: 1,
     alignItems: "center",
     justifyContent: "center",
   },
-  jogText: { fontFamily: FONTS.serif, fontSize: 22, lineHeight: 24 },
   big: {
-    width: 52,
-    height: 52,
-    borderRadius: 26,
+    width: 46,
+    height: 46,
+    borderRadius: 23,
     alignItems: "center",
     justifyContent: "center",
   },
