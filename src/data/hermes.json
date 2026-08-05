@@ -1,0 +1,190 @@
+{
+  "specimens": [
+    {
+      "id": "cp",
+      "title": "Crime and Punishment",
+      "source": "page one — Constance Garnett translation",
+      "runs": [
+        {
+          "text": "On an exceptionally hot evening early in July a young man came out of the "
+        },
+        {
+          "text": "garret",
+          "word": true
+        },
+        {
+          "text": " in which he "
+        },
+        {
+          "text": "lodged",
+          "word": true
+        },
+        {
+          "text": " in S. Place and walked slowly, as though in "
+        },
+        {
+          "text": "hesitation",
+          "word": true
+        },
+        {
+          "text": ", towards K. bridge."
+        }
+      ],
+      "words": [
+        {
+          "word": "garret",
+          "notes": {
+            "english": "a tiny room at the very top of the house. attic, basically.",
+            "roman": "chhat ke ain neeche wala chhota kamra — attic, samajh lo.",
+            "urdu": "چھت کے عین نیچے چھوٹا سا کمرہ — یعنی اٹاری۔"
+          }
+        },
+        {
+          "word": "lodged",
+          "notes": {
+            "english": "lived there as a renter — a room, not a home.",
+            "roman": "kiraye par rehta tha — bas ek kamra, ghar nahin.",
+            "urdu": "کرائے پر رہتا تھا — بس ایک کمرہ، گھر نہیں۔"
+          }
+        },
+        {
+          "word": "hesitation",
+          "notes": {
+            "english": "pausing because you can't decide. his whole personality, honestly.",
+            "roman": "jhijak — faisla na kar pana. aage poori kitab yehi hai.",
+            "urdu": "جھجک — فیصلہ نہ کر پانا۔ آگے پوری کتاب یہی ہے۔"
+          }
+        }
+      ]
+    },
+    {
+      "id": "med",
+      "title": "Meditations",
+      "source": "book two — George Long translation",
+      "runs": [
+        {
+          "text": "Begin the morning by saying to "
+        },
+        {
+          "text": "thyself",
+          "word": true
+        },
+        {
+          "text": ", I shall meet with the "
+        },
+        {
+          "text": "busy-body",
+          "word": true
+        },
+        {
+          "text": ", the ungrateful, arrogant, deceitful, envious, "
+        },
+        {
+          "text": "unsocial",
+          "word": true
+        },
+        {
+          "text": "."
+        }
+      ],
+      "words": [
+        {
+          "word": "thyself",
+          "notes": {
+            "english": "old English for 'yourself.' Marcus is talking to himself — the whole book is a private diary.",
+            "roman": "'yourself' ka purana andaaz. Marcus khud se baat kar raha hai — poori kitab uski private diary hai.",
+            "urdu": "'اپنے آپ' کا پرانا انداز۔ مارکس خود سے مخاطب ہے — پوری کتاب اس کی ذاتی ڈائری ہے۔"
+          }
+        },
+        {
+          "word": "busy-body",
+          "notes": {
+            "english": "someone far too interested in everyone else's business.",
+            "roman": "woh banda jo har kisi ke maamle mein taang araata hai.",
+            "urdu": "وہ شخص جو ہر ایک کے معاملے میں ٹانگ اڑاتا ہے۔"
+          }
+        },
+        {
+          "word": "unsocial",
+          "notes": {
+            "english": "cold to other people — the opposite of a good neighbour. Rome had them too.",
+            "roman": "logon se katta hua — acha parosi hone ka ulta. Rome mein bhi hote thay.",
+            "urdu": "لوگوں سے کٹا ہوا — اچھے پڑوسی کا الٹ۔ روم میں بھی ہوتے تھے۔"
+          }
+        }
+      ]
+    }
+  ],
+  "langs": [
+    {
+      "value": "english",
+      "label": "English"
+    },
+    {
+      "value": "roman",
+      "label": "Roman Urdu"
+    },
+    {
+      "value": "urdu",
+      "label": "اردو"
+    }
+  ],
+  "companions": [
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "units": 7,
+      "unitLabel": "part"
+    },
+    {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "units": 12,
+      "unitLabel": "book"
+    },
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Antoine de Saint-Exupéry",
+      "units": 27,
+      "unitLabel": "chapter"
+    },
+    {
+      "slug": "the-brothers-karamazov",
+      "title": "The Brothers Karamazov",
+      "author": "Fyodor Dostoevsky",
+      "units": 12,
+      "unitLabel": "book"
+    },
+    {
+      "slug": "1984",
+      "title": "1984",
+      "author": "George Orwell",
+      "units": 3,
+      "unitLabel": "part"
+    },
+    {
+      "slug": "notes-from-underground",
+      "title": "Notes from Underground",
+      "author": "Fyodor Dostoevsky",
+      "units": 2,
+      "unitLabel": "part"
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "author": "Fyodor Dostoevsky",
+      "units": 5,
+      "unitLabel": "night"
+    },
+    {
+      "slug": "the-idiot",
+      "title": "The Idiot",
+      "author": "Fyodor Dostoevsky",
+      "units": 4,
+      "unitLabel": "part"
+    }
+  ]
+}

@@ -1,0 +1,443 @@
+{
+  "billboard": {
+    "slug": "the-little-prince",
+    "title": "The Little Prince",
+    "author": "Antoine de Saint-Exupéry",
+    "blurb": "1 hr 19 min, read end to end.",
+    "labelHue": "#171411",
+    "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
+    "spine": "#34506B"
+  },
+  "pressings": [
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Saint-Exupéry",
+      "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
+      "spine": "#34506B",
+      "baked": true,
+      "meta": "79 min · read by Ambrose Reed"
+    },
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/crime-and-punishment-art-lib.webp",
+      "spine": "#5E2A1E",
+      "meta": "3 min · specimen recording"
+    },
+    {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "art": "/assets/covers/marcus-aurelius/meditations-with-type-lib.webp",
+      "spine": "#6B5218",
+      "baked": true,
+      "meta": "3 min · specimen recording"
+    }
+  ],
+  "short": [
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Saint-Exupéry",
+      "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
+      "spine": "#34506B",
+      "baked": true,
+      "meta": "longest band 7:10"
+    },
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/crime-and-punishment-art-lib.webp",
+      "spine": "#5E2A1E",
+      "meta": "longest band 1:32"
+    },
+    {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "art": "/assets/covers/marcus-aurelius/meditations-with-type-lib.webp",
+      "spine": "#6B5218",
+      "baked": true,
+      "meta": "longest band 1:28"
+    }
+  ],
+  "soon": [
+    {
+      "slug": "the-brothers-karamazov",
+      "title": "The Brothers Karamazov",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/the-brothers-karamazov-art-lib.webp",
+      "spine": "#4A3B27",
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "1984",
+      "title": "1984",
+      "author": "Orwell",
+      "art": "/assets/covers/george-orwell/1984-with-type-lib.webp",
+      "spine": "#4A1717",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-trial",
+      "title": "The Trial",
+      "author": "Kafka",
+      "art": "/assets/covers/franz-kafka/the-trial-with-type-lib.webp",
+      "spine": "#33302B",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/white-nights-with-type-lib.webp",
+      "spine": "#536B86",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-picture-of-dorian-gray",
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "art": "/assets/covers/_google/the-picture-of-dorian-gray.webp",
+      "spine": "#59452E",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "notes-from-underground",
+      "title": "Notes from Underground",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/notes-from-underground-with-type-lib.webp",
+      "spine": "#2E3D4F",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-idiot",
+      "title": "The Idiot",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/the-idiot-geometric-modernist-with-type-lib.webp",
+      "spine": "#425A73",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-count-of-monte-cristo",
+      "title": "The Count of Monte Cristo",
+      "author": "Alexandre Dumas",
+      "art": "/assets/covers/_google/the-count-of-monte-cristo.webp",
+      "spine": "#7A5B2B",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "siddhartha-an-indian-tale",
+      "title": "Siddhartha An Indian Tale",
+      "author": "Hermann Hesse",
+      "art": "/assets/covers/_google/siddhartha-an-indian-tale.webp",
+      "spine": "#536B86",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-call-of-the-wild",
+      "title": "The Call of the Wild",
+      "author": "Jack London",
+      "art": "/assets/covers/_google/the-call-of-the-wild.webp",
+      "spine": "#8A4B32",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "dr-jekyll-and-mr-hyde",
+      "title": "Dr. Jekyll and Mr. Hyde",
+      "author": "Robert Louis Stevenson",
+      "art": "/assets/covers/_google/dr-jekyll-and-mr-hyde.webp",
+      "spine": "#5F3D62",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-prince",
+      "title": "The Prince",
+      "author": "Niccolò Machiavelli",
+      "art": "/assets/covers/_google/the-prince.webp",
+      "spine": "#65405A",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "treasure-island",
+      "title": "Treasure Island",
+      "author": "Robert Louis Stevenson",
+      "art": "/assets/covers/_google/treasure-island.webp",
+      "spine": "#53624B",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "kokoro",
+      "title": "Kokoro",
+      "author": "Lafcadio Hearn",
+      "art": "/assets/covers/_google/kokoro.webp",
+      "spine": "#4A3B27",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "the-master-and-margarita",
+      "title": "The Master and Margarita",
+      "author": "Mikhail Bulgakov",
+      "art": "/assets/covers/_google/the-master-and-margarita.webp",
+      "spine": "#7A5B2B",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    },
+    {
+      "slug": "oliver-twist",
+      "title": "Oliver Twist",
+      "author": "Charles Dickens",
+      "art": "/assets/covers/_google/oliver-twist.webp",
+      "spine": "#8A4B32",
+      "baked": true,
+      "meta": "being pressed",
+      "dim": true
+    }
+  ],
+  "recordings": {
+    "the-little-prince": {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Antoine de Saint-Exupéry",
+      "voice": "Read by Ambrose Reed.",
+      "seconds": 4757,
+      "chapters": [
+        {
+          "n": 0,
+          "title": "I",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+          "duration": 173
+        },
+        {
+          "n": 1,
+          "title": "II",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+          "duration": 208
+        },
+        {
+          "n": 2,
+          "title": "III",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+          "duration": 129
+        },
+        {
+          "n": 3,
+          "title": "IV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+          "duration": 234
+        },
+        {
+          "n": 4,
+          "title": "V",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+          "duration": 219
+        },
+        {
+          "n": 5,
+          "title": "VI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+          "duration": 65
+        },
+        {
+          "n": 6,
+          "title": "VII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+          "duration": 231
+        },
+        {
+          "n": 7,
+          "title": "VIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+          "duration": 214
+        },
+        {
+          "n": 8,
+          "title": "IX",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+          "duration": 136
+        },
+        {
+          "n": 9,
+          "title": "X",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+          "duration": 377
+        },
+        {
+          "n": 10,
+          "title": "XI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+          "duration": 98
+        },
+        {
+          "n": 11,
+          "title": "XII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+          "duration": 49
+        },
+        {
+          "n": 12,
+          "title": "XIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+          "duration": 257
+        },
+        {
+          "n": 13,
+          "title": "XIV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
+          "duration": 213
+        },
+        {
+          "n": 14,
+          "title": "XV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
+          "duration": 251
+        },
+        {
+          "n": 15,
+          "title": "XVI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
+          "duration": 81
+        },
+        {
+          "n": 16,
+          "title": "XVII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
+          "duration": 163
+        },
+        {
+          "n": 17,
+          "title": "XVIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
+          "duration": 33
+        },
+        {
+          "n": 18,
+          "title": "XIX",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
+          "duration": 55
+        },
+        {
+          "n": 19,
+          "title": "XX",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
+          "duration": 70
+        },
+        {
+          "n": 20,
+          "title": "XXI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
+          "duration": 392
+        },
+        {
+          "n": 21,
+          "title": "XXII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
+          "duration": 76
+        },
+        {
+          "n": 22,
+          "title": "XXIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
+          "duration": 34
+        },
+        {
+          "n": 23,
+          "title": "XXIV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
+          "duration": 206
+        },
+        {
+          "n": 24,
+          "title": "XXV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
+          "duration": 228
+        },
+        {
+          "n": 25,
+          "title": "XXVI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
+          "duration": 430
+        },
+        {
+          "n": 26,
+          "title": "XXVII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
+          "duration": 135
+        }
+      ]
+    },
+    "crime-and-punishment": {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "voice": "specimen recording — the narration is being read now",
+      "seconds": 176,
+      "chapters": [
+        {
+          "n": 0,
+          "title": "Part One, Chapter I",
+          "src": "/audio/crime-and-punishment-band-1-v1.mp3",
+          "duration": 92
+        },
+        {
+          "n": 1,
+          "title": "Part One, Chapter II",
+          "src": "/audio/crime-and-punishment-band-2-v1.mp3",
+          "duration": 84
+        }
+      ]
+    },
+    "meditations": {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "voice": "specimen recording — the narration is being read now",
+      "seconds": 168,
+      "chapters": [
+        {
+          "n": 0,
+          "title": "Book Two",
+          "src": "/audio/meditations-band-1-v1.mp3",
+          "duration": 88
+        },
+        {
+          "n": 1,
+          "title": "Book Three",
+          "src": "/audio/meditations-band-2-v1.mp3",
+          "duration": 80
+        }
+      ]
+    }
+  }
+}

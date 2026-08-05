@@ -1,0 +1,132 @@
+[
+  {
+    "id": "RR-0003",
+    "placed": "17 July 2026",
+    "amount": "Rs 6,100",
+    "done": 2,
+    "statusLine": "On the press — day two of seven",
+    "items": [
+      {
+        "title": "Meditations",
+        "detail": "Marcus Aurelius · Clothbound — the heirloom",
+        "cover": {
+          "title": "Meditations",
+          "spine": "#6B5218",
+          "art": "/assets/covers/marcus-aurelius/meditations-with-type-lib.webp"
+        }
+      },
+      {
+        "title": "The Little Prince",
+        "detail": "Antoine de Saint-Exupéry · Hardcover",
+        "cover": {
+          "title": "The Little Prince",
+          "spine": "#34506B",
+          "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "label": "Order placed",
+        "note": "Two titles, one parcel. The ledger opened a line."
+      },
+      {
+        "label": "Paid",
+        "note": "Paid online — the receipt is in your inbox."
+      },
+      {
+        "label": "On the press",
+        "note": "Typeset by us, printed on the special-editions bench."
+      },
+      {
+        "label": "At the bindery",
+        "note": "Sewn, glued, pressed — cloth over board."
+      },
+      {
+        "label": "Shipped",
+        "note": "Wrapped in board, shipped tracked."
+      }
+    ]
+  },
+  {
+    "id": "RR-0002",
+    "placed": "14 July 2026",
+    "amount": "Rs 1,600",
+    "done": 3,
+    "statusLine": "At the bindery — day four of seven",
+    "items": [
+      {
+        "title": "Poor Folk",
+        "detail": "Fyodor Dostoevsky · Hardcover",
+        "cover": {
+          "title": "Poor Folk",
+          "spine": "#8A4B32",
+          "art": "/assets/covers/dostoevsky/poor-folk-with-type-lib.webp"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "label": "Order placed",
+        "note": "One title. The ledger opened a line."
+      },
+      {
+        "label": "Paid",
+        "note": "Paid online — the receipt is in your inbox."
+      },
+      {
+        "label": "On the press",
+        "note": "Printed on the special-editions bench."
+      },
+      {
+        "label": "At the bindery",
+        "note": "Cloth over board, the case going on now."
+      },
+      {
+        "label": "Shipped",
+        "note": "Wrapped in board, shipped tracked."
+      }
+    ]
+  },
+  {
+    "id": "RR-0001",
+    "placed": "12 May 2026",
+    "amount": "Rs 2,900",
+    "done": 5,
+    "statusLine": "Delivered — 19 May",
+    "tracking": "RR-POST-0127-4415",
+    "items": [
+      {
+        "title": "Crime and Punishment",
+        "detail": "Fyodor Dostoevsky · Hardcover + digital",
+        "cover": {
+          "title": "Crime and Punishment",
+          "spine": "#5E2A1E",
+          "art": "/assets/covers/dostoevsky/crime-and-punishment-art-lib.webp"
+        }
+      }
+    ],
+    "steps": [
+      {
+        "label": "Order placed",
+        "note": "Hardcover and the digital edition, together."
+      },
+      {
+        "label": "Paid",
+        "note": "Paid online; the digital edition unlocked in the app immediately."
+      },
+      {
+        "label": "On the press",
+        "note": "Printed on the special-editions bench."
+      },
+      {
+        "label": "At the bindery",
+        "note": "Cased, pressed, checked twice."
+      },
+      {
+        "label": "Delivered",
+        "note": "Wrapped in board, shipped tracked, signed for."
+      }
+    ]
+  }
+]

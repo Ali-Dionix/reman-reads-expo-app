@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "Roman Reads",
+    "slug": "roman-reads",
+    "scheme": "romanreads",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#faf7ef",
+      "dark": {
+        "backgroundColor": "#0d1322"
+      }
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.romanreads.app"
+    },
+    "android": {
+      "package": "com.romanreads.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#faf7ef",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      "expo-font",
+      "expo-audio"
+    ],
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "supabaseUrl": "",
+      "supabasePublishableKey": "",
+      "siteOrigin": "https://www.romanreads.com",
+      "audioBase": "https://audio.romanreads.com"
+    }
+  }
+}
