@@ -23,11 +23,13 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AudioProvider } from "../src/lib/audioStore";
 import { SessionProvider } from "../src/lib/session";
 import { ThemeProvider, useTheme } from "../src/theme/ThemeProvider";
+import { ThemeReveal } from "../src/theme/ThemeReveal";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -45,17 +47,22 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider>
-        <SessionProvider>
-          {/* The deck lives ABOVE the router, like the site's globalThis
-              audioStore singleton — one player, and navigation never stops it */}
-          <AudioProvider>
-            <Chrome />
-          </AudioProvider>
-        </SessionProvider>
-      </ThemeProvider>
-    </SafeAreaProvider>
+    // Gesture handler wants to be OUTSIDE everything, and it must be a real
+    // flex:1 host or the tree it wraps collapses. It is here for exactly one
+    // reader: the pinch that brings the codex leaf closer.
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ThemeProvider>
+          <SessionProvider>
+            {/* The deck lives ABOVE the router, like the site's globalThis
+                audioStore singleton — one player, and navigation never stops it */}
+            <AudioProvider>
+              <Chrome />
+            </AudioProvider>
+          </SessionProvider>
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
@@ -79,6 +86,10 @@ function Chrome() {
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="sign-in" options={{ animation: "fade" }} />
       </Stack>
+      {/* The lamp switch's reveal, over every ordinary screen. The reader is a
+          native Modal and therefore its own window, so it mounts a SECOND
+          copy — see ThemeReveal. Both read the same shared values. */}
+      <ThemeReveal />
     </View>
   );
 }

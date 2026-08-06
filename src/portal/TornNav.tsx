@@ -15,6 +15,7 @@
 // nav takes the host page's sheet, ink and rule colours and its torn hem is
 // cut from that same paper — in BOTH themes.
 
+import { useRef } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Circle, G, Path } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -54,14 +55,31 @@ export function SunMoon({
   line?: string;
 }) {
   const { ink: inkA } = useInk();
-  const { colors, mode, toggle } = useTheme();
+  const { colors, mode, toggle, toggleFrom } = useTheme();
 
   const glyph = ink ?? colors.brown;
   const ring = line ?? inkA(0.35);
 
+  // The reveal grows from the switch itself, so the button has to say where it
+  // is. Measured on press-IN: measureInWindow answers through a callback, and
+  // measuring on press would start the sweep a frame late.
+  const self = useRef<View>(null);
+  const at = useRef<{ x: number; y: number } | null>(null);
+
   return (
     <Pressable
-      onPress={toggle}
+      ref={self}
+      onPressIn={() =>
+        self.current?.measureInWindow((x, y, w, h) => {
+          at.current = { x: x + w / 2, y: y + h / 2 };
+        })
+      }
+      onPress={() => {
+        // a keyboard or accessibility activation never pressed in — the plain
+        // flip is the honest answer there, as the web's (0,0) fallback is
+        if (at.current) toggleFrom(at.current.x, at.current.y);
+        else toggle();
+      }}
       accessibilityRole="switch"
       accessibilityState={{ checked: mode === "dark" }}
       accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}

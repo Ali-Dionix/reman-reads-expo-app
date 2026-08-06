@@ -17,10 +17,10 @@
 // by real state. They stay absent here for the same reason — absent, never
 // empty — and fill in Phase 3, when audio state exists on the phone.
 //
-// NOT transcribed yet: the OPENED VOLUME (`readerHtml`) — the cased book with
-// turning leaves, the groove transport, the dial/lamp menus and the slips
-// drawer. That is the other ~1,100 lines of the source file and it needs the
-// player underneath it, so it lands with Phase 3 rather than as dead scenery.
+// The OPENED VOLUME (`readerHtml`) is transcribed — see reader/Reader.tsx: the
+// cased codex, the groove transport, the turntable, the read-along. The SLIPS
+// are deliberately not: the house dropped them, so the drawer carries the bands
+// alone and the rail's right-hand button is gone with them.
 
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
