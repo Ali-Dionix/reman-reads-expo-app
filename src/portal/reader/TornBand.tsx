@@ -54,9 +54,16 @@ function Hem({
             key={i}
             d={TEAR}
             fill={color}
-            translateX={i * TILE_W}
-            // mirror in place: flip about the tile's own centre line
-            {...(up ? { transform: `translate(0 ${TILE_H}) scale(1 -1)` } : null)}
+            // ONE transform attribute string, not a translateX prop: on web
+            // react-native-svg passes an unknown `translateX` straight to the
+            // DOM (React warns on every render), so the tile offset and the
+            // in-place mirror (flip about the tile's own centre line) are one
+            // SVG transform.
+            transform={
+              up
+                ? `translate(${i * TILE_W} ${TILE_H}) scale(1 -1)`
+                : `translate(${i * TILE_W} 0)`
+            }
           />
         ))}
       </Svg>

@@ -1,196 +1,144 @@
-// The site's minimal torn navbar — `tornMinimalNavHtml` from navOverride.ts.
+// The site's public navbar in its minimal cut — `tornMinimalNavHtml` from
+// navOverride.ts, the bar /login wears (the portal's rooms wear the app
+// shell's `.rr-ap-top` instead, src/portal/PortalPage.tsx).
 //
-// This is the bar /login wears (the portal's rooms wear `.rr-pt-top` instead).
-// It carries the brand mark, the wordmark, and the sun/moon theme toggle.
+// Mark, wordmark, theme toggle, and the torn paper under them:
+//   .rr-nav5          ≤600px: padding 12px 5.5vw 14px; sticky; gap 22
+//   .rr-nav5-brand    gap 12
+//   the mark          navOverride draws a ruled `R` box, but globals.css swaps
+//                     it for the house-mark PNG on every page
+//                     (body[data-rr-page] header > a:first-child > div:first-child):
+//                     44×44, the 192px manifest icon at contain, its own ink by
+//                     day and brightness(0) invert(1) — pure white — at night.
+//   .rr-nav5-word     b 600 21px/1 Cormorant .01em ink; i 600 8px Manrope .24em
+//                     uppercase brass, 4px under
+//   .rr-nav5-theme    ≤600px on the minimal bar: 40px, 1.5px ink ring at .35,
+//                     brown glyph at 19px, 2° off true, margin-left:auto
+//   .rr-nav5-paper    the two-layer torn sheet (HTEAR along the bottom),
+//                     white by day and #1d263c by night — the `sheet` role —
+//                     with the ink line drop-shadowed under the tear.
 //
-// TWO DELIBERATE DEPARTURES from the web bar, both because this is a Reader
-// app with no storefront in it (docs/APP.md, "Store rules"):
-//   * the wishlist and cart counters are not here — there is no Counter to
-//     open, so a badge that can only ever read 0 is furniture;
-//   * the brand is the logo mark itself rather than the ruled `R` box, so the
-//     header carries an actual icon.
-//
-// `palette` is what keeps the header from fighting the page under it. /login
-// paints from its own oklch-derived palette, not the portal's tokens, so the
-// nav takes the host page's sheet, ink and rule colours and its torn hem is
-// cut from that same paper — in BOTH themes.
+// The scroll-progress hairline (.rr-nav5-progress) is scaleX(0) at the top of
+// a page and is not drawn.
 
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import Svg, { Circle, G, Path } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useInk, em } from "../theme/ink";
+import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
-import { FONTS } from "../theme/type";
-import { TornHem } from "../ui/TornEdge";
+import { Disc } from "../ui/Disc";
+import { TornSheet } from "../ui/TornEdge";
+import { Txt } from "../ui/Type";
 
-const MARK = require("../../assets/mark.png");
+const MARK_192 = require("../../assets/mark-192.png");
 
-export type NavPalette = {
-  /** The nav sheet, and the paper its torn hem is cut from. */
-  sheet: string;
-  /** The bright underlayer peeking past the deckle. */
-  under: string;
-  ink: string;
-  brass: string;
-  /** The control ring. */
-  line: string;
-};
+/** `.rr-nav5` box height at ≤600px: 12 + 44 + 14. */
+export const NAV_H = 70;
 
 /**
- * `.rr-nav5-theme` — one button, both faces.
- *
- * The web shows the SUN in light and the MOON in dark
- * (`[data-rr-theme="dark"] .rr-th-moon{display:block}`), i.e. the icon names
- * the mode you are IN, not the one you would switch to. Same here.
+ * `.rr-nav5-theme` — one button, both faces. The web shows the SUN in light
+ * and the MOON in dark: the icon names the mode you are in.
  */
-export function SunMoon({
-  size = 40,
-  ink,
-  line,
-}: {
-  size?: number;
-  ink?: string;
-  line?: string;
-}) {
-  const { ink: inkA } = useInk();
+export function SunMoon({ size = 40, glyph = 19 }: { size?: number; glyph?: number; ink?: string; line?: string }) {
   const { colors, mode, toggle } = useTheme();
-
-  const glyph = ink ?? colors.brown;
-  const ring = line ?? inkA(0.35);
-
+  const { ink } = useInk();
+  const c = colors.brown;
   return (
-    <Pressable
+    <Disc
+      size={size}
+      ring={ink(0.35, "border")}
+      ringWidth={1.5}
+      tilt={-2}
       onPress={toggle}
       accessibilityRole="switch"
       accessibilityState={{ checked: mode === "dark" }}
       accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
       hitSlop={8}
-      style={({ pressed }) => [
-        styles.round,
-        {
-          width: size,
-          height: size,
-          borderRadius: size / 2,
-          borderColor: ring,
-          opacity: pressed ? 0.6 : 1,
-        },
-      ]}
     >
-      <Svg viewBox="0 0 24 24" width={19} height={19}>
+      <Svg viewBox="0 0 24 24" width={glyph} height={glyph}>
         {mode === "dark" ? (
-          <Path
-            d="M20.2 13.6A8.1 8.1 0 0 1 10.4 3.8a8.1 8.1 0 1 0 9.8 9.8Z"
-            fill={glyph}
-          />
+          <Path d="M20.2 13.6A8.1 8.1 0 0 1 10.4 3.8a8.1 8.1 0 1 0 9.8 9.8Z" fill={c} />
         ) : (
           <G>
-            <Circle cx={12} cy={12} r={4.6} fill="none" stroke={glyph} strokeWidth={1.6} />
+            <Circle cx={12} cy={12} r={4.6} fill="none" stroke={c} strokeWidth={1.6} />
             <Path
               d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"
-              stroke={glyph}
+              stroke={c}
               strokeWidth={1.6}
               strokeLinecap="round"
             />
           </G>
         )}
       </Svg>
-    </Pressable>
+    </Disc>
   );
 }
 
-export function TornNav({ palette }: { palette?: NavPalette }) {
-  const { ink, vw, width, mode } = useInk();
-  const { colors } = useTheme();
+/**
+ * The bar. In flow (it sits at the top of a scrolling page as the site's
+ * does, sticky there); its torn paper hangs 20px past its box over whatever
+ * follows, so the page under it should reserve `NAV_BLEED` or expect the
+ * teeth to overlap its first 20px, as the site's pages do.
+ */
+export const NAV_BLEED = 20;
+
+export function TornNav({ onBrand }: { onBrand?: () => void }) {
+  const { colors, chrome, mode } = useTheme();
+  const { vw, width } = useInk();
   const insets = useSafeAreaInsets();
 
-  // Default: the portal's own paper. /login overrides with its palette so the
-  // hem is cut from the sheet the page is actually printed on.
-  const p: NavPalette = palette ?? {
-    sheet: colors.navpaper,
-    under: mode === "dark" ? "#1d263c" : "#fdfaf0",
-    ink: colors.ink,
-    brass: colors.brass,
-    line: ink(0.35),
-  };
+  const height = insets.top + NAV_H;
 
   return (
-    <View>
-      {/* ≤600px: .rr-nav5{padding:12px 5.5vw 14px} */}
+    <View style={{ height, zIndex: 90 }}>
+      <TornSheet
+        edge="bottom"
+        width={width}
+        height={height}
+        paper={colors.sheet}
+        line={chrome.tearLine}
+        haze={chrome.tearHaze}
+        wash={chrome.tearWash}
+      />
       <View
-        style={[
-          styles.nav,
-          {
-            paddingTop: insets.top + 12,
-            paddingHorizontal: vw(5.5),
-            paddingBottom: 14,
-            backgroundColor: p.sheet,
-          },
-        ]}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 22,
+          paddingTop: insets.top + 12,
+          paddingBottom: 14,
+          paddingHorizontal: vw(5.5),
+        }}
       >
-        <View style={styles.brand}>
-          {/* the brand mark, masked to ink — react-native's Image tintColor is
-              the platform equivalent of the CSS mask the site uses */}
-          <Image source={MARK} style={styles.mark} tintColor={p.ink} resizeMode="contain" />
-          {/* The wordmark yields before the toggle does. At 375px the old bar
-              carried three controls and pushed the sun/moon off the edge —
-              the brand shrinks and truncates instead. */}
-          <View style={styles.word}>
-            <Text style={[styles.wordB, { color: p.ink }]} numberOfLines={1}>
+        <Pressable
+          onPress={onBrand}
+          accessibilityRole="link"
+          accessibilityLabel="Roman Reads home"
+          style={{ flexDirection: "row", alignItems: "center", gap: 12, flexShrink: 1, minWidth: 0 }}
+        >
+          <Image
+            source={MARK_192}
+            style={{ width: 44, height: 44 }}
+            resizeMode="contain"
+            // brightness(0) invert(1) at night; by day the PNG's own ink
+            tintColor={mode === "dark" ? "#ffffff" : undefined}
+          />
+          <View style={{ flexShrink: 1, minWidth: 0 }}>
+            <Txt family="Cormorant Garamond" weight={600} size={21} line={21} ls={0.01} numberOfLines={1}>
               Roman Reads
-            </Text>
-            <Text style={[styles.wordI, { color: p.brass }]} numberOfLines={1}>
+            </Txt>
+            <Txt weight={600} size={8} ls={0.24} upper color="brass" numberOfLines={1} style={{ marginTop: 4 }}>
               Literature made simple
-            </Text>
+            </Txt>
           </View>
-        </View>
+        </Pressable>
 
         {/* .rr-nav5--minimal .rr-nav5-theme{margin-left:auto} */}
-        <View style={styles.ctrl}>
-          <SunMoon ink={p.brass} line={p.line} />
+        <View style={{ marginLeft: "auto", flexShrink: 0 }}>
+          <SunMoon />
         </View>
-      </View>
-
-      {/* the two-sheet deckle: bright underlayer first, the sheet over it */}
-      <View>
-        <TornHem width={width} color={p.under} style={styles.under} />
-        <TornHem width={width} color={p.sheet} />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  nav: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 22,
-  },
-  brand: { flexDirection: "row", alignItems: "center", gap: 12, flexShrink: 1, minWidth: 0 },
-  mark: { width: 34, height: 34 },
-  word: { flexShrink: 1, minWidth: 0 },
-  wordB: {
-    fontFamily: FONTS.serif,
-    fontSize: 21,
-    lineHeight: 23,
-    letterSpacing: em(21, 0.01),
-  },
-  wordI: {
-    fontFamily: FONTS.sansSemi,
-    fontSize: 8,
-    letterSpacing: em(8, 0.22),
-    textTransform: "uppercase",
-    marginTop: 4,
-  },
-  // flex:none — the toggle is never the thing that gives way
-  ctrl: { marginLeft: "auto", flexShrink: 0, flexGrow: 0 },
-  round: {
-    borderWidth: 1.5,
-    alignItems: "center",
-    justifyContent: "center",
-    // every nav control sits a couple of degrees off true
-    transform: [{ rotate: "-2deg" }],
-  },
-  under: { position: "absolute", top: 4, left: 0, right: 0 },
-});

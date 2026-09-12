@@ -1,27 +1,212 @@
-// The deckle — a torn paper edge.
+// The deckle — a torn paper edge, drawn.
 //
-// The site draws these with `mask-image` and two SVG tiles (VTEAR 16×120 down
-// the sidebar, HTEAR 360×17 along the top bar). React Native has NO CSS mask,
-// so the same paths are drawn as FILLED shapes in react-native-svg, in the
-// paper's own colour, sitting past the edge of the sheet. The paths are
-// byte-identical to portalShared.ts, so the tear reads the same.
+// The site cuts these with CSS masks: two SVG tiles (HTEAR 360×17 along a
+// sheet's bottom edge, HTEAR_TOP its mirror along a top edge, VTEAR 16×120
+// down a side) laid over a solid gradient, in two stacked pseudo-layers, with
+// `filter: drop-shadow` drawing an ink line along the union's silhouette.
+// React Native has NO CSS mask and no pseudo-elements, so the same picture is
+// built the other way round: each layer's silhouette is computed as a filled
+// SVG polygon from the tile's own point list, and the drop-shadow line is the
+// same polygon shifted 3px and filled with ink underneath. The point list is
+// paperMarks.ts's HTEAR verbatim; HTEAR_TOP is its mirror (17 − y), which is
+// how the site's two tiles relate too.
+//
+// <TornSheet> is the whole two-layer paper for a bar or sheet with an edge to
+// the viewport: the portal top bar (.rr-ap-top-paper), the public nav
+// (.rr-nav5-paper), the tab bar (.rr-ap-nav-paper) and the + sheet
+// (.rr-ap-sheet-paper). Their geometry is the CSS's, worked out layer by layer
+// in the comment over each branch below, so the black line and the white
+// teeth land on the same pixels as the web's.
+//
+// What is NOT drawn: the fractal-noise paper grain (NOISE) — feTurbulence is
+// unimplemented in react-native-svg's native filters — and the second
+// drop-shadow's Gaussian haze, which is approximated by a fan of translucent
+// copies rather than a real blur. Both are under pixelmatch's threshold.
 
-import Svg, { Path } from "react-native-svg";
 import { View, type StyleProp, type ViewStyle } from "react-native";
+import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
+
+/* ------------------------------------------------------------ the tiles --- */
+
+/** HTEAR — the 360×17 tile's torn profile, x descending. The tile is filled
+ *  from y=0 to this line; y runs 4..16, and both ends sit at 4 so it repeats.
+ *  HTEAR_TOP / TEAR_TOP (the rising tile) is its mirror, 17 − y. */
+export const TEETH: readonly (readonly [number, number])[] = [
+  [360, 4], [349, 9], [341, 6], [332, 13], [320, 8], [309, 15], [301, 7], [291, 11],
+  [282, 5], [271, 14], [262, 9], [251, 12], [240, 6], [229, 16], [219, 8], [209, 11],
+  [198, 5], [188, 13], [178, 7], [167, 10], [158, 15], [147, 6], [137, 12], [127, 8],
+  [116, 14], [106, 5], [96, 10], [86, 16], [76, 7], [66, 12], [55, 6], [45, 13],
+  [35, 9], [24, 15], [14, 6], [6, 11], [0, 4],
+];
+export const TILE_W = 360;
+export const TILE_H = 17;
 
 /** VTEAR — a 16×120 vertical deckle. */
 const TEAR_V = "M0 0H12L4 12 15 24 6 36 13 48 3 60 14 72 7 84 13 96 5 108 12 120H0Z";
 const V_W = 16;
 const V_H = 120;
 
-/** HTEAR — the navbar's 360×17 horizontal tear. The path IS the paper. */
-const TEAR_H =
-  "M0 0H360V4L349 9 341 6 332 13 320 8 309 15 301 7 291 11 282 5 271 14 262 9 251 12 " +
-  "240 6 229 16 219 8 209 11 198 5 188 13 178 7 167 10 158 15 147 6 137 12 127 8 116 14 " +
-  "106 5 96 10 86 16 76 7 66 12 55 6 45 13 35 9 24 15 14 6 6 11 0 4Z";
-const H_W = 360;
-const H_H = 17;
+/**
+ * One sheet silhouette. `solidY` is the sheet's far edge (its top for a sheet
+ * torn along the bottom, its bottom for one torn along the top); `tileTop` is
+ * where the 17px tile's box begins; `offset` is the tile's x phase (the CSS
+ * mask-position's -53px or 0); `mirror` uses the HTEAR_TOP profile.
+ *
+ * Exported for a torn strip whose offsets are not a bar's — /login's foot
+ * (the footer's paper cut short: ::before top −20 phase −53, ::after top −16
+ * phase 0, a 1.5px line) draws its two sheets and its line from this with
+ * its own numbers, as the footer proper will.
+ */
+export function sheetPath(
+  width: number,
+  solidY: number,
+  tileTop: number,
+  offset: number,
+  mirror: boolean,
+): string {
+  const kMin = Math.floor((0 - offset) / TILE_W) - 1;
+  const kMax = Math.ceil((width - offset) / TILE_W);
+  const pts: string[] = [];
+  for (let k = kMax; k >= kMin; k--) {
+    for (const [px, py] of TEETH) {
+      const x = offset + k * TILE_W + px;
+      const y = tileTop + (mirror ? TILE_H - py : py);
+      pts.push(`${x} ${y}`);
+    }
+  }
+  const xR = offset + (kMax + 1) * TILE_W;
+  const xL = offset + kMin * TILE_W;
+  return `M${xR} ${solidY} L${pts.join(" L")} L${xL} ${solidY} Z`;
+}
 
+/* ------------------------------------------------------------ the sheet --- */
+
+/** How far the drawing hangs past the box on the torn side. */
+export const TORN_BLEED = { bottom: 32, top: 30 } as const;
+
+/** The haze fan: offsets and opacities standing in for a Gaussian drop-shadow. */
+const HAZE_BAR = [4, 5.2, 6.4, 7.6, 8.8, 10] as const;
+const HAZE_SHEET = [5, 8, 11, 14, 17, 20] as const;
+
+export function TornSheet({
+  edge,
+  width,
+  height,
+  paper,
+  line,
+  haze,
+  hazeSpread = "bar",
+  wash,
+  style,
+}: {
+  /** Which edge is torn: "bottom" hangs from above (HTEAR), "top" rises from below (HTEAR_TOP). */
+  edge: "bottom" | "top";
+  width: number;
+  /** The element's own box — the bar's height including any safe-area padding. */
+  height: number;
+  /** Both layers' colour: `white` by day. */
+  paper: string;
+  /** The ink line drawn along the tear: drop-shadow(0 ±3px 0 <line>). */
+  line: string;
+  /** The soft second shadow, with its own alpha. */
+  haze: string;
+  /** "bar" is the bars' 3px blur; "sheet" the + sheet's 16px. */
+  hazeSpread?: "bar" | "sheet";
+  /** The 5% ink wash along the torn edge of the face layer — set on the bars,
+   *  absent on the + sheet. Pass the rgba (CHROME.tearWash). */
+  wash?: string;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const hang = edge === "bottom";
+  const bleed = hang ? TORN_BLEED.bottom : TORN_BLEED.top;
+  const svgH = height + bleed;
+  // For a rising sheet the svg starts `bleed` above the box: y' = y + bleed.
+  const o = hang ? 0 : bleed;
+  const H = height;
+  const fan = hazeSpread === "bar" ? HAZE_BAR : HAZE_SHEET;
+  const washId = `wash-${edge}-${Math.round(height)}`;
+
+  /* --- hanging sheet (.rr-ap-top-paper / .rr-nav5-paper), box 0..H:
+       ::before  top:0 bottom:-20px  → solid to H+4, tile at H+3 (x −53)
+       ::after   top:0 bottom:-16px  → solid to H,   tile at H−1 (x 0)
+       shadow    ::before + 3px      → tile at H+6
+       wash      transparent at H−10 → 5% ink at H+16                    --- */
+  /* --- rising sheet (.rr-ap-nav-paper / .rr-ap-sheet-paper), box 0..H:
+       ::before  inset:-17px 0 0     → solid from −4, tile at −17 (x −53)
+       ::after   top:4px             → solid from 0,  tile at −13 (x 0)
+       shadow    ::before − 3px      → tile at −20
+       wash      5% ink at −13 → transparent at +13                     --- */
+  // THE SHADOW IS OF THE UNION. The filter sits on the container, so the ink
+  // line follows the outline of ::before ∪ ::after — where the face layer's
+  // tooth (phase 0) reaches past the underlayer's (phase −53), the line
+  // follows the face. Each layer is shifted and drawn; the union takes care
+  // of itself. Same for the haze.
+  const beforeAt = (d: number) =>
+    hang
+      ? sheetPath(width, 0, H + 3 + d, -53, false)
+      : sheetPath(width, svgH, o - 17 - d, -53, true);
+  const afterAt = (d: number) =>
+    hang
+      ? sheetPath(width, 0, H - 1 + d, 0, false)
+      : sheetPath(width, svgH, o - 13 - d, 0, true);
+  const afterPath = afterAt(0);
+  const washY: [number, number] = hang ? [H - 10, H + 16] : [o - 13, o + 13];
+
+  return (
+    <View
+      style={[
+        {
+          pointerEvents: "none",
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: hang ? 0 : -bleed,
+          height: svgH,
+        },
+        style,
+      ]}
+    >
+      <Svg width={width} height={svgH} viewBox={`0 0 ${width} ${svgH}`}>
+        {wash ? (
+          <Defs>
+            <LinearGradient
+              id={washId}
+              gradientUnits="userSpaceOnUse"
+              x1={0}
+              y1={washY[0]}
+              x2={0}
+              y2={washY[1]}
+            >
+              <Stop offset={0} stopColor={wash} stopOpacity={hang ? 0 : 1} />
+              <Stop offset={1} stopColor={wash} stopOpacity={hang ? 1 : 0} />
+            </LinearGradient>
+          </Defs>
+        ) : null}
+        {/* the haze — drawn first, farthest out */}
+        {fan.map((d, i) => (
+          <Path
+            key={i}
+            d={`${beforeAt(d)} ${afterAt(d)}`}
+            fill={haze}
+            fillOpacity={0.28 - i * 0.04}
+            fillRule="nonzero"
+          />
+        ))}
+        {/* the ink line: the union silhouette, 3px over */}
+        <Path d={`${beforeAt(3)} ${afterAt(3)}`} fill={line} fillRule="nonzero" />
+        {/* ::before — the bright underlayer peeking past the deckle */}
+        <Path d={beforeAt(0)} fill={paper} />
+        {/* ::after — the face */}
+        <Path d={afterPath} fill={paper} />
+        {wash ? <Path d={afterPath} fill={`url(#${washId})`} /> : null}
+      </Svg>
+    </View>
+  );
+}
+
+/* ------------------------------------------------- the older two figures --- */
+
+/** VTEAR down a side — kept for the pages that still draw a sidebar edge. */
 export function TornEdge({
   length,
   color,
@@ -40,16 +225,15 @@ export function TornEdge({
 
   return (
     <View
-      pointerEvents="none"
       style={[
-        { position: "absolute", top: 0, width: V_W, height, [side]: 0 },
+        { pointerEvents: "none", position: "absolute", top: 0, width: V_W, height, [side]: 0 },
         side === "left" ? { transform: [{ scaleX: -1 }] } : null,
         style,
       ]}
     >
       <Svg width={V_W} height={height} viewBox={`0 0 ${V_W} ${height}`}>
         {Array.from({ length: repeats }, (_, i) => (
-          <Path key={i} d={TEAR_V} fill={color} translateY={i * V_H} />
+          <Path key={i} d={TEAR_V} fill={color} transform={[{ translateY: i * V_H }]} />
         ))}
       </Svg>
     </View>
@@ -57,9 +241,9 @@ export function TornEdge({
 }
 
 /**
- * The bottom edge of a horizontal band — the portal top bar's torn hem.
- * Sits BELOW the band, in the band's colour, so the sheet appears to end in a
- * ragged line rather than a ruled one.
+ * A single-colour torn hem, in flow — the HTEAR tile tiled across `width`,
+ * filled with the sheet's colour. The older figure; <TornSheet> is what the
+ * shell draws now. Kept because /sign-in's bottom strip still uses it.
  */
 export function TornHem({
   width,
@@ -70,18 +254,12 @@ export function TornHem({
   color: string;
   style?: StyleProp<ViewStyle>;
 }) {
-  const repeats = Math.max(1, Math.ceil(width / H_W));
-  const total = repeats * H_W;
-
   return (
     <View
-      pointerEvents="none"
-      style={[{ height: H_H, width: "100%", overflow: "hidden" }, style]}
+      style={[{ pointerEvents: "none", height: TILE_H, width: "100%", overflow: "hidden" }, style]}
     >
-      <Svg width={total} height={H_H} viewBox={`0 0 ${total} ${H_H}`}>
-        {Array.from({ length: repeats }, (_, i) => (
-          <Path key={i} d={TEAR_H} fill={color} translateX={i * H_W} />
-        ))}
+      <Svg width={width} height={TILE_H} viewBox={`0 0 ${width} ${TILE_H}`}>
+        <Path d={sheetPath(width, 0, 0, 0, false)} fill={color} />
       </Svg>
     </View>
   );

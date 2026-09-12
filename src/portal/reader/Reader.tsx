@@ -806,7 +806,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 1,
   },
-  leafWait: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
+  leafWait: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center" },
   // .rr-lr-book::after — the spine band over the case's left 18px
   spine: {
     position: "absolute",
@@ -904,7 +904,7 @@ const styles = StyleSheet.create({
   deckLine: { fontFamily: FONTS.sans, fontSize: 11, textAlign: "center" },
 
   // .rr-lr-dscrim{background:rgba(11,10,8,.28)}
-  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(11,10,8,.28)" },
+  scrim: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(11,10,8,.28)" },
   // ≤900px: a bottom sheet over the dimmed stage — left/right 8, rising from
   // the console; the torn card's slight anticlockwise set
   drawer: {

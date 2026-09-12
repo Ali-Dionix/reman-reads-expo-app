@@ -1,30 +1,22 @@
 {
   "billboard": {
-    "slug": "the-little-prince",
-    "title": "The Little Prince",
-    "author": "Antoine de Saint-Exupéry",
-    "blurb": "1 hr 19 min, read end to end.",
+    "slug": "crime-and-punishment",
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "blurb": "18 hr 56 min, read end to end.",
     "labelHue": "#171411",
-    "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
-    "spine": "#34506B"
+    "art": "/assets/covers/dostoevsky/crime-and-punishment-with-type-lib.webp",
+    "spine": "#5E2A1E"
   },
   "pressings": [
-    {
-      "slug": "the-little-prince",
-      "title": "The Little Prince",
-      "author": "Saint-Exupéry",
-      "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
-      "spine": "#34506B",
-      "baked": true,
-      "meta": "79 min · read by Ambrose Reed"
-    },
     {
       "slug": "crime-and-punishment",
       "title": "Crime and Punishment",
       "author": "Dostoevsky",
-      "art": "/assets/covers/dostoevsky/crime-and-punishment-art-lib.webp",
+      "art": "/assets/covers/dostoevsky/crime-and-punishment-with-type-lib.webp",
       "spine": "#5E2A1E",
-      "meta": "3 min · specimen recording"
+      "baked": true,
+      "meta": "18 hr 56 min · read by Ambrose Reed"
     },
     {
       "slug": "meditations",
@@ -33,7 +25,16 @@
       "art": "/assets/covers/marcus-aurelius/meditations-with-type-lib.webp",
       "spine": "#6B5218",
       "baked": true,
-      "meta": "3 min · specimen recording"
+      "meta": "6 hr 17 min · read by Ambrose Reed"
+    },
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Saint-Exupéry",
+      "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
+      "spine": "#34506B",
+      "baked": true,
+      "meta": "79 min · read by Ambrose Reed"
     }
   ],
   "short": [
@@ -45,35 +46,9 @@
       "spine": "#34506B",
       "baked": true,
       "meta": "longest band 7:10"
-    },
-    {
-      "slug": "crime-and-punishment",
-      "title": "Crime and Punishment",
-      "author": "Dostoevsky",
-      "art": "/assets/covers/dostoevsky/crime-and-punishment-art-lib.webp",
-      "spine": "#5E2A1E",
-      "meta": "longest band 1:32"
-    },
-    {
-      "slug": "meditations",
-      "title": "Meditations",
-      "author": "Marcus Aurelius",
-      "art": "/assets/covers/marcus-aurelius/meditations-with-type-lib.webp",
-      "spine": "#6B5218",
-      "baked": true,
-      "meta": "longest band 1:28"
     }
   ],
   "soon": [
-    {
-      "slug": "the-brothers-karamazov",
-      "title": "The Brothers Karamazov",
-      "author": "Dostoevsky",
-      "art": "/assets/covers/dostoevsky/the-brothers-karamazov-art-lib.webp",
-      "spine": "#4A3B27",
-      "meta": "being pressed",
-      "dim": true
-    },
     {
       "slug": "1984",
       "title": "1984",
@@ -110,16 +85,6 @@
       "author": "Oscar Wilde",
       "art": "/assets/covers/_google/the-picture-of-dorian-gray.webp",
       "spine": "#59452E",
-      "baked": true,
-      "meta": "being pressed",
-      "dim": true
-    },
-    {
-      "slug": "notes-from-underground",
-      "title": "Notes from Underground",
-      "author": "Dostoevsky",
-      "art": "/assets/covers/dostoevsky/notes-from-underground-with-type-lib.webp",
-      "spine": "#2E3D4F",
       "baked": true,
       "meta": "being pressed",
       "dim": true
@@ -226,195 +191,926 @@
     }
   ],
   "recordings": {
-    "the-little-prince": {
-      "slug": "the-little-prince",
-      "title": "The Little Prince",
-      "author": "Antoine de Saint-Exupéry",
-      "voice": "Read by Ambrose Reed.",
-      "seconds": 4757,
-      "chapters": [
-        {
-          "n": 0,
-          "title": "I",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
-          "duration": 173
-        },
-        {
-          "n": 1,
-          "title": "II",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
-          "duration": 208
-        },
-        {
-          "n": 2,
-          "title": "III",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
-          "duration": 129
-        },
-        {
-          "n": 3,
-          "title": "IV",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
-          "duration": 234
-        },
-        {
-          "n": 4,
-          "title": "V",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
-          "duration": 219
-        },
-        {
-          "n": 5,
-          "title": "VI",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
-          "duration": 65
-        },
-        {
-          "n": 6,
-          "title": "VII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
-          "duration": 231
-        },
-        {
-          "n": 7,
-          "title": "VIII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
-          "duration": 214
-        },
-        {
-          "n": 8,
-          "title": "IX",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
-          "duration": 136
-        },
-        {
-          "n": 9,
-          "title": "X",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
-          "duration": 377
-        },
-        {
-          "n": 10,
-          "title": "XI",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
-          "duration": 98
-        },
-        {
-          "n": 11,
-          "title": "XII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
-          "duration": 49
-        },
-        {
-          "n": 12,
-          "title": "XIII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
-          "duration": 257
-        },
-        {
-          "n": 13,
-          "title": "XIV",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
-          "duration": 213
-        },
-        {
-          "n": 14,
-          "title": "XV",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
-          "duration": 251
-        },
-        {
-          "n": 15,
-          "title": "XVI",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
-          "duration": 81
-        },
-        {
-          "n": 16,
-          "title": "XVII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
-          "duration": 163
-        },
-        {
-          "n": 17,
-          "title": "XVIII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
-          "duration": 33
-        },
-        {
-          "n": 18,
-          "title": "XIX",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
-          "duration": 55
-        },
-        {
-          "n": 19,
-          "title": "XX",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
-          "duration": 70
-        },
-        {
-          "n": 20,
-          "title": "XXI",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
-          "duration": 392
-        },
-        {
-          "n": 21,
-          "title": "XXII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
-          "duration": 76
-        },
-        {
-          "n": 22,
-          "title": "XXIII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
-          "duration": 34
-        },
-        {
-          "n": 23,
-          "title": "XXIV",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
-          "duration": 206
-        },
-        {
-          "n": 24,
-          "title": "XXV",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
-          "duration": 228
-        },
-        {
-          "n": 25,
-          "title": "XXVI",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
-          "duration": 430
-        },
-        {
-          "n": 26,
-          "title": "XXVII",
-          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
-          "duration": 135
-        }
-      ]
-    },
     "crime-and-punishment": {
       "slug": "crime-and-punishment",
       "title": "Crime and Punishment",
       "author": "Fyodor Dostoevsky",
-      "voice": "specimen recording — the narration is being read now",
-      "seconds": 176,
+      "voice": "Read by Ambrose Reed.",
+      "hasText": true,
+      "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+      "voices": [
+        {
+          "id": "en-GB-Ollie:DragonHDLatestNeural",
+          "name": "Ambrose Reed",
+          "note": "Unhurried, and a little dry. Reads a joke as though he has not noticed it.",
+          "hue": "#7E2D1F"
+        },
+        {
+          "id": "en-GB-Sonia:DragonHDLatestNeural",
+          "name": "Sylvia Wren",
+          "note": "Clear and close. Keeps the sentence's shape all the way to the full stop.",
+          "hue": "#9B7A4D"
+        }
+      ],
+      "pressings": {
+        "en-GB-Ollie:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+          "voiceLabel": "Ambrose Reed",
+          "seconds": 68177,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "Translator's Preface",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 272,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "Part One, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 1075,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "Part One, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 2428,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "Part One, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 1741,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "Part One, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 1660,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "Part One, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 1356,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "Part One, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 1624,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "Part One, Chapter VII",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 1541,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "Part Two, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 2214,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "Part Two, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 1364,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "Part Two, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 1745,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "Part Two, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 1325,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "Part Two, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 1427,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+            },
+            {
+              "n": 13,
+              "title": "Part Two, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
+              "duration": 2473,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.json"
+            },
+            {
+              "n": 14,
+              "title": "Part Two, Chapter VII",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
+              "duration": 2342,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.json"
+            },
+            {
+              "n": 15,
+              "title": "Part Three, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
+              "duration": 1782,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.json"
+            },
+            {
+              "n": 16,
+              "title": "Part Three, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
+              "duration": 1518,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.json"
+            },
+            {
+              "n": 17,
+              "title": "Part Three, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
+              "duration": 1736,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.json"
+            },
+            {
+              "n": 18,
+              "title": "Part Three, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
+              "duration": 1462,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.json"
+            },
+            {
+              "n": 19,
+              "title": "Part Three, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
+              "duration": 2424,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.json"
+            },
+            {
+              "n": 20,
+              "title": "Part Three, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
+              "duration": 1427,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.json"
+            },
+            {
+              "n": 21,
+              "title": "Part Four, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
+              "duration": 1628,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.json"
+            },
+            {
+              "n": 22,
+              "title": "Part Four, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
+              "duration": 1579,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.json"
+            },
+            {
+              "n": 23,
+              "title": "Part Four, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
+              "duration": 1028,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.json"
+            },
+            {
+              "n": 24,
+              "title": "Part Four, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
+              "duration": 2028,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.json"
+            },
+            {
+              "n": 25,
+              "title": "Part Four, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
+              "duration": 2358,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.json"
+            },
+            {
+              "n": 26,
+              "title": "Part Four, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
+              "duration": 918,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.json"
+            },
+            {
+              "n": 27,
+              "title": "Part Five, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-28.mp3",
+              "duration": 2136,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-28.json"
+            },
+            {
+              "n": 28,
+              "title": "Part Five, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-29.mp3",
+              "duration": 1728,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-29.json"
+            },
+            {
+              "n": 29,
+              "title": "Part Five, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-30.mp3",
+              "duration": 1930,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-30.json"
+            },
+            {
+              "n": 30,
+              "title": "Part Five, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-31.mp3",
+              "duration": 2139,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-31.json"
+            },
+            {
+              "n": 31,
+              "title": "Part Five, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-32.mp3",
+              "duration": 1746,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-32.json"
+            },
+            {
+              "n": 32,
+              "title": "Part Six, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-33.mp3",
+              "duration": 1277,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-33.json"
+            },
+            {
+              "n": 33,
+              "title": "Part Six, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-34.mp3",
+              "duration": 1829,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-34.json"
+            },
+            {
+              "n": 34,
+              "title": "Part Six, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-35.mp3",
+              "duration": 1255,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-35.json"
+            },
+            {
+              "n": 35,
+              "title": "Part Six, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-36.mp3",
+              "duration": 1467,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-36.json"
+            },
+            {
+              "n": 36,
+              "title": "Part Six, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-37.mp3",
+              "duration": 1830,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-37.json"
+            },
+            {
+              "n": 37,
+              "title": "Part Six, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-38.mp3",
+              "duration": 1780,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-38.json"
+            },
+            {
+              "n": 38,
+              "title": "Part Six, Chapter VII",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-39.mp3",
+              "duration": 1172,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-39.json"
+            },
+            {
+              "n": 39,
+              "title": "Part Six, Chapter VIII",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-40.mp3",
+              "duration": 1315,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-40.json"
+            },
+            {
+              "n": 40,
+              "title": "Epilogue, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-41.mp3",
+              "duration": 1020,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-41.json"
+            },
+            {
+              "n": 41,
+              "title": "Epilogue, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-42.mp3",
+              "duration": 1078,
+              "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-42.json"
+            }
+          ]
+        },
+        "en-GB-Sonia:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Sonia:DragonHDLatestNeural",
+          "voiceLabel": "Sylvia Wren",
+          "seconds": 65243,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "Translator's Preface",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 262,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "Part One, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 1039,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "Part One, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 2327,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "Part One, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 1638,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "Part One, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 1604,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "Part One, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 1312,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "Part One, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 1590,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "Part One, Chapter VII",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 1516,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "Part Two, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 2133,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "Part Two, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 1334,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "Part Two, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 1684,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "Part Two, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 1237,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "Part Two, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 1369,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.json"
+            },
+            {
+              "n": 13,
+              "title": "Part Two, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-14.mp3",
+              "duration": 2405,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-14.json"
+            },
+            {
+              "n": 14,
+              "title": "Part Two, Chapter VII",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-15.mp3",
+              "duration": 2281,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-15.json"
+            },
+            {
+              "n": 15,
+              "title": "Part Three, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-16.mp3",
+              "duration": 1682,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-16.json"
+            },
+            {
+              "n": 16,
+              "title": "Part Three, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-17.mp3",
+              "duration": 1436,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-17.json"
+            },
+            {
+              "n": 17,
+              "title": "Part Three, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-18.mp3",
+              "duration": 1660,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-18.json"
+            },
+            {
+              "n": 18,
+              "title": "Part Three, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-19.mp3",
+              "duration": 1413,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-19.json"
+            },
+            {
+              "n": 19,
+              "title": "Part Three, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-20.mp3",
+              "duration": 2283,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-20.json"
+            },
+            {
+              "n": 20,
+              "title": "Part Three, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-21.mp3",
+              "duration": 1406,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-21.json"
+            },
+            {
+              "n": 21,
+              "title": "Part Four, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-22.mp3",
+              "duration": 1509,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-22.json"
+            },
+            {
+              "n": 22,
+              "title": "Part Four, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-23.mp3",
+              "duration": 1485,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-23.json"
+            },
+            {
+              "n": 23,
+              "title": "Part Four, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-24.mp3",
+              "duration": 973,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-24.json"
+            },
+            {
+              "n": 24,
+              "title": "Part Four, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-25.mp3",
+              "duration": 1961,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-25.json"
+            },
+            {
+              "n": 25,
+              "title": "Part Four, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-26.mp3",
+              "duration": 2243,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-26.json"
+            },
+            {
+              "n": 26,
+              "title": "Part Four, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-27.mp3",
+              "duration": 889,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-27.json"
+            },
+            {
+              "n": 27,
+              "title": "Part Five, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-28.mp3",
+              "duration": 1996,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-28.json"
+            },
+            {
+              "n": 28,
+              "title": "Part Five, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-29.mp3",
+              "duration": 1608,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-29.json"
+            },
+            {
+              "n": 29,
+              "title": "Part Five, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-30.mp3",
+              "duration": 1860,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-30.json"
+            },
+            {
+              "n": 30,
+              "title": "Part Five, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-31.mp3",
+              "duration": 2067,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-31.json"
+            },
+            {
+              "n": 31,
+              "title": "Part Five, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-32.mp3",
+              "duration": 1663,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-32.json"
+            },
+            {
+              "n": 32,
+              "title": "Part Six, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-33.mp3",
+              "duration": 1220,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-33.json"
+            },
+            {
+              "n": 33,
+              "title": "Part Six, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-34.mp3",
+              "duration": 1716,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-34.json"
+            },
+            {
+              "n": 34,
+              "title": "Part Six, Chapter III",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-35.mp3",
+              "duration": 1169,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-35.json"
+            },
+            {
+              "n": 35,
+              "title": "Part Six, Chapter IV",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-36.mp3",
+              "duration": 1394,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-36.json"
+            },
+            {
+              "n": 36,
+              "title": "Part Six, Chapter V",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-37.mp3",
+              "duration": 1740,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-37.json"
+            },
+            {
+              "n": 37,
+              "title": "Part Six, Chapter VI",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-38.mp3",
+              "duration": 1747,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-38.json"
+            },
+            {
+              "n": 38,
+              "title": "Part Six, Chapter VII",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-39.mp3",
+              "duration": 1115,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-39.json"
+            },
+            {
+              "n": 39,
+              "title": "Part Six, Chapter VIII",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-40.mp3",
+              "duration": 1256,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-40.json"
+            },
+            {
+              "n": 40,
+              "title": "Epilogue, Chapter I",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-41.mp3",
+              "duration": 968,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-41.json"
+            },
+            {
+              "n": 41,
+              "title": "Epilogue, Chapter II",
+              "src": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-42.mp3",
+              "duration": 1053,
+              "galley": "audio/crime-and-punishment/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-42.json"
+            }
+          ]
+        }
+      },
+      "seconds": 68177,
       "chapters": [
         {
           "n": 0,
-          "title": "Part One, Chapter I",
-          "src": "/audio/crime-and-punishment-band-1-v1.mp3",
-          "duration": 92
+          "title": "Translator's Preface",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+          "duration": 272,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
         },
         {
           "n": 1,
+          "title": "Part One, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+          "duration": 1075,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+        },
+        {
+          "n": 2,
           "title": "Part One, Chapter II",
-          "src": "/audio/crime-and-punishment-band-2-v1.mp3",
-          "duration": 84
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+          "duration": 2428,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+        },
+        {
+          "n": 3,
+          "title": "Part One, Chapter III",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+          "duration": 1741,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+        },
+        {
+          "n": 4,
+          "title": "Part One, Chapter IV",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+          "duration": 1660,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+        },
+        {
+          "n": 5,
+          "title": "Part One, Chapter V",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+          "duration": 1356,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+        },
+        {
+          "n": 6,
+          "title": "Part One, Chapter VI",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+          "duration": 1624,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+        },
+        {
+          "n": 7,
+          "title": "Part One, Chapter VII",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+          "duration": 1541,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+        },
+        {
+          "n": 8,
+          "title": "Part Two, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+          "duration": 2214,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+        },
+        {
+          "n": 9,
+          "title": "Part Two, Chapter II",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+          "duration": 1364,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+        },
+        {
+          "n": 10,
+          "title": "Part Two, Chapter III",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+          "duration": 1745,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+        },
+        {
+          "n": 11,
+          "title": "Part Two, Chapter IV",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+          "duration": 1325,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+        },
+        {
+          "n": 12,
+          "title": "Part Two, Chapter V",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+          "duration": 1427,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+        },
+        {
+          "n": 13,
+          "title": "Part Two, Chapter VI",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
+          "duration": 2473,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.json"
+        },
+        {
+          "n": 14,
+          "title": "Part Two, Chapter VII",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
+          "duration": 2342,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.json"
+        },
+        {
+          "n": 15,
+          "title": "Part Three, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
+          "duration": 1782,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.json"
+        },
+        {
+          "n": 16,
+          "title": "Part Three, Chapter II",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
+          "duration": 1518,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.json"
+        },
+        {
+          "n": 17,
+          "title": "Part Three, Chapter III",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
+          "duration": 1736,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.json"
+        },
+        {
+          "n": 18,
+          "title": "Part Three, Chapter IV",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
+          "duration": 1462,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.json"
+        },
+        {
+          "n": 19,
+          "title": "Part Three, Chapter V",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
+          "duration": 2424,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.json"
+        },
+        {
+          "n": 20,
+          "title": "Part Three, Chapter VI",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
+          "duration": 1427,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.json"
+        },
+        {
+          "n": 21,
+          "title": "Part Four, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
+          "duration": 1628,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.json"
+        },
+        {
+          "n": 22,
+          "title": "Part Four, Chapter II",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
+          "duration": 1579,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.json"
+        },
+        {
+          "n": 23,
+          "title": "Part Four, Chapter III",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
+          "duration": 1028,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.json"
+        },
+        {
+          "n": 24,
+          "title": "Part Four, Chapter IV",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
+          "duration": 2028,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.json"
+        },
+        {
+          "n": 25,
+          "title": "Part Four, Chapter V",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
+          "duration": 2358,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.json"
+        },
+        {
+          "n": 26,
+          "title": "Part Four, Chapter VI",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
+          "duration": 918,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.json"
+        },
+        {
+          "n": 27,
+          "title": "Part Five, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-28.mp3",
+          "duration": 2136,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-28.json"
+        },
+        {
+          "n": 28,
+          "title": "Part Five, Chapter II",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-29.mp3",
+          "duration": 1728,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-29.json"
+        },
+        {
+          "n": 29,
+          "title": "Part Five, Chapter III",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-30.mp3",
+          "duration": 1930,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-30.json"
+        },
+        {
+          "n": 30,
+          "title": "Part Five, Chapter IV",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-31.mp3",
+          "duration": 2139,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-31.json"
+        },
+        {
+          "n": 31,
+          "title": "Part Five, Chapter V",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-32.mp3",
+          "duration": 1746,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-32.json"
+        },
+        {
+          "n": 32,
+          "title": "Part Six, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-33.mp3",
+          "duration": 1277,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-33.json"
+        },
+        {
+          "n": 33,
+          "title": "Part Six, Chapter II",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-34.mp3",
+          "duration": 1829,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-34.json"
+        },
+        {
+          "n": 34,
+          "title": "Part Six, Chapter III",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-35.mp3",
+          "duration": 1255,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-35.json"
+        },
+        {
+          "n": 35,
+          "title": "Part Six, Chapter IV",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-36.mp3",
+          "duration": 1467,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-36.json"
+        },
+        {
+          "n": 36,
+          "title": "Part Six, Chapter V",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-37.mp3",
+          "duration": 1830,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-37.json"
+        },
+        {
+          "n": 37,
+          "title": "Part Six, Chapter VI",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-38.mp3",
+          "duration": 1780,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-38.json"
+        },
+        {
+          "n": 38,
+          "title": "Part Six, Chapter VII",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-39.mp3",
+          "duration": 1172,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-39.json"
+        },
+        {
+          "n": 39,
+          "title": "Part Six, Chapter VIII",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-40.mp3",
+          "duration": 1315,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-40.json"
+        },
+        {
+          "n": 40,
+          "title": "Epilogue, Chapter I",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-41.mp3",
+          "duration": 1020,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-41.json"
+        },
+        {
+          "n": 41,
+          "title": "Epilogue, Chapter II",
+          "src": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-42.mp3",
+          "duration": 1078,
+          "galley": "audio/crime-and-punishment/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-42.json"
         }
       ]
     },
@@ -422,20 +1118,921 @@
       "slug": "meditations",
       "title": "Meditations",
       "author": "Marcus Aurelius",
-      "voice": "specimen recording — the narration is being read now",
-      "seconds": 168,
+      "voice": "Read by Ambrose Reed.",
+      "hasText": true,
+      "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+      "voices": [
+        {
+          "id": "en-GB-Ollie:DragonHDLatestNeural",
+          "name": "Ambrose Reed",
+          "note": "Unhurried, and a little dry. Reads a joke as though he has not noticed it.",
+          "hue": "#7E2D1F"
+        },
+        {
+          "id": "en-GB-Sonia:DragonHDLatestNeural",
+          "name": "Sylvia Wren",
+          "note": "Clear and close. Keeps the sentence's shape all the way to the full stop.",
+          "hue": "#9B7A4D"
+        }
+      ],
+      "pressings": {
+        "en-GB-Ollie:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+          "voiceLabel": "Ambrose Reed",
+          "seconds": 22618,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "Introduction",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 1850,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "The First Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 1492,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "The Second Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 812,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "The Third Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 1165,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "The Fourth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 1970,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "The Fifth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 1957,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "The Sixth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 1996,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "The Seventh Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 2211,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "The Eighth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 2129,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "The Ninth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 1892,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "The Tenth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 2199,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "The Eleventh Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 1641,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "The Twelfth Book",
+              "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 1304,
+              "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+            }
+          ]
+        },
+        "en-GB-Sonia:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Sonia:DragonHDLatestNeural",
+          "voiceLabel": "Sylvia Wren",
+          "seconds": 21747,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "Introduction",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 1778,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "The First Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 1471,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "The Second Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 795,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "The Third Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 1138,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "The Fourth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 1905,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "The Fifth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 1888,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "The Sixth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 1884,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "The Seventh Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 2112,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "The Eighth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 2027,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "The Ninth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 1814,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "The Tenth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 2112,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "The Eleventh Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 1569,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "The Twelfth Book",
+              "src": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 1254,
+              "galley": "audio/meditations/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.json"
+            }
+          ]
+        }
+      },
+      "seconds": 22618,
       "chapters": [
         {
           "n": 0,
-          "title": "Book Two",
-          "src": "/audio/meditations-band-1-v1.mp3",
-          "duration": 88
+          "title": "Introduction",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+          "duration": 1850,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
         },
         {
           "n": 1,
-          "title": "Book Three",
-          "src": "/audio/meditations-band-2-v1.mp3",
-          "duration": 80
+          "title": "The First Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+          "duration": 1492,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+        },
+        {
+          "n": 2,
+          "title": "The Second Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+          "duration": 812,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+        },
+        {
+          "n": 3,
+          "title": "The Third Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+          "duration": 1165,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+        },
+        {
+          "n": 4,
+          "title": "The Fourth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+          "duration": 1970,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+        },
+        {
+          "n": 5,
+          "title": "The Fifth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+          "duration": 1957,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+        },
+        {
+          "n": 6,
+          "title": "The Sixth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+          "duration": 1996,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+        },
+        {
+          "n": 7,
+          "title": "The Seventh Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+          "duration": 2211,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+        },
+        {
+          "n": 8,
+          "title": "The Eighth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+          "duration": 2129,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+        },
+        {
+          "n": 9,
+          "title": "The Ninth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+          "duration": 1892,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+        },
+        {
+          "n": 10,
+          "title": "The Tenth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+          "duration": 2199,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+        },
+        {
+          "n": 11,
+          "title": "The Eleventh Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+          "duration": 1641,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+        },
+        {
+          "n": 12,
+          "title": "The Twelfth Book",
+          "src": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+          "duration": 1304,
+          "galley": "audio/meditations/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+        }
+      ]
+    },
+    "the-little-prince": {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Antoine de Saint-Exupéry",
+      "voice": "Read by Ambrose Reed.",
+      "hasText": true,
+      "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+      "voices": [
+        {
+          "id": "en-GB-Ollie:DragonHDLatestNeural",
+          "name": "Ambrose Reed",
+          "note": "Unhurried, and a little dry. Reads a joke as though he has not noticed it.",
+          "hue": "#7E2D1F"
+        },
+        {
+          "id": "en-GB-Sonia:DragonHDLatestNeural",
+          "name": "Sylvia Wren",
+          "note": "Clear and close. Keeps the sentence's shape all the way to the full stop.",
+          "hue": "#9B7A4D"
+        }
+      ],
+      "pressings": {
+        "en-GB-Ollie:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Ollie:DragonHDLatestNeural",
+          "voiceLabel": "Ambrose Reed",
+          "seconds": 4757,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "I",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 173,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "II",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 208,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "III",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 129,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "IV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 234,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "V",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 219,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "VI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 65,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "VII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 231,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "VIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 214,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "IX",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 136,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "X",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 377,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "XI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 98,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "XII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 49,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "XIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 257,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+            },
+            {
+              "n": 13,
+              "title": "XIV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
+              "duration": 213,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.json"
+            },
+            {
+              "n": 14,
+              "title": "XV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
+              "duration": 251,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.json"
+            },
+            {
+              "n": 15,
+              "title": "XVI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
+              "duration": 81,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.json"
+            },
+            {
+              "n": 16,
+              "title": "XVII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
+              "duration": 163,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.json"
+            },
+            {
+              "n": 17,
+              "title": "XVIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
+              "duration": 33,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.json"
+            },
+            {
+              "n": 18,
+              "title": "XIX",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
+              "duration": 55,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.json"
+            },
+            {
+              "n": 19,
+              "title": "XX",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
+              "duration": 70,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.json"
+            },
+            {
+              "n": 20,
+              "title": "XXI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
+              "duration": 392,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.json"
+            },
+            {
+              "n": 21,
+              "title": "XXII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
+              "duration": 76,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.json"
+            },
+            {
+              "n": 22,
+              "title": "XXIII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
+              "duration": 34,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.json"
+            },
+            {
+              "n": 23,
+              "title": "XXIV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
+              "duration": 206,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.json"
+            },
+            {
+              "n": 24,
+              "title": "XXV",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
+              "duration": 228,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.json"
+            },
+            {
+              "n": 25,
+              "title": "XXVI",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
+              "duration": 430,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.json"
+            },
+            {
+              "n": 26,
+              "title": "XXVII",
+              "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
+              "duration": 135,
+              "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.json"
+            }
+          ]
+        },
+        "en-GB-Sonia:DragonHDLatestNeural": {
+          "voiceId": "en-GB-Sonia:DragonHDLatestNeural",
+          "voiceLabel": "Sylvia Wren",
+          "seconds": 4634,
+          "chapters": [
+            {
+              "n": 0,
+              "title": "I",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.mp3",
+              "duration": 162,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-01.json"
+            },
+            {
+              "n": 1,
+              "title": "II",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.mp3",
+              "duration": 197,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-02.json"
+            },
+            {
+              "n": 2,
+              "title": "III",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.mp3",
+              "duration": 126,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-03.json"
+            },
+            {
+              "n": 3,
+              "title": "IV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.mp3",
+              "duration": 222,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-04.json"
+            },
+            {
+              "n": 4,
+              "title": "V",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.mp3",
+              "duration": 207,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-05.json"
+            },
+            {
+              "n": 5,
+              "title": "VI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.mp3",
+              "duration": 61,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-06.json"
+            },
+            {
+              "n": 6,
+              "title": "VII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.mp3",
+              "duration": 219,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-07.json"
+            },
+            {
+              "n": 7,
+              "title": "VIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.mp3",
+              "duration": 209,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-08.json"
+            },
+            {
+              "n": 8,
+              "title": "IX",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.mp3",
+              "duration": 132,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-09.json"
+            },
+            {
+              "n": 9,
+              "title": "X",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.mp3",
+              "duration": 373,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-10.json"
+            },
+            {
+              "n": 10,
+              "title": "XI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.mp3",
+              "duration": 95,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-11.json"
+            },
+            {
+              "n": 11,
+              "title": "XII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.mp3",
+              "duration": 51,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-12.json"
+            },
+            {
+              "n": 12,
+              "title": "XIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.mp3",
+              "duration": 250,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-13.json"
+            },
+            {
+              "n": 13,
+              "title": "XIV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-14.mp3",
+              "duration": 207,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-14.json"
+            },
+            {
+              "n": 14,
+              "title": "XV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-15.mp3",
+              "duration": 247,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-15.json"
+            },
+            {
+              "n": 15,
+              "title": "XVI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-16.mp3",
+              "duration": 81,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-16.json"
+            },
+            {
+              "n": 16,
+              "title": "XVII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-17.mp3",
+              "duration": 164,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-17.json"
+            },
+            {
+              "n": 17,
+              "title": "XVIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-18.mp3",
+              "duration": 35,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-18.json"
+            },
+            {
+              "n": 18,
+              "title": "XIX",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-19.mp3",
+              "duration": 58,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-19.json"
+            },
+            {
+              "n": 19,
+              "title": "XX",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-20.mp3",
+              "duration": 69,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-20.json"
+            },
+            {
+              "n": 20,
+              "title": "XXI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-21.mp3",
+              "duration": 395,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-21.json"
+            },
+            {
+              "n": 21,
+              "title": "XXII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-22.mp3",
+              "duration": 76,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-22.json"
+            },
+            {
+              "n": 22,
+              "title": "XXIII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-23.mp3",
+              "duration": 35,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-23.json"
+            },
+            {
+              "n": 23,
+              "title": "XXIV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-24.mp3",
+              "duration": 199,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-24.json"
+            },
+            {
+              "n": 24,
+              "title": "XXV",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-25.mp3",
+              "duration": 223,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-25.json"
+            },
+            {
+              "n": 25,
+              "title": "XXVI",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-26.mp3",
+              "duration": 411,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-26.json"
+            },
+            {
+              "n": 26,
+              "title": "XXVII",
+              "src": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-27.mp3",
+              "duration": 130,
+              "galley": "audio/the-little-prince/en/en-GB-Sonia:DragonHDLatestNeural/v1/ch-27.json"
+            }
+          ]
+        }
+      },
+      "seconds": 4757,
+      "chapters": [
+        {
+          "n": 0,
+          "title": "I",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.mp3",
+          "duration": 173,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-01.json"
+        },
+        {
+          "n": 1,
+          "title": "II",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.mp3",
+          "duration": 208,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-02.json"
+        },
+        {
+          "n": 2,
+          "title": "III",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.mp3",
+          "duration": 129,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-03.json"
+        },
+        {
+          "n": 3,
+          "title": "IV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.mp3",
+          "duration": 234,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-04.json"
+        },
+        {
+          "n": 4,
+          "title": "V",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.mp3",
+          "duration": 219,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-05.json"
+        },
+        {
+          "n": 5,
+          "title": "VI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.mp3",
+          "duration": 65,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-06.json"
+        },
+        {
+          "n": 6,
+          "title": "VII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.mp3",
+          "duration": 231,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-07.json"
+        },
+        {
+          "n": 7,
+          "title": "VIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.mp3",
+          "duration": 214,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-08.json"
+        },
+        {
+          "n": 8,
+          "title": "IX",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.mp3",
+          "duration": 136,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-09.json"
+        },
+        {
+          "n": 9,
+          "title": "X",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.mp3",
+          "duration": 377,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-10.json"
+        },
+        {
+          "n": 10,
+          "title": "XI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.mp3",
+          "duration": 98,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-11.json"
+        },
+        {
+          "n": 11,
+          "title": "XII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.mp3",
+          "duration": 49,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-12.json"
+        },
+        {
+          "n": 12,
+          "title": "XIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.mp3",
+          "duration": 257,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-13.json"
+        },
+        {
+          "n": 13,
+          "title": "XIV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.mp3",
+          "duration": 213,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-14.json"
+        },
+        {
+          "n": 14,
+          "title": "XV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.mp3",
+          "duration": 251,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-15.json"
+        },
+        {
+          "n": 15,
+          "title": "XVI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.mp3",
+          "duration": 81,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-16.json"
+        },
+        {
+          "n": 16,
+          "title": "XVII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.mp3",
+          "duration": 163,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-17.json"
+        },
+        {
+          "n": 17,
+          "title": "XVIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.mp3",
+          "duration": 33,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-18.json"
+        },
+        {
+          "n": 18,
+          "title": "XIX",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.mp3",
+          "duration": 55,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-19.json"
+        },
+        {
+          "n": 19,
+          "title": "XX",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.mp3",
+          "duration": 70,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-20.json"
+        },
+        {
+          "n": 20,
+          "title": "XXI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.mp3",
+          "duration": 392,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-21.json"
+        },
+        {
+          "n": 21,
+          "title": "XXII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.mp3",
+          "duration": 76,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-22.json"
+        },
+        {
+          "n": 22,
+          "title": "XXIII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.mp3",
+          "duration": 34,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-23.json"
+        },
+        {
+          "n": 23,
+          "title": "XXIV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.mp3",
+          "duration": 206,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-24.json"
+        },
+        {
+          "n": 24,
+          "title": "XXV",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.mp3",
+          "duration": 228,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-25.json"
+        },
+        {
+          "n": 25,
+          "title": "XXVI",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.mp3",
+          "duration": 430,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-26.json"
+        },
+        {
+          "n": 26,
+          "title": "XXVII",
+          "src": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.mp3",
+          "duration": 135,
+          "galley": "audio/the-little-prince/en/en-GB-Ollie:DragonHDLatestNeural/v1/ch-27.json"
         }
       ]
     }

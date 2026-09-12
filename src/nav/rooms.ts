@@ -1,13 +1,17 @@
-// The six rooms — PORTAL_NAV, ported verbatim from app/data/portalShared.ts.
+// The six rooms — PORTAL_NAV, ported verbatim from app/data/portalNav.ts.
 //
 // COPIED, NOT REINVENTED. If the portal gains a room it lands on the web first
 // and is transcribed here; the two clients must never disagree about what the
-// account contains. Labels, numerals, blurbs and the line icons are all the
-// site's own — the icons below are the exact `d` attributes from ROOM_ICON, so
-// the bottom bar draws the same glyphs the web bottom bar does.
+// account contains. Labels, numerals and blurbs are the site's own, and the
+// tab bar's five slots (SLOTS) and the + sheet's two foot rows (SHEET_KEYS)
+// are appShell.ts's own lists — so a room added to PORTAL_NAV without a tab or
+// a sheet row fails here at import, the way it fails the site's build.
 //
 // `route` is the expo-router path; `web` is the page it corresponds to, kept
-// here so the mapping is checkable at a glance.
+// here so the mapping is checkable at a glance. Icons are appShell.ts's ICON
+// keys, drawn by src/ui/Icon.tsx.
+
+import type { IconName } from "../ui/icons";
 
 export type RoomKey =
   | "overview"
@@ -17,106 +21,73 @@ export type RoomKey =
   | "hermes"
   | "profile";
 
-export type IconPart =
-  | { kind: "path"; d: string; width?: number }
-  | { kind: "circle"; cx: number; cy: number; r: number; width?: number }
-  | { kind: "rect"; x: number; y: number; w: number; h: number; rx: number; width?: number };
-
 export type Room = {
   key: RoomKey;
-  /** Full label — sidebar, headers, the Issue Desk. */
+  /** PORTAL_NAV.label — the tab bar, the top bar's title, the home rows. */
   label: string;
-  /** The bottom bar's short form. A tab label has ~64px to live in. */
-  short: string;
+  /** PORTAL_NAV.numeral — the room's I–V mark ("" for the hub). */
   numeral: string;
+  /** PORTAL_NAV.blurb — the room's one-line essence. */
   blurb: string;
+  /** PORTAL_NAV.ready — a tab pointing at an unbuilt route is impossible. */
+  ready: boolean;
   route: string;
   web: string;
-  icon: IconPart[];
+  icon: IconName;
 };
 
-/** All icons are drawn on a 24×24 grid, stroked in currentColor, never filled. */
-export const ICON_VIEWBOX = 24;
-
+/** PORTAL_NAV, in order. */
 export const ROOMS: Room[] = [
-  {
-    key: "overview",
-    label: "Reading Room",
-    short: "Room",
-    numeral: "§",
-    blurb: "everything the card opens, in one place",
-    route: "/",
-    web: "/account",
-    icon: [{ kind: "path", d: "M4 11.5 12 5l8 6.5M6 10.2V19h12v-8.8" }],
-  },
-  {
-    key: "orders",
-    label: "Orders",
-    short: "Orders",
-    numeral: "I",
-    blurb: "the bench, day by day — tracked honestly",
-    route: "/orders",
-    web: "/account/orders",
-    icon: [
-      { kind: "path", d: "M6 3.5h8l4 4V20.5H6zM14 3.5v4h4M9 12h6M9 15.5h6" },
-    ],
-  },
-  {
-    key: "library",
-    label: "Your Library",
-    short: "Library",
-    numeral: "II",
-    blurb: "every copy you own, and the whole catalogue behind it",
-    route: "/library",
-    web: "/account/library",
-    icon: [
-      {
-        kind: "path",
-        d: "M5 4.8h3.1v14.4H5zM10 4.8h3.1v14.4H10zM15.4 5.4l3 .5-2.4 13.6-3-.5z",
-        width: 1.5,
-      },
-    ],
-  },
-  {
-    key: "listening",
-    label: "The Listening Room",
-    short: "Listen",
-    numeral: "III",
-    blurb: "whole books read aloud by the house — the needle holds your place",
-    route: "/listening",
-    web: "/account/listening",
-    icon: [
-      { kind: "circle", cx: 12, cy: 12, r: 8 },
-      { kind: "circle", cx: 12, cy: 12, r: 1.7 },
-    ],
-  },
-  {
-    key: "hermes",
-    label: "Hermes Desk",
-    short: "Hermes",
-    numeral: "IV",
-    blurb: "any page, explained in your language",
-    route: "/hermes",
-    web: "/account/hermes",
-    icon: [
-      { kind: "rect", x: 3.5, y: 5.5, w: 17, h: 13, rx: 1.5 },
-      { kind: "path", d: "m4.6 7 7.4 5.4L19.4 7" },
-    ],
-  },
-  {
-    key: "profile",
-    label: "Profile",
-    short: "Profile",
-    numeral: "V",
-    blurb: "name, parcels, letters — the dull drawer, kept tidy",
-    route: "/profile",
-    web: "/account/profile",
-    icon: [
-      { kind: "circle", cx: 12, cy: 8, r: 3.4 },
-      { kind: "path", d: "M5.5 19.6c.4-3.7 3.1-5.7 6.5-5.7s6.1 2 6.5 5.7" },
-    ],
-  },
+  { key: "overview", label: "Home", numeral: "", blurb: "What you are reading, and what to read next", ready: true, route: "/", web: "/account", icon: "home" },
+  { key: "orders", label: "Orders", numeral: "I.", blurb: "Where your books are, and your receipts", ready: true, route: "/orders", web: "/account/orders", icon: "orders" },
+  { key: "library", label: "Library", numeral: "II.", blurb: "The books you own", ready: true, route: "/library", web: "/account/library", icon: "library" },
+  { key: "listening", label: "Audiobooks", numeral: "III.", blurb: "Listen, and pick up where you stopped", ready: true, route: "/listening", web: "/account/listening", icon: "listening" },
+  { key: "hermes", label: "Ask AI", numeral: "IV.", blurb: "Ask about a book or an order", ready: true, route: "/hermes", web: "/account/hermes", icon: "hermes" },
+  { key: "profile", label: "Profile", numeral: "V.", blurb: "Your details, settings and help", ready: true, route: "/profile", web: "/account/profile", icon: "profile" },
 ];
 
-export const roomByKey = (key: RoomKey): Room =>
-  ROOMS.find((r) => r.key === key) ?? ROOMS[0];
+/** PORTAL_ROOMS — the five that render as rows on the home screen. */
+export const PORTAL_ROOMS: Room[] = ROOMS.filter((r) => r.numeral !== "");
+
+export const roomByKey = (key: RoomKey): Room => {
+  const room = ROOMS.find((r) => r.key === key);
+  if (!room) throw new Error(`rooms: no PORTAL_NAV room "${key}"`);
+  return room;
+};
+
+/**
+ * The tab bar — appShell.ts's SLOTS. Five, not six: Home, Library, the centre
+ * disc, Audiobooks, Profile. `short` is the label the bar shows.
+ */
+export type Slot = { key: RoomKey; short: string } | { action: true };
+
+export const SLOTS: Slot[] = [
+  { key: "overview", short: "Home" },
+  { key: "library", short: "Library" },
+  { action: true },
+  { key: "listening", short: "Audiobooks" },
+  { key: "profile", short: "Profile" },
+];
+
+/** The rooms the tab bar carries, in tab order. */
+export const TAB_KEYS: RoomKey[] = SLOTS.flatMap((s) => ("key" in s ? [s.key] : []));
+
+/** The two rooms with no tab, at the foot of the + sheet — appShell.ts's SHEET_KEYS. */
+export const SHEET_KEYS: RoomKey[] = ["orders", "hermes"];
+
+/** Route file name inside app/(tabs) → room key. `index` is the hub. */
+export const roomKeyForRoute = (routeName: string): RoomKey | null => {
+  const key = routeName === "index" ? "overview" : routeName;
+  return ROOMS.some((r) => r.key === key) ? (key as RoomKey) : null;
+};
+
+/* --- coverage, as the site asserts it: every ready room is a tab or a sheet
+   row. The two-nav shell this replaced shipped Orders and Hermes unreachable
+   on a 360px screen for months. --- */
+{
+  const reachable = new Set<RoomKey>([...TAB_KEYS, ...SHEET_KEYS]);
+  const orphans = ROOMS.filter((r) => r.ready && !reachable.has(r.key)).map((r) => r.key);
+  if (orphans.length) {
+    throw new Error(`rooms: PORTAL_NAV rooms with no tab and no sheet row: ${orphans.join(", ")}`);
+  }
+}

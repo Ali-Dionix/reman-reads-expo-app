@@ -4,11 +4,11 @@
     "placed": "17 July 2026",
     "amount": "Rs 6,100",
     "done": 2,
-    "statusLine": "On the press — day two of seven",
+    "statusLine": "Shipped, at your door tomorrow",
     "items": [
       {
         "title": "Meditations",
-        "detail": "Marcus Aurelius · Clothbound — the heirloom",
+        "detail": "Marcus Aurelius · Clothbound, premium binding",
         "cover": {
           "title": "Meditations",
           "spine": "#6B5218",
@@ -28,23 +28,23 @@
     "steps": [
       {
         "label": "Order placed",
-        "note": "Two titles, one parcel. The ledger opened a line."
+        "note": "Two titles, one parcel. Your order is recorded."
       },
       {
         "label": "Paid",
-        "note": "Paid online — the receipt is in your inbox."
+        "note": "Paid online. The receipt is in your inbox."
       },
       {
-        "label": "On the press",
-        "note": "Typeset by us, printed on the special-editions bench."
-      },
-      {
-        "label": "At the bindery",
-        "note": "Sewn, glued, pressed — cloth over board."
+        "label": "Packed",
+        "note": "Both titles off the shelf, wrapped in board."
       },
       {
         "label": "Shipped",
-        "note": "Wrapped in board, shipped tracked."
+        "note": "Handed to the courier, tracked."
+      },
+      {
+        "label": "Delivered",
+        "note": "At your door."
       }
     ]
   },
@@ -53,7 +53,7 @@
     "placed": "14 July 2026",
     "amount": "Rs 1,600",
     "done": 3,
-    "statusLine": "At the bindery — day four of seven",
+    "statusLine": "Shipped, out for delivery",
     "items": [
       {
         "title": "Poor Folk",
@@ -61,30 +61,30 @@
         "cover": {
           "title": "Poor Folk",
           "spine": "#8A4B32",
-          "art": "/assets/covers/dostoevsky/poor-folk-with-type-lib.webp"
+          "art": "/assets/covers/dostoevsky/poor-folk-with-type-v2-lib.webp"
         }
       }
     ],
     "steps": [
       {
         "label": "Order placed",
-        "note": "One title. The ledger opened a line."
+        "note": "One title. Your order is recorded."
       },
       {
         "label": "Paid",
-        "note": "Paid online — the receipt is in your inbox."
+        "note": "Paid online. The receipt is in your inbox."
       },
       {
-        "label": "On the press",
-        "note": "Printed on the special-editions bench."
-      },
-      {
-        "label": "At the bindery",
-        "note": "Cloth over board, the case going on now."
+        "label": "Packed",
+        "note": "Off the shelf and wrapped in board."
       },
       {
         "label": "Shipped",
-        "note": "Wrapped in board, shipped tracked."
+        "note": "With the courier now, tracked."
+      },
+      {
+        "label": "Delivered",
+        "note": "At your door."
       }
     ]
   },
@@ -93,35 +93,35 @@
     "placed": "12 May 2026",
     "amount": "Rs 2,900",
     "done": 5,
-    "statusLine": "Delivered — 19 May",
+    "statusLine": "Delivered on 19 May",
     "tracking": "RR-POST-0127-4415",
     "items": [
       {
         "title": "Crime and Punishment",
-        "detail": "Fyodor Dostoevsky · Hardcover + digital",
+        "detail": "Fyodor Dostoevsky · Hardcover",
         "cover": {
           "title": "Crime and Punishment",
           "spine": "#5E2A1E",
-          "art": "/assets/covers/dostoevsky/crime-and-punishment-art-lib.webp"
+          "art": "/assets/covers/dostoevsky/crime-and-punishment-with-type-lib.webp"
         }
       }
     ],
     "steps": [
       {
         "label": "Order placed",
-        "note": "Hardcover and the digital edition, together."
+        "note": "We have your order and the book comes off the shelf."
       },
       {
         "label": "Paid",
-        "note": "Paid online; the digital edition unlocked in the app immediately."
+        "note": "Paid online, and the order moves straight to packing."
       },
       {
-        "label": "On the press",
-        "note": "Printed on the special-editions bench."
+        "label": "Packed",
+        "note": "Off the shelf, wrapped in board."
       },
       {
-        "label": "At the bindery",
-        "note": "Cased, pressed, checked twice."
+        "label": "Shipped",
+        "note": "Handed to the courier, tracked."
       },
       {
         "label": "Delivered",

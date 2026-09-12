@@ -1,42 +1,22 @@
-// The bottom bar's line glyphs.
-//
-// Draws the icon parts declared in src/nav/rooms.ts, which are the exact `d`
-// attributes from the site's ROOM_ICON table. Stroked in the passed colour,
-// never filled — these are drawn lines, not symbols.
+// A room's line glyph — the icon appShell.ts's SLOTS name for it, drawn by
+// <Icon>. Kept as its own name because the tab bar and the home rows both
+// ask for "the icon of this room" rather than for a key.
 
 import type { ColorValue } from "react-native";
-import Svg, { Circle, Path, Rect } from "react-native-svg";
 
-import { ICON_VIEWBOX, type IconPart } from "../nav/rooms";
+import { roomByKey, type RoomKey } from "../nav/rooms";
+import { Icon } from "./Icon";
 
 export function RoomIcon({
-  parts,
+  room,
   color,
-  size = 24,
+  size = 22,
 }: {
-  parts: IconPart[];
+  room: RoomKey;
   /** ColorValue, not string — react-navigation hands the tab bar an opaque
    *  platform colour, which never survives a String() round-trip. */
   color: ColorValue;
   size?: number;
 }) {
-  return (
-    <Svg width={size} height={size} viewBox={`0 0 ${ICON_VIEWBOX} ${ICON_VIEWBOX}`}>
-      {parts.map((p, i) => {
-        const common = {
-          stroke: color,
-          strokeWidth: p.width ?? 1.6,
-          fill: "none" as const,
-          strokeLinecap: "round" as const,
-          strokeLinejoin: "round" as const,
-        };
-        if (p.kind === "path") return <Path key={i} d={p.d} {...common} />;
-        if (p.kind === "circle")
-          return <Circle key={i} cx={p.cx} cy={p.cy} r={p.r} {...common} />;
-        return (
-          <Rect key={i} x={p.x} y={p.y} width={p.w} height={p.h} rx={p.rx} {...common} />
-        );
-      })}
-    </Svg>
-  );
+  return <Icon name={roomByKey(room).icon} color={color} size={size} />;
 }

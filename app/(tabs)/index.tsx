@@ -1,78 +1,202 @@
-// /account — the Reading Room.
+// /account — Home. A transcription of app/data/accountPage.ts at its phone
+// branch, in the builder's own order:
 //
-// A transcription of app/data/accountPage.ts, in the order that file's mobile
-// media queries put things on a phone:
+//   .rr-ov-hello                 the greeting, and the member number
+//   .rr-ov-promo                 the slab — the subscription, closable
+//   [data-rr-shf="side-table"]   Continue listening.
+//   .rr-ov-add                   Add your own book. — the five-cell grid
+//   .rr-ov-files                 Your files. — HIDDEN for a reader with nothing,
+//                                and the app has no imports yet, so absent
+//   importSheetHtml()            the import dialog — its LOCKED panel is built
+//                                (GateSheet); the sources themselves are not
 //
-//   header            .rr-pt-head
-//   the reader slab   .rr-ov-slab — `order:-1` at ≤920px, so it comes FIRST
-//   the room index    .rr-ov-index
-//   side table        shelfRowHtml({fill:true}) — absent until it has content
-//   the slip          .rr-ov-slipwrap
-//   the marginalia    .rr-ov-marg
+// FOUR BANDS, IN THE ORDER A READER USES THEM: what the library is, what you
+// are part-way through, how to put something into it, and what you brought
+// in. Nothing above the first band except one line of greeting.
 //
-// Everything the web fills client-side (name, card no., the pulled shelf, the
-// marginalia lines) arrives here as data. Nothing is invented: where the web
-// shows an empty state, so does this.
+// What the web fills client-side (AccountEnhancer, ImportsEnhancer) arrives
+// here as data or state: the name from the session, the number from the
+// readers row, the shelf from the needle positions the reader has left behind
+// (persisted, as the web's state.listening is) and the recordings that play
+// today, the slab's shut state from storage under the site's own key. Nothing
+// is invented: where the web shows an empty state, so does this.
 
-import { router } from "expo-router";
-import { Text, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 
-import { useSession } from "../../src/lib/session";
-import { Doors } from "../../src/portal/Doors";
-import { LibrarianSlip, type Rec } from "../../src/portal/LibrarianSlip";
-import { Marginalia } from "../../src/portal/Marginalia";
-import { PortalPage } from "../../src/portal/PortalPage";
-import { ReaderSlab } from "../../src/portal/ReaderSlab";
+import shelf from "../../src/data/listeningShelf.json";
+import { heardSeconds, recordingFor, resumable, useDeck, type Spots } from "../../src/lib/audioStore";
+import { useCardNo, useSession } from "../../src/lib/session";
+import { cache } from "../../src/lib/storage";
+import { openToBuy } from "../../src/lib/web";
+import { AddBand, type AddKey } from "../../src/portal/home/AddBand";
+import { ContinueShelf, type ShelfCard } from "../../src/portal/home/ContinueShelf";
+import { fmtDur } from "../../src/portal/home/fmt";
+import { GateSheet, gateHref } from "../../src/portal/GateSheet";
+import { Hello } from "../../src/portal/home/Hello";
+import { Promo } from "../../src/portal/home/Promo";
+import { PortalPage, Wrap } from "../../src/portal/PortalPage";
 import { useTheme } from "../../src/theme/ThemeProvider";
-import { FONTS } from "../../src/theme/type";
 
-export default function ReadingRoom() {
-  const { user } = useSession();
+/** AccountEnhancer's DISMISS_KEY — the cards the reader has shut, as a list. */
+const DISMISS_KEY = "rr-ov-hidden";
+
+async function readDismissed(): Promise<string[]> {
+  try {
+    const raw = await cache.get(DISMISS_KEY);
+    const list: unknown = raw ? JSON.parse(raw) : [];
+    return Array.isArray(list) ? list.filter((k): k is string => typeof k === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+/** ImportsEnhancer's SOURCES — the keys a ?add= may name; anything else is
+ *  somebody typing in the address bar and opens the default. */
+const ADD_KEYS: AddKey[] = ["files", "scan", "text", "link", "voice"];
+const asAddKey = (k: string): AddKey => (ADD_KEYS as string[]).includes(k) ? (k as AddKey) : "files";
+
+/**
+ * The shelf when nothing is resting: the recordings that play today, at their
+ * full runtime, in the order the site's AUDIO_BOOKS keeps them
+ * (AccountEnhancer's `startable`).
+ */
+const startable: ShelfCard[] = shelf.pressings.map((p) => ({
+  slug: p.slug,
+  title: p.title,
+  art: p.art,
+  spine: p.spine,
+  meta: fmtDur(recordingFor(p.slug)?.seconds ?? 0),
+}));
+
+export default function Home() {
+  const { user, guest } = useSession();
+  const router = useRouter();
+  const { now, position, begin, spots } = useDeck();
+  const { add } = useLocalSearchParams<{ add?: string }>();
   const { colors } = useTheme();
 
-  // Phase 2 fills these from the reader's own rows. Until then they are empty,
-  // which renders the same empty states the web portal renders.
-  const recs: Rec[] = [];
+  // The slab is BAKED VISIBLE, as the web bakes it: the common reader (who
+  // has not shut it) sees a stable screen from the first frame, and the one
+  // who did shut it sees the same one-frame pull-away the web gives them
+  // when AccountEnhancer reads DISMISS_KEY on hydrate.
+  const [hidden, setHidden] = useState<string[]>([]);
+  useEffect(() => {
+    let alive = true;
+    readDismissed().then((list) => {
+      if (alive && list.length) setHidden(list);
+    });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const shut = (key: string) => {
+    const next = [...hidden, key];
+    setHidden(next);
+    void cache.set(DISMISS_KEY, JSON.stringify(next));
+  };
+
+  /**
+   * THE GATE. Every cell is behind the subscription (IMPORTS_NEED_SUBSCRIPTION),
+   * so a tap opens the locked panel IN PLACE — importUpgradeHtml, as the web
+   * does — rather than leaving the app. The panel's Continue is the one thing
+   * that goes out, to the site's own gate-login href with the intent kept
+   * (see GateSheet's header); the sources themselves are TODO(imports).
+   */
+  const [gate, setGate] = useState<AddKey | null>(null);
+  const openImport = useCallback((key: AddKey | string) => {
+    setGate(asAddKey(String(key)));
+  }, []);
+
+  // A row on the + sheet routes here carrying ?add=<key>, as every other
+  // room's link does on the web; the enhancer opens the panel on arrival.
+  // Clearing the param is the only re-entry guard: the effect is keyed on
+  // `add`, so a spent param cannot re-fire it, and the next tap on the sheet
+  // (which sets it again) is answered like the first.
+  useEffect(() => {
+    if (!add) return;
+    openImport(add);
+    router.setParams({ add: undefined });
+  }, [add, router, openImport]);
+
+  /** A card's tap is audioStore.beginBook — the deck's `begin`: playback
+   *  starts IN PLACE (the reader stays here and the dock rises from the tab
+   *  bar), a recording already on the platter resumes where it rests, one
+   *  that is not is re-cued at its saved band and second. */
+  const open = (slug: string) => {
+    begin(slug);
+  };
+
+  const name = (user?.name ?? "").trim() || "Reader";
+  const cardNo = useCardNo();
+
+  // AccountEnhancer's `resumable` over the persisted spots, with the one on
+  // the platter overlaid by the live needle (the recorder writes it every
+  // few seconds, but the card should not wait for the tick). A recording
+  // counts as resting only once something has actually been heard — whole
+  // bands before the needle plus the seconds into this one — never a cover
+  // tapped and left at 0/0.
+  const live: Spots = { ...spots };
+  if (now && recordingFor(now.slug)) {
+    const prev = live[now.slug];
+    live[now.slug] = {
+      chapter: now.band,
+      seconds: Math.max(0, position),
+      speed: prev?.speed ?? 1,
+      at: Date.now(),
+      ...(prev?.listenedS != null ? { listenedS: prev.listenedS } : {}),
+    };
+  }
+  const sideTable: ShelfCard[] = resumable(live)
+    .slice(0, 6)
+    .map(({ slug, spot, book }) => {
+      const total = book.seconds;
+      const heard = Math.min(heardSeconds(book, spot), total);
+      const p = shelf.pressings.find((x) => x.slug === slug);
+      return {
+        slug,
+        title: p?.title ?? book.title,
+        art: p?.art ?? "",
+        spine: p?.spine ?? colors.desk,
+        meta: `${fmtDur(Math.max(0, total - heard))} left`,
+        progress: total > 0 ? heard / total : 0,
+      };
+    });
+  const resuming = sideTable.length > 0;
+  const cards = resuming ? sideTable : startable;
+  const sub = resuming
+    ? "each one resumes where you stopped."
+    : `${startable.length} recording${startable.length === 1 ? "" : "s"}, free to play.`;
 
   return (
-    <PortalPage
-      kicker="Roman Reads · Your Account"
-      title="The Reading Room."
-      sub={
-        <>
-          Welcome back,{" "}
-          <Text style={{ fontFamily: FONTS.sansBold, color: colors.ink }}>
-            {user?.name || "reader"}
-          </Text>
-          . Five rooms, one record — everything your card opens, kept close.
-        </>
-      }
-    >
-      {/* .rr-ov-stage — one column on a phone, slab first */}
-      <View style={{ paddingBottom: 20, gap: 22 }}>
-        <ReaderSlab
-          name={user?.name || ""}
-          cardNo="000127"
-          onEditParticulars={() => router.push("/profile")}
-        />
-        <Doors />
-      </View>
+    <PortalPage title="Home">
+      <Wrap>
+        <Hello name={name} cardNo={cardNo} />
+        {!hidden.includes("promo") ? (
+          <Promo onTry={() => router.navigate("/listening")} onShut={() => shut("promo")} />
+        ) : null}
+        <ContinueShelf cards={cards} sub={sub} onOpen={open} />
+        <AddBand onOpen={openImport} />
+        {/* .rr-ov-files — the reader's own uploads; ships hidden and stays
+            hidden for a reader with nothing. Nothing has been brought in on
+            this side yet (TODO(imports): GET /api/imports with the reader's
+            token, then appBandHeadHtml's copy and the .rr-ov-fl-sheet cards),
+            so the band is not drawn — correct for guests and new readers. */}
+      </Wrap>
 
-      <LibrarianSlip
-        recs={recs}
-        onOpenShop={() => router.push("/library")}
-      />
-
-      <Marginalia
-        lines={[
-          {
-            key: "listening",
-            text: "the gramophone has not turned — three specimen recordings wait.",
-          },
-          { key: "shelf", text: "1 book on the shelf, 4 on the waitlist." },
-          { key: "orders", text: "a quote awaits your word — RR-0003." },
-          { key: "langs", text: "reading in English & Roman Urdu." },
-        ]}
+      {/* importSheetHtml()'s locked panel — .rr-im.is-upgrade */}
+      <GateSheet
+        open={gate !== null}
+        guest={guest}
+        onClose={() => setGate(null)}
+        onContinue={() => {
+          const key = gate ?? "files";
+          setGate(null);
+          // Money may change hands on the far side: the reader's REAL
+          // browser, never the in-app tab (src/lib/web.ts's header).
+          void openToBuy(gateHref(key));
+        }}
       />
     </PortalPage>
   );

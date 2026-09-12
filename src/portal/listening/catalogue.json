@@ -1,0 +1,220 @@
+{
+  "billboard": {
+    "slug": "crime-and-punishment",
+    "title": "Crime and Punishment",
+    "author": "Fyodor Dostoevsky",
+    "blurb": "18 hr 56 min, read end to end.",
+    "labelHue": "#171411",
+    "art": "/assets/covers/dostoevsky/crime-and-punishment-with-type-lib.webp",
+    "spine": "#5E2A1E"
+  },
+  "entries": [
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/crime-and-punishment-with-type-lib.webp",
+      "spine": "#5E2A1E",
+      "category": "classics",
+      "state": "now",
+      "meta": "18 hr 56 min"
+    },
+    {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "art": "/assets/covers/marcus-aurelius/meditations-with-type-lib.webp",
+      "spine": "#6B5218",
+      "category": "philosophy",
+      "state": "now",
+      "meta": "6 hr 17 min"
+    },
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Saint-Exupéry",
+      "art": "/assets/covers/antoine-de-saint-exupery/the-little-prince-with-type-lib.webp",
+      "spine": "#34506B",
+      "category": "fiction",
+      "state": "now",
+      "meta": "1 hr 19 min"
+    },
+    {
+      "slug": "1984",
+      "title": "1984",
+      "author": "Orwell",
+      "art": "/assets/covers/george-orwell/1984-with-type-lib.webp",
+      "spine": "#4A1717",
+      "category": "fiction",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-trial",
+      "title": "The Trial",
+      "author": "Kafka",
+      "art": "/assets/covers/franz-kafka/the-trial-with-type-lib.webp",
+      "spine": "#33302B",
+      "category": "fiction",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/white-nights-with-type-lib.webp",
+      "spine": "#536B86",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-picture-of-dorian-gray",
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "art": "/assets/covers/_google/the-picture-of-dorian-gray.webp",
+      "spine": "#59452E",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-idiot",
+      "title": "The Idiot",
+      "author": "Dostoevsky",
+      "art": "/assets/covers/dostoevsky/the-idiot-geometric-modernist-with-type-lib.webp",
+      "spine": "#425A73",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-count-of-monte-cristo",
+      "title": "The Count of Monte Cristo",
+      "author": "Alexandre Dumas",
+      "art": "/assets/covers/_google/the-count-of-monte-cristo.webp",
+      "spine": "#7A5B2B",
+      "category": "fiction",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "siddhartha-an-indian-tale",
+      "title": "Siddhartha An Indian Tale",
+      "author": "Hermann Hesse",
+      "art": "/assets/covers/_google/siddhartha-an-indian-tale.webp",
+      "spine": "#536B86",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-call-of-the-wild",
+      "title": "The Call of the Wild",
+      "author": "Jack London",
+      "art": "/assets/covers/_google/the-call-of-the-wild.webp",
+      "spine": "#8A4B32",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "dr-jekyll-and-mr-hyde",
+      "title": "Dr. Jekyll and Mr. Hyde",
+      "author": "Robert Louis Stevenson",
+      "art": "/assets/covers/_google/dr-jekyll-and-mr-hyde.webp",
+      "spine": "#5F3D62",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-prince",
+      "title": "The Prince",
+      "author": "Niccolò Machiavelli",
+      "art": "/assets/covers/_google/the-prince.webp",
+      "spine": "#65405A",
+      "category": "philosophy",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "treasure-island",
+      "title": "Treasure Island",
+      "author": "Robert Louis Stevenson",
+      "art": "/assets/covers/_google/treasure-island.webp",
+      "spine": "#53624B",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "kokoro",
+      "title": "Kokoro",
+      "author": "Lafcadio Hearn",
+      "art": "/assets/covers/_google/kokoro.webp",
+      "spine": "#4A3B27",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "the-master-and-margarita",
+      "title": "The Master and Margarita",
+      "author": "Mikhail Bulgakov",
+      "art": "/assets/covers/_google/the-master-and-margarita.webp",
+      "spine": "#7A5B2B",
+      "category": "classics",
+      "state": "soon",
+      "meta": "In production"
+    },
+    {
+      "slug": "oliver-twist",
+      "title": "Oliver Twist",
+      "author": "Charles Dickens",
+      "art": "/assets/covers/_google/oliver-twist.webp",
+      "spine": "#8A4B32",
+      "category": "fiction",
+      "state": "soon",
+      "meta": "In production"
+    }
+  ],
+  "filters": [
+    {
+      "f": "now",
+      "label": "Plays now",
+      "n": 3
+    },
+    {
+      "f": "all",
+      "label": "All",
+      "n": 17
+    },
+    {
+      "f": "soon",
+      "label": "In production",
+      "n": 14
+    },
+    {
+      "f": "classics",
+      "label": "Classics",
+      "n": 10
+    },
+    {
+      "f": "fiction",
+      "label": "Fiction",
+      "n": 5
+    },
+    {
+      "f": "philosophy",
+      "label": "Philosophy",
+      "n": 2
+    }
+  ],
+  "categories": [
+    "classics",
+    "fiction",
+    "philosophy"
+  ]
+}

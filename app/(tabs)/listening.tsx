@@ -1,122 +1,150 @@
-// /account/listening — the Listening Room floor.
+// /account/listening — Audiobooks.
 //
 // A transcription of the `shelfHtml` half of app/data/accountListeningPage.ts,
-// in that file's own order:
+// in that file's own order, at the phone branch:
 //
-//   header                  .rr-pt-head
-//   the billboard           .rr-bill — "On the platter tonight"
-//   where the needle rests  fill row — absent until a needle is down
-//   played to the end       fill row — absent until something is finished
-//   begin listening         baked from AUDIO_BOOKS
-//   because you shelved …   fill row
-//   short bands             baked, and only while every band runs under 12 min
-//   in the recording room   baked from AUDIO_SOON
-//   nothing here is final   .rr-lr-note
+//   .rr-pt-head          "Your audiobooks." and its one sentence
+//   .rr-lr-zone          padding 6px 0 34px
+//     .rr-bill           "Featured today" — the first AUDIO_BOOK, never rotated
+//     continue / again / shelved   enhancer-owned fill rows: baked hidden on the
+//                        web, stood up by real state — absent, never empty.
+//                        They stay absent here for the same reason, until the
+//                        needle's history lives on the phone (Phase 3).
+//     .rr-lr-fin         the mark-it-finished scrawl — same: absent until then
+//     .rr-lr-all         "All audiobooks." — pills, the grid, the genre rails
+//   .rr-lr-note          "Which books are fully recorded." — full bleed
 //
-// The rows marked "fill" are enhancer-owned on the web: baked hidden, stood up
-// by real state. They stay absent here for the same reason — absent, never
-// empty — and fill in Phase 3, when audio state exists on the phone.
+// NOT transcribed here: the OPENED VOLUME (`readerHtml`) — the codex reader is
+// a modal over this floor and is not in this room's golden. It is the existing
+// src/portal/reader/Reader, opened from every play seal exactly as before.
 //
-// NOT transcribed yet: the OPENED VOLUME (`readerHtml`) — the cased book with
-// turning leaves, the groove transport, the dial/lamp menus and the slips
-// drawer. That is the other ~1,100 lines of the source file and it needs the
-// player underneath it, so it lands with Phase 3 rather than as dead scenery.
+// The catalogue is baked from the site's own modules by
+// src/portal/listening/gen-catalogue.mjs; rerun it after a pressing lands.
 
-import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
 
-import shelf from "../../src/data/listeningShelf.json";
+import catalogue from "../../src/portal/listening/catalogue.json";
 import { recordingFor, useDeck } from "../../src/lib/audioStore";
+import { Billboard } from "../../src/portal/listening/Billboard";
+import { Catalogue, type AudioEntry, type AudioFilter } from "../../src/portal/listening/Catalogue";
+import { Head as RoomHead, PortalPage, Wrap } from "../../src/portal/PortalPage";
 import { Reader } from "../../src/portal/reader/Reader";
-import { Billboard } from "../../src/portal/Billboard";
-import { PortalPage } from "../../src/portal/PortalPage";
-import { ShelfRow, type ShelfCard } from "../../src/portal/ShelfRow";
-import { Transport } from "../../src/portal/Transport";
 import { useInk } from "../../src/theme/ink";
 import { useTheme } from "../../src/theme/ThemeProvider";
-import { FONTS } from "../../src/theme/type";
+import { Txt } from "../../src/ui/Type";
+
+/**
+ * PLAYABLE MEANS A RECORDING IS BEHIND IT. catalogue.json (the site's AUDIO_BOOKS)
+ * and listeningShelf.json (what this build can actually play) are baked by two
+ * generators; gen-catalogue.mjs refuses to bake them apart, and this settles
+ * it again at load so a cover can never look pressable and answer a tap with
+ * nothing. A drifted title is shown as still in production — and SAID SO,
+ * loudly: the pill counts under it are the site's own copy ("3 you can play
+ * today"), so a demotion is a copy drift the generator must be rerun to mend,
+ * not something to paper over by recounting. The numbers stay the site's.
+ */
+const DEMOTED = (catalogue.entries as AudioEntry[]).filter((e) => e.state === "now" && !recordingFor(e.slug));
+if (DEMOTED.length) {
+  console.warn(
+    `[listening] catalogue.json says these play now but listeningShelf.json has no recording for them — ` +
+      `shown as "In production"; the pill counts are now one pressing stale. Rerun gen-catalogue.mjs: ` +
+      DEMOTED.map((e) => e.slug).join(", "),
+  );
+}
+const ENTRIES = (catalogue.entries as AudioEntry[]).map((e) =>
+  DEMOTED.includes(e) ? { ...e, state: "soon" as const, meta: "In production" } : e,
+);
+const FILTERS = catalogue.filters as AudioFilter[];
+const CATEGORIES = catalogue.categories as string[];
 
 export default function Listening() {
-  const { ink, vw, mode } = useInk();
-  const { colors } = useTheme();
-  const { playBand, now } = useDeck();
+  const { ink, vw } = useInk();
+  const { bg } = useTheme();
+  const { begin } = useDeck();
   const [openSlug, setOpenSlug] = useState<string | null>(null);
 
+  // `/account/listening?book=<slug>` — the site's deep link (the orders
+  // ledger's clerk's note): the volume opens to browse, the needle stays
+  // where it is. Spent on arrival, so the next visit is the floor.
+  const router = useRouter();
+  const { book } = useLocalSearchParams<{ book?: string }>();
+  useEffect(() => {
+    if (!book) return;
+    if (recordingFor(book)) setOpenSlug(book);
+    router.setParams({ book: undefined });
+  }, [book, router]);
+
   /**
-   * `openAndBegin` — every play seal opens the room. A shelf card or the
-   * billboard's seal opens the volume AND drops the needle, exactly as the
-   * site does; the audio then continues room-wide through the deck singleton.
+   * ONE TAP INTO THE ROOM, NEEDLE DOWN. The billboard's seal and a grid cell
+   * both open the volume AND start it, as the site's `openAndBegin` does —
+   * and `begin` is the site's `beginBook`: where this book was left, or the
+   * top if it was played through. The audio then continues room-wide through
+   * the deck singleton. A title this build cannot play (no recording pressed)
+   * declines the tap rather than swallowing it.
+   */
+  const play = (slug: string) => {
+    if (!begin(slug)) return;
+    setOpenSlug(slug);
+  };
+
+  /**
+   * A LINK IS NOT A PLAY. The billboard's title is [data-rr-lr-open] on the
+   * site: it opens the volume to browse, and the needle stays where it is.
+   * Only the seal [data-rr-bill-play] drops it.
    */
   const open = (slug: string) => {
     if (!recordingFor(slug)) return;
     setOpenSlug(slug);
-    playBand(slug, 0);
   };
 
   const opened = openSlug ? recordingFor(openSlug) : null;
+  const billboard = catalogue.billboard;
 
   return (
-    <PortalPage
-      kicker="Roman Reads · Your Account"
-      title="The Listening Room."
-      sub="Every recording the subscription opens, shelved sleeve by sleeve — one already on the platter. Take a title down and it opens as a book; the needle holds your place across every visit."
-    >
-      {/* .rr-lr-zone{padding:6px 0 34px} */}
-      <View style={styles.zone}>
-        {shelf.billboard ? (
-          <Billboard
-            book={shelf.billboard}
-            onOpen={() => open(shelf.billboard.slug)}
-            onPlay={() => open(shelf.billboard.slug)}
-          />
-        ) : null}
-
-        {/* The transport — the console for whatever is on the platter. It
-            appears only once a needle is down, exactly as the web's rail does. */}
-        {now ? <Transport /> : null}
-
-        <ShelfRow
-          title="Begin listening."
-          sub="every recording the subscription opens."
-          cards={shelf.pressings as ShelfCard[]}
-          onOpen={(c) => open(c.slug)}
+    // lcd={false}: the site's own type on this page is greyscale (PortalPage's header)
+    <PortalPage title="Audiobooks" lcd={false}>
+      <Wrap>
+        <RoomHead
+          title="Your audiobooks."
+          sub="Every audiobook we have, in one place. Open one and it reads out loud while the words light up on screen, in the voice you pick. It remembers where you stopped."
         />
+        {/* .rr-lr-zone{padding:6px 0 34px} */}
+        <View style={{ paddingTop: 6, paddingBottom: 34 }}>
+          {billboard ? (
+            <Billboard
+              book={billboard}
+              onOpen={() => open(billboard.slug)}
+              onPlay={() => play(billboard.slug)}
+            />
+          ) : null}
+          <Catalogue entries={ENTRIES} filters={FILTERS} categories={CATEGORIES} onPlay={play} />
+        </View>
+      </Wrap>
 
-        <ShelfRow
-          title="Short bands for the commute."
-          sub="nothing over twelve minutes — stop at any band's end."
-          cards={shelf.short as ShelfCard[]}
-          onOpen={(c) => open(c.slug)}
-        />
-
-        <ShelfRow
-          title="In the recording room."
-          sub={`${shelf.soon.length} titles being pressed — the subscription is the whole gate.`}
-          cards={shelf.soon as ShelfCard[]}
-        />
-      </View>
-
-      {/* .rr-lr-note — the foot band, honest about the specimen. Full-bleed:
-          it breaks the 5vw gutter on the web, so it does here too. */}
+      {/* .rr-lr-note — outside .rr-pt-wrap: full bleed, 1px solid ink .12 on
+          top, `white`, padding 44px 5vw 60px, centred. */}
       <View
-        style={[
-          styles.note,
-          {
-            marginHorizontal: -vw(5),
-            paddingHorizontal: vw(5),
-            borderTopColor: ink(0.12),
-            // theme.ts maps x-f6f1e6 → #1C253B at night: the band sits a step
-            // LIGHTER than the page, same as the billboard's surface
-            backgroundColor: mode === "dark" ? "#1C253B" : "#F6F1E6",
-          },
-        ]}
+        style={{
+          borderTopWidth: 1,
+          borderTopColor: ink(0.12, "border"),
+          backgroundColor: bg("white"),
+          paddingTop: 44,
+          paddingBottom: 60,
+          paddingHorizontal: vw(5),
+          alignItems: "center",
+        }}
       >
-        <Text style={[styles.noteH, { color: colors.ink }]}>Nothing here is final.</Text>
-        <Text style={[styles.noteP, { color: ink(0.65) }]}>
-          The recordings on this floor are specimen pressings so the room works today.
-          When the read narrations land they drop onto the same platter — same books,
-          same bands, your place kept.
-        </Text>
+        {/* h2 — Cormorant 500 clamp(22px,2.6vw,30px): 22 on a phone */}
+        <Txt family="Cormorant Garamond" weight={500} size={22} style={{ textAlign: "center" }}>
+          Which books are fully recorded.
+        </Txt>
+        <Txt size={14} line={1.7} tone={0.65} style={{ marginTop: 10, maxWidth: 470, textAlign: "center" }}>
+          If a book has been recorded all the way through, that is what you hear. The rest play a
+          sample until the full recording is done. Same book, same chapters, and it still remembers
+          where you stopped. The subscription that opens all of them is $14.99 a month.
+        </Txt>
       </View>
 
       {/* The opened volume sits OVER the floor, as the web's dialog does —
@@ -125,23 +153,3 @@ export default function Listening() {
     </PortalPage>
   );
 }
-
-const styles = StyleSheet.create({
-  zone: { paddingTop: 6, paddingBottom: 34 },
-  note: {
-    borderTopWidth: 1,
-    paddingTop: 44,
-    paddingBottom: 60,
-    alignItems: "center",
-  },
-  // clamp(22px,2.6vw,30px) — a phone sits on the 22px floor
-  noteH: { fontFamily: FONTS.serifRegular, fontSize: 22, lineHeight: 26, textAlign: "center" },
-  noteP: {
-    fontFamily: FONTS.sans,
-    fontSize: 13.5,
-    lineHeight: 22.95,
-    marginTop: 10,
-    maxWidth: 470,
-    textAlign: "center",
-  },
-});

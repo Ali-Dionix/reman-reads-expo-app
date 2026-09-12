@@ -8,11 +8,13 @@
 //      the web's localStorage is synchronous. So the token cache is hydrated
 //      once at boot by initAuth(), and currentUser() stays synchronous after
 //      that — the screens call it during render, exactly as the enhancers do.
-//   2. `redirectTo` cannot be window.location.origin. Letters land on the
-//      site's /login, which is already an allow-listed redirect URL; a deep
-//      link back into the app is a later step and needs romanreads://login
-//      added to the Supabase allow-list first.
-//   3. No consumeAuthRedirect() — there is no URL hash to read on a phone.
+//   2. `redirectTo` cannot be window.location.origin. Letters carry
+//      APP_LOGIN_LINK (romanreads://sign-in, the app's own scheme and its
+//      sign-in route) so the phone opens the app, not the site. The scheme
+//      must be on the project's Redirect URLs allow-list; until it is, GoTrue
+//      falls back to the Site URL and the letter opens www.romanreads.com/login.
+//   3. consumeAuthRedirect() becomes consumeAuthLink(url): the same hash and
+//      token_hash reading, over the URL expo-linking hands the screen.
 //
 // Everything else is the web file with `await` in front of the token calls.
 
@@ -226,4 +228,168 @@ export async function selectRows<T>(table: string, query = "select=*"): Promise<
   } catch {
     return [];
   }
+}
+
+/* -------------------------------------------------------------- letter --- */
+
+/**
+ * The one-time sign-in letter — GoTrue's OTP endpoint, exactly as the site's
+ * sendMagicLink() calls it. `create` is the Create-an-account door: with it
+ * off, an unknown address is refused rather than quietly issued a card.
+ *
+ * `redirect_to` is APP_LOGIN_LINK — the phone opens the app on its sign-in
+ * screen, which reads the tokens off the URL (consumeAuthLink) and walks the
+ * reader in. That is what the sent panel's "you will land back here" promises.
+ */
+export async function sendMagicLink(
+  email: string,
+  name: string,
+  create: boolean,
+): Promise<AuthResult> {
+  if (!supabaseReady) return NO_BACKEND;
+  const redirect = encodeURIComponent(APP_LOGIN_LINK);
+  const r = await post(`/auth/v1/otp?redirect_to=${redirect}`, {
+    email,
+    create_user: create,
+    data: { name },
+  });
+  if (!r.ok) return { user: null, error: errorText(r.body, r.status) };
+  return { user: null, error: null, pending: true };
+}
+
+/* ---------------------------------------------------------- the letter --- */
+
+/**
+ * Where a sign-in letter sends the phone: the app's own scheme (app.json
+ * `scheme`) at the sign-in route. Fixed rather than Linking.createURL(),
+ * which in Expo Go would mint an exp:// address no allow-list could hold.
+ *
+ * THIS MUST BE ON THE PROJECT'S REDIRECT URLS (Supabase dashboard →
+ * Authentication → URL Configuration). A redirect_to the project does not
+ * know is dropped for the Site URL, and the letter opens the website instead.
+ */
+export const APP_LOGIN_LINK = "romanreads://sign-in";
+
+/**
+ * A reader arriving from a letter carries tokens on the URL — the site's
+ * consumeAuthRedirect(), over the URL expo-linking hands the screen instead
+ * of window.location. Two shapes, both GoTrue's:
+ *
+ *   romanreads://sign-in#access_token=…&refresh_token=…&expires_in=…   implicit
+ *   romanreads://sign-in?token_hash=…&type=magiclink                   template
+ *
+ * Returns null when the URL carries nothing of the kind (a plain open).
+ */
+export async function consumeAuthLink(url: string): Promise<AuthResult | null> {
+  if (!supabaseReady || !url) return null;
+  // The site's clean() — history.replaceState scrubs the hash the moment it is
+  // read, so a reload cannot read it twice. expo-linking keeps the launch URL
+  // until a new link arrives, so the scrub is a memory: a URL already spent
+  // carries nothing on its second reading (a sign-out that lands back here
+  // must not re-enter on a revoked token).
+  if (consumed.has(url)) return null;
+  const hashAt = url.indexOf("#");
+  const hash = kv(hashAt >= 0 ? url.slice(hashAt + 1) : "");
+  const queryAt = url.indexOf("?");
+  const queryEnd = hashAt >= 0 && hashAt > queryAt ? hashAt : url.length;
+  const query = kv(queryAt >= 0 ? url.slice(queryAt + 1, queryEnd) : "");
+
+  const linkError = hash.get("error_description") ?? query.get("error_description");
+  if (linkError) {
+    consumed.add(url);
+    return { user: null, error: linkError };
+  }
+
+  const access = hash.get("access_token");
+  if (access) {
+    consumed.add(url);
+    const user = await keepSession({
+      access_token: access,
+      refresh_token: hash.get("refresh_token") ?? "",
+      expires_in: Number(hash.get("expires_in") ?? 3600),
+      // The hash carries no user object; /auth/v1/user fills it in below.
+      user: {},
+    });
+    if (!user) return { user: null, error: "That sign-in link was incomplete." };
+    // The hash names nobody: only /auth/v1/user can. A record with no id and
+    // no email is a token the server refused (expired, or already used), and
+    // a card for nobody is not a card — drop the tokens rather than keep them.
+    let record: AuthUser | null;
+    try {
+      record = await refreshUserRecord();
+    } catch {
+      // The server never answered. The tokens are unproven — keeping them
+      // would boot the next launch as nobody — so the letter is asked again.
+      await writeTokens(null);
+      return { user: null, error: "We couldn’t reach our server. Check your connection and try again." };
+    }
+    if (!record || (!record.id && !record.email)) {
+      await writeTokens(null);
+      return { user: null, error: "That sign-in link has expired." };
+    }
+    return { user: record, error: null };
+  }
+
+  const tokenHash = query.get("token_hash");
+  if (tokenHash) {
+    consumed.add(url);
+    const r = await post("/auth/v1/verify", {
+      type: query.get("type") ?? "magiclink",
+      token_hash: tokenHash,
+    });
+    if (!r.ok) return { user: null, error: errorText(r.body, r.status) };
+    return { user: await keepSession(r.body), error: null };
+  }
+
+  return null;
+}
+
+/** The letters already read, by URL — see consumeAuthLink(). */
+const consumed = new Set<string>();
+
+/**
+ * `a=b&c=d` → Map, cutting each pair on its FIRST '='. React Native's
+ * URLSearchParams polyfill splits on every '=' (Libraries/Blob/
+ * URLSearchParams.js), so a value carrying one — GoTrue's URL-encoded
+ * error_description prose, a padded token — would lose its tail. The
+ * browser's parser on the site is spec-complete; this is the same reading.
+ */
+function kv(s: string): Map<string, string> {
+  const dec = (v: string) => {
+    try {
+      return decodeURIComponent(v);
+    } catch {
+      return v;
+    }
+  };
+  return new Map(
+    s
+      .split("&")
+      .filter(Boolean)
+      .map((p) => {
+        const i = p.indexOf("=");
+        const key = i < 0 ? p : p.slice(0, i);
+        const val = i < 0 ? "" : p.slice(i + 1);
+        return [dec(key), dec(val.replace(/\+/g, " "))] as const;
+      }),
+  );
+}
+
+/**
+ * Fetch the authoritative user record (the hash flow hands over tokens only).
+ * A refusal (the token expired, or already spent) answers null; a network
+ * failure throws, so the caller can tell the two apart — the site hands back
+ * its empty placeholder in both cases, and a phone must not enter on it.
+ */
+export async function refreshUserRecord(): Promise<AuthUser | null> {
+  const tokens = cached;
+  if (!tokens) return null;
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+    headers: authHeaders(tokens.access_token),
+  });
+  if (!res.ok) return null;
+  const body = (await res.json()) as Record<string, unknown>;
+  const user = userFrom(body);
+  await writeTokens({ ...tokens, user });
+  return user;
 }

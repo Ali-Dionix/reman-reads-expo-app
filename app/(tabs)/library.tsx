@@ -1,595 +1,245 @@
-// /account/library — Your Library.
+// /account/library — Your library.
 //
-// A transcription of app/data/accountLibraryPage.ts at its ≤860px / ≤760px
-// branches: the register drops from four cells to TWO (rows 3 and 4 gain a
-// dashed top rule and cell 3 loses its left one), the search bar takes the
-// full row, the tabs stop wrapping and scroll sideways, and the grid goes from
-// three columns to TWO with 20/12 gaps and tighter card padding.
+// A transcription of app/data/accountLibraryPage.ts's `bodyHtml` at its app
+// pass, in its order: the room head inside `.rr-pt-wrap`, then `.rr-ly-zone`
+// — the sticky bar (search, the four shelf tabs, the filter field), the genre
+// floor OR the list (never both), the pager and the empty room — and, outside
+// the wrap, edge to edge, the "Cannot find the book you want?" band. The
+// frame, bar and tab bar are the kit's; the pieces are src/portal/library/.
 //
-// The set-piece is the register — "a ledger rule, not furniture" — and the
-// cover blocks are theme islands, lit at night.
+// THE BAR STICKS UNDER THE TOP BAR, at `--ap-toph` (the 60px bar plus the
+// 20px its tear hangs) — the kit frame's `sticky` seam: the head is the
+// `lead`, the bar the `sticky` child, and the flow spacing between them is
+// the builder's own (2 + 2 + 6px between the paragraph and the bar).
 //
-// The 470-card grid is a FlatList here rather than a rendered-then-hidden
-// grid: the web ships every card and filters with `display:none` because the
-// markup is already in the document; a phone would pay for 470 mounted views
-// to show twelve. Same cards, same order, windowed.
+// BROWSE OR RESULTS, NEVER BOTH (LibraryRoomEnhancer.tsx): the floor shows
+// while the reader is on the whole catalogue with nothing typed and nothing
+// ticked; the moment a query, a pick or another tab lands, the list replaces
+// it. Tapping a book opens the website's book page in the reading tab — never
+// a checkout; docs/APP-FULL-PARITY.md §2 keeps buying on the website.
 
-import { Image } from "expo-image";
-import { useMemo, useState } from "react";
-import Svg, { Circle, Path } from "react-native-svg";
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { useMemo, useRef, useState } from "react";
+import { ScrollView, View } from "react-native";
 
-import data from "../../src/data/library.json";
-import { SITE_ORIGIN } from "../../src/lib/config";
-import { PortalPage } from "../../src/portal/PortalPage";
-import { ShelfRow } from "../../src/portal/ShelfRow";
-import { useInk, em } from "../../src/theme/ink";
-import { useTheme } from "../../src/theme/ThemeProvider";
-import { FONTS } from "../../src/theme/type";
-
-// Declared rather than inferred from the JSON: TypeScript widens a generated
-// array into a union of every literal shape it sees, so an optional field that
-// happens to be absent from the first entry reads as "does not exist".
-type Book = {
-  slug: string;
-  title: string;
-  author: string;
-  year: string;
-  tier: string;
-  spine: string;
-  art?: string;
-  /** Per-art fade height, e.g. "48%". */
-  shade?: string;
-  baked?: boolean;
-  pages?: number;
-  audio?: boolean;
-};
-
-const BOOKS = data.books as Book[];
-
-const TABS = [
-  { key: "owned", label: "Yours" },
-  { key: "saved", label: "Wishlist" },
-  { key: "all", label: "All" },
-] as const;
-
-const PAGE = 24;
-
-/** `.rr-ly-cell` — one ruled cell of the reader's own count. */
-function Cell({
-  value,
-  label,
-  note,
-  ruledLeft,
-  ruledTop,
-}: {
-  value: string;
-  label: string;
-  note: string;
-  ruledLeft?: boolean;
-  ruledTop?: boolean;
-}) {
-  const { ink } = useInk();
-  const { colors } = useTheme();
-  const none = value === "0";
-
-  return (
-    <View
-      style={[
-        styles.cell,
-        ruledLeft && { borderLeftWidth: 1, borderLeftColor: "rgba(110,86,58,.34)" },
-        ruledTop && { borderTopWidth: 1, borderTopColor: "rgba(110,86,58,.34)" },
-      ]}
-    >
-      <Text style={[styles.cellB, { color: none ? ink(0.32) : colors.ink }]}>{value}</Text>
-      <Text style={[styles.cellSpan, { color: colors.gold2 }]}>{label}</Text>
-      <Text style={[styles.cellEm, { color: ink(0.5) }]}>{note}</Text>
-    </View>
-  );
-}
-
-/** `.rr-ly-card`. */
-function Card({ book, price }: { book: Book; price: string }) {
-  const { ink } = useInk();
-  const { colors } = useTheme();
-  const hasArt = !!book.art;
-  const shade = Number.parseFloat(book.shade ?? "48") / 100;
-
-  return (
-    <View style={[styles.card, { backgroundColor: colors.white, borderColor: ink(0.12) }]}>
-      <View style={[styles.bk, { backgroundColor: hasArt ? "#E8D7B9" : book.spine }]}>
-        {hasArt ? (
-          <Image
-            source={{ uri: `${SITE_ORIGIN}${book.art}` }}
-            style={StyleSheet.absoluteFill}
-            contentFit="cover"
-            transition={140}
-          />
-        ) : null}
-
-        {book.baked ? null : hasArt ? (
-          <View style={[styles.bkWash, { height: `${shade * 100}%` }]} />
-        ) : null}
-
-        {book.baked ? null : (
-          <View style={hasArt ? styles.bkTypeArt : styles.bkTypeCloth}>
-            <Text style={[styles.bkBrand, hasArt && styles.bkBrandArt]}>Roman Reads</Text>
-            <Text style={[styles.bkTitle, hasArt && styles.bkTitleArt]} numberOfLines={4}>
-              {book.title}
-            </Text>
-            <View style={[styles.bkRule, hasArt && { backgroundColor: book.spine, height: 3, width: 28 }]} />
-            <Text style={[styles.bkAuthor, hasArt && styles.bkAuthorArt]} numberOfLines={2}>
-              {book.author}
-            </Text>
-          </View>
-        )}
-      </View>
-
-      <View style={styles.info}>
-        <Text style={[styles.name, { color: colors.ink2 }]} numberOfLines={2}>
-          {book.title}
-        </Text>
-        <Text style={[styles.by, { color: ink(0.58) }]} numberOfLines={1}>
-          {book.author}
-        </Text>
-        <Text style={[styles.meta, { color: ink(0.48) }]} numberOfLines={1}>
-          {book.year}
-          {book.pages ? ` · ${book.pages} pp` : ""}
-          {book.audio ? " · " : ""}
-          {book.audio ? <Text style={{ color: colors.gold2 }}>read aloud</Text> : null}
-        </Text>
-      </View>
-
-      <View style={[styles.foot, { borderTopColor: ink(0.09) }]}>
-        <View>
-          <Text style={[styles.price, { color: colors.ink2 }]}>{price}</Text>
-          <Text style={[styles.incl, { color: ink(0.45) }]}>+ digital, free</Text>
-        </View>
-        <View style={styles.acts}>
-          <Pressable style={[styles.act, { backgroundColor: colors.ink, borderColor: colors.ink }]}>
-            <Text style={[styles.actText, { color: colors.paper }]}>Buy</Text>
-          </Pressable>
-          <Pressable style={[styles.icon, { borderColor: ink(0.28) }]}>
-            <Svg width={16} height={16} viewBox="0 0 16 16" fill="none">
-              <Path
-                d="M8 14S1.5 10.2 1.5 5.9A3.4 3.4 0 0 1 8 4.3a3.4 3.4 0 0 1 6.5 1.6C14.5 10.2 8 14 8 14Z"
-                stroke={ink(0.62)}
-                strokeWidth={1.5}
-                strokeLinejoin="round"
-              />
-            </Svg>
-          </Pressable>
-        </View>
-      </View>
-    </View>
-  );
-}
+import { useSession } from "../../src/lib/session";
+import { openOnSite } from "../../src/lib/web";
+import { Head, PortalPage, TOP_BOX, Wrap } from "../../src/portal/PortalPage";
+import { Band } from "../../src/portal/library/Band";
+import { Bar } from "../../src/portal/library/Bar";
+import { FilterSheet } from "../../src/portal/library/Filters";
+import { Floor } from "../../src/portal/library/Floor";
+import { BookRow, EmptyRoom, FileNote, PAGE_SIZE, Pager } from "../../src/portal/library/Grid";
+import {
+  BOOKS,
+  CLAIM,
+  EMPTY,
+  FILTERED_EMPTY,
+  emptyPicks,
+  hits,
+  ownLine,
+  pickCount,
+  readerMarks,
+  type FacetKey,
+  type Picks,
+  type Tab,
+} from "../../src/portal/library/data";
+import { Txt } from "../../src/ui/Type";
 
 export default function Library() {
-  const { ink, vw, mode } = useInk();
-  const { colors } = useTheme();
+  const { guest } = useSession();
 
+  // The reader's marks. A guest reads the sample state; a signed-in reader's
+  // shelf is empty until their shelf and orders arrive through the session in
+  // Phase 2 (see data.ts) — the site's own empty rooms, never the sample.
+  const marks = useMemo(() => readerMarks(guest), [guest]);
+
+  // Land on the shelf that actually has something on it (the enhancer's rule).
+  const [tab, setTab] = useState<Tab>(() => (marks.owned.size ? "owned" : "all"));
   const [q, setQ] = useState("");
-  const [tab, setTab] = useState<string>("all");
-  const [shown, setShown] = useState(PAGE);
+  const [picks, setPicks] = useState<Picks>(emptyPicks);
+  const [openFacet, setOpenFacet] = useState<FacetKey | null>(null);
+  const [page, setPage] = useState(1);
 
-  const priceFor = (tier: string) =>
-    (data.ladder as Record<string, Record<string, string>>).PKR?.[tier] ?? "";
+  // scrollToGrid() — the enhancer lands the reader on the new rows: the
+  // gridzone's top 150px from the VIEWPORT's top, so the bar and a breath of
+  // paper stay above. gridY is in scroller content coordinates and the
+  // scroller itself starts TOP_BOX below the screen top (the web viewport
+  // already excludes the status bar), so the box comes back in.
+  const scroller = useRef<ScrollView>(null);
+  const wrapY = useRef(0);
+  const gridY = useRef(0);
+  const goPage = (n: number) => {
+    setPage(n);
+    scroller.current?.scrollTo({ y: Math.max(0, gridY.current - 150 + TOP_BOX), animated: true });
+  };
 
-  const results = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    // The reader's own shelves arrive in Phase 2; until then "Yours" and
-    // "Wishlist" are honestly empty rather than pretending.
-    if (tab !== "all") return [];
-    if (!needle) return BOOKS;
-    return BOOKS.filter(
-      (b) =>
-        b.title.toLowerCase().includes(needle) ||
-        b.author.toLowerCase().includes(needle) ||
-        String(b.year).includes(needle),
-    );
-  }, [q, tab]);
+  const onFiles = tab === "files";
+  const live = pickCount(picks);
+  const browsing = tab === "all" && !q.trim() && live === 0;
+
+  const inTab = useMemo(
+    () =>
+      tab === "all"
+        ? BOOKS
+        : tab === "owned"
+          ? BOOKS.filter((b) => marks.owned.has(b.slug))
+          : tab === "saved"
+            ? BOOKS.filter((b) => marks.saved.has(b.slug))
+            : [],
+    [tab, marks],
+  );
+  const found = useMemo(() => hits(inTab, q, picks), [inTab, q, picks]);
+  const pages = Math.max(1, Math.ceil(found.length / PAGE_SIZE));
+  const at = Math.min(page, pages);
+  const shown = found.slice((at - 1) * PAGE_SIZE, at * PAGE_SIZE);
+
+  // TODO(imports): the Files shelf is GET /api/imports on the web; the app has
+  // no import sheet yet, so the shelf is honestly empty for now.
+  const fileRows = 0;
+  const n = onFiles ? fileRows : found.length;
+  const noun = onFiles ? (n === 1 ? "file" : "files") : n === 1 ? "book" : "books";
+  const countText = q.trim() ? `${n} ${noun} matched` : `${n} ${noun}`;
+
+  const pick = (f: FacetKey, key: string) => {
+    setPicks((p) => {
+      const next = new Set(p[f]);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return { ...p, [f]: next };
+    });
+    setPage(1);
+  };
+  const clearPicks = () => {
+    setPicks(emptyPicks());
+    setPage(1);
+  };
+  const seeAll = (subject: string) => {
+    // "See all" opens that subject in the grid — the same pick as the fold's.
+    setPicks({ ...emptyPicks(), s: new Set([subject]) });
+    setTab("all");
+    setPage(1);
+  };
+  const empty = live
+    ? FILTERED_EMPTY
+    : q.trim()
+      ? EMPTY.all
+      : EMPTY[tab];
+  const onEmptyCta = () => {
+    if (live) clearPicks();
+    else if (q.trim()) setQ("");
+    else setTab("all");
+    setPage(1);
+  };
 
   return (
     <PortalPage
-      kicker="Roman Reads · Your Account"
-      title="Your Library."
-      sub="Every copy you own, everything you’ve marked, and the whole catalogue behind them — one shelf, one search. Any book here can be bound and posted in seven days."
-    >
-      <View style={styles.zone}>
-        {/* .rr-ly-reg — ≤860px: two columns */}
-        <View style={styles.reg}>
-          <View style={styles.regRow}>
-            <Cell value="0" label="Yours" note="on the shelf, or on the bench" />
-            <Cell value="0" label="Wishlist" note="marked for later" ruledLeft />
-            <Cell
-              value={String(data.total)}
-              label="Catalogue"
-              note="every title we can bind"
-              ruledTop
-            />
-            <Cell value="7" label="Days" note="to bind and post any of them" ruledLeft ruledTop />
-          </View>
-        </View>
-
-        <Text style={[styles.regnote, { color: colors.brown }]}>
-          every hardcover brings its digital edition along — free, always.
-        </Text>
-
-        {/* fill row: "Your books, read aloud." — absent until it has content */}
-        <ShelfRow
-          title="Your books, read aloud."
-          sub="titles from your shelves the house has pressed — the needle keeps your place."
-          cards={[]}
-        />
-
-        {/* .rr-ly-bar */}
-        <View style={[styles.bar, { borderTopColor: "rgba(126,45,31,.26)", borderBottomColor: ink(0.18) }]}>
-          <View style={[styles.search, { borderColor: ink(0.4), backgroundColor: colors.white }]}>
-            <Svg width={17} height={17} viewBox="0 0 16 16" fill="none">
-              <Circle cx={7} cy={7} r={5} stroke={colors.ink2} strokeWidth={1.6} />
-              <Path d="M11 11l4 4" stroke={colors.ink2} strokeWidth={1.6} strokeLinecap="round" />
-            </Svg>
-            <TextInput
-              value={q}
-              onChangeText={(v) => {
-                setQ(v);
-                setShown(PAGE);
-              }}
-              placeholder="Search title, author, or ISBN..."
-              placeholderTextColor={ink(0.5)}
-              selectionColor={colors.brass}
-              style={[styles.searchIn, { color: colors.ink2 }]}
-              autoCorrect={false}
-            />
-            {q ? (
-              <Pressable onPress={() => setQ("")} style={[styles.searchX, { backgroundColor: ink(0.06) }]}>
-                <Text style={{ color: ink(0.7), fontSize: 17, lineHeight: 20 }}>×</Text>
-              </Pressable>
-            ) : null}
-          </View>
-
-          {/* ≤760px: the tabs fill the row and scroll */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            style={[styles.tabs, { borderColor: ink(0.26) }]}
-            contentContainerStyle={{ gap: 3 }}
-          >
-            {TABS.map((t) => {
-              const on = tab === t.key;
-              return (
-                <Pressable
-                  key={t.key}
-                  onPress={() => {
-                    setTab(t.key);
-                    setShown(PAGE);
-                  }}
-                  style={[styles.tab, on && { backgroundColor: colors.ink }]}
-                >
-                  <Text style={[styles.tabText, { color: on ? colors.paper : ink(0.62) }]}>
-                    {t.label}
-                  </Text>
-                  <Text
-                    style={[
-                      styles.tabCount,
-                      on
-                        ? { color: colors.paper, borderColor: "transparent", backgroundColor: "rgba(250,247,239,.18)" }
-                        : { color: ink(0.45), borderColor: ink(0.2) },
-                    ]}
-                  >
-                    {t.key === "all" ? data.total : 0}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-
-          <Text style={[styles.count, { color: ink(0.55) }]}>
-            {results.length} {results.length === 1 ? "book" : "books"}
-          </Text>
-        </View>
-
-        {/* .rr-ly-grid — ≤760px: two columns, gap 20/12 */}
-        {results.length ? (
-          <FlatList
-            data={results.slice(0, shown)}
-            keyExtractor={(b) => b.slug}
-            numColumns={2}
-            scrollEnabled={false}
-            columnWrapperStyle={{ gap: 12 }}
-            contentContainerStyle={styles.grid}
-            renderItem={({ item }) => (
-              <View style={{ flex: 1 }}>
-                <Card book={item} price={priceFor(item.tier)} />
-              </View>
-            )}
-            onEndReachedThreshold={0.6}
-            ListFooterComponent={
-              shown < results.length ? (
-                <Pressable
-                  onPress={() => setShown((n) => n + PAGE)}
-                  style={[styles.more, { borderColor: ink(0.3) }]}
-                >
-                  <Text style={[styles.moreText, { color: colors.ink2 }]}>
-                    Show more ({results.length - shown} left)
-                  </Text>
-                </Pressable>
-              ) : null
-            }
+      ref={scroller}
+      title="Library"
+      back="/"
+      keyboardShouldPersistTaps="handled"
+      lead={
+        // .rr-ly-head — padding 2px 0 (the kit's Head, at this room's -.012em);
+        // then .rr-ly-zone's own 2px and the bar's 6px
+        <Wrap style={{ marginBottom: 2 + 6 }}>
+          <Head
+            title="Your library."
+            ls={-0.012}
+            sub={`The books you own, the ones you saved for later, and the ${CLAIM} more you can buy. Every book here is in stock and reaches you in 1–2 days.`}
           />
-        ) : (
-          /* .rr-ly-empty */
-          <View style={styles.empty}>
-            <Text style={[styles.emptyH, { color: colors.ink }]}>
-              {tab === "owned" ? "Nothing on the shelf yet" : tab === "saved" ? "Nothing marked yet" : "No match"}
-            </Text>
-            <Text style={[styles.emptyP, { color: ink(0.6) }]}>
-              {tab === "all"
-                ? "Try a different title, author or year."
-                : "Your own shelves arrive with Phase 2 — the catalogue below is live now."}
-            </Text>
-            <Pressable
-              onPress={() => setTab("all")}
-              style={[styles.btnGhost, { borderColor: ink(0.3) }]}
-            >
-              <Text style={[styles.btnText, { color: colors.ink2 }]}>Browse all books</Text>
-            </Pressable>
-          </View>
-        )}
-      </View>
+        </Wrap>
+      }
+      sticky={
+        // .rr-ly-bar — sticky under the top bar
+        <Wrap>
+            <Bar
+              q={q}
+              onQuery={(v) => {
+                setQ(v);
+                setPage(1);
+              }}
+              tab={tab}
+              onTab={(t) => {
+                setTab(t);
+                setPage(1);
+                setOpenFacet(null);
+              }}
+              counts={{ files: fileRows, owned: marks.owned.size, saved: marks.saved.size }}
+              picks={picks}
+              openFacet={openFacet}
+              onOpenFacet={setOpenFacet}
+              onClearPicks={clearPicks}
+              onUnpick={pick}
+              countText={countText}
+            />
+        </Wrap>
+      }
+    >
+        <View
+          onLayout={(e) => {
+            // The gridzone's offset in the scroller is this box's plus its own.
+            wrapY.current = e.nativeEvent.layout.y;
+          }}
+        >
+          <Wrap style={{ paddingBottom: 24 }}>
+            {browsing ? (
+              <Floor onOpen={(b) => void openOnSite(`/books/${b.slug}`)} onSeeAll={seeAll} />
+            ) : (
+              <>
+                {onFiles ? null : (
+                  // .rr-ly-regnote — hidden while browsing and on the Files tab
+                  <Txt size={12.5} line={19.375} tone={0.55} style={{ marginTop: 10, marginHorizontal: 2 }}>
+                    Every book you buy or add shows up on this shelf.
+                  </Txt>
+                )}
+                {/* .rr-ly-gridzone */}
+                <View
+                  style={{ paddingTop: 18, paddingBottom: 8 }}
+                  onLayout={(e) => {
+                    gridY.current = wrapY.current + e.nativeEvent.layout.y;
+                  }}
+                >
+                  {onFiles ? (
+                    // renderFiles(): a query that matches no file is one line, no head
+                    q.trim() ? (
+                      <FileNote body="No file of yours matches that." />
+                    ) : (
+                      <FileNote head={EMPTY.files.head} body={EMPTY.files.sub} />
+                    )
+                  ) : shown.length ? (
+                    <>
+                      <View>
+                        {shown.map((b, i) => (
+                          <BookRow
+                            key={b.slug}
+                            book={b}
+                            ownLine={marks.owned.has(b.slug) ? ownLine(marks.owned.get(b.slug)!) : undefined}
+                            first={i === 0}
+                            onPress={() => void openOnSite(`/books/${b.slug}`)}
+                          />
+                        ))}
+                      </View>
+                      <Pager page={at} pages={pages} onPage={goPage} />
+                    </>
+                  ) : (
+                    <EmptyRoom head={empty.head} sub={empty.sub} cta={empty.cta} onCta={onEmptyCta} />
+                  )}
+                </View>
+              </>
+            )}
+          </Wrap>
+        </View>
 
-      {/* .rr-ly-band */}
-      <View
-        style={[
-          styles.band,
-          {
-            marginHorizontal: -vw(5),
-            paddingHorizontal: vw(5),
-            borderTopColor: ink(0.12),
-            backgroundColor: mode === "dark" ? colors.cream1 : "#F6F1E6",
-          },
-        ]}
-      >
-        <Text style={[styles.bandH, { color: colors.ink }]}>Not on the shelf?</Text>
-        <Text style={[styles.bandP, { color: ink(0.65) }]}>
-          Name any book at all — in or out of the catalogue — and it comes back bound in
-          seven days.
-        </Text>
-      </View>
+        <Band />
+
+      {openFacet ? (
+        <FilterSheet
+          facet={openFacet}
+          picks={picks}
+          onPick={pick}
+          onClose={() => setOpenFacet(null)}
+          hitCount={found.length}
+        />
+      ) : null}
     </PortalPage>
   );
 }
-
-const styles = StyleSheet.create({
-  zone: { paddingTop: 2, paddingBottom: 24 },
-
-  reg: {
-    marginTop: 6,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(126,45,31,.3)",
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(11,10,8,.16)",
-  },
-  regRow: { flexDirection: "row", flexWrap: "wrap" },
-  // ≤760px: padding 13px 14px 12px
-  cell: { width: "50%", gap: 1, paddingHorizontal: 14, paddingTop: 13, paddingBottom: 12 },
-  cellB: { fontFamily: FONTS.serifRegular, fontSize: 29, lineHeight: 29, letterSpacing: em(29, -0.02) },
-  cellSpan: {
-    marginTop: 7,
-    fontFamily: FONTS.sansBold,
-    fontSize: 8.5,
-    letterSpacing: em(8.5, 0.22),
-    textTransform: "uppercase",
-  },
-  cellEm: { fontFamily: FONTS.sans, fontSize: 11.5, lineHeight: 17.25 },
-  regnote: {
-    marginTop: 12,
-    marginHorizontal: 2,
-    fontFamily: FONTS.hand,
-    fontSize: 15.5,
-    transform: [{ rotate: "-0.7deg" }],
-  },
-
-  // ≤760px: padding 9px 0 10px; gap 10
-  bar: {
-    marginTop: 26,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    gap: 10,
-  },
-  search: {
-    minHeight: 48,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 11,
-    paddingLeft: 15,
-    paddingRight: 8,
-    paddingVertical: 6,
-    borderWidth: 1.5,
-    borderRadius: 8,
-  },
-  searchIn: { flex: 1, fontFamily: FONTS.sansSemi, fontSize: 15.5, padding: 0 },
-  searchX: { width: 36, height: 36, borderRadius: 18, alignItems: "center", justifyContent: "center" },
-  tabs: { borderWidth: 1, borderRadius: 10, padding: 3, flexGrow: 0 },
-  tab: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 7,
-    minHeight: 42,
-    paddingHorizontal: 12,
-    borderRadius: 7,
-  },
-  tabText: { fontFamily: FONTS.sansBold, fontSize: 12.5 },
-  tabCount: {
-    fontFamily: FONTS.sansBold,
-    fontSize: 10,
-    borderWidth: 1,
-    borderRadius: 999,
-    paddingHorizontal: 7,
-    paddingVertical: 2,
-    overflow: "hidden",
-  },
-  count: { fontFamily: FONTS.sansBold, fontSize: 11, textAlign: "right", width: "100%" },
-
-  grid: { paddingTop: 26, paddingBottom: 8, gap: 20 },
-  // ≤760px: border-radius 14; padding 8
-  card: { flex: 1, borderWidth: 1, borderRadius: 14, padding: 8 },
-  bk: {
-    aspectRatio: 2 / 3,
-    borderRadius: 10,
-    overflow: "hidden",
-  },
-  bkWash: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "rgba(239,222,190,.9)",
-  },
-  bkTypeCloth: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 12,
-    paddingVertical: 16,
-  },
-  bkTypeArt: { position: "absolute", top: 14, left: 13, right: 13 },
-  bkBrand: {
-    fontFamily: FONTS.sansBold,
-    fontSize: 6.5,
-    letterSpacing: em(6.5, 0.3),
-    textTransform: "uppercase",
-    color: "rgba(243,226,188,.7)",
-    textAlign: "center",
-  },
-  bkBrandArt: {
-    fontSize: 6,
-    letterSpacing: em(6, 0.26),
-    color: "rgba(23,20,17,.72)",
-    textAlign: "left",
-    marginBottom: 8,
-  },
-  bkTitle: {
-    fontFamily: FONTS.serif,
-    fontSize: 14,
-    lineHeight: 16.5,
-    color: "#F3E2BC",
-    textAlign: "center",
-    paddingHorizontal: 4,
-  },
-  bkTitleArt: {
-    fontSize: 16,
-    lineHeight: 15,
-    letterSpacing: em(16, -0.025),
-    textTransform: "uppercase",
-    color: "#171411",
-    textAlign: "left",
-    paddingHorizontal: 0,
-  },
-  bkRule: { width: 24, height: 1, backgroundColor: "rgba(243,226,188,.45)", marginVertical: 10 },
-  bkAuthor: {
-    fontFamily: FONTS.sansBold,
-    fontSize: 7,
-    letterSpacing: em(7, 0.2),
-    textTransform: "uppercase",
-    color: "rgba(243,226,188,.75)",
-    textAlign: "center",
-  },
-  bkAuthorArt: {
-    fontSize: 6.6,
-    letterSpacing: em(6.6, 0.16),
-    color: "rgba(23,20,17,.76)",
-    textAlign: "left",
-  },
-
-  // ≤760px: padding 10px 3px 9px
-  info: { gap: 3, paddingHorizontal: 3, paddingTop: 10, paddingBottom: 9 },
-  name: { fontFamily: FONTS.serif, fontSize: 15.5, lineHeight: 18.6 },
-  by: { fontFamily: FONTS.sans, fontSize: 11.5 },
-  meta: { fontFamily: FONTS.sansSemi, fontSize: 10, marginTop: 1 },
-
-  // ≤760px: padding 9px 3px 2px; gap 7
-  foot: {
-    marginTop: "auto",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 7,
-    flexWrap: "wrap",
-    paddingHorizontal: 3,
-    paddingTop: 9,
-    paddingBottom: 2,
-    borderTopWidth: 1,
-  },
-  price: { fontFamily: FONTS.sansBold, fontSize: 13 },
-  incl: { fontFamily: FONTS.sansSemi, fontSize: 9.5, marginTop: 1 },
-  acts: { flexDirection: "row", alignItems: "center", gap: 5, marginLeft: "auto" },
-  act: {
-    minHeight: 34,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 12,
-    borderWidth: 1,
-    borderRadius: 999,
-  },
-  actText: {
-    fontFamily: FONTS.sansBold,
-    fontSize: 10,
-    letterSpacing: em(10, 0.08),
-    textTransform: "uppercase",
-  },
-  // ≤760px: 32px
-  icon: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    borderWidth: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  more: {
-    marginTop: 22,
-    alignSelf: "center",
-    paddingHorizontal: 24,
-    paddingVertical: 13,
-    borderWidth: 1,
-    borderRadius: 999,
-  },
-  moreText: {
-    fontFamily: FONTS.sansBold,
-    fontSize: 11,
-    letterSpacing: em(11, 0.08),
-    textTransform: "uppercase",
-  },
-
-  empty: { paddingTop: 40, paddingBottom: 20, alignItems: "center", gap: 10 },
-  emptyH: { fontFamily: FONTS.serifRegular, fontSize: 24, textAlign: "center" },
-  emptyP: { fontFamily: FONTS.sans, fontSize: 13.5, lineHeight: 21.6, textAlign: "center", maxWidth: 400 },
-  btnGhost: {
-    marginTop: 8,
-    paddingHorizontal: 24,
-    paddingVertical: 14,
-    borderWidth: 1,
-    borderRadius: 999,
-  },
-  btnText: {
-    fontFamily: FONTS.sansBold,
-    fontSize: 11,
-    letterSpacing: em(11, 0.08),
-    textTransform: "uppercase",
-  },
-
-  band: { borderTopWidth: 1, paddingTop: 52, paddingBottom: 60, alignItems: "center" },
-  bandH: { fontFamily: FONTS.serifRegular, fontSize: 24, lineHeight: 28, textAlign: "center" },
-  bandP: {
-    fontFamily: FONTS.sans,
-    fontSize: 14,
-    lineHeight: 23.8,
-    marginTop: 10,
-    maxWidth: 440,
-    textAlign: "center",
-  },
-});

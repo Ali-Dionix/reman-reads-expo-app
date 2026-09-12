@@ -6,7 +6,11 @@
 // configured" state, and the app stays on its local working model rather than
 // crashing on a boot screen.
 //
-// For a real build these are filled by EAS (eas.json → `env`), not committed.
+// For a real build these are filled without a commit: app.json's `extra` is
+// the committed default (empty — "no backend"), and EXPO_PUBLIC_* environment
+// variables fill the same slots — from a .env.local on a desk, or from EAS
+// environment variables in a build. Metro inlines EXPO_PUBLIC_* at bundle
+// time (babel-preset-expo), so nothing here reads process.env at runtime.
 // The publishable key is safe to ship — it is the same key the website serves
 // to every browser, and RLS is what actually guards the rows.
 
@@ -14,7 +18,18 @@ import Constants from "expo-constants";
 
 const extra = (Constants.expoConfig?.extra ?? {}) as Record<string, string | undefined>;
 
-const read = (key: string, fallback = ""): string => (extra[key] ?? fallback).trim();
+/** The env's answer for each `extra` slot. Literal member expressions on
+ *  purpose — babel only inlines `process.env.EXPO_PUBLIC_<NAME>` spelled out. */
+const env: Record<string, string | undefined> = {
+  supabaseUrl: process.env.EXPO_PUBLIC_SUPABASE_URL,
+  supabasePublishableKey: process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  siteOrigin: process.env.EXPO_PUBLIC_SITE_ORIGIN,
+  audioBase: process.env.EXPO_PUBLIC_AUDIO_BASE,
+};
+
+/** A filled `extra` wins; an empty one gives way to the env; then the fallback. */
+const read = (key: string, fallback = ""): string =>
+  ((extra[key] ?? "").trim() || (env[key] ?? "").trim() || fallback).trim();
 
 export const SUPABASE_URL = read("supabaseUrl").replace(/\/+$/, "");
 export const SUPABASE_KEY = read("supabasePublishableKey");

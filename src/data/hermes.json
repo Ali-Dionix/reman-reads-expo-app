@@ -3,7 +3,7 @@
     {
       "id": "cp",
       "title": "Crime and Punishment",
-      "source": "page one — Constance Garnett translation",
+      "source": "page one, Constance Garnett translation",
       "runs": [
         {
           "text": "On an exceptionally hot evening early in July a young man came out of the "
@@ -35,24 +35,24 @@
           "word": "garret",
           "notes": {
             "english": "a tiny room at the very top of the house. attic, basically.",
-            "roman": "chhat ke ain neeche wala chhota kamra — attic, samajh lo.",
-            "urdu": "چھت کے عین نیچے چھوٹا سا کمرہ — یعنی اٹاری۔"
+            "simple": "the small room right under the roof.",
+            "aloud": "a garret, the small room under the roof, where the rent is cheapest."
           }
         },
         {
           "word": "lodged",
           "notes": {
-            "english": "lived there as a renter — a room, not a home.",
-            "roman": "kiraye par rehta tha — bas ek kamra, ghar nahin.",
-            "urdu": "کرائے پر رہتا تھا — بس ایک کمرہ، گھر نہیں۔"
+            "english": "lived there as a renter, a room, not a home.",
+            "simple": "he rented the room. it was never his.",
+            "aloud": "lodged. He paid rent on one room, and that was the whole of it."
           }
         },
         {
           "word": "hesitation",
           "notes": {
             "english": "pausing because you can't decide. his whole personality, honestly.",
-            "roman": "jhijak — faisla na kar pana. aage poori kitab yehi hai.",
-            "urdu": "جھجک — فیصلہ نہ کر پانا۔ آگے پوری کتاب یہی ہے۔"
+            "simple": "stopping because he cannot decide.",
+            "aloud": "hesitation, stopping because you cannot decide. that is the man, and the book."
           }
         }
       ]
@@ -60,7 +60,7 @@
     {
       "id": "med",
       "title": "Meditations",
-      "source": "book two — George Long translation",
+      "source": "book two, George Long translation",
       "runs": [
         {
           "text": "Begin the morning by saying to "
@@ -91,25 +91,25 @@
         {
           "word": "thyself",
           "notes": {
-            "english": "old English for 'yourself.' Marcus is talking to himself — the whole book is a private diary.",
-            "roman": "'yourself' ka purana andaaz. Marcus khud se baat kar raha hai — poori kitab uski private diary hai.",
-            "urdu": "'اپنے آپ' کا پرانا انداز۔ مارکس خود سے مخاطب ہے — پوری کتاب اس کی ذاتی ڈائری ہے۔"
+            "english": "old English for 'yourself.' Marcus is talking to himself, the whole book is a private diary.",
+            "simple": "an old word for 'yourself.' he is writing to himself.",
+            "aloud": "thyself, the old word for yourself. Marcus is talking to Marcus; the book is his diary."
           }
         },
         {
           "word": "busy-body",
           "notes": {
             "english": "someone far too interested in everyone else's business.",
-            "roman": "woh banda jo har kisi ke maamle mein taang araata hai.",
-            "urdu": "وہ شخص جو ہر ایک کے معاملے میں ٹانگ اڑاتا ہے۔"
+            "simple": "someone too interested in other people's business.",
+            "aloud": "a busy-body, the one who is far too interested in everybody else's business."
           }
         },
         {
           "word": "unsocial",
           "notes": {
-            "english": "cold to other people — the opposite of a good neighbour. Rome had them too.",
-            "roman": "logon se katta hua — acha parosi hone ka ulta. Rome mein bhi hote thay.",
-            "urdu": "لوگوں سے کٹا ہوا — اچھے پڑوسی کا الٹ۔ روم میں بھی ہوتے تھے۔"
+            "english": "cold to other people, the opposite of a good neighbour. Rome had them too.",
+            "simple": "cold with other people. a bad neighbour.",
+            "aloud": "unsocial, cold with everyone, the opposite of a good neighbour. Rome had them too."
           }
         }
       ]
@@ -118,15 +118,15 @@
   "langs": [
     {
       "value": "english",
-      "label": "English"
+      "label": "Original"
     },
     {
-      "value": "roman",
-      "label": "Roman Urdu"
+      "value": "simple",
+      "label": "Simplified"
     },
     {
-      "value": "urdu",
-      "label": "اردو"
+      "value": "aloud",
+      "label": "Read aloud"
     }
   ],
   "companions": [
@@ -135,56 +135,4491 @@
       "title": "Crime and Punishment",
       "author": "Fyodor Dostoevsky",
       "units": 7,
-      "unitLabel": "part"
+      "unitLabel": "part",
+      "opening": "Six parts and an epilogue, and the crime is over early. This book is about everything after. Tell me where your bookmark sits and we'll talk about the rest.",
+      "themes": [
+        "Whether a person can be extraordinary enough to step over the rules, and what the stepping over costs.",
+        "Guilt as a physical illness: fever, fainting, the body confessing before the mouth does.",
+        "Petersburg itself (heat, crowds, closet-sized rooms) pressing on every decision.",
+        "Poverty and what it makes people rationalize, from pawnshops to marriages.",
+        "Confession as a need rather than a defeat, the pull toward being known."
+      ],
+      "characters": [
+        {
+          "name": "Rodion Raskolnikov",
+          "from": 1,
+          "note": "A former student in a garret with a theory he hasn't said out loud yet."
+        },
+        {
+          "name": "Alyona Ivanovna",
+          "from": 1,
+          "note": "The pawnbroker on the fourth floor, sharp on interest, short on sympathy."
+        },
+        {
+          "name": "Semyon Marmeladov",
+          "from": 1,
+          "note": "A ruined clerk who narrates his own downfall in a tavern, in detail, to a stranger."
+        },
+        {
+          "name": "Dmitri Razumikhin",
+          "from": 2,
+          "note": "The friend Raskolnikov doesn't deserve, practical, loud, permanently broke and permanently cheerful."
+        },
+        {
+          "name": "Sonya Marmeladova",
+          "from": 2,
+          "note": "Marmeladov's daughter, who carries the family and says little; she matters more with every part."
+        },
+        {
+          "name": "Dunya",
+          "from": 2,
+          "note": "Raskolnikov's sister, engaged for practical reasons her brother refuses to accept."
+        },
+        {
+          "name": "Porfiry Petrovich",
+          "from": 3,
+          "note": "The examining magistrate. Friendly, digressive, and never once off duty."
+        },
+        {
+          "name": "Svidrigailov",
+          "from": 4,
+          "note": "Dunya's former employer, arrived in Petersburg with money and unfinished intentions."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 1,
+          "note": "The theory has left the garret: the old pawnbroker and her sister Lizaveta are dead, and Raskolnikov is home with what he took, having proved nothing he hoped to."
+        },
+        {
+          "upTo": 2,
+          "note": "The loot sits untouched under a stone. Raskolnikov has cycled through fever, a police summons that turned out to be about rent, and a near-confession over tea in a café. Marmeladov is dead in the street, Sonya has a face now, and his mother and sister have arrived at the worst possible moment."
+        },
+        {
+          "upTo": 3,
+          "note": "Luzhin has been measured and found small. Porfiry has held his first interview (pleasant, circular, terrifying) with Raskolnikov's own article on extraordinary men now in the room. A stranger on the street has said the word 'murderer,' and someone new is standing in the doorway."
+        },
+        {
+          "upTo": 4,
+          "note": "The doorway man was Svidrigailov, making offers nobody asked for. Luzhin has been shown out of the family. Sonya has read the raising of Lazarus aloud to the one man in Petersburg who asked for it, and at the second interview a painter named Mikolka confessed to the murder, which should be a relief, and isn't."
+        },
+        {
+          "upTo": 5,
+          "note": "Luzhin's revenge, a hundred-rouble note planted on Sonya, collapsed in public. Katerina Ivanovna has died in the street, mad and unbowed. And Raskolnikov has told Sonya the thing itself; her answer was the crossroads: bow, kiss the earth, confess. He hasn't. Yet."
+        },
+        {
+          "upTo": 6,
+          "note": "Porfiry said it plainly, no games, you did it, confession buys a discount. Svidrigailov let Dunya walk out with the revolver still warm, settled his accounts, and took what he called his trip to America. Raskolnikov kissed the earth at the Haymarket and said the words at the station."
+        },
+        {
+          "upTo": 7,
+          "note": "Siberia. Eight years, second class; Sonya followed the convoy. The epilogue's whole argument is one plague-dream and one morning by the river, whether a theory can die and the man survive it."
+        }
+      ],
+      "spoilerLine": "That's on a later page than yours. Confessions arrive in their own time, read on and ask me again."
     },
     {
       "slug": "meditations",
       "title": "Meditations",
       "author": "Marcus Aurelius",
       "units": 12,
-      "unitLabel": "book"
+      "unitLabel": "book",
+      "opening": "Twelve books of a private notebook that was never meant to leave the tent. There's no plot to spoil, only an argument that keeps returning, tell me which book you're in.",
+      "themes": [
+        "You will die, and the point of remembering it is scheduling: do the thing in front of you.",
+        "The inner citadel, the one territory no emperor or annoyance can occupy without your consent.",
+        "Other people are difficult by nature, and dealing with them kindly is the actual exercise.",
+        "Nature as one organism: what happens to you is weather, not persecution.",
+        "The strangeness of reading advice a man wrote strictly to himself."
+      ],
+      "characters": [
+        {
+          "name": "Marcus Aurelius",
+          "from": 1,
+          "note": "The author and the sole intended reader. Emperor of Rome, writing at night, in Greek."
+        },
+        {
+          "name": "Antoninus Pius",
+          "from": 1,
+          "note": "His adoptive father, thanked at length in Book 1 as the model of holding power quietly."
+        },
+        {
+          "name": "Rusticus",
+          "from": 1,
+          "note": "The teacher who told him to stop performing rhetoric and lent him Epictetus. Book 1 credits him with the whole project."
+        },
+        {
+          "name": "Epictetus",
+          "from": 1,
+          "note": "A former slave whose lectures echo through the notebook, the philosophy's other voice."
+        },
+        {
+          "name": "Heraclitus",
+          "from": 3,
+          "note": "The old philosopher of flux, cited when Marcus wants reminding that even philosophers die of ordinary things."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 1,
+          "note": "Book 1 is the ledger of debts: everything Marcus believes, credited line by line to the person he learned it from, family, teachers, the gods, in that order."
+        },
+        {
+          "upTo": 3,
+          "note": "The practice has begun in earnest: mornings open by expecting difficult people, death is treated as a deadline rather than a tragedy, and the notebook keeps circling one instruction, attend to the task in front of you."
+        },
+        {
+          "upTo": 6,
+          "note": "The frame has widened to the whole cosmos: one nature, one substance, everything recycled. Do good and expect no witness; fame turns out to be spectacularly bad arithmetic once you set it against time."
+        },
+        {
+          "upTo": 9,
+          "note": "The middle books grind at the hardest material (injury, anger, other people's failings) and keep reaching the same verdict: the wrong belongs to the one doing it, and your retreat is always available, being internal."
+        },
+        {
+          "upTo": 12,
+          "note": "The closing books make peace with the exit: death is nature's business, handled competently for everyone so far. The last entry says to leave the stage gracefully, the one dismissing you is the one who hired you."
+        }
+      ],
+      "spoilerLine": "Strictly speaking a diary can't be spoiled, but the argument earns its later entries. Read to that book and ask me again."
     },
     {
       "slug": "the-little-prince",
       "title": "The Little Prince",
       "author": "Antoine de Saint-Exupéry",
       "units": 27,
-      "unitLabel": "chapter"
+      "unitLabel": "chapter",
+      "opening": "Twenty-seven short chapters, a desert, and a visitor who asks questions instead of answering them. Tell me which chapter you've reached and we'll talk, no further.",
+      "themes": [
+        "Grown-ups: how counting, owning, and being sensible slowly replace seeing.",
+        "Taming, the idea that time spent on someone is what makes them matter.",
+        "Small responsibilities kept faithfully: one flower, three volcanoes, a daily sweep for baobabs.",
+        "What's essential being invisible to the eye, and what it costs to learn that.",
+        "Loneliness, and the difference between being alone and being untamed."
+      ],
+      "characters": [
+        {
+          "name": "The narrator",
+          "from": 1,
+          "note": "A pilot whose drawing career ended at age six, reviewed badly by adults."
+        },
+        {
+          "name": "The little prince",
+          "from": 2,
+          "note": "Arrives in the Sahara asking for a sheep. Declines to answer questions; never lets go of one he's asked."
+        },
+        {
+          "name": "The rose",
+          "from": 8,
+          "note": "Vain, four thorns, dearly loved. The reason for everything, including the leaving."
+        },
+        {
+          "name": "The king",
+          "from": 10,
+          "note": "First stop on the tour of grown-ups: rules an empty planet, only issues orders that would be obeyed anyway."
+        },
+        {
+          "name": "The snake",
+          "from": 17,
+          "note": "The first meeting on Earth. Speaks in riddles and offers a favor best considered carefully."
+        },
+        {
+          "name": "The fox",
+          "from": 21,
+          "note": "Asks to be tamed and explains how. Owns the book's secret and gives it away at parting."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 4,
+          "note": "A pilot is down in the Sahara with eight days of water, and a small visitor has appeared asking for a sheep. The drawings have resumed after a long retirement, and the visitor turns out to come from an asteroid about the size of a house."
+        },
+        {
+          "upTo": 9,
+          "note": "The prince's planet stands fully surveyed: three knee-high volcanoes, baobab weeding, forty-odd sunsets on a sad day, and a rose who is proud, demanding, and loved. Her games ended in his leaving; she managed not to cry in front of him, barely."
+        },
+        {
+          "upTo": 15,
+          "note": "Six planets, six grown-ups: a king with no subjects, an admirer with no audience, a drinker drinking to forget the drinking, a businessman counting stars he owns, a lamplighter obeying an absurd order faithfully, and a geographer who never leaves the desk. Only the lamplighter escaped ridicule. He attends to something besides himself."
+        },
+        {
+          "upTo": 20,
+          "note": "Earth at last, entered through the empty desert: a snake who talks in riddles, a mountain that only echoes, and then a garden of five thousand roses, hard news for a prince who believed his was the only one in the universe."
+        },
+        {
+          "upTo": 24,
+          "note": "The fox has been tamed and has said the thing plainly: what's essential is invisible to the eye, and the time spent on your rose is what makes her matter. Back in the desert the narrator's water has run out, a night of walking, and at daybreak, a well."
+        },
+        {
+          "upTo": 27,
+          "note": "The well gave up its water at dawn. The rest you've read: the anniversary of the arrival, the arrangement with the snake, the fall no louder than sand, and a narrator who still checks the night sky and asks you to do the same."
+        }
+      ],
+      "spoilerLine": "That happens past your bookmark, and nothing essential is visible from here, read on and ask again."
     },
     {
       "slug": "the-brothers-karamazov",
       "title": "The Brothers Karamazov",
       "author": "Fyodor Dostoevsky",
       "units": 12,
-      "unitLabel": "book"
+      "unitLabel": "book",
+      "opening": "Twelve books, three brothers, and one father too many. Tell me which book you're in and we'll keep the conversation on the near side of it.",
+      "themes": [
+        "Whether anything is permitted if God isn't watching, the family runs the experiment live.",
+        "Fathers and sons: inheritance as grievance, biology as accusation.",
+        "Faith that survives doubt versus doubt that can't survive itself.",
+        "Active love as a discipline, harsh and dreadful next to love in dreams.",
+        "Responsibility for all: the claim that everyone is guilty before everyone, taken literally."
+      ],
+      "characters": [
+        {
+          "name": "Fyodor Pavlovich Karamazov",
+          "from": 1,
+          "note": "The father. A buffoon by strategy, a sensualist by conviction, a landowner by accident."
+        },
+        {
+          "name": "Dmitri (Mitya)",
+          "from": 1,
+          "note": "The eldest brother: an officer's temper and an inheritance grievance he considers a moral cause."
+        },
+        {
+          "name": "Ivan",
+          "from": 1,
+          "note": "The middle brother, the educated one, published, polite, and quietly on fire."
+        },
+        {
+          "name": "Alyosha",
+          "from": 1,
+          "note": "The youngest, a novice at the local monastery; the narrator's favorite and everyone's messenger."
+        },
+        {
+          "name": "Elder Zosima",
+          "from": 1,
+          "note": "Alyosha's elder at the monastery, dying, beloved, and about to referee a family that can't be refereed."
+        },
+        {
+          "name": "Smerdyakov",
+          "from": 3,
+          "note": "The cook. Epileptic, exact, offended by everything, and listening more than anyone notices."
+        },
+        {
+          "name": "Grushenka",
+          "from": 3,
+          "note": "The woman both father and eldest son circle, the local legend precedes her; the person turns out to be someone else."
+        },
+        {
+          "name": "Katerina Ivanovna",
+          "from": 3,
+          "note": "Dmitri's betrothed, magnificent, wounded, and generous in ways that cost the recipient."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 2,
+          "note": "The family is assembled and already at war: the Karamazov history behind us, and a peace meeting in the elder's cell that the father turned into theater. It ended with the elder bowing to the ground before Dmitri, and nobody, including the monastery, agrees on what that meant."
+        },
+        {
+          "upTo": 3,
+          "note": "The sensualists in full: father and eldest son open rivals for Grushenka, with the inheritance as pretext. Smerdyakov's whole story is on the table now (his mother, his epilepsy, his opinions) Dmitri has made his 'confession of an ardent heart' to Alyosha, and the father has been dragged by the beard in his own house."
+        },
+        {
+          "upTo": 4,
+          "note": "The lacerations: Katerina's two hundred roubles sent to Captain Snegiryov (the man Dmitri dragged from the tavern by the beard, in front of his boy Ilyusha) and refused with a stamp of the heel. Pride, it turns out, is the one thing in this town nobody can afford and everybody buys."
+        },
+        {
+          "upTo": 5,
+          "note": "Ivan has laid his cards down: the catalogue of tortured children, the ticket respectfully returned, and the Grand Inquisitor, a poem about a church that corrected God's work. And in a courtyard chat with Smerdyakov, things were said with plausible deniability that will not stay deniable."
+        },
+        {
+          "upTo": 7,
+          "note": "Book 6 gave the answer as a life rather than an argument (Zosima's brother Markel, the duel, everyone guilty before everyone. Then the elder died, and his body did the one thing the town demanded it not do: decayed on schedule. Alyosha's faith cracked on the smell of it, spent an evening at Grushenka's, and came back changed) the chapter called Cana of Galilee is where the book lets him weep and stand up."
+        },
+        {
+          "upTo": 9,
+          "note": "The night everything happened: Dmitri hunting three thousand roubles across the district, a brass pestle in his pocket, the garden fence, old Grigory struck down, and a spree at Mokroye interrupted by officials at dawn. Fyodor Pavlovich is dead; Dmitri, covered in exactly the wrong evidence, is under arrest and swearing to the one gap in his story."
+        },
+        {
+          "upTo": 11,
+          "note": "Three visits to Smerdyakov, and on the last one Ivan got the full accounting, who did what, and on whose theory. The same night the devil paid Ivan a personal call, shabby suit and all, and Smerdyakov closed his own account with a rope. The trial opens with the only confession that matters unavailable."
+        },
+        {
+          "upTo": 12,
+          "note": "The trial in full: the evidence marching one way, Ivan breaking down mid-testimony, Katerina's letter detonating, and twelve peasants who, as the town put it, stood up for themselves. A miscarriage, formally. Then the epilogue at the stone, where Alyosha and the boys agree to remember one good thing each; the book ends on a cheer."
+        }
+      ],
+      "spoilerLine": "That sits in a later book than yours. Everyone in this family answers eventually, read on and ask me again."
     },
     {
       "slug": "1984",
       "title": "1984",
       "author": "George Orwell",
       "units": 3,
-      "unitLabel": "part"
+      "unitLabel": "part",
+      "opening": "Three parts, and each one changes what kind of book you think you're reading. Tell me where you are; I'll keep the rest behind the telescreen.",
+      "themes": [
+        "Language as a cage: if the word for a thought is gone, is the thought?",
+        "Surveillance that works less by watching than by making you assume it is.",
+        "The past as an editable document, and memory as the last private property.",
+        "Whether love between two people can count as a political act.",
+        "The proles, the eighty-five percent the Party barely bothers to watch, and why."
+      ],
+      "characters": [
+        {
+          "name": "Winston Smith",
+          "from": 1,
+          "note": "Thirty-nine, varicose ulcer, rewrites old newspapers for a living, and has started noticing that he does."
+        },
+        {
+          "name": "Julia",
+          "from": 1,
+          "note": "The dark-haired girl from the Fiction Department. Winston has decided he hates her, on no particular evidence."
+        },
+        {
+          "name": "O'Brien",
+          "from": 1,
+          "note": "Inner Party. Winston reads sympathy into one glance from him, which is either hope or the start of a mistake."
+        },
+        {
+          "name": "Mr Charrington",
+          "from": 1,
+          "note": "The old man who keeps the junk shop where Winston bought his diary. Fond of the past, helpfully."
+        },
+        {
+          "name": "Syme",
+          "from": 1,
+          "note": "A Newspeak lexicographer, brilliant and doomed by his own clear sight. Winston can see it, and so can Syme, almost."
+        },
+        {
+          "name": "Parsons",
+          "from": 1,
+          "note": "Winston's neighbor: sweaty, loyal, proud of children who inform on people."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 1,
+          "note": "A diary has been opened, which is not illegal because nothing is, merely fatal. Winston has committed thoughtcrime in ink, filed the dark-haired girl under enemy and O'Brien under maybe, and started buying nostalgia at Mr Charrington's shop. DOWN WITH BIG BROTHER, says the page, repeatedly."
+        },
+        {
+          "upTo": 2,
+          "note": "The note said what it said, and the affair now has a geography: a clearing in the country, a church belfry, and the room over the junk shop with no telescreen in it. 'We are the dead' has become pillow talk, which both of them believe and neither acts like."
+        },
+        {
+          "upTo": 2,
+          "note": "O'Brien made contact. The visit to his flat came with wine, a catechism of what they'd be willing to do, and the promise of Goldstein's book, which Winston was reading aloud in the room over the shop, right up until the voice behind the picture finished the thought."
+        },
+        {
+          "upTo": 3,
+          "note": "The Ministry of Love, where it was always going to end: the cell with no darkness, O'Brien on the wrong side of the table (or, as he'd insist, the right one) the sessions, Room 101, and the chestnut tree café after. Two plus two, the gin, and the last line about love."
+        },
+        {
+          "upTo": 3,
+          "note": "One more thing: the appendix on Newspeak is written in the past tense, in standard English. Nobody at the Ministry approved that. Worth sitting with."
+        }
+      ],
+      "spoilerLine": "That's past your bookmark, and I don't give away what's ahead of it. Read on and ask again."
     },
     {
       "slug": "notes-from-underground",
       "title": "Notes from Underground",
       "author": "Fyodor Dostoevsky",
       "units": 2,
-      "unitLabel": "part"
+      "unitLabel": "part",
+      "opening": "Two parts: first the argument, then the incident that proves it. Forty pages of a man talking to himself, then the week he'd rather forget. Tell me which part you're in.",
+      "themes": [
+        "Spite as a form of freedom, choosing badly just to prove the choosing is yours.",
+        "Consciousness as an illness: seeing every side of everything until action is impossible.",
+        "The crystal palace, utopias, and the human need to kick them.",
+        "Two times two is four, and the part of us that resents it.",
+        "Humiliation as a habit that starts to look like a personality."
+      ],
+      "characters": [
+        {
+          "name": "The Underground Man",
+          "from": 1,
+          "note": "Forty, retired from a civil service job he hated, narrating from a corner he calls the underground. Warns you on page one that he is sick, spiteful, and lying."
+        },
+        {
+          "name": "The officer",
+          "from": 2,
+          "note": "A soldier who once moved him aside like furniture, inspiring a revenge plot measured in years and one overcoat collar."
+        },
+        {
+          "name": "Simonov",
+          "from": 2,
+          "note": "The old schoolmate who still, reluctantly, answers the door, banker of the dinner and of small loans."
+        },
+        {
+          "name": "Zverkov",
+          "from": 2,
+          "note": "Another schoolmate: successful, generous, pleasant, which is unforgivable. Guest of honor at a farewell dinner our narrator invites himself to."
+        },
+        {
+          "name": "Liza",
+          "from": 2,
+          "note": "Twenty, new to the establishment on the night the narrator arrives with a speech loaded. She listens, which he did not plan for."
+        },
+        {
+          "name": "Apollon",
+          "from": 2,
+          "note": "The narrator's servant, dignified beyond his wages, waging a cold war of pauses."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 1,
+          "note": "The confession is underway: a sick, spiteful, unattractive man (his words, in that order) explaining why he never became anything, and why the fault lies with consciousness itself. Even his toothache, he admits, gets performed."
+        },
+        {
+          "upTo": 1,
+          "note": "The argument has found its target: the crystal palace, the calculated utopia where every choice is arithmetic. His objection stands, a man will go mad on purpose rather than be a piano key. Two times two is four, he concedes; but two times two is five is sometimes very charming."
+        },
+        {
+          "upTo": 2,
+          "note": "The evidence, apropos of the wet snow: years spent engineering one shoulder-bump against an officer who never noticed him, then the Zverkov dinner (uninvited, under-dressed, pacing the room for three hours while they ignored him) ending with him trailing the party to the establishment they'd moved on to."
+        },
+        {
+          "upTo": 2,
+          "note": "Liza happened. The grand speech about her future worked better than he intended, so he left his address and spent days dreading the knock. She came, caught him mid-tantrum in all his poverty, and understood him anyway, for which he pressed a five-rouble note into her hand. She left it crumpled on the table and walked into the snow, and he didn't catch her. He'd like you to know he's ashamed of the whole account, and that this proves his point."
+        }
+      ],
+      "spoilerLine": "That's ahead of your page. He'd spite me for telling it early, read on and ask again."
     },
     {
       "slug": "white-nights",
       "title": "White Nights",
       "author": "Fyodor Dostoevsky",
       "units": 5,
-      "unitLabel": "night"
+      "unitLabel": "night",
+      "opening": "Four nights on a Petersburg embankment and one morning after. It's short and it's tender, and I won't hurry it, which night are you on?",
+      "themes": [
+        "The dreamer's life: fifteen years of imagined friendships and one real conversation.",
+        "Petersburg's white nights, when the sky won't darken and nobody quite goes home.",
+        "Loneliness so practiced it has furniture, and what happens when someone sits down in it.",
+        "Gratitude as a form of love, and whether it's enough.",
+        "Whether one perfect minute can fund a whole life."
+      ],
+      "characters": [
+        {
+          "name": "The dreamer",
+          "from": 1,
+          "note": "Unnamed, twenty-six, knows every building in Petersburg by sight and no people at all. Our narrator."
+        },
+        {
+          "name": "Nastenka",
+          "from": 1,
+          "note": "Seventeen, met crying at a canal railing. Sets one condition on the friendship: don't fall in love with her."
+        },
+        {
+          "name": "The grandmother",
+          "from": 2,
+          "note": "Blind, formidable, and in the habit of pinning Nastenka's dress to her own so the girl can't wander."
+        },
+        {
+          "name": "The lodger",
+          "from": 2,
+          "note": "The boarder from the grandmother's house in Nastenka's story, took the two women to the opera, then left for Moscow with a promise attached."
+        },
+        {
+          "name": "Matryona",
+          "from": 2,
+          "note": "The dreamer's housekeeper, at war with the cobwebs and losing on schedule."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 1,
+          "note": "One meeting so far: a girl crying at the canal railing, an unpleasant gentleman seen off, and an agreement struck. She'll be there tomorrow, and he is not to fall in love. He has accepted the terms in the way people accept terms."
+        },
+        {
+          "upTo": 2,
+          "note": "Histories exchanged. His: fifteen years of dreaming instead of living, confessed with alarming fluency. Hers: a blind grandmother, a pin, and a lodger who promised to come back within the year. The year is up, he's known to be in Petersburg, and no word has come, so the dreamer has offered to carry a letter."
+        },
+        {
+          "upTo": 3,
+          "note": "The letter is delivered, and the third night was spent waiting for a man who didn't come. Nastenka ran the whole scale from hope to despair; the dreamer held his own news back, namely that the condition she set on the first night has already been broken, on his side."
+        },
+        {
+          "upTo": 4,
+          "note": "No letter, no lodger, and the dreamer finally said it. Nastenka, weeping, resolved to love him instead, lodgings discussed, a future sketched right there on the embankment. Then a young man passed under the lamp, and she went very still."
+        },
+        {
+          "upTo": 5,
+          "note": "Morning, and her letter came: gratitude, apology, a wedding, and a request for the cruelest thing, friendship. The dreamer's answer is the famous last line, a blessing where a grievance would fit: a whole minute of bliss, and enough for a lifetime."
+        }
+      ],
+      "spoilerLine": "That's a later night than yours. The embankment keeps its own schedule, read on and ask me again."
     },
     {
       "slug": "the-idiot",
       "title": "The Idiot",
       "author": "Fyodor Dostoevsky",
       "units": 4,
-      "unitLabel": "part"
+      "unitLabel": "part",
+      "opening": "Four parts, beginning on a third-class train into Petersburg with two men who should never have met. Tell me which part you're in, and we'll stop the conversation at that station.",
+      "themes": [
+        "What happens to a genuinely good person in a society that has priced everything.",
+        "Beauty, whether it saves the world or gets people killed; the book keeps both options open.",
+        "Money as weather: dowries, inheritances, and bundles of banknotes altering every room they enter.",
+        "Illness and insight, the still, clear second before the fall.",
+        "Compassion versus passion, aimed at the same woman, with no stable middle."
+      ],
+      "characters": [
+        {
+          "name": "Prince Myshkin",
+          "from": 1,
+          "note": "Last of his line, back from a Swiss sanatorium with a small bundle, an epilepsy diagnosis, and no idea what things cost."
+        },
+        {
+          "name": "Rogozhin",
+          "from": 1,
+          "note": "Met on the train: a merchant's son, a new inheritance, and one fixed idea with a woman's name on it."
+        },
+        {
+          "name": "Lebedev",
+          "from": 1,
+          "note": "Also on the train, agreeing with everyone. A clerk who knows everything about everybody and lends it out at interest."
+        },
+        {
+          "name": "Nastasya Filippovna",
+          "from": 1,
+          "note": "First a photograph, then a legend, then a person, kept since girlhood by the man who ruined her, and pricing herself accordingly."
+        },
+        {
+          "name": "Ganya",
+          "from": 1,
+          "note": "The Epanchins' secretary, handsome and mediocre, trying to marry his way out of both conditions."
+        },
+        {
+          "name": "Aglaya",
+          "from": 1,
+          "note": "The youngest Epanchin daughter: the beauty of the family, bored, sharp, and waiting for something worth the sharpness."
+        },
+        {
+          "name": "Ippolit",
+          "from": 2,
+          "note": "Seventeen and dying of consumption, determined that somebody acknowledge it meaningfully."
+        }
+      ],
+      "beats": [
+        {
+          "upTo": 1,
+          "note": "One Petersburg day, start to finish: the train, the Epanchins disarmed by plain frankness, the story of the execution, the photograph, and the birthday party where Nastasya Filippovna put a hundred thousand roubles into the fire, told Ganya it was his if he'd reach in barehanded, watched him faint instead, and drove off into the night with Rogozhin."
+        },
+        {
+          "upTo": 2,
+          "note": "Six months of Moscow, skipped and rumored, and the prince is back. The visit to Rogozhin's dark house brought an exchange of crosses under a copy of Holbein's dead Christ, brotherhood declared, with a garden knife that kept being on the table anyway. On a hotel staircase the knife finally came out; the epileptic fit arrived first, and nobody has to say what it prevented."
+        },
+        {
+          "upTo": 3,
+          "note": "Pavlovsk in season: verandas, scandal sheets, and Ippolit's 'Necessary Explanation' read aloud at dawn with a suicide planned as punctuation, the pistol misfired, and the mortification did not. Meanwhile the green bench: Aglaya and the prince are being talked about because there is something to talk about, and Nastasya has begun writing Aglaya letters, which is nobody's idea of good news."
+        },
+        {
+          "upTo": 4,
+          "note": "Everything at once: the engagement party where the prince talked too long and broke the Chinese vase exactly as prophesied; the meeting of the two women that could only end one way and did; the wedding Nastasya fled at the church door, with Rogozhin; and the vigil in the dark house on Gorokhovaya, two men side by side over what's behind the curtain, and the prince gone back to where the book found him, only further."
+        }
+      ],
+      "spoilerLine": "That's past your part, and this ending should not arrive early, read on and ask me again."
+    }
+  ],
+  "recommendations": [
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "crime-and-punishment",
+        "notes-from-underground",
+        "the-little-prince"
+      ],
+      "why": "Proof the man behind Crime and Punishment could be gentle, four nights on an embankment, one morning after."
+    },
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "notes-from-underground",
+        "white-nights",
+        "the-brothers-karamazov",
+        "the-trial"
+      ],
+      "why": "You've been circling Dostoevsky. This is the door most readers enter by, and it holds."
+    },
+    {
+      "slug": "the-idiot",
+      "title": "The Idiot",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "crime-and-punishment",
+        "the-brothers-karamazov",
+        "white-nights"
+      ],
+      "why": "His experiment after Crime and Punishment: swap the murderer for a genuinely good man, and watch Petersburg handle him no more kindly."
+    },
+    {
+      "slug": "demons",
+      "title": "Demons",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "the-brothers-karamazov",
+        "1984",
+        "crime-and-punishment"
+      ],
+      "why": "You shelved 1984. Dostoevsky watched the same machinery being assembled a half-century early, in a provincial town, over tea."
+    },
+    {
+      "slug": "the-gambler",
+      "title": "The Gambler",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "crime-and-punishment",
+        "notes-from-underground"
+      ],
+      "why": "You know Dostoevsky's fevers by now. This one he wrote in twenty-six days to pay his own roulette debts, so the research was primary."
+    },
+    {
+      "slug": "humiliated-and-insulted",
+      "title": "Humiliated and Insulted",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "poor-folk",
+        "white-nights",
+        "netochka-nezvanova"
+      ],
+      "why": "You shelved Poor Folk. This is that early tenderness come back from Siberia with harder edges and a bigger cast."
+    },
+    {
+      "slug": "the-double",
+      "title": "The Double",
+      "author": "Fyodor Dostoevsky",
+      "triggers": [
+        "the-trial",
+        "notes-from-underground"
+      ],
+      "why": "You shelved The Trial. Kafka's nightmare logic starts here, with a Petersburg clerk whose exact copy turns out to be better at his life."
+    },
+    {
+      "slug": "the-trial",
+      "title": "The Trial",
+      "author": "Franz Kafka",
+      "triggers": [
+        "the-double",
+        "1984",
+        "the-stranger"
+      ],
+      "why": "You shelved The Double, the same nightmare a lifetime later: Golyadkin lost his self, Josef K. loses his case, and neither is told why."
+    },
+    {
+      "slug": "1984",
+      "title": "1984",
+      "author": "George Orwell",
+      "triggers": [
+        "the-trial",
+        "demons"
+      ],
+      "why": "You shelved The Trial. Orwell gives Kafka's nameless court a ministry, a language, and a filing system."
+    },
+    {
+      "slug": "the-stranger",
+      "title": "The Stranger",
+      "author": "Albert Camus",
+      "triggers": [
+        "notes-from-underground",
+        "the-trial",
+        "meditations"
+      ],
+      "why": "You shelved Notes from Underground. Meursault is the opposite failure: where the Underground Man explains too much, he won't explain at all, and the court notices."
+    },
+    {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "triggers": [
+        "atomic-habits",
+        "deep-work",
+        "the-7-habits-of-highly-effective-people",
+        "the-stranger"
+      ],
+      "why": "You shelved Atomic Habits. This is the original habit journal, kept nightly by a Roman emperor with no intention of publishing."
+    },
+    {
+      "slug": "sapiens",
+      "title": "Sapiens",
+      "author": "Yuval Noah Harari",
+      "triggers": [
+        "meditations",
+        "a-brief-history-of-time",
+        "1984"
+      ],
+      "why": "You shelved Meditations. Marcus takes the long view of one life; Harari takes it of the whole species."
+    },
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Antoine de Saint-Exupéry",
+      "triggers": [
+        "white-nights",
+        "a-gentle-creature"
+      ],
+      "why": "You shelved White Nights, the other tender one in the catalog: a downed pilot, a visiting prince, and a rose worth the trouble."
+    },
+    {
+      "slug": "atomic-habits",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "triggers": [
+        "deep-work",
+        "the-7-habits-of-highly-effective-people",
+        "how-to-win-friends-and-influence-people",
+        "meditations"
+      ],
+      "why": "You shelved Deep Work. Newport clears the desk, Clear is the one who gets you back to it every morning."
+    },
+    {
+      "slug": "deep-work",
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "triggers": [
+        "atomic-habits",
+        "clean-code",
+        "the-pragmatic-programmer",
+        "meditations"
+      ],
+      "why": "You shelved Clean Code, the code gets cleaner when the attention does; this is the working case for a shut door."
+    },
+    {
+      "slug": "a-brief-history-of-time",
+      "title": "A Brief History of Time",
+      "author": "Stephen Hawking",
+      "triggers": [
+        "sapiens",
+        "meditations"
+      ],
+      "why": "You shelved Sapiens. If seventy thousand years felt brief, Hawking offers thirteen billion and change."
+    }
+  ],
+  "books": [
+    {
+      "slug": "poor-folk",
+      "title": "Poor Folk",
+      "author": "Fyodor Dostoevsky",
+      "year": "1846",
+      "category": "classics"
+    },
+    {
+      "slug": "the-double",
+      "title": "The Double",
+      "author": "Fyodor Dostoevsky",
+      "year": "1846",
+      "category": "classics"
+    },
+    {
+      "slug": "the-landlady",
+      "title": "The Landlady",
+      "author": "Fyodor Dostoevsky",
+      "year": "1847",
+      "category": "classics"
+    },
+    {
+      "slug": "white-nights",
+      "title": "White Nights",
+      "author": "Fyodor Dostoevsky",
+      "year": "1848",
+      "category": "classics"
+    },
+    {
+      "slug": "netochka-nezvanova",
+      "title": "Netochka Nezvanova",
+      "author": "Fyodor Dostoevsky",
+      "year": "1849",
+      "category": "classics"
+    },
+    {
+      "slug": "uncle-s-dream",
+      "title": "Uncle's Dream",
+      "author": "Fyodor Dostoevsky",
+      "year": "1859",
+      "category": "classics"
+    },
+    {
+      "slug": "the-village-of-stepanchikovo",
+      "title": "The Village of Stepanchikovo",
+      "author": "Fyodor Dostoevsky",
+      "year": "1859",
+      "category": "classics"
+    },
+    {
+      "slug": "humiliated-and-insulted",
+      "title": "Humiliated and Insulted",
+      "author": "Fyodor Dostoevsky",
+      "year": "1861",
+      "category": "classics"
+    },
+    {
+      "slug": "the-house-of-the-dead",
+      "title": "The House of the Dead",
+      "author": "Fyodor Dostoevsky",
+      "year": "1862",
+      "category": "classics"
+    },
+    {
+      "slug": "crime-and-punishment",
+      "title": "Crime and Punishment",
+      "author": "Fyodor Dostoevsky",
+      "year": "1866",
+      "category": "classics"
+    },
+    {
+      "slug": "the-gambler",
+      "title": "The Gambler",
+      "author": "Fyodor Dostoevsky",
+      "year": "1866",
+      "category": "classics"
+    },
+    {
+      "slug": "the-idiot",
+      "title": "The Idiot",
+      "author": "Fyodor Dostoevsky",
+      "year": "1869",
+      "category": "classics"
+    },
+    {
+      "slug": "the-eternal-husband",
+      "title": "The Eternal Husband",
+      "author": "Fyodor Dostoevsky",
+      "year": "1870",
+      "category": "classics"
+    },
+    {
+      "slug": "demons",
+      "title": "Demons",
+      "author": "Fyodor Dostoevsky",
+      "year": "1872",
+      "category": "classics"
+    },
+    {
+      "slug": "the-adolescent",
+      "title": "The Adolescent",
+      "author": "Fyodor Dostoevsky",
+      "year": "1875",
+      "category": "classics"
+    },
+    {
+      "slug": "a-gentle-creature",
+      "title": "A Gentle Creature",
+      "author": "Fyodor Dostoevsky",
+      "year": "1876",
+      "category": "classics"
+    },
+    {
+      "slug": "the-dream-of-a-ridiculous-man",
+      "title": "The Dream of a Ridiculous Man",
+      "author": "Fyodor Dostoevsky",
+      "year": "1877",
+      "category": "classics"
+    },
+    {
+      "slug": "meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius",
+      "year": "c. 180",
+      "category": "philosophy"
+    },
+    {
+      "slug": "the-stranger",
+      "title": "The Stranger",
+      "author": "Albert Camus",
+      "year": "1942",
+      "category": "philosophy"
+    },
+    {
+      "slug": "the-trial",
+      "title": "The Trial",
+      "author": "Franz Kafka",
+      "year": "1925",
+      "category": "fiction"
+    },
+    {
+      "slug": "1984",
+      "title": "1984",
+      "author": "George Orwell",
+      "year": "1949",
+      "category": "fiction"
+    },
+    {
+      "slug": "the-little-prince",
+      "title": "The Little Prince",
+      "author": "Antoine de Saint-Exupéry",
+      "year": "1943",
+      "category": "fiction"
+    },
+    {
+      "slug": "the-48-laws-of-power",
+      "title": "The 48 Laws of Power",
+      "author": "Robert Greene",
+      "year": "1998",
+      "category": "self-growth"
+    },
+    {
+      "slug": "atomic-habits",
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "year": "2018",
+      "category": "self-growth"
+    },
+    {
+      "slug": "how-to-win-friends-and-influence-people",
+      "title": "How to Win Friends and Influence People",
+      "author": "Dale Carnegie",
+      "year": "1936",
+      "category": "self-growth"
+    },
+    {
+      "slug": "the-7-habits-of-highly-effective-people",
+      "title": "The 7 Habits of Highly Effective People",
+      "author": "Stephen R. Covey",
+      "year": "1989",
+      "category": "self-growth"
+    },
+    {
+      "slug": "deep-work",
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "year": "2016",
+      "category": "self-growth"
+    },
+    {
+      "slug": "sapiens",
+      "title": "Sapiens",
+      "author": "Yuval Noah Harari",
+      "year": "2011",
+      "category": "knowledge"
+    },
+    {
+      "slug": "clean-code",
+      "title": "Clean Code",
+      "author": "Robert C. Martin",
+      "year": "2008",
+      "category": "knowledge"
+    },
+    {
+      "slug": "the-pragmatic-programmer",
+      "title": "The Pragmatic Programmer",
+      "author": "Hunt & Thomas",
+      "year": "1999",
+      "category": "knowledge"
+    },
+    {
+      "slug": "a-brief-history-of-time",
+      "title": "A Brief History of Time",
+      "author": "Stephen Hawking",
+      "year": "1988",
+      "category": "knowledge"
+    },
+    {
+      "slug": "the-call-of-the-wild",
+      "title": "The Call of the Wild",
+      "author": "Jack London",
+      "year": "1997",
+      "category": "classics",
+      "search": "the call of the wild"
+    },
+    {
+      "slug": "twelfth-night-or-what-you-will",
+      "title": "Twelfth Night, Or What You Will",
+      "author": "William Shakespeare",
+      "year": "1998",
+      "category": "classics",
+      "search": "twelfth night, or what you will"
+    },
+    {
+      "slug": "pride-and-prejudice",
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "year": "2021",
+      "category": "classics",
+      "search": "pride and prejudice"
+    },
+    {
+      "slug": "ten-nights-dreams",
+      "title": "Ten Nights' Dreams",
+      "author": "Sōseki Natsume, Soseki Museum in London",
+      "year": "2000",
+      "category": "classics",
+      "search": "ten nights' dreams"
+    },
+    {
+      "slug": "the-adventures-of-sherlock-holmes",
+      "title": "The Adventures of Sherlock Holmes",
+      "author": "Arthur Conan Doyle",
+      "year": "1976",
+      "category": "classics",
+      "search": "the adventures of sherlock holmes"
+    },
+    {
+      "slug": "the-secret-agent",
+      "title": "The Secret Agent",
+      "author": "Joseph Conrad",
+      "year": "1990",
+      "category": "classics",
+      "search": "the secret agent"
+    },
+    {
+      "slug": "the-wild-duck",
+      "title": "The Wild Duck",
+      "author": "Henrik Ibsen",
+      "year": "2012",
+      "category": "classics",
+      "search": "the wild duck"
+    },
+    {
+      "slug": "treasure-island",
+      "title": "Treasure Island",
+      "author": "Robert Louis Stevenson",
+      "year": "2004",
+      "category": "classics",
+      "search": "treasure island"
+    },
+    {
+      "slug": "the-picture-of-dorian-gray",
+      "title": "The Picture of Dorian Gray",
+      "author": "Oscar Wilde",
+      "year": "2025",
+      "category": "classics",
+      "search": "the picture of dorian gray"
+    },
+    {
+      "slug": "romeo-and-juliet",
+      "title": "Romeo and Juliet",
+      "author": "William Shakespeare",
+      "year": "2000",
+      "category": "classics",
+      "search": "romeo and juliet"
+    },
+    {
+      "slug": "our-lady-of-the-flowers",
+      "title": "Our Lady of the Flowers",
+      "author": "Jean Genet",
+      "year": "1994",
+      "category": "classics",
+      "search": "our lady of the flowers"
+    },
+    {
+      "slug": "james-joyce",
+      "title": "James Joyce",
+      "author": "Richard Ellmann",
+      "year": "1982",
+      "category": "classics",
+      "search": "james joyce"
+    },
+    {
+      "slug": "journey-to-the-center-of-the-earth",
+      "title": "Journey to the Center of the Earth",
+      "author": "Jules Verne",
+      "year": "2006",
+      "category": "classics",
+      "search": "journey to the center of the earth"
+    },
+    {
+      "slug": "the-master-and-margarita",
+      "title": "The Master and Margarita",
+      "author": "Mikhail Bulgakov",
+      "year": "2001",
+      "category": "classics",
+      "search": "the master and margarita"
+    },
+    {
+      "slug": "jane-eyre",
+      "title": "Jane Eyre",
+      "author": "Charlotte Brontë",
+      "year": "1991",
+      "category": "classics",
+      "search": "jane eyre"
+    },
+    {
+      "slug": "dr-jekyll-and-mr-hyde",
+      "title": "Dr. Jekyll and Mr. Hyde",
+      "author": "Robert Louis Stevenson",
+      "year": "1982",
+      "category": "classics",
+      "search": "dr. jekyll and mr. hyde"
+    },
+    {
+      "slug": "swann-s-way",
+      "title": "Swann's Way",
+      "author": "Marcel Proust",
+      "year": "2013",
+      "category": "classics",
+      "search": "swann's way"
+    },
+    {
+      "slug": "nostromo",
+      "title": "Nostromo",
+      "author": "Joseph Conrad, Cedric Thomas Watts",
+      "year": "1995",
+      "category": "classics",
+      "search": "nostromo"
+    },
+    {
+      "slug": "the-strange-case-of-dr-jekyll-and-mr-hyde",
+      "title": "The Strange Case of Dr. Jekyll and Mr. Hyde",
+      "author": "Robert Louis Stevenson",
+      "year": "1995",
+      "category": "classics",
+      "search": "the strange case of dr. jekyll and mr. hyde"
+    },
+    {
+      "slug": "mary-shelley",
+      "title": "Mary Shelley",
+      "author": "Muriel Spark",
+      "year": "1987",
+      "category": "classics",
+      "search": "mary shelley"
+    },
+    {
+      "slug": "a-doll-s-house",
+      "title": "A Doll's House",
+      "author": "Henrik Ibsen",
+      "year": "2015",
+      "category": "classics",
+      "search": "a doll's house"
+    },
+    {
+      "slug": "laughter",
+      "title": "Laughter",
+      "author": "Henri Bergson",
+      "year": "1999",
+      "category": "classics",
+      "search": "laughter"
+    },
+    {
+      "slug": "the-golden-bowl",
+      "title": "The Golden Bowl",
+      "author": "Henry James",
+      "year": "1983",
+      "category": "classics",
+      "search": "the golden bowl"
+    },
+    {
+      "slug": "the-valley-of-fear",
+      "title": "The Valley of Fear",
+      "author": "Arthur Conan Doyle",
+      "year": "2011",
+      "category": "classics",
+      "search": "the valley of fear"
+    },
+    {
+      "slug": "the-nun",
+      "title": "The Nun",
+      "author": "Denis Diderot",
+      "year": "2005",
+      "category": "classics",
+      "search": "the nun"
+    },
+    {
+      "slug": "bleak-house",
+      "title": "Bleak House",
+      "author": "Charles Dickens",
+      "year": "2021",
+      "category": "classics",
+      "search": "bleak house"
+    },
+    {
+      "slug": "the-sun-also-rises",
+      "title": "The Sun Also Rises",
+      "author": "Ernest Hemingway",
+      "year": "2023",
+      "category": "classics",
+      "search": "the sun also rises"
+    },
+    {
+      "slug": "the-steppenwolf",
+      "title": "The Steppenwolf",
+      "author": "Hermann Hesse",
+      "year": "2023",
+      "category": "classics",
+      "search": "the steppenwolf"
+    },
+    {
+      "slug": "nonsense-books",
+      "title": "Nonsense Books",
+      "author": "Edward Lear",
+      "year": "2019",
+      "category": "classics",
+      "search": "nonsense books"
+    },
+    {
+      "slug": "portrait-of-the-artist-as-a-young-man",
+      "title": "Portrait of the Artist as a Young Man",
+      "author": "James Joyce",
+      "year": "2019",
+      "category": "classics",
+      "search": "portrait of the artist as a young man"
+    },
+    {
+      "slug": "lull-bruno",
+      "title": "Lull & Bruno",
+      "author": "Frances Amelia Yates",
+      "year": "1982",
+      "category": "classics",
+      "search": "lull & bruno"
+    },
+    {
+      "slug": "the-problems-of-philosophy",
+      "title": "The Problems of Philosophy",
+      "author": "Bertrand Russell",
+      "year": "2018",
+      "category": "classics",
+      "search": "the problems of philosophy"
+    },
+    {
+      "slug": "the-complete-essays-of-john-galsworthy",
+      "title": "The Complete Essays of John Galsworthy",
+      "author": "John Galsworthy",
+      "year": "2008",
+      "category": "classics",
+      "search": "the complete essays of john galsworthy"
+    },
+    {
+      "slug": "his-last-bow",
+      "title": "His Last Bow",
+      "author": "Arthur Conan Doyle",
+      "year": "2025",
+      "category": "classics",
+      "search": "his last bow"
+    },
+    {
+      "slug": "the-social-cancer-a-complete-english-version-of-noli-me-tangere",
+      "title": "The Social Cancer: A Complete English Version of Noli Me Tangere",
+      "author": "Jose Rizal",
+      "year": "2018",
+      "category": "classics",
+      "search": "the social cancer: a complete english version of noli me tangere"
+    },
+    {
+      "slug": "the-prose-of-jorge-luis-borges",
+      "title": "The Prose of Jorge Luis Borges",
+      "author": "Ion Tudor Agheana",
+      "year": "1984",
+      "category": "classics",
+      "search": "the prose of jorge luis borges"
+    },
+    {
+      "slug": "kokoro",
+      "title": "Kokoro",
+      "author": "Lafcadio Hearn",
+      "year": "2012",
+      "category": "classics",
+      "search": "kokoro"
+    },
+    {
+      "slug": "a-dictionary-of-literary-symbols",
+      "title": "A Dictionary of Literary Symbols",
+      "author": "Michael Ferber",
+      "year": "1999",
+      "category": "classics",
+      "search": "a dictionary of literary symbols"
+    },
+    {
+      "slug": "encyclopedia-of-arabic-literature",
+      "title": "Encyclopedia of Arabic Literature",
+      "author": "Julie Scott Meisami, Paul Starkey",
+      "year": "1998",
+      "category": "classics",
+      "search": "encyclopedia of arabic literature"
+    },
+    {
+      "slug": "siddhartha",
+      "title": "Siddhartha",
+      "author": "Hermann Hesse",
+      "year": "2013",
+      "category": "classics",
+      "search": "siddhartha"
+    },
+    {
+      "slug": "modernism-dada-postmodernism",
+      "title": "Modernism - Dada - Postmodernism",
+      "author": "Richard Sheppard",
+      "year": "2000",
+      "category": "classics",
+      "search": "modernism - dada - postmodernism"
+    },
+    {
+      "slug": "a-book-of-golden-deeds",
+      "title": "A Book of Golden Deeds",
+      "author": "Charlotte Yonge",
+      "year": "2009",
+      "category": "classics",
+      "search": "a book of golden deeds"
+    },
+    {
+      "slug": "an-enemy-of-the-people",
+      "title": "An Enemy of the People",
+      "author": "Henrik Ibsen",
+      "year": "2017",
+      "category": "classics",
+      "search": "an enemy of the people"
+    },
+    {
+      "slug": "a-manual-of-scientific-enquiry",
+      "title": "A Manual of Scientific Enquiry",
+      "author": "John Frederick William Herschel",
+      "year": "2017",
+      "category": "classics",
+      "search": "a manual of scientific enquiry"
+    },
+    {
+      "slug": "selected-non-fictions",
+      "title": "Selected Non-fictions",
+      "author": "Jorge Luis Borges",
+      "year": "1999",
+      "category": "classics",
+      "search": "selected non-fictions"
+    },
+    {
+      "slug": "thus-spake-zarathustra",
+      "title": "Thus Spake Zarathustra",
+      "author": "Friedrich Nietzsche",
+      "year": "2014",
+      "category": "classics",
+      "search": "thus spake zarathustra"
+    },
+    {
+      "slug": "the-various-contrivances-by-which-orchids-are-fertilized-by-insects",
+      "title": "The Various Contrivances by Which Orchids Are Fertilized by Insects",
+      "author": "Charles Darwin",
+      "year": "2016",
+      "category": "classics",
+      "search": "the various contrivances by which orchids are fertilized by insects"
+    },
+    {
+      "slug": "the-martyrdom-of-man",
+      "title": "The Martyrdom of Man",
+      "author": "Winwood Reade",
+      "year": "2021",
+      "category": "classics",
+      "search": "the martyrdom of man"
+    },
+    {
+      "slug": "letters-from-a-stoic",
+      "title": "Letters from a Stoic",
+      "author": "Lucius Annaeus Seneca",
+      "year": "1969",
+      "category": "classics",
+      "search": "letters from a stoic"
+    },
+    {
+      "slug": "mysteries",
+      "title": "Mysteries",
+      "author": "Knut Hamsun",
+      "year": "2001",
+      "category": "classics",
+      "search": "mysteries"
+    },
+    {
+      "slug": "the-poetic-edda",
+      "title": "The Poetic Edda",
+      "author": "Carolyne Larrington",
+      "year": "2014",
+      "category": "classics",
+      "search": "the poetic edda"
+    },
+    {
+      "slug": "the-two-babylons",
+      "title": "The Two Babylons",
+      "author": "Alexander Hislop",
+      "year": "2018",
+      "category": "classics",
+      "search": "the two babylons"
+    },
+    {
+      "slug": "catalogue-of-the-books-in-the-senior-section",
+      "title": "Catalogue of the Books in the Senior Section",
+      "author": "Johannesburg Public Library",
+      "year": "2017",
+      "category": "classics",
+      "search": "catalogue of the books in the senior section"
+    },
+    {
+      "slug": "barks-and-purrs",
+      "title": "Barks and Purrs",
+      "author": "Colette Willy",
+      "year": "2017",
+      "category": "classics",
+      "search": "barks and purrs"
+    },
+    {
+      "slug": "phaedo",
+      "title": "Phaedo",
+      "author": "Plato",
+      "year": "2017",
+      "category": "classics",
+      "search": "phaedo"
+    },
+    {
+      "slug": "the-house-on-the-borderland",
+      "title": "The House on the Borderland",
+      "author": "William Hope Hodgson",
+      "year": "2015",
+      "category": "classics",
+      "search": "the house on the borderland"
+    },
+    {
+      "slug": "memories-and-thoughts",
+      "title": "Memories and Thoughts",
+      "author": "Frederic Harrison",
+      "year": "1906",
+      "category": "classics",
+      "search": "memories and thoughts"
+    },
+    {
+      "slug": "the-odyssey",
+      "title": "The Odyssey",
+      "author": "Samuel Butler",
+      "year": "2017",
+      "category": "classics",
+      "search": "the odyssey"
+    },
+    {
+      "slug": "valley-of-the-giants",
+      "title": "Valley of the Giants",
+      "author": "Peter B Kyne",
+      "year": "2016",
+      "category": "classics",
+      "search": "valley of the giants"
+    },
+    {
+      "slug": "selected-letters-of-friedrich-nietzsche",
+      "title": "Selected Letters of Friedrich Nietzsche",
+      "author": "Friedrich Nietzsche",
+      "year": "2018",
+      "category": "classics",
+      "search": "selected letters of friedrich nietzsche"
+    },
+    {
+      "slug": "the-methods-of-ethics",
+      "title": "The Methods of Ethics",
+      "author": "Henry Sidgwick",
+      "year": "2018",
+      "category": "classics",
+      "search": "the methods of ethics"
+    },
+    {
+      "slug": "confessions-of-an-english-opium-eater-and-other-writings",
+      "title": "Confessions of an English Opium-Eater and Other Writings",
+      "author": "Thomas De Quincey",
+      "year": "2003",
+      "category": "classics",
+      "search": "confessions of an english opium-eater and other writings"
+    },
+    {
+      "slug": "the-critique-of-pure-reason",
+      "title": "The Critique of Pure Reason",
+      "author": "Immanuel Kant, J. M. D. Meiklejohn",
+      "year": "2014",
+      "category": "classics",
+      "search": "the critique of pure reason"
+    },
+    {
+      "slug": "the-thoughts-of-the-emperor-m-aurelius-antonius-london-1862",
+      "title": "The Thoughts of the Emperor M. Aurelius Antonius. [London-1862]",
+      "author": "M. Aurelius Antonius, George Long",
+      "year": "2017",
+      "category": "classics",
+      "search": "the thoughts of the emperor m. aurelius antonius. [london-1862]"
+    },
+    {
+      "slug": "the-voyage-of-the-beagle",
+      "title": "The Voyage of the Beagle",
+      "author": "Charles Darwin",
+      "year": "2021",
+      "category": "classics",
+      "search": "the voyage of the beagle"
+    },
+    {
+      "slug": "brahmadarsanam-or-intuition-of-the-absolute",
+      "title": "Brahmadarsanam; Or, Intuition of the Absolute",
+      "author": "Sri Ananda Acharya",
+      "year": "2017",
+      "category": "classics",
+      "search": "brahmadarsanam; or, intuition of the absolute"
+    },
+    {
+      "slug": "siddhartha-an-indian-tale",
+      "title": "Siddhartha An Indian Tale",
+      "author": "Hermann Hesse",
+      "year": "2017",
+      "category": "classics",
+      "search": "siddhartha an indian tale"
+    },
+    {
+      "slug": "soap",
+      "title": "Soap",
+      "author": "Francis Ponge, Lane Dunlop",
+      "year": "1998",
+      "category": "classics",
+      "search": "soap"
+    },
+    {
+      "slug": "the-fair-maid-of-perth-or-st-valentine-s-day",
+      "title": "The Fair Maid of Perth; Or, St. Valentine's Day",
+      "author": "Walter Scott, Sir",
+      "year": "2016",
+      "category": "classics",
+      "search": "the fair maid of perth; or, st. valentine's day"
+    },
+    {
+      "slug": "five-children-and-it",
+      "title": "Five Children and It",
+      "author": "Edith Nesbit",
+      "year": "2016",
+      "category": "classics",
+      "search": "five children and it"
+    },
+    {
+      "slug": "historical-miscellany",
+      "title": "Historical Miscellany",
+      "author": "Aelian",
+      "year": "1997",
+      "category": "classics",
+      "search": "historical miscellany"
+    },
+    {
+      "slug": "literary-taste-how-to-form-it",
+      "title": "Literary Taste, How to Form It",
+      "author": "Arnold Bennett",
+      "year": "2017",
+      "category": "classics",
+      "search": "literary taste, how to form it"
+    },
+    {
+      "slug": "olney-hymns-in-three-books",
+      "title": "Olney Hymns in Three Books",
+      "author": "John Newton, William Cowper",
+      "year": "2018",
+      "category": "classics",
+      "search": "olney hymns in three books"
+    },
+    {
+      "slug": "three-contributions-to-the-theories-of-sex",
+      "title": "Three Contributions to the Theories of Sex",
+      "author": "Sigmund Freud",
+      "year": "2008",
+      "category": "classics",
+      "search": "three contributions to the theories of sex"
+    },
+    {
+      "slug": "literary-occasions",
+      "title": "Literary Occasions",
+      "author": "Vidiadhar Surajprasad Naipaul",
+      "year": "2003",
+      "category": "classics",
+      "search": "literary occasions"
+    },
+    {
+      "slug": "a-tale-of-two-cities",
+      "title": "A Tale of Two Cities",
+      "author": "Charles Dickens",
+      "year": "2017",
+      "category": "classics",
+      "search": "a tale of two cities"
+    },
+    {
+      "slug": "bel-ami",
+      "title": "Bel-ami",
+      "author": "Guy de Maupassant",
+      "year": "2017",
+      "category": "classics",
+      "search": "bel-ami"
+    },
+    {
+      "slug": "epinician-odes-and-dithyrambs-of-bacchylides",
+      "title": "Epinician Odes and Dithyrambs of Bacchylides",
+      "author": "Bacchylides",
+      "year": "1998",
+      "category": "classics",
+      "search": "epinician odes and dithyrambs of bacchylides"
+    },
+    {
+      "slug": "sense-and-sensibility",
+      "title": "Sense and Sensibility",
+      "author": "Jane Austen",
+      "year": "2016",
+      "category": "classics",
+      "search": "sense and sensibility"
+    },
+    {
+      "slug": "peter-pan",
+      "title": "Peter Pan",
+      "author": "J. M. Barrie",
+      "year": "2018",
+      "category": "classics",
+      "search": "peter pan"
+    },
+    {
+      "slug": "the-cover-of-the-mask",
+      "title": "The Cover of the Mask",
+      "author": "Annette Tromly",
+      "year": "1982",
+      "category": "classics",
+      "search": "the cover of the mask"
+    },
+    {
+      "slug": "the-festival-of-insignificance",
+      "title": "The Festival of Insignificance",
+      "author": "Milan Kundera",
+      "year": "2023",
+      "category": "classics",
+      "search": "the festival of insignificance"
+    },
+    {
+      "slug": "adventures-among-books",
+      "title": "Adventures Among Books",
+      "author": "Andrew Lang",
+      "year": "2016",
+      "category": "classics",
+      "search": "adventures among books"
+    },
+    {
+      "slug": "to-the-lighthouse",
+      "title": "To the Lighthouse",
+      "author": "Virginia Woolf",
+      "year": "2016",
+      "category": "classics",
+      "search": "to the lighthouse"
+    },
+    {
+      "slug": "letters-to-a-spiritual-seeker",
+      "title": "Letters to a Spiritual Seeker",
+      "author": "Henry David Thoreau",
+      "year": "2004",
+      "category": "classics",
+      "search": "letters to a spiritual seeker"
+    },
+    {
+      "slug": "the-history-of-animals",
+      "title": "The History of Animals",
+      "author": "Aristotle",
+      "year": "2014",
+      "category": "classics",
+      "search": "the history of animals"
+    },
+    {
+      "slug": "hugo-s-toilers-of-the-sea",
+      "title": "Hugo's Toilers of the Sea",
+      "author": "Victor Hugo",
+      "year": "2012",
+      "category": "classics",
+      "search": "hugo's toilers of the sea"
+    },
+    {
+      "slug": "letters-written-during-a-short-residence-in-sweden-norway-and-denmark",
+      "title": "Letters Written During a Short Residence in Sweden, Norway and Denmark",
+      "author": "Mary Wollstonecraft",
+      "year": "2005",
+      "category": "classics",
+      "search": "letters written during a short residence in sweden, norway and denmark"
+    },
+    {
+      "slug": "sartor-resartus",
+      "title": "Sartor Resartus",
+      "author": "Thomas Carlyle",
+      "year": "2019",
+      "category": "classics",
+      "search": "sartor resartus"
+    },
+    {
+      "slug": "the-last-twelve-verses-of-mark",
+      "title": "The Last Twelve Verses of Mark",
+      "author": "Ivan Panin",
+      "year": "2017",
+      "category": "classics",
+      "search": "the last twelve verses of mark"
+    },
+    {
+      "slug": "kim",
+      "title": "Kim",
+      "author": "Rudyard Kipling",
+      "year": "2016",
+      "category": "classics",
+      "search": "kim"
+    },
+    {
+      "slug": "the-chouans",
+      "title": "The Chouans",
+      "author": "Honoré de Balzac",
+      "year": "2016",
+      "category": "classics",
+      "search": "the chouans"
+    },
+    {
+      "slug": "pascal-s-pensees",
+      "title": "Pascal's Pensees",
+      "author": "Blaise Pascal",
+      "year": "2016",
+      "category": "classics",
+      "search": "pascal's pensees"
+    },
+    {
+      "slug": "in-praise-of-folly",
+      "title": "In Praise of Folly",
+      "author": "Desiderius Erasmus",
+      "year": "2007",
+      "category": "classics",
+      "search": "in praise of folly"
+    },
+    {
+      "slug": "the-thirty-nine-steps",
+      "title": "The Thirty-nine Steps",
+      "author": "John Buchan",
+      "year": "2015",
+      "category": "classics",
+      "search": "the thirty-nine steps"
+    },
+    {
+      "slug": "fundamental-principles-of-the-metaphysic-of-morals",
+      "title": "Fundamental Principles of the Metaphysic of Morals",
+      "author": "Immanuel Kant",
+      "year": "2019",
+      "category": "classics",
+      "search": "fundamental principles of the metaphysic of morals"
+    },
+    {
+      "slug": "agricola-and-germany",
+      "title": "Agricola and Germany",
+      "author": "Tacitus",
+      "year": "1999",
+      "category": "classics",
+      "search": "agricola and germany"
+    },
+    {
+      "slug": "a-sentimental-journey",
+      "title": "A Sentimental Journey",
+      "author": "Laurence Sterne",
+      "year": "2016",
+      "category": "classics",
+      "search": "a sentimental journey"
+    },
+    {
+      "slug": "conversation-pieces",
+      "title": "Conversation Pieces",
+      "author": "Mario Praz",
+      "year": "1971",
+      "category": "classics",
+      "search": "conversation pieces"
+    },
+    {
+      "slug": "dickens-works",
+      "title": "Dickens' Works",
+      "author": "Charles Dickens",
+      "year": "2014",
+      "category": "classics",
+      "search": "dickens' works"
+    },
+    {
+      "slug": "taking-rights-seriously",
+      "title": "Taking Rights Seriously",
+      "author": "Ronald Dworkin",
+      "year": "1977",
+      "category": "philosophy",
+      "search": "taking rights seriously"
+    },
+    {
+      "slug": "the-birth-of-tragedy",
+      "title": "The Birth of Tragedy",
+      "author": "Friedrich Nietzsche",
+      "year": "2012",
+      "category": "philosophy",
+      "search": "the birth of tragedy"
+    },
+    {
+      "slug": "the-development-of-metaphysics-in-persia",
+      "title": "The Development of Metaphysics in Persia",
+      "author": "Sir Muhammad Iqbal",
+      "year": "1964",
+      "category": "philosophy",
+      "search": "the development of metaphysics in persia"
+    },
+    {
+      "slug": "a-short-history-of-african-philosophy",
+      "title": "A Short History of African Philosophy",
+      "author": "B. Hallen",
+      "year": "2002",
+      "category": "philosophy",
+      "search": "a short history of african philosophy"
+    },
+    {
+      "slug": "critical-thinking",
+      "title": "Critical Thinking",
+      "author": "Francis Watanabe Dauer",
+      "year": "1989",
+      "category": "philosophy",
+      "search": "critical thinking"
+    },
+    {
+      "slug": "objectivity-relativism-and-truth",
+      "title": "Objectivity, Relativism, and Truth",
+      "author": "Richard Rorty",
+      "year": "1991",
+      "category": "philosophy",
+      "search": "objectivity, relativism, and truth"
+    },
+    {
+      "slug": "politics-of-security",
+      "title": "Politics of Security",
+      "author": "Michael Dillon",
+      "year": "1996",
+      "category": "philosophy",
+      "search": "politics of security"
+    },
+    {
+      "slug": "romanticism-hermeneutics-and-the-crisis-of-the-human-sciences",
+      "title": "Romanticism, Hermeneutics, and the Crisis of the Human Sciences",
+      "author": "Scott Masson",
+      "year": "2004",
+      "category": "philosophy",
+      "search": "romanticism, hermeneutics, and the crisis of the human sciences"
+    },
+    {
+      "slug": "the-story-of-philosophy",
+      "title": "The Story of Philosophy",
+      "author": "Will Durant",
+      "year": "1926",
+      "category": "philosophy",
+      "search": "the story of philosophy"
+    },
+    {
+      "slug": "democracy-past-and-future",
+      "title": "Democracy Past and Future",
+      "author": "Pierre Rosanvallon",
+      "year": "2006",
+      "category": "philosophy",
+      "search": "democracy past and future"
+    },
+    {
+      "slug": "the-capacity-to-govern",
+      "title": "The Capacity to Govern",
+      "author": "Yehezkel Dror",
+      "year": "2001",
+      "category": "philosophy",
+      "search": "the capacity to govern"
+    },
+    {
+      "slug": "the-prince",
+      "title": "The Prince",
+      "author": "Niccolò Machiavelli",
+      "year": "2005",
+      "category": "philosophy",
+      "search": "the prince"
+    },
+    {
+      "slug": "the-divided-self-of-william-james",
+      "title": "The Divided Self of William James",
+      "author": "Richard M. Gale",
+      "year": "1999",
+      "category": "philosophy",
+      "search": "the divided self of william james"
+    },
+    {
+      "slug": "system-of-logic-ratiocinative-and-inductive",
+      "title": "System of Logic Ratiocinative and Inductive",
+      "author": "John Stuart Mill",
+      "year": "2015",
+      "category": "philosophy",
+      "search": "system of logic ratiocinative and inductive"
+    },
+    {
+      "slug": "the-philosophy-of-history",
+      "title": "The Philosophy of History",
+      "author": "Georg Wilhelm Friedrich Hegel",
+      "year": "2017",
+      "category": "philosophy",
+      "search": "the philosophy of history"
+    },
+    {
+      "slug": "islam-in-india-and-pakistan",
+      "title": "Islam in India and Pakistan",
+      "author": "Annemarie Schimmel",
+      "year": "1982",
+      "category": "philosophy",
+      "search": "islam in india and pakistan"
+    },
+    {
+      "slug": "utilitarianism",
+      "title": "Utilitarianism",
+      "author": "John Stuart Mill",
+      "year": "2013",
+      "category": "philosophy",
+      "search": "utilitarianism"
+    },
+    {
+      "slug": "experience-and-nature",
+      "title": "Experience and Nature",
+      "author": "John Dewey",
+      "year": "1925",
+      "category": "philosophy",
+      "search": "experience and nature"
+    },
+    {
+      "slug": "the-lives-and-liberation-of-princess-mandarava",
+      "title": "The Lives and Liberation of Princess Mandarava",
+      "author": "Bsam-gtan-gliṅ-pa Phrin-las-ʼgro-ʼdul-las-rab-bde-ba-rtsal",
+      "year": "1998",
+      "category": "philosophy",
+      "search": "the lives and liberation of princess mandarava"
+    },
+    {
+      "slug": "theaetetus",
+      "title": "Theaetetus",
+      "author": "Plato",
+      "year": "2019",
+      "category": "philosophy",
+      "search": "theaetetus"
+    },
+    {
+      "slug": "sacred-books-of-the-east",
+      "title": "Sacred Books of the East",
+      "author": "Epiphanius Wilson",
+      "year": "2009",
+      "category": "philosophy",
+      "search": "sacred books of the east"
+    },
+    {
+      "slug": "the-past-in-ruins",
+      "title": "The Past in Ruins",
+      "author": "David Gross",
+      "year": "1992",
+      "category": "philosophy",
+      "search": "the past in ruins"
+    },
+    {
+      "slug": "heidegger-on-being-and-acting",
+      "title": "Heidegger on Being and Acting",
+      "author": "Reiner Schürmann",
+      "year": "1987",
+      "category": "philosophy",
+      "search": "heidegger on being and acting"
+    },
+    {
+      "slug": "toward-a-science-of-human-nature",
+      "title": "Toward a Science of Human Nature",
+      "author": "Daniel N. Robinson, Professor of English Daniel Robinson",
+      "year": "1982",
+      "category": "philosophy",
+      "search": "toward a science of human nature"
+    },
+    {
+      "slug": "utopia",
+      "title": "Utopia",
+      "author": "Thomas More",
+      "year": "2017",
+      "category": "philosophy",
+      "search": "utopia"
+    },
+    {
+      "slug": "ideology-and-utopia-an-introduction-to-the-sociology-of-knowledge",
+      "title": "Ideology and Utopia, an Introduction to the Sociology of Knowledge",
+      "author": "Karl Mannheim",
+      "year": "2017",
+      "category": "philosophy",
+      "search": "ideology and utopia, an introduction to the sociology of knowledge"
+    },
+    {
+      "slug": "philosophy-in-a-time-of-terror",
+      "title": "Philosophy in a Time of Terror",
+      "author": "Jürgen Habermas, Jacques Derrida, Giovanna Borradori",
+      "year": "2003",
+      "category": "philosophy",
+      "search": "philosophy in a time of terror"
+    },
+    {
+      "slug": "parmenides",
+      "title": "Parmenides",
+      "author": "Plato",
+      "year": "2019",
+      "category": "philosophy",
+      "search": "parmenides"
+    },
+    {
+      "slug": "art-as-experience",
+      "title": "Art as Experience",
+      "author": "John Dewey",
+      "year": "2005",
+      "category": "philosophy",
+      "search": "art as experience"
+    },
+    {
+      "slug": "the-philosophy-of-nature",
+      "title": "The Philosophy of Nature",
+      "author": "Ivor Leclerc",
+      "year": "1986",
+      "category": "philosophy",
+      "search": "the philosophy of nature"
+    },
+    {
+      "slug": "tao-te-ching",
+      "title": "Tao Te Ching",
+      "author": "Laozi",
+      "year": "2000",
+      "category": "philosophy",
+      "search": "tao te ching"
+    },
+    {
+      "slug": "enquiries-concerning-the-human-understanding",
+      "title": "Enquiries Concerning the Human Understanding",
+      "author": "David Hume",
+      "year": "2017",
+      "category": "philosophy",
+      "search": "enquiries concerning the human understanding"
+    },
+    {
+      "slug": "the-synthesis-of-yoga",
+      "title": "The Synthesis of Yoga",
+      "author": "Sri Aurobindo",
+      "year": "1992",
+      "category": "philosophy",
+      "search": "the synthesis of yoga"
+    },
+    {
+      "slug": "for-the-sake-of-the-argument",
+      "title": "For the Sake of the Argument",
+      "author": "Isaac Levi",
+      "year": "1996",
+      "category": "philosophy",
+      "search": "for the sake of the argument"
+    },
+    {
+      "slug": "first-principles",
+      "title": "First Principles",
+      "author": "Herbert Spencer",
+      "year": "2016",
+      "category": "philosophy",
+      "search": "first principles"
+    },
+    {
+      "slug": "imperialism-and-ideology",
+      "title": "Imperialism and Ideology",
+      "author": "John F. Laffey",
+      "year": "2000",
+      "category": "philosophy",
+      "search": "imperialism and ideology"
+    },
+    {
+      "slug": "illocutionary-acts-and-sentence-meaning",
+      "title": "Illocutionary Acts and Sentence Meaning",
+      "author": "William P. Alston",
+      "year": "2000",
+      "category": "philosophy",
+      "search": "illocutionary acts and sentence meaning"
+    },
+    {
+      "slug": "a-treatise-of-human-nature",
+      "title": "A Treatise of Human Nature",
+      "author": "David Hume",
+      "year": "2003",
+      "category": "philosophy",
+      "search": "a treatise of human nature"
+    },
+    {
+      "slug": "de-rerum-natura-on-the-nature-of-things",
+      "title": "De Rerum Natura - on the Nature of Things",
+      "author": "Lucretius Carus Titus",
+      "year": "2013",
+      "category": "philosophy",
+      "search": "de rerum natura - on the nature of things"
+    },
+    {
+      "slug": "the-life-of-reason-or-the-phases-of-human-progress",
+      "title": "The Life of Reason Or the Phases of Human Progress",
+      "author": "George Santayana",
+      "year": "2015",
+      "category": "philosophy",
+      "search": "the life of reason or the phases of human progress"
+    },
+    {
+      "slug": "historical-essays",
+      "title": "Historical Essays",
+      "author": "Thomas Carlyle",
+      "year": "2002",
+      "category": "philosophy",
+      "search": "historical essays"
+    },
+    {
+      "slug": "the-origin-of-the-family-private-property-and-the-state",
+      "title": "The Origin of the Family, Private Property and the State",
+      "author": "Friedrich Engels",
+      "year": "2017",
+      "category": "philosophy",
+      "search": "the origin of the family, private property and the state"
+    },
+    {
+      "slug": "the-field-of-zen",
+      "title": "The Field of Zen",
+      "author": "Daisetz Teitaro Suzuki",
+      "year": "1969",
+      "category": "philosophy",
+      "search": "the field of zen"
+    },
+    {
+      "slug": "sources-of-the-self",
+      "title": "Sources of the Self",
+      "author": "Charles Taylor",
+      "year": "1989",
+      "category": "philosophy",
+      "search": "sources of the self"
+    },
+    {
+      "slug": "dante-and-philosophy",
+      "title": "Dante and Philosophy",
+      "author": "Etienne Gilson",
+      "year": "2011",
+      "category": "philosophy",
+      "search": "dante and philosophy"
+    },
+    {
+      "slug": "the-communist-manifesto",
+      "title": "The Communist Manifesto",
+      "author": "Karl Marx, Friedrich Engels",
+      "year": "2019",
+      "category": "philosophy",
+      "search": "the communist manifesto"
+    },
+    {
+      "slug": "ethics-in-the-public-service",
+      "title": "Ethics in the Public Service",
+      "author": "Charles Garofalo, Dean Geuras",
+      "year": "1999",
+      "category": "philosophy",
+      "search": "ethics in the public service"
+    },
+    {
+      "slug": "powers-and-prospects",
+      "title": "Powers and Prospects",
+      "author": "Noam Chomsky",
+      "year": "1996",
+      "category": "philosophy",
+      "search": "powers and prospects"
+    },
+    {
+      "slug": "in-defense-of-sentimentality",
+      "title": "In Defense of Sentimentality",
+      "author": "Robert C. Solomon",
+      "year": "2004",
+      "category": "philosophy",
+      "search": "in defense of sentimentality"
+    },
+    {
+      "slug": "created-from-animals",
+      "title": "Created from Animals",
+      "author": "James Rachels",
+      "year": "1990",
+      "category": "philosophy",
+      "search": "created from animals"
+    },
+    {
+      "slug": "zadig-or-the-book-of-fate",
+      "title": "Zadig: Or, The Book of Fate",
+      "author": "Voltaire",
+      "year": "2021",
+      "category": "philosophy",
+      "search": "zadig: or, the book of fate"
+    },
+    {
+      "slug": "how-does-social-science-work",
+      "title": "How Does Social Science Work?",
+      "author": "Paul Diesing",
+      "year": "1991",
+      "category": "philosophy",
+      "search": "how does social science work?"
+    },
+    {
+      "slug": "complexity-and-postmodernism",
+      "title": "Complexity and Postmodernism",
+      "author": "Paul Cilliers",
+      "year": "1998",
+      "category": "philosophy",
+      "search": "complexity and postmodernism"
+    },
+    {
+      "slug": "education-in-hegel",
+      "title": "Education in Hegel",
+      "author": "Nigel Tubbs",
+      "year": "2008",
+      "category": "philosophy",
+      "search": "education in hegel"
+    },
+    {
+      "slug": "metapolitics",
+      "title": "Metapolitics",
+      "author": "Alain Badiou",
+      "year": "2005",
+      "category": "philosophy",
+      "search": "metapolitics"
+    },
+    {
+      "slug": "madness-and-civilization",
+      "title": "Madness and Civilization",
+      "author": "Michel Foucault",
+      "year": "1988",
+      "category": "philosophy",
+      "search": "madness and civilization"
+    },
+    {
+      "slug": "on-christian-doctrine",
+      "title": "On Christian Doctrine",
+      "author": "Augustine Saint",
+      "year": "2018",
+      "category": "philosophy",
+      "search": "on christian doctrine"
+    },
+    {
+      "slug": "the-great-transformation",
+      "title": "The Great Transformation",
+      "author": "Karen Armstrong",
+      "year": "2006",
+      "category": "philosophy",
+      "search": "the great transformation"
+    },
+    {
+      "slug": "the-evolution-of-the-sikh-community",
+      "title": "The Evolution of the Sikh Community",
+      "author": "W. H. McLeod",
+      "year": "1976",
+      "category": "philosophy",
+      "search": "the evolution of the sikh community"
+    },
+    {
+      "slug": "the-nature-of-things",
+      "title": "The Nature of Things",
+      "author": "Lucretius Lucretius",
+      "year": "2018",
+      "category": "philosophy",
+      "search": "the nature of things"
+    },
+    {
+      "slug": "two-treatises-of-government",
+      "title": "Two Treatises of Government",
+      "author": "John Locke",
+      "year": "1970",
+      "category": "philosophy",
+      "search": "two treatises of government"
+    },
+    {
+      "slug": "hegel-and-aristotle",
+      "title": "Hegel and Aristotle",
+      "author": "Alfredo Ferrarin",
+      "year": "2001",
+      "category": "philosophy",
+      "search": "hegel and aristotle"
+    },
+    {
+      "slug": "violence-inevitable",
+      "title": "Violence Inevitable",
+      "author": "Rick Parrish",
+      "year": "2006",
+      "category": "philosophy",
+      "search": "violence inevitable"
+    },
+    {
+      "slug": "hittite-texts-and-greek-religion",
+      "title": "Hittite Texts and Greek Religion",
+      "author": "Ian Rutherford",
+      "year": "2020",
+      "category": "philosophy",
+      "search": "hittite texts and greek religion"
+    },
+    {
+      "slug": "the-rejected-body",
+      "title": "The Rejected Body",
+      "author": "Susan Wendell",
+      "year": "1996",
+      "category": "philosophy",
+      "search": "the rejected body"
+    },
+    {
+      "slug": "the-individual-and-the-cosmos-in-renaissance-philosophy",
+      "title": "The Individual and the Cosmos in Renaissance Philosophy",
+      "author": "Ernst Cassirer",
+      "year": "2010",
+      "category": "philosophy",
+      "search": "the individual and the cosmos in renaissance philosophy"
+    },
+    {
+      "slug": "creative-unity",
+      "title": "Creative Unity",
+      "author": "Rabindranath Tagore",
+      "year": "2012",
+      "category": "philosophy",
+      "search": "creative unity"
+    },
+    {
+      "slug": "war-progress-and-the-end-of-history",
+      "title": "War, Progress, and the End of History",
+      "author": "Vladimir Sergeyevich Solovyov",
+      "year": "1990",
+      "category": "philosophy",
+      "search": "war, progress, and the end of history"
+    },
+    {
+      "slug": "kepler-s-witch",
+      "title": "Kepler's Witch",
+      "author": "James A. Connor",
+      "year": "2004",
+      "category": "philosophy",
+      "search": "kepler's witch"
+    },
+    {
+      "slug": "eating-beauty",
+      "title": "Eating Beauty",
+      "author": "Ann W. Astell",
+      "year": "2006",
+      "category": "philosophy",
+      "search": "eating beauty"
+    },
+    {
+      "slug": "the-basics-of-essay-writing",
+      "title": "The Basics of Essay Writing",
+      "author": "Nigel Warburton",
+      "year": "2020",
+      "category": "philosophy",
+      "search": "the basics of essay writing"
+    },
+    {
+      "slug": "myth-and-tragedy-in-ancient-greece",
+      "title": "Myth and Tragedy in Ancient Greece",
+      "author": "Jean-Pierre Vernant, Pierre Vidal-Naquet",
+      "year": "1988",
+      "category": "philosophy",
+      "search": "myth and tragedy in ancient greece"
+    },
+    {
+      "slug": "exit-voice-and-loyalty",
+      "title": "Exit, Voice, and Loyalty",
+      "author": "Albert O. Hirschman",
+      "year": "1970",
+      "category": "philosophy",
+      "search": "exit, voice, and loyalty"
+    },
+    {
+      "slug": "iraq",
+      "title": "Iraq",
+      "author": "Slavoj Žižek",
+      "year": "2004",
+      "category": "philosophy",
+      "search": "iraq"
+    },
+    {
+      "slug": "rationality-for-mortals",
+      "title": "Rationality for Mortals",
+      "author": "Gerd Gigerenzer",
+      "year": "2008",
+      "category": "philosophy",
+      "search": "rationality for mortals"
+    },
+    {
+      "slug": "introduction-to-psychoanalysis",
+      "title": "Introduction to Psychoanalysis",
+      "author": "Sigmund Freud",
+      "year": "2020",
+      "category": "philosophy",
+      "search": "introduction to psychoanalysis"
+    },
+    {
+      "slug": "oliver-twist",
+      "title": "Oliver Twist",
+      "author": "Charles Dickens",
+      "year": "2019",
+      "category": "fiction",
+      "search": "oliver twist"
+    },
+    {
+      "slug": "the-happy-prince-and-other-stories",
+      "title": "The Happy Prince and Other Stories",
+      "author": "Oscar Wilde",
+      "year": "2019",
+      "category": "fiction",
+      "search": "the happy prince and other stories"
+    },
+    {
+      "slug": "robinson-crusoe",
+      "title": "Robinson Crusoe",
+      "author": "Daniel Defoe",
+      "year": "2020",
+      "category": "fiction",
+      "search": "robinson crusoe"
+    },
+    {
+      "slug": "the-life-and-adventures-of-robinson-crusoe",
+      "title": "The Life and Adventures of Robinson Crusoe",
+      "author": "Daniel Defoe",
+      "year": "2020",
+      "category": "fiction",
+      "search": "the life and adventures of robinson crusoe"
+    },
+    {
+      "slug": "resurrection",
+      "title": "Resurrection",
+      "author": "Leo Tolstoy",
+      "year": "1947",
+      "category": "fiction",
+      "search": "resurrection"
+    },
+    {
+      "slug": "the-tragedy-of-king-lear",
+      "title": "The Tragedy of King Lear",
+      "author": "William Shakespeare",
+      "year": "2020",
+      "category": "fiction",
+      "search": "the tragedy of king lear"
+    },
+    {
+      "slug": "moll-flanders",
+      "title": "Moll Flanders",
+      "author": "Daniel Defoe",
+      "year": "2020",
+      "category": "fiction",
+      "search": "moll flanders"
+    },
+    {
+      "slug": "how-i-found-livingstone",
+      "title": "How I Found Livingstone",
+      "author": "Henry M. Stanley",
+      "year": "2023",
+      "category": "fiction",
+      "search": "how i found livingstone"
+    },
+    {
+      "slug": "nana",
+      "title": "Nana",
+      "author": "Emile Zola",
+      "year": "2020",
+      "category": "fiction",
+      "search": "nana"
+    },
+    {
+      "slug": "candide",
+      "title": "Candide",
+      "author": "Voltaire",
+      "year": "2019",
+      "category": "fiction",
+      "search": "candide"
+    },
+    {
+      "slug": "on-the-nature-of-things",
+      "title": "On the Nature of Things",
+      "author": "Titus Lucretius Carus",
+      "year": "2011",
+      "category": "fiction",
+      "search": "on the nature of things"
+    },
+    {
+      "slug": "don-quixote",
+      "title": "Don Quixote",
+      "author": "Migue D Cervantes",
+      "year": "2021",
+      "category": "fiction",
+      "search": "don quixote"
+    },
+    {
+      "slug": "little-lord-fauntleroy-illustrated-edition",
+      "title": "Little Lord Fauntleroy Illustrated Edition",
+      "author": "Frances Hodgson Burnett",
+      "year": "2022",
+      "category": "fiction",
+      "search": "little lord fauntleroy illustrated edition"
+    },
+    {
+      "slug": "the-sorrows-of-satan",
+      "title": "The Sorrows of Satan",
+      "author": "Marie Corelli",
+      "year": "2020",
+      "category": "fiction",
+      "search": "the sorrows of satan"
+    },
+    {
+      "slug": "frankenstein",
+      "title": "Frankenstein",
+      "author": "Mary Wollstonecraft Shelley",
+      "year": "2016",
+      "category": "fiction",
+      "search": "frankenstein"
+    },
+    {
+      "slug": "typee",
+      "title": "Typee",
+      "author": "Herman Melville",
+      "year": "2021",
+      "category": "fiction",
+      "search": "typee"
+    },
+    {
+      "slug": "the-dwarves-of-death",
+      "title": "The Dwarves of Death",
+      "author": "Jonathan Coe",
+      "year": "2001",
+      "category": "fiction",
+      "search": "the dwarves of death"
+    },
+    {
+      "slug": "homely-girl-a-life-and-other-stories",
+      "title": "Homely Girl, a Life, and Other Stories",
+      "author": "Arthur Miller",
+      "year": "1995",
+      "category": "fiction",
+      "search": "homely girl, a life, and other stories"
+    },
+    {
+      "slug": "the-escaped-cock",
+      "title": "The Escaped Cock",
+      "author": "David Herbert Lawrence",
+      "year": "1973",
+      "category": "fiction",
+      "search": "the escaped cock"
+    },
+    {
+      "slug": "inherent-vice",
+      "title": "Inherent Vice",
+      "author": "Thomas Pynchon",
+      "year": "2009",
+      "category": "fiction",
+      "search": "inherent vice"
+    },
+    {
+      "slug": "john-milton",
+      "title": "John Milton",
+      "author": "John Milton",
+      "year": "2020",
+      "category": "fiction",
+      "search": "john milton"
+    },
+    {
+      "slug": "the-sorrows-of-young-werther",
+      "title": "The Sorrows of Young Werther",
+      "author": "Johann Wolfgang von Goethe",
+      "year": "2008",
+      "category": "fiction",
+      "search": "the sorrows of young werther"
+    },
+    {
+      "slug": "northanger-abbey",
+      "title": "Northanger Abbey",
+      "author": "Jane Austen",
+      "year": "2016",
+      "category": "fiction",
+      "search": "northanger abbey"
+    },
+    {
+      "slug": "metamorphosis",
+      "title": "Metamorphosis",
+      "author": "Franz Kafka",
+      "year": "2019",
+      "category": "fiction",
+      "search": "metamorphosis"
+    },
+    {
+      "slug": "cat-s-cradle",
+      "title": "Cat's Cradle",
+      "author": "Kurt Vonnegut",
+      "year": "1998",
+      "category": "fiction",
+      "search": "cat's cradle"
+    },
+    {
+      "slug": "the-canterbury-tales",
+      "title": "The Canterbury Tales",
+      "author": "Geoffrey Chaucer",
+      "year": "1977",
+      "category": "fiction",
+      "search": "the canterbury tales"
+    },
+    {
+      "slug": "our-game",
+      "title": "Our Game",
+      "author": "John Le Carré",
+      "year": "1995",
+      "category": "fiction",
+      "search": "our game"
+    },
+    {
+      "slug": "elementals",
+      "title": "Elementals",
+      "author": "Antonia Susan Byatt",
+      "year": "1998",
+      "category": "fiction",
+      "search": "elementals"
+    },
+    {
+      "slug": "the-jungle-book",
+      "title": "The Jungle Book",
+      "author": "Rudyard Kipling",
+      "year": "2021",
+      "category": "fiction",
+      "search": "the jungle book"
+    },
+    {
+      "slug": "the-second-jungle-book",
+      "title": "The Second Jungle Book",
+      "author": "Rudyard Kipling",
+      "year": "2021",
+      "category": "fiction",
+      "search": "the second jungle book"
+    },
+    {
+      "slug": "the-secret-garden",
+      "title": "The Secret Garden",
+      "author": "Frances Hodgson Burnett",
+      "year": "2019",
+      "category": "fiction",
+      "search": "the secret garden"
+    },
+    {
+      "slug": "the-cuckoo-s-calling",
+      "title": "The Cuckoo's Calling",
+      "author": "Robert Galbraith",
+      "year": "2013",
+      "category": "fiction",
+      "search": "the cuckoo's calling"
+    },
+    {
+      "slug": "black-beauty",
+      "title": "Black Beauty",
+      "author": "Anna Sewell",
+      "year": "2014",
+      "category": "fiction",
+      "search": "black beauty"
+    },
+    {
+      "slug": "great-expectations",
+      "title": "Great Expectations",
+      "author": "Charles Dickens",
+      "year": "2003",
+      "category": "fiction",
+      "search": "great expectations"
+    },
+    {
+      "slug": "the-children-of-the-new-forest",
+      "title": "The Children of the New Forest",
+      "author": "Frederick Marryat",
+      "year": "2018",
+      "category": "fiction",
+      "search": "the children of the new forest"
+    },
+    {
+      "slug": "the-haunted-man-and-the-ghost-s-bargain",
+      "title": "The Haunted Man and the Ghost's Bargain",
+      "author": "Charles Dickens",
+      "year": "2021",
+      "category": "fiction",
+      "search": "the haunted man and the ghost's bargain"
+    },
+    {
+      "slug": "battle-of-life",
+      "title": "Battle of Life",
+      "author": "Charles Dickens",
+      "year": "2021",
+      "category": "fiction",
+      "search": "battle of life"
+    },
+    {
+      "slug": "terminal-identity",
+      "title": "Terminal Identity",
+      "author": "Scott Bukatman",
+      "year": "1993",
+      "category": "fiction",
+      "search": "terminal identity"
+    },
+    {
+      "slug": "puck-of-pook-s-hill",
+      "title": "Puck of Pook's Hill",
+      "author": "Rudyard Kipling",
+      "year": "2019",
+      "category": "fiction",
+      "search": "puck of pook's hill"
+    },
+    {
+      "slug": "the-cricket-on-the-hearth",
+      "title": "The Cricket on the Hearth",
+      "author": "Charles Dickens",
+      "year": "2020",
+      "category": "fiction",
+      "search": "the cricket on the hearth"
+    },
+    {
+      "slug": "the-battle-of-life",
+      "title": "The Battle of Life",
+      "author": "Charles Dickens",
+      "year": "2021",
+      "category": "fiction",
+      "search": "the battle of life"
+    },
+    {
+      "slug": "difficult-loves",
+      "title": "Difficult Loves",
+      "author": "Italo Calvino",
+      "year": "2017",
+      "category": "fiction",
+      "search": "difficult loves"
+    },
+    {
+      "slug": "the-dragon-blood-collection-books-1-3",
+      "title": "The Dragon Blood Collection, Books 1-3",
+      "author": "Lindsay Buroker",
+      "year": "2014",
+      "category": "fiction",
+      "search": "the dragon blood collection, books 1-3"
+    },
+    {
+      "slug": "hunger",
+      "title": "Hunger",
+      "author": "Knut Hamsun",
+      "year": "2017",
+      "category": "fiction",
+      "search": "hunger"
+    },
+    {
+      "slug": "actions-and-reactions",
+      "title": "Actions and Reactions",
+      "author": "Rudyard Kipling",
+      "year": "2019",
+      "category": "fiction",
+      "search": "actions and reactions"
+    },
+    {
+      "slug": "balcony-in-the-forest",
+      "title": "Balcony in the Forest",
+      "author": "Julien Gracq",
+      "year": "2017",
+      "category": "fiction",
+      "search": "balcony in the forest"
+    },
+    {
+      "slug": "homage-to-catalonia",
+      "title": "Homage to Catalonia",
+      "author": "George Orwell",
+      "year": "2019",
+      "category": "fiction",
+      "search": "homage to catalonia"
+    },
+    {
+      "slug": "a-study-in-scarlet",
+      "title": "A Study in Scarlet",
+      "author": "Arthur Conan Doyle",
+      "year": "2016",
+      "category": "fiction",
+      "search": "a study in scarlet"
+    },
+    {
+      "slug": "the-day-the-leader-was-killed",
+      "title": "The Day the Leader Was Killed",
+      "author": "Naguib Mahfouz",
+      "year": "2000",
+      "category": "fiction",
+      "search": "the day the leader was killed"
+    },
+    {
+      "slug": "fountain-and-tomb",
+      "title": "Fountain and Tomb",
+      "author": "Najīb Maḥfūẓ",
+      "year": "1988",
+      "category": "fiction",
+      "search": "fountain and tomb"
+    },
+    {
+      "slug": "the-dangerous-summer",
+      "title": "The Dangerous Summer",
+      "author": "Ernest Hemingway",
+      "year": "1985",
+      "category": "fiction",
+      "search": "the dangerous summer"
+    },
+    {
+      "slug": "the-librarians-of-alexandria",
+      "title": "The Librarians of Alexandria",
+      "author": "Alessandra Lavagnino",
+      "year": "2006",
+      "category": "fiction",
+      "search": "the librarians of alexandria"
+    },
+    {
+      "slug": "paradise-lost-a-poem-in-twelve-books",
+      "title": "Paradise Lost. A Poem in Twelve Books",
+      "author": "John Milton",
+      "year": "2025",
+      "category": "fiction",
+      "search": "paradise lost. a poem in twelve books"
+    },
+    {
+      "slug": "the-count-of-monte-cristo",
+      "title": "The Count of Monte Cristo",
+      "author": "Alexandre Dumas",
+      "year": "2008",
+      "category": "fiction",
+      "search": "the count of monte cristo"
+    },
+    {
+      "slug": "yama",
+      "title": "Yama",
+      "author": "Aleksandr Kuprin",
+      "year": "2020",
+      "category": "fiction",
+      "search": "yama"
+    },
+    {
+      "slug": "ninety-three",
+      "title": "Ninety-Three",
+      "author": "Victor Hugo",
+      "year": "2025",
+      "category": "fiction",
+      "search": "ninety-three"
+    },
+    {
+      "slug": "a-sunday-at-the-pool-in-kigali",
+      "title": "A Sunday at the Pool in Kigali",
+      "author": "Gil Courtemanche",
+      "year": "2003",
+      "category": "fiction",
+      "search": "a sunday at the pool in kigali"
+    },
+    {
+      "slug": "othello",
+      "title": "Othello",
+      "author": "William Shakespeare",
+      "year": "2015",
+      "category": "fiction",
+      "search": "othello"
+    },
+    {
+      "slug": "a-sky-so-close",
+      "title": "A Sky So Close",
+      "author": "Batūl Khuḍayrī",
+      "year": "2001",
+      "category": "fiction",
+      "search": "a sky so close"
+    },
+    {
+      "slug": "if-on-a-winter-s-night-a-traveler",
+      "title": "If on a Winter's Night a Traveler",
+      "author": "Italo Calvino",
+      "year": "1981",
+      "category": "fiction",
+      "search": "if on a winter's night a traveler"
+    },
+    {
+      "slug": "nina-balatka",
+      "title": "Nina Balatka",
+      "author": "Anthony Trollope",
+      "year": "2017",
+      "category": "fiction",
+      "search": "nina balatka"
+    },
+    {
+      "slug": "without-mercy",
+      "title": "Without Mercy",
+      "author": "Renate Dorrestein",
+      "year": "2003",
+      "category": "fiction",
+      "search": "without mercy"
+    },
+    {
+      "slug": "one-hundred-years-of-solitude",
+      "title": "One Hundred Years of Solitude",
+      "author": "Gabriel García Márquez",
+      "year": "1971",
+      "category": "fiction",
+      "search": "one hundred years of solitude"
+    },
+    {
+      "slug": "cries-in-the-drizzle",
+      "title": "Cries in the Drizzle",
+      "author": "Hua Yu",
+      "year": "2007",
+      "category": "fiction",
+      "search": "cries in the drizzle"
+    },
+    {
+      "slug": "the-prophet-of-zongo-street",
+      "title": "The Prophet of Zongo Street",
+      "author": "Mohammed Ali",
+      "year": "2005",
+      "category": "fiction",
+      "search": "the prophet of zongo street"
+    },
+    {
+      "slug": "el-filibusterismo",
+      "title": "El Filibusterismo",
+      "author": "Jose Rizal",
+      "year": "2007",
+      "category": "fiction",
+      "search": "el filibusterismo"
+    },
+    {
+      "slug": "they-burn-the-thistles",
+      "title": "They Burn the Thistles",
+      "author": "Yashar Kemal",
+      "year": "2006",
+      "category": "fiction",
+      "search": "they burn the thistles"
+    },
+    {
+      "slug": "blindness",
+      "title": "Blindness",
+      "author": "José Saramago",
+      "year": "1998",
+      "category": "fiction",
+      "search": "blindness"
+    },
+    {
+      "slug": "my-son-s-story",
+      "title": "My Son's Story",
+      "author": "Nadine Gordimer",
+      "year": "1990",
+      "category": "fiction",
+      "search": "my son's story"
+    },
+    {
+      "slug": "the-hungry-tide",
+      "title": "The Hungry Tide",
+      "author": "Amitav Ghosh",
+      "year": "2004",
+      "category": "fiction",
+      "search": "the hungry tide"
+    },
+    {
+      "slug": "wuthering-heights",
+      "title": "Wuthering Heights",
+      "author": "Emily Brontë, Michelle M. White",
+      "year": "2020",
+      "category": "fiction",
+      "search": "wuthering heights"
+    },
+    {
+      "slug": "lord-jim",
+      "title": "Lord Jim",
+      "author": "Joseph Conrad",
+      "year": "1986",
+      "category": "fiction",
+      "search": "lord jim"
+    },
+    {
+      "slug": "lolita",
+      "title": "Lolita",
+      "author": "Vladimir Vladimirovich Nabokov",
+      "year": "1955",
+      "category": "fiction",
+      "search": "lolita"
+    },
+    {
+      "slug": "a-thousand-splendid-suns",
+      "title": "A Thousand Splendid Suns",
+      "author": "Khaled Hosseini",
+      "year": "2008",
+      "category": "fiction",
+      "search": "a thousand splendid suns"
+    },
+    {
+      "slug": "burmese-days",
+      "title": "Burmese Days",
+      "author": "George Orwell",
+      "year": "2012",
+      "category": "fiction",
+      "search": "burmese days"
+    },
+    {
+      "slug": "the-twelve-chairs",
+      "title": "The Twelve Chairs",
+      "author": "Ilʹi︠a︡ Ilʹf, Evgeniĭ Petrov",
+      "year": "1997",
+      "category": "fiction",
+      "search": "the twelve chairs"
+    },
+    {
+      "slug": "autumn-brocade",
+      "title": "Autumn Brocade",
+      "author": "Teru Miyamoto",
+      "year": "2005",
+      "category": "fiction",
+      "search": "autumn brocade"
+    },
+    {
+      "slug": "the-house-of-mirth",
+      "title": "The House of Mirth",
+      "author": "Edith Wharton",
+      "year": "1997",
+      "category": "fiction",
+      "search": "the house of mirth"
+    },
+    {
+      "slug": "the-waves",
+      "title": "The Waves",
+      "author": "Virginia Woolf",
+      "year": "2019",
+      "category": "fiction",
+      "search": "the waves"
+    },
+    {
+      "slug": "a-christmas-carol",
+      "title": "A Christmas Carol",
+      "author": "Charles Dickens",
+      "year": "2006",
+      "category": "fiction",
+      "search": "a christmas carol"
+    },
+    {
+      "slug": "self-s-deception",
+      "title": "Self's Deception",
+      "author": "Bernhard Schlink",
+      "year": "2007",
+      "category": "fiction",
+      "search": "self's deception"
+    },
+    {
+      "slug": "the-inventions-researches-and-writings-of-nikola-tesla",
+      "title": "The Inventions, Researches and Writings of Nikola Tesla",
+      "author": "Thomas Commerford Martin",
+      "year": "1970",
+      "category": "self-growth",
+      "search": "the inventions, researches and writings of nikola tesla"
+    },
+    {
+      "slug": "workings-on-chinese-buddhism-mysticism-and-occultism",
+      "title": "Workings on Chinese Buddhism, Mysticism, and Occultism",
+      "author": "Various Authors",
+      "year": "2020",
+      "category": "self-growth",
+      "search": "workings on chinese buddhism, mysticism, and occultism"
+    },
+    {
+      "slug": "the-spirit-of-reiki",
+      "title": "The Spirit of Reiki",
+      "author": "Walter Lubeck, Frank Arjava Petter, William Lee Rand",
+      "year": "2001",
+      "category": "self-growth",
+      "search": "the spirit of reiki"
+    },
+    {
+      "slug": "the-kama-sutra",
+      "title": "The Kama Sutra",
+      "author": "Vatsyayana, Richard S. Hartmetz",
+      "year": "2013",
+      "category": "self-growth",
+      "search": "the kama sutra"
+    },
+    {
+      "slug": "tertium-organum-the-third-canon-of-thought-a-key-to-the-enigmas-of-the-world",
+      "title": "Tertium Organum: The Third Canon of Thought, a Key to the Enigmas of the World",
+      "author": "Peter Demianovich Ouspensky",
+      "year": "1970",
+      "category": "self-growth",
+      "search": "tertium organum: the third canon of thought, a key to the enigmas of the world"
+    },
+    {
+      "slug": "gayatri-the-highest-meditation",
+      "title": "Gāyatrī, the Highest Meditation",
+      "author": "Keshavadas (Satguru Sant)",
+      "year": "1990",
+      "category": "self-growth",
+      "search": "gayatri, the highest meditation"
+    },
+    {
+      "slug": "the-prophet",
+      "title": "The Prophet",
+      "author": "Kahlil Gibran",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "the prophet"
+    },
+    {
+      "slug": "the-science-of-getting-rich",
+      "title": "The Science of Getting Rich",
+      "author": "Wallace D. Wattles",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "the science of getting rich"
+    },
+    {
+      "slug": "think-and-grow-rich",
+      "title": "THINK AND GROW RICH!",
+      "author": "Napoleon Hill",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "think and grow rich!"
+    },
+    {
+      "slug": "the-blue-bird",
+      "title": "The Blue Bird",
+      "author": "Maurice Maeterlinck",
+      "year": "2008",
+      "category": "self-growth",
+      "search": "the blue bird"
+    },
+    {
+      "slug": "the-gospel-according-to-spiritism",
+      "title": "The gospel according to spiritism",
+      "author": "Allan Kardec",
+      "year": "2022",
+      "category": "self-growth",
+      "search": "the gospel according to spiritism"
+    },
+    {
+      "slug": "palmistry-for-all",
+      "title": "Palmistry for All",
+      "author": "Cheiro",
+      "year": "2007",
+      "category": "self-growth",
+      "search": "palmistry for all"
+    },
+    {
+      "slug": "the-mediums-book",
+      "title": "The mediums' book",
+      "author": "Allan Kardec",
+      "year": "2021",
+      "category": "self-growth",
+      "search": "the mediums' book"
+    },
+    {
+      "slug": "the-game-of-life-and-how-to-play-it",
+      "title": "The Game of Life and How to Play It",
+      "author": "Florence Scovel Shinn",
+      "year": "2010",
+      "category": "self-growth",
+      "search": "the game of life and how to play it"
+    },
+    {
+      "slug": "prayer-and-praying-men",
+      "title": "Prayer and Praying Men",
+      "author": "Edward M. Bounds",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "prayer and praying men"
+    },
+    {
+      "slug": "the-book-of-instruction-in-the-elements-of-the-art-of-astrology",
+      "title": "The Book of Instruction in the Elements of the Art of Astrology",
+      "author": "Al Biruni",
+      "year": "2006",
+      "category": "self-growth",
+      "search": "the book of instruction in the elements of the art of astrology"
+    },
+    {
+      "slug": "the-two-babylons-or-the-papal-worship-proved-to-be-the-worship-of-nimrod-and-his-wife",
+      "title": "The Two Babylons; Or, the Papal Worship Proved to Be the Worship of Nimrod and His Wife",
+      "author": "Alexander Hislop",
+      "year": "2018",
+      "category": "self-growth",
+      "search": "the two babylons; or, the papal worship proved to be the worship of nimrod and his wife"
+    },
+    {
+      "slug": "bodily-changes-in-pain-hunger-fear-and-rage",
+      "title": "Bodily Changes in Pain, Hunger, Fear and Rage",
+      "author": "Walter B. Cannon",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "bodily changes in pain, hunger, fear and rage"
+    },
+    {
+      "slug": "initiation-human-and-solar",
+      "title": "Initiation, Human and Solar",
+      "author": "Alice Bailey",
+      "year": "2020",
+      "category": "self-growth",
+      "search": "initiation, human and solar"
+    },
+    {
+      "slug": "the-god-franchise",
+      "title": "The God Franchise",
+      "author": "Alan Dawe",
+      "year": "2011",
+      "category": "self-growth",
+      "search": "the god franchise"
+    },
+    {
+      "slug": "wisdom-of-the-elders",
+      "title": "Wisdom of the Elders",
+      "author": "David Suzuki, Peter Knudtson",
+      "year": "1992",
+      "category": "self-growth",
+      "search": "wisdom of the elders"
+    },
+    {
+      "slug": "mystic-s-musings",
+      "title": "Mystic’s Musings",
+      "author": "Sadhguru",
+      "year": "2016",
+      "category": "self-growth",
+      "search": "mystic’s musings"
+    },
+    {
+      "slug": "among-my-books-first-series",
+      "title": "Among My Books, First Series",
+      "author": "Russell James Lowell",
+      "year": "2007",
+      "category": "self-growth",
+      "search": "among my books, first series"
+    },
+    {
+      "slug": "the-grail",
+      "title": "The Grail",
+      "author": "Roger Sherman Loomis",
+      "year": "1991",
+      "category": "self-growth",
+      "search": "the grail"
+    },
+    {
+      "slug": "a-scientific-demonstration-of-the-future-life",
+      "title": "A Scientific Demonstration of the Future Life",
+      "author": "Thomson Jay Hudson",
+      "year": "2015",
+      "category": "self-growth",
+      "search": "a scientific demonstration of the future life"
+    },
+    {
+      "slug": "the-rights-of-man",
+      "title": "The Rights of Man",
+      "author": "Thomas Paine",
+      "year": "2018",
+      "category": "self-growth",
+      "search": "the rights of man"
+    },
+    {
+      "slug": "the-life-of-isaac-newton",
+      "title": "The Life of Isaac Newton",
+      "author": "Richard S. Westfall",
+      "year": "1993",
+      "category": "knowledge",
+      "search": "the life of isaac newton"
+    },
+    {
+      "slug": "darwin-among-the-machines",
+      "title": "Darwin Among The Machines",
+      "author": "George Dyson",
+      "year": "1997",
+      "category": "knowledge",
+      "search": "darwin among the machines"
+    },
+    {
+      "slug": "radiative-processes-in-astrophysics",
+      "title": "Radiative Processes in Astrophysics",
+      "author": "George B. Rybicki, Alan P. Lightman",
+      "year": "1979",
+      "category": "knowledge",
+      "search": "radiative processes in astrophysics"
+    },
+    {
+      "slug": "galaxy-morphology-and-classification",
+      "title": "Galaxy Morphology and Classification",
+      "author": "Sidney Van den Bergh",
+      "year": "1998",
+      "category": "knowledge",
+      "search": "galaxy morphology and classification"
+    },
+    {
+      "slug": "concepts-of-nuclear-physics",
+      "title": "Concepts of Nuclear Physics",
+      "author": "Bernard Leonard Cohen",
+      "year": "1971",
+      "category": "knowledge",
+      "search": "concepts of nuclear physics"
+    },
+    {
+      "slug": "medical-parasitology",
+      "title": "Medical Parasitology",
+      "author": "Abhay R. Satoskar, Gary L. Simon, Peter J. Hotez, Moriya Tsuji",
+      "year": "2009",
+      "category": "knowledge",
+      "search": "medical parasitology"
+    },
+    {
+      "slug": "ionic-equilibria-in-analytical-chemistry",
+      "title": "Ionic Equilibria in Analytical Chemistry",
+      "author": "Jean-Louis Burgot",
+      "year": "2012",
+      "category": "knowledge",
+      "search": "ionic equilibria in analytical chemistry"
+    },
+    {
+      "slug": "environmental-oceanography",
+      "title": "Environmental Oceanography",
+      "author": "Tom Beer",
+      "year": "1996",
+      "category": "knowledge",
+      "search": "environmental oceanography"
+    },
+    {
+      "slug": "global-biodiversity",
+      "title": "Global Biodiversity",
+      "author": "World Conservation Monitoring Centre",
+      "year": "2012",
+      "category": "knowledge",
+      "search": "global biodiversity"
+    },
+    {
+      "slug": "the-developing-human",
+      "title": "The Developing Human",
+      "author": "Keith L. Moore",
+      "year": "1982",
+      "category": "knowledge",
+      "search": "the developing human"
+    },
+    {
+      "slug": "applied-nonparametric-statistical-methods",
+      "title": "Applied Nonparametric Statistical Methods",
+      "author": "Peter Sprent, Nigel C. Smeeton",
+      "year": "2016",
+      "category": "knowledge",
+      "search": "applied nonparametric statistical methods"
+    },
+    {
+      "slug": "handbook-of-carbon-graphite-diamond-and-fullerenes",
+      "title": "Handbook of Carbon, Graphite, Diamond, and Fullerenes",
+      "author": "Hugh O. Pierson",
+      "year": "1993",
+      "category": "knowledge",
+      "search": "handbook of carbon, graphite, diamond, and fullerenes"
+    },
+    {
+      "slug": "the-story-book-of-science",
+      "title": "The Story-book of Science",
+      "author": "Jean-Henri Fabre",
+      "year": "1917",
+      "category": "knowledge",
+      "search": "the story-book of science"
+    },
+    {
+      "slug": "plan-b-2-0",
+      "title": "Plan B 2.0",
+      "author": "Lester Russell Brown",
+      "year": "2006",
+      "category": "knowledge",
+      "search": "plan b 2.0"
+    },
+    {
+      "slug": "natural-disasters",
+      "title": "Natural Disasters",
+      "author": "David Alexander",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "natural disasters"
+    },
+    {
+      "slug": "the-developmental-role-of-the-foreign-sector-and-aid",
+      "title": "The Developmental Role of the Foreign Sector and Aid",
+      "author": "Anne O. Krueger",
+      "year": "1979",
+      "category": "knowledge",
+      "search": "the developmental role of the foreign sector and aid"
+    },
+    {
+      "slug": "astronomy",
+      "title": "Astronomy",
+      "author": "Michael Zeilik",
+      "year": "1976",
+      "category": "knowledge",
+      "search": "astronomy"
+    },
+    {
+      "slug": "popular-books-on-natural-science",
+      "title": "Popular Books on Natural Science",
+      "author": "Aaron Bernstein",
+      "year": "1809",
+      "category": "knowledge",
+      "search": "popular books on natural science"
+    },
+    {
+      "slug": "historic-storms-of-the-north-sea-british-isles-and-northwest-europe",
+      "title": "Historic Storms of the North Sea, British Isles and Northwest Europe",
+      "author": "Hubert Lamb, Knud Frydendahl",
+      "year": "1991",
+      "category": "knowledge",
+      "search": "historic storms of the north sea, british isles and northwest europe"
+    },
+    {
+      "slug": "introduction-to-glycobiology",
+      "title": "Introduction to Glycobiology",
+      "author": "Maureen E. Taylor, Kurt Drickamer",
+      "year": "2003",
+      "category": "knowledge",
+      "search": "introduction to glycobiology"
+    },
+    {
+      "slug": "living-fossils",
+      "title": "Living Fossils",
+      "author": "N. Eldredge, S. M. Stanley",
+      "year": "2012",
+      "category": "knowledge",
+      "search": "living fossils"
+    },
+    {
+      "slug": "understanding-philosophy-of-science",
+      "title": "Understanding Philosophy of Science",
+      "author": "James Ladyman",
+      "year": "2012",
+      "category": "knowledge",
+      "search": "understanding philosophy of science"
+    },
+    {
+      "slug": "50-years-of-dna",
+      "title": "50 Years of DNA",
+      "author": "J. Clayton, C. Dennis",
+      "year": "2016",
+      "category": "knowledge",
+      "search": "50 years of dna"
+    },
+    {
+      "slug": "planet-earth",
+      "title": "Planet Earth",
+      "author": "Cesare Emiliani",
+      "year": "1992",
+      "category": "knowledge",
+      "search": "planet earth"
+    },
+    {
+      "slug": "the-physics-of-chance",
+      "title": "The Physics of Chance",
+      "author": "Charles Ruhla",
+      "year": "1992",
+      "category": "knowledge",
+      "search": "the physics of chance"
+    },
+    {
+      "slug": "history-of-the-planetary-systems-from-thales-to-kepler",
+      "title": "History of the Planetary Systems from Thales to Kepler",
+      "author": "J. L. E. Dreyer",
+      "year": "2007",
+      "category": "knowledge",
+      "search": "history of the planetary systems from thales to kepler"
+    },
+    {
+      "slug": "commercial-chicken-meat-and-egg-production",
+      "title": "Commercial Chicken Meat and Egg Production",
+      "author": "Donald D. Bell, William Daniel Weaver",
+      "year": "2002",
+      "category": "knowledge",
+      "search": "commercial chicken meat and egg production"
+    },
+    {
+      "slug": "symmetry-in-chaos",
+      "title": "Symmetry in Chaos",
+      "author": "Mike Field, Martin Golubitsky",
+      "year": "1992",
+      "category": "knowledge",
+      "search": "symmetry in chaos"
+    },
+    {
+      "slug": "organic-production-and-use-of-alternative-crops",
+      "title": "Organic Production and Use of Alternative Crops",
+      "author": "Franc Bavec, Martina Bavec",
+      "year": "2006",
+      "category": "knowledge",
+      "search": "organic production and use of alternative crops"
+    },
+    {
+      "slug": "diffuse-reflectance-spectroscopy-environmental-problem-solving",
+      "title": "Diffuse Reflectance Spectroscopy Environmental Problem Solving",
+      "author": "R.W. Frei",
+      "year": "2019",
+      "category": "knowledge",
+      "search": "diffuse reflectance spectroscopy environmental problem solving"
+    },
+    {
+      "slug": "ecological-utopias",
+      "title": "Ecological Utopias",
+      "author": "Marius de Geus",
+      "year": "1999",
+      "category": "knowledge",
+      "search": "ecological utopias"
+    },
+    {
+      "slug": "tsunami",
+      "title": "Tsunami",
+      "author": "Edward Bryant",
+      "year": "2001",
+      "category": "knowledge",
+      "search": "tsunami"
+    },
+    {
+      "slug": "the-empathic-screen",
+      "title": "The Empathic Screen",
+      "author": "Michele Guerra",
+      "year": "2020",
+      "category": "knowledge",
+      "search": "the empathic screen"
+    },
+    {
+      "slug": "the-reign-of-quantity-and-the-signs-of-the-times",
+      "title": "The Reign of Quantity and the Signs of the Times",
+      "author": "René Guénon",
+      "year": "1972",
+      "category": "knowledge",
+      "search": "the reign of quantity and the signs of the times"
+    },
+    {
+      "slug": "on-the-origin-of-species",
+      "title": "On the Origin of Species",
+      "author": "Charles Darwin",
+      "year": "2013",
+      "category": "knowledge",
+      "search": "on the origin of species"
+    },
+    {
+      "slug": "toomer-ptolemy-s-almagest-duckworth",
+      "title": "TOOMER:PTOLEMY'S ALMAGEST, (DUCKWORTH)",
+      "author": "Ptolemy",
+      "year": "1984",
+      "category": "knowledge",
+      "search": "toomer:ptolemy's almagest, (duckworth)"
+    },
+    {
+      "slug": "phase-transitions-and-renormalization-group",
+      "title": "Phase Transitions and Renormalization Group",
+      "author": "Jean Zinn-Justin",
+      "year": "2007",
+      "category": "knowledge",
+      "search": "phase transitions and renormalization group"
+    },
+    {
+      "slug": "john-dewey-s-pragmatic-technology",
+      "title": "John Dewey's Pragmatic Technology",
+      "author": "Larry A. Hickman",
+      "year": "1990",
+      "category": "knowledge",
+      "search": "john dewey's pragmatic technology"
+    },
+    {
+      "slug": "women-in-law",
+      "title": "Women In Law",
+      "author": "Cynthia Fuchs Epstein",
+      "year": "1981",
+      "category": "knowledge",
+      "search": "women in law"
+    },
+    {
+      "slug": "natural-hazards",
+      "title": "Natural Hazards",
+      "author": "Edward A. Keller, Robert H. Blodgett",
+      "year": "2008",
+      "category": "knowledge",
+      "search": "natural hazards"
+    },
+    {
+      "slug": "antennas-and-waveguides-for-nonsinusoidal-waves",
+      "title": "Antennas and Waveguides for Nonsinusoidal Waves",
+      "author": "Henning F. Harmuth",
+      "year": "1984",
+      "category": "knowledge",
+      "search": "antennas and waveguides for nonsinusoidal waves"
+    },
+    {
+      "slug": "cellular-and-molecular-immunology",
+      "title": "Cellular and Molecular Immunology",
+      "author": "Abul K. Abbas, Andrew H. Lichtman, Jordan S. Pober",
+      "year": "1997",
+      "category": "knowledge",
+      "search": "cellular and molecular immunology"
+    },
+    {
+      "slug": "a-history-of-the-warfare-of-science-with-theology-in-christendom",
+      "title": "A History of the Warfare of Science with Theology in Christendom",
+      "author": "Andrew Dickson White",
+      "year": "1897",
+      "category": "knowledge",
+      "search": "a history of the warfare of science with theology in christendom"
+    },
+    {
+      "slug": "understanding-weather",
+      "title": "Understanding Weather",
+      "author": "Karel Karel Hughes, Julian Mayes",
+      "year": "2014",
+      "category": "knowledge",
+      "search": "understanding weather"
+    },
+    {
+      "slug": "the-rise-and-decline-of-colloid-science-in-north-america-1900-1935",
+      "title": "The Rise and Decline of Colloid Science in North America, 1900-1935",
+      "author": "Andrew Ede",
+      "year": "2007",
+      "category": "knowledge",
+      "search": "the rise and decline of colloid science in north america, 1900-1935"
+    },
+    {
+      "slug": "dipole-moments-in-organic-chemistry",
+      "title": "Dipole Moments in Organic Chemistry",
+      "author": "V. I. Minkin",
+      "year": "1970",
+      "category": "knowledge",
+      "search": "dipole moments in organic chemistry"
+    },
+    {
+      "slug": "remote-sensing-in-hydrology",
+      "title": "Remote Sensing in Hydrology",
+      "author": "Edwin T. Engman, Robert J. Gurney, R.J. Gurney",
+      "year": "1991",
+      "category": "knowledge",
+      "search": "remote sensing in hydrology"
+    },
+    {
+      "slug": "human-biology",
+      "title": "Human Biology",
+      "author": "Cecie Starr, Beverly McMillan",
+      "year": "2010",
+      "category": "knowledge",
+      "search": "human biology"
+    },
+    {
+      "slug": "deep-brain-stimulation-management",
+      "title": "Deep Brain Stimulation Management",
+      "author": "William J. Marks, Jill L. Ostrem",
+      "year": "2022",
+      "category": "knowledge",
+      "search": "deep brain stimulation management"
+    },
+    {
+      "slug": "origin-of-cultivated-plants",
+      "title": "Origin, of Cultivated Plants",
+      "author": "Alphonse De Candolle",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "origin, of cultivated plants"
+    },
+    {
+      "slug": "rock-forming-minerals",
+      "title": "Rock-forming Minerals",
+      "author": "William Alexander Deer, Robert Andrew Howie, Jack Zussman, J. Zussman",
+      "year": "1997",
+      "category": "knowledge",
+      "search": "rock-forming minerals"
+    },
+    {
+      "slug": "science-society-and-the-search-for-life-in-the-universe",
+      "title": "Science, Society, and the Search for Life in the Universe",
+      "author": "Bruce M. Jakosky",
+      "year": "2006",
+      "category": "knowledge",
+      "search": "science, society, and the search for life in the universe"
+    },
+    {
+      "slug": "wilhelm-meister-s-apprenticeship-and-travels",
+      "title": "WILHELM MEISTER'S APPRENTICESHIP AND TRAVELS",
+      "author": "Johann Wolfgang von Goethe",
+      "year": "2024",
+      "category": "knowledge",
+      "search": "wilhelm meister's apprenticeship and travels"
+    },
+    {
+      "slug": "other-worlds-than-ours",
+      "title": "Other Worlds Than Ours",
+      "author": "Richard A. Proctor",
+      "year": "2017",
+      "category": "knowledge",
+      "search": "other worlds than ours"
+    },
+    {
+      "slug": "mathematical-methods-for-optical-physics-and-engineering",
+      "title": "Mathematical Methods for Optical Physics and Engineering",
+      "author": "Gregory J. Gbur",
+      "year": "2011",
+      "category": "knowledge",
+      "search": "mathematical methods for optical physics and engineering"
+    },
+    {
+      "slug": "an-introduction-to-quantum-field-theory",
+      "title": "An Introduction To Quantum Field Theory",
+      "author": "Michael E. Peskin, Daniel V. Schroeder",
+      "year": "1995",
+      "category": "knowledge",
+      "search": "an introduction to quantum field theory"
+    },
+    {
+      "slug": "requiem-for-fools-and-beasts",
+      "title": "Requiem for Fools and Beasts",
+      "author": "Augustin Buzura",
+      "year": "2004",
+      "category": "knowledge",
+      "search": "requiem for fools and beasts"
+    },
+    {
+      "slug": "the-collapse-of-evolution",
+      "title": "The Collapse of Evolution",
+      "author": "Scott M. Huse",
+      "year": "1997",
+      "category": "knowledge",
+      "search": "the collapse of evolution"
+    },
+    {
+      "slug": "we-re-friends-right",
+      "title": "We're Friends, Right?",
+      "author": "William A. Corsaro",
+      "year": "2003",
+      "category": "knowledge",
+      "search": "we're friends, right?"
+    },
+    {
+      "slug": "exploring-the-planets",
+      "title": "Exploring the Planets",
+      "author": "William Kenneth Hamblin, Eric H. Christiansen",
+      "year": "1990",
+      "category": "knowledge",
+      "search": "exploring the planets"
+    },
+    {
+      "slug": "reinventing-the-future",
+      "title": "Reinventing The Future",
+      "author": "Thomas A. Bass",
+      "year": "1994",
+      "category": "knowledge",
+      "search": "reinventing the future"
+    },
+    {
+      "slug": "the-universe-in-a-single-atom",
+      "title": "The Universe in a Single Atom",
+      "author": "Dalai Lama",
+      "year": "2006",
+      "category": "knowledge",
+      "search": "the universe in a single atom"
+    },
+    {
+      "slug": "political-ecology",
+      "title": "Political Ecology",
+      "author": "Paul Robbins",
+      "year": "2019",
+      "category": "knowledge",
+      "search": "political ecology"
+    },
+    {
+      "slug": "the-moral-status-of-animals",
+      "title": "The Moral Status of Animals",
+      "author": "Stephen R. L. Clark",
+      "year": "1977",
+      "category": "knowledge",
+      "search": "the moral status of animals"
+    },
+    {
+      "slug": "manual-of-mineralogy",
+      "title": "Manual of Mineralogy",
+      "author": "James Dwight Dana",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "manual of mineralogy"
+    },
+    {
+      "slug": "the-origin-of-species",
+      "title": "The Origin of Species",
+      "author": "Charles Darwin",
+      "year": "1979",
+      "category": "knowledge",
+      "search": "the origin of species"
+    },
+    {
+      "slug": "library-of-universal-history-and-popular-science",
+      "title": "Library of Universal History and Popular Science",
+      "author": "Isreal Smith Clare",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "library of universal history and popular science"
+    },
+    {
+      "slug": "the-formation-of-vegetable-mould",
+      "title": "The Formation of Vegetable Mould",
+      "author": "Charles Darwin",
+      "year": "2015",
+      "category": "knowledge",
+      "search": "the formation of vegetable mould"
+    },
+    {
+      "slug": "the-book-of-why",
+      "title": "The Book of Why",
+      "author": "Judea Pearl",
+      "year": "2019",
+      "category": "knowledge",
+      "search": "the book of why"
+    },
+    {
+      "slug": "the-foundations-of-the-origin-of-species",
+      "title": "The Foundations of the Origin of Species",
+      "author": "Charles Darwin",
+      "year": "2017",
+      "category": "knowledge",
+      "search": "the foundations of the origin of species"
+    },
+    {
+      "slug": "print-is-dead",
+      "title": "Print Is Dead",
+      "author": "Jeff Gomez",
+      "year": "2007",
+      "category": "knowledge",
+      "search": "print is dead"
+    },
+    {
+      "slug": "my-psychosis-my-bicycle-and-i",
+      "title": "My Psychosis, My Bicycle, and I",
+      "author": "Fritz B. Simon",
+      "year": "1996",
+      "category": "knowledge",
+      "search": "my psychosis, my bicycle, and i"
+    },
+    {
+      "slug": "embracing-mind",
+      "title": "Embracing Mind",
+      "author": "B. Alan Wallace, Brian Hodel",
+      "year": "2008",
+      "category": "knowledge",
+      "search": "embracing mind"
+    },
+    {
+      "slug": "literature-and-science",
+      "title": "Literature and Science",
+      "author": "Aldous Huxley",
+      "year": "1963",
+      "category": "knowledge",
+      "search": "literature and science"
+    },
+    {
+      "slug": "advanced-neuromuscular-exercise-physiology",
+      "title": "Advanced Neuromuscular Exercise Physiology",
+      "author": "Phillip Gardiner",
+      "year": "2024",
+      "category": "knowledge",
+      "search": "advanced neuromuscular exercise physiology"
+    },
+    {
+      "slug": "the-captain-s-verses",
+      "title": "The Captain's Verses",
+      "author": "Pablo Neruda",
+      "year": "1972",
+      "category": "knowledge",
+      "search": "the captain's verses"
+    },
+    {
+      "slug": "covariant-loop-quantum-gravity",
+      "title": "Covariant Loop Quantum Gravity",
+      "author": "Carlo Rovelli, Francesca Vidotto",
+      "year": "2015",
+      "category": "knowledge",
+      "search": "covariant loop quantum gravity"
+    },
+    {
+      "slug": "exploring-agrodiversity",
+      "title": "Exploring Agrodiversity",
+      "author": "H. C. Brookfield",
+      "year": "2001",
+      "category": "knowledge",
+      "search": "exploring agrodiversity"
+    },
+    {
+      "slug": "the-intelligence-of-the-cosmos",
+      "title": "The Intelligence of the Cosmos",
+      "author": "Ervin Laszlo",
+      "year": "2017",
+      "category": "knowledge",
+      "search": "the intelligence of the cosmos"
+    },
+    {
+      "slug": "thermodynamics-an-engineering-approach",
+      "title": "Thermodynamics: An Engineering Approach",
+      "author": "Michael Boles, Yunus Cengel",
+      "year": "2014",
+      "category": "knowledge",
+      "search": "thermodynamics: an engineering approach"
+    },
+    {
+      "slug": "hormones",
+      "title": "Hormones",
+      "author": "Anthony W. Norman, Gerald Litwack",
+      "year": "1997",
+      "category": "knowledge",
+      "search": "hormones"
+    },
+    {
+      "slug": "silenced-rivers",
+      "title": "Silenced Rivers",
+      "author": "Patrick McCully",
+      "year": "2001",
+      "category": "knowledge",
+      "search": "silenced rivers"
+    },
+    {
+      "slug": "in-the-shadow-of-the-prophet",
+      "title": "In the Shadow of the Prophet",
+      "author": "Milton Viorst",
+      "year": "1998",
+      "category": "knowledge",
+      "search": "in the shadow of the prophet"
+    },
+    {
+      "slug": "the-mandaeans",
+      "title": "The Mandaeans",
+      "author": "Jorunn Jacobsen Buckley",
+      "year": "2002",
+      "category": "knowledge",
+      "search": "the mandaeans"
+    },
+    {
+      "slug": "the-government-of-the-ottoman-empire-in-the-time-of-suleiman-the-magnificent",
+      "title": "The Government of the Ottoman Empire in the Time of Suleiman the Magnificent",
+      "author": "Albert Howe Lybyer",
+      "year": "1913",
+      "category": "knowledge",
+      "search": "the government of the ottoman empire in the time of suleiman the magnificent"
+    },
+    {
+      "slug": "homer-s-iliad-books-xx-xxi-and-xxii-with-engl-notes-and-a-literal-translation",
+      "title": "Homer's Iliad, Books XX., XXI. and XXII., with Engl. Notes and a Literal Translation",
+      "author": "Homerus",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "homer's iliad, books xx., xxi. and xxii., with engl. notes and a literal translation"
+    },
+    {
+      "slug": "the-clash-of-empires",
+      "title": "The Clash of Empires",
+      "author": "Lydia H. Liu",
+      "year": "2004",
+      "category": "knowledge",
+      "search": "the clash of empires"
+    },
+    {
+      "slug": "bitter-glory",
+      "title": "Bitter Glory",
+      "author": "Richard M. Watt",
+      "year": "1979",
+      "category": "knowledge",
+      "search": "bitter glory"
+    },
+    {
+      "slug": "the-story-of-the-malakand-field-force",
+      "title": "The Story of the Malakand Field Force",
+      "author": "Winston Churchill",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "the story of the malakand field force"
+    },
+    {
+      "slug": "library-of-philosophy-time-and-free-will",
+      "title": "Library of Philosophy. Time and Free Will",
+      "author": "Henri Bergson, F. L. Pogson",
+      "year": "2017",
+      "category": "knowledge",
+      "search": "library of philosophy. time and free will"
+    },
+    {
+      "slug": "the-divine-comedy",
+      "title": "The Divine Comedy",
+      "author": "Henry Johnson, Dante Alighieri",
+      "year": "2016",
+      "category": "knowledge",
+      "search": "the divine comedy"
+    },
+    {
+      "slug": "latin-or-the-empire-of-the-sign",
+      "title": "Latin, Or, The Empire of the Sign",
+      "author": "Françoise Waquet",
+      "year": "2001",
+      "category": "knowledge",
+      "search": "latin, or, the empire of the sign"
+    },
+    {
+      "slug": "martin-frobisher",
+      "title": "Martin Frobisher",
+      "author": "James McDermott",
+      "year": "2001",
+      "category": "knowledge",
+      "search": "martin frobisher"
+    },
+    {
+      "slug": "the-phenomenology-of-mind",
+      "title": "The Phenomenology of Mind",
+      "author": "Georg Wilhelm Friedrich Hegel",
+      "year": "2019",
+      "category": "knowledge",
+      "search": "the phenomenology of mind"
+    },
+    {
+      "slug": "meteorology",
+      "title": "METEOROLOGY",
+      "author": "Aristotle",
+      "year": "2017",
+      "category": "knowledge",
+      "search": "meteorology"
+    },
+    {
+      "slug": "alexander-the-great",
+      "title": "Alexander the Great",
+      "author": "Benjamin Ide Wheeler",
+      "year": "2015",
+      "category": "knowledge",
+      "search": "alexander the great"
+    },
+    {
+      "slug": "the-black-hole",
+      "title": "The Black Hole",
+      "author": "Jan Dalley",
+      "year": "2006",
+      "category": "knowledge",
+      "search": "the black hole"
+    },
+    {
+      "slug": "the-father-a-tragedy",
+      "title": "The Father (a Tragedy)",
+      "author": "August Strindberg",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "the father (a tragedy)"
+    },
+    {
+      "slug": "on-the-motion-of-the-heart-and-blood-in-animals",
+      "title": "On the Motion of the Heart and Blood in Animals",
+      "author": "William Harvey",
+      "year": "2018",
+      "category": "knowledge",
+      "search": "on the motion of the heart and blood in animals"
+    },
+    {
+      "slug": "singapore-burning",
+      "title": "Singapore Burning",
+      "author": "Colin Smith",
+      "year": "2005",
+      "category": "knowledge",
+      "search": "singapore burning"
+    },
+    {
+      "slug": "sex-differences-in-depression",
+      "title": "Sex Differences in Depression",
+      "author": "Susan Nolen-Hoeksema",
+      "year": "1990",
+      "category": "self-growth",
+      "search": "sex differences in depression"
+    },
+    {
+      "slug": "choices-for-living",
+      "title": "Choices for Living",
+      "author": "Thomas S. Langner",
+      "year": "2002",
+      "category": "self-growth",
+      "search": "choices for living"
+    },
+    {
+      "slug": "switch",
+      "title": "Switch",
+      "author": "Chip Heath, Dan Heath",
+      "year": "2010",
+      "category": "self-growth",
+      "search": "switch"
+    },
+    {
+      "slug": "an-attributional-theory-of-motivation-and-emotion",
+      "title": "An Attributional Theory of Motivation and Emotion",
+      "author": "Bernard Weiner",
+      "year": "1986",
+      "category": "self-growth",
+      "search": "an attributional theory of motivation and emotion"
+    },
+    {
+      "slug": "the-high-caste-hindu-woman",
+      "title": "The High-Caste Hindu Woman",
+      "author": "Pundita Ramabai Sarasvati",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "the high-caste hindu woman"
+    },
+    {
+      "slug": "the-history-of-rasselas-prince-of-abyssinia",
+      "title": "The History of Rasselas, Prince of Abyssinia",
+      "author": "Samuel Johnson",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "the history of rasselas, prince of abyssinia"
+    },
+    {
+      "slug": "family-wisdom-from-the-monk-who-sold-his-ferrari",
+      "title": "Family Wisdom from the Monk Who Sold His Ferrari",
+      "author": "Robin Sharma",
+      "year": "2014",
+      "category": "self-growth",
+      "search": "family wisdom from the monk who sold his ferrari"
+    },
+    {
+      "slug": "the-kama-sutra-of-vatsyayana",
+      "title": "The Kama Sutra of Vatsyayana",
+      "author": "Vatsyayana, Richard Burton, Bhagavanlal Indrajit, Shivaram Parashuram Bhide",
+      "year": "2014",
+      "category": "self-growth",
+      "search": "the kama sutra of vatsyayana"
+    },
+    {
+      "slug": "getting-better-bit-e-by-bit-e",
+      "title": "Getting Better Bit(e) by Bit(e)",
+      "author": "Ulrike Schmidt, Janet Treasure",
+      "year": "1993",
+      "category": "self-growth",
+      "search": "getting better bit(e) by bit(e)"
+    },
+    {
+      "slug": "eugenics-and-other-evils",
+      "title": "Eugenics and Other Evils",
+      "author": "Gilbert Keith Chesterton",
+      "year": "2015",
+      "category": "self-growth",
+      "search": "eugenics and other evils"
+    },
+    {
+      "slug": "project-management",
+      "title": "Project Management",
+      "author": "Clifford F. Gray, Erik W. Larson",
+      "year": "2002",
+      "category": "self-growth",
+      "search": "project management"
+    },
+    {
+      "slug": "journal",
+      "title": "Journal",
+      "author": "Jay Wilson",
+      "year": "2018",
+      "category": "self-growth",
+      "search": "journal"
+    },
+    {
+      "slug": "journal-a-themed-notebook-journal-for-your-everyday-needs",
+      "title": "Journal: A Themed Notebook Journal for Your Everyday Needs",
+      "author": "Jay Wilson",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "journal: a themed notebook journal for your everyday needs"
+    },
+    {
+      "slug": "representative-men",
+      "title": "Representative Men",
+      "author": "R. W. Emerson",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "representative men"
+    },
+    {
+      "slug": "how-to-observe",
+      "title": "How to Observe",
+      "author": "Harriet Martineau",
+      "year": "2018",
+      "category": "self-growth",
+      "search": "how to observe"
+    },
+    {
+      "slug": "the-private-papers-of-henry-ryecroft",
+      "title": "The Private Papers of Henry Ryecroft",
+      "author": "George Gissing",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "the private papers of henry ryecroft"
+    },
+    {
+      "slug": "the-children-who-lived",
+      "title": "The Children who Lived",
+      "author": "Kathryn A. Markell, Marc A. Markell",
+      "year": "2008",
+      "category": "self-growth",
+      "search": "the children who lived"
+    },
+    {
+      "slug": "the-art-of-public-speaking",
+      "title": "The Art of Public Speaking",
+      "author": "Dale Carnagey, Joseph Berg Esenwein",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "the art of public speaking"
+    },
+    {
+      "slug": "nonviolent-communication-a-language-of-life",
+      "title": "Nonviolent Communication: A Language of Life",
+      "author": "Marshall B. Rosenberg, Deepak Chopra",
+      "year": "2015",
+      "category": "self-growth",
+      "search": "nonviolent communication: a language of life"
+    },
+    {
+      "slug": "the-kybalion-a-study-of-the-hermetic-philosophy-of-ancient-egypt-and-greece",
+      "title": "The Kybalion: A Study of the Hermetic Philosophy of Ancient Egypt and Greece",
+      "author": "Three Initiates",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "the kybalion: a study of the hermetic philosophy of ancient egypt and greece"
+    },
+    {
+      "slug": "smoking-and-the-state",
+      "title": "Smoking and the State",
+      "author": "Robert D. Tollison, Richard E. Wagner",
+      "year": "1988",
+      "category": "self-growth",
+      "search": "smoking and the state"
+    },
+    {
+      "slug": "the-secret-teachings-of-all-ages",
+      "title": "The Secret Teachings of All Ages",
+      "author": "Manly P Hall",
+      "year": "2021",
+      "category": "self-growth",
+      "search": "the secret teachings of all ages"
+    },
+    {
+      "slug": "self-hypnosis-demystified",
+      "title": "Self-Hypnosis Demystified",
+      "author": "Adam Burke",
+      "year": "2004",
+      "category": "self-growth",
+      "search": "self-hypnosis demystified"
+    },
+    {
+      "slug": "every-second-counts",
+      "title": "Every Second Counts",
+      "author": "Lance Armstrong",
+      "year": "2004",
+      "category": "self-growth",
+      "search": "every second counts"
+    },
+    {
+      "slug": "the-spiritual-sense-of-dante-s-divina-commedia",
+      "title": "The Spiritual Sense of Dante's Divina Commedia",
+      "author": "William Torrey Harris",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "the spiritual sense of dante's divina commedia"
+    },
+    {
+      "slug": "because-i-m-wendy-that-s-why",
+      "title": "Because I'm Wendy That's Why",
+      "author": "Day Writing Journals",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "because i'm wendy that's why"
+    },
+    {
+      "slug": "laura",
+      "title": "Laura",
+      "author": "Day Writing Journals",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "laura"
+    },
+    {
+      "slug": "virginibus-puerisque-and-other-papers",
+      "title": "\"Virginibus Puerisque\" and Other Papers",
+      "author": "Robert Louis Stevenson",
+      "year": "2016",
+      "category": "self-growth",
+      "search": "\"virginibus puerisque\" and other papers"
+    },
+    {
+      "slug": "drugs-society-human-behavior",
+      "title": "Drugs, Society & Human Behavior",
+      "author": "Oakley Stern Ray, Charles Ksir",
+      "year": "1993",
+      "category": "self-growth",
+      "search": "drugs, society & human behavior"
+    },
+    {
+      "slug": "the-interpretation-of-dreams",
+      "title": "The Interpretation Of Dreams",
+      "author": "Sigmund Freud",
+      "year": "1955",
+      "category": "self-growth",
+      "search": "the interpretation of dreams"
+    },
+    {
+      "slug": "the-sovereignty-of-god",
+      "title": "The Sovereignty of God",
+      "author": "Arthur W. Pink",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "the sovereignty of god"
+    },
+    {
+      "slug": "the-power-principle",
+      "title": "The Power Principle",
+      "author": "Blaine Lee",
+      "year": "1998",
+      "category": "self-growth",
+      "search": "the power principle"
+    },
+    {
+      "slug": "laziness-does-not-exist",
+      "title": "Laziness Does Not Exist",
+      "author": "Devon Price",
+      "year": "2022",
+      "category": "self-growth",
+      "search": "laziness does not exist"
+    },
+    {
+      "slug": "within-the-temple-of-isis",
+      "title": "Within the Temple of Isis",
+      "author": "Belle M. Wagner",
+      "year": "2015",
+      "category": "self-growth",
+      "search": "within the temple of isis"
+    },
+    {
+      "slug": "the-numerology-of-the-i-ching",
+      "title": "The Numerology of the I Ching",
+      "author": "Taoist Master Alfred Huang",
+      "year": "2000",
+      "category": "self-growth",
+      "search": "the numerology of the i ching"
+    },
+    {
+      "slug": "the-evidence-of-immortality",
+      "title": "The Evidence of Immortality",
+      "author": "Jerome An; Anderson",
+      "year": "2015",
+      "category": "self-growth",
+      "search": "the evidence of immortality"
+    },
+    {
+      "slug": "memory-culture",
+      "title": "Memory Culture",
+      "author": "William Walker Atkinson",
+      "year": "2007",
+      "category": "self-growth",
+      "search": "memory culture"
+    },
+    {
+      "slug": "crossing-the-chasm-3rd-edition",
+      "title": "Crossing the Chasm, 3rd Edition",
+      "author": "Geoffrey A. Moore",
+      "year": "2014",
+      "category": "self-growth",
+      "search": "crossing the chasm, 3rd edition"
+    },
+    {
+      "slug": "advice-to-rocket-scientists",
+      "title": "Advice to Rocket Scientists",
+      "author": "Jim Longuski",
+      "year": "2004",
+      "category": "self-growth",
+      "search": "advice to rocket scientists"
+    },
+    {
+      "slug": "a-message-of-hope-from-the-angels",
+      "title": "A Message of Hope from the Angels",
+      "author": "Lorna Byrne",
+      "year": "2012",
+      "category": "self-growth",
+      "search": "a message of hope from the angels"
+    },
+    {
+      "slug": "creativity-in-context",
+      "title": "Creativity in Context",
+      "author": "Teresa M. Amabile",
+      "year": "2019",
+      "category": "self-growth",
+      "search": "creativity in context"
+    },
+    {
+      "slug": "the-social-animal",
+      "title": "The Social Animal",
+      "author": "David Brooks",
+      "year": "2012",
+      "category": "self-growth",
+      "search": "the social animal"
+    },
+    {
+      "slug": "the-ultimate-dictionary-of-dream-language",
+      "title": "The Ultimate Dictionary of Dream Language",
+      "author": "Briceida Ryan",
+      "year": "2013",
+      "category": "self-growth",
+      "search": "the ultimate dictionary of dream language"
+    },
+    {
+      "slug": "the-science-of-being-well",
+      "title": "The Science of Being Well",
+      "author": "Wallace D. Wattles",
+      "year": "2022",
+      "category": "self-growth",
+      "search": "the science of being well"
+    },
+    {
+      "slug": "i-want-to-die-but-i-still-want-to-eat-tteokbokki",
+      "title": "I Want to Die but I Still Want to Eat Tteokbokki",
+      "author": "Baek Sehee",
+      "year": "2024",
+      "category": "self-growth",
+      "search": "i want to die but i still want to eat tteokbokki"
+    },
+    {
+      "slug": "creative-visualization",
+      "title": "Creative Visualization",
+      "author": "Shakti Gawain",
+      "year": "1978",
+      "category": "self-growth",
+      "search": "creative visualization"
+    },
+    {
+      "slug": "john-barleycorn",
+      "title": "John Barleycorn",
+      "author": "Jack London",
+      "year": "2009",
+      "category": "self-growth",
+      "search": "john barleycorn"
+    },
+    {
+      "slug": "the-eight-pillars-of-prosperity",
+      "title": "The Eight Pillars of Prosperity",
+      "author": "James Allen",
+      "year": "2025",
+      "category": "self-growth",
+      "search": "the eight pillars of prosperity"
+    },
+    {
+      "slug": "overcoming-body-dysmorphic-disorder",
+      "title": "Overcoming Body Dysmorphic Disorder",
+      "author": "Fugen Neziroglu, Sony Khemlani-Patel, Melanie T. Santos",
+      "year": "2012",
+      "category": "self-growth",
+      "search": "overcoming body dysmorphic disorder"
+    },
+    {
+      "slug": "the-general-theory-of-employment-interest-and-money",
+      "title": "The General Theory of Employment Interest and Money",
+      "author": "John Maynard Keynes",
+      "year": "2011",
+      "category": "self-growth",
+      "search": "the general theory of employment interest and money"
+    },
+    {
+      "slug": "the-book-of-life",
+      "title": "The Book of Life",
+      "author": "Jiddu Krishnamurti",
+      "year": "2010",
+      "category": "self-growth",
+      "search": "the book of life"
+    },
+    {
+      "slug": "chanel",
+      "title": "Chanel",
+      "author": "Lisa Chaney",
+      "year": "2011",
+      "category": "self-growth",
+      "search": "chanel"
+    },
+    {
+      "slug": "the-road-less-travelled",
+      "title": "The Road Less Travelled",
+      "author": "Morgan Scott Peck",
+      "year": "2012",
+      "category": "self-growth",
+      "search": "the road less travelled"
+    },
+    {
+      "slug": "one-minute-wisdom",
+      "title": "One Minute Wisdom",
+      "author": "Anthony De Mello",
+      "year": "2012",
+      "category": "self-growth",
+      "search": "one minute wisdom"
+    },
+    {
+      "slug": "dot-grid-notebook",
+      "title": "Dot Grid Notebook",
+      "author": "ArtyJournals",
+      "year": "2017",
+      "category": "self-growth",
+      "search": "dot grid notebook"
     }
   ]
 }

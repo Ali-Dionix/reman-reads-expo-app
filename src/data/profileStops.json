@@ -7,29 +7,29 @@
     },
     {
       "value": "clothbound",
-      "label": "Clothbound — the heirloom",
+      "label": "Clothbound, premium binding",
       "note": "dyed cloth over board, foil-stamped spine, ribbon marker"
     }
   ],
   "hermesLangs": [
     {
       "value": "english",
-      "label": "English"
+      "label": "Original"
     },
     {
-      "value": "roman",
-      "label": "Roman Urdu"
+      "value": "simple",
+      "label": "Simplified"
     },
     {
-      "value": "urdu",
-      "label": "اردو"
+      "value": "aloud",
+      "label": "Read aloud"
     }
   ],
   "audioRewind": [
     {
       "value": 0,
       "label": "Off",
-      "note": "pick up exactly where the needle sat"
+      "note": "pick up exactly where you stopped"
     },
     {
       "value": 5,
