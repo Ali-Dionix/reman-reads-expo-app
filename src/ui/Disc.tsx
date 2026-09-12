@@ -31,6 +31,7 @@ export function Disc({
   inner,
   children,
   onPress,
+  onPressIn,
   disabled = false,
   accessibilityLabel,
   accessibilityRole,
@@ -53,6 +54,9 @@ export function Disc({
   inner?: string;
   children?: ReactNode;
   onPress?: () => void;
+  /** Fires on the press's first touch, before onPress — the theme toggle
+   *  measures itself here so the reveal can start from where the disc is. */
+  onPressIn?: () => void;
   /** A `disabled` button (the bookmark's step at its ends): .26, unpressable,
    *  and said so to assistive tech. */
   disabled?: boolean;
@@ -135,6 +139,7 @@ export function Disc({
     return (
       <Pressable
         onPress={onPress}
+        onPressIn={onPressIn}
         disabled={disabled}
         accessibilityRole={accessibilityRole ?? "button"}
         accessibilityLabel={accessibilityLabel}

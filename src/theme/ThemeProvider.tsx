@@ -23,10 +23,19 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
-import { Platform, useColorScheme } from "react-native";
+import { Dimensions, Platform, useColorScheme } from "react-native";
+import {
+  Easing,
+  runOnJS,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+  type SharedValue,
+} from "react-native-reanimated";
 
 import {
   CHROME,
@@ -41,7 +50,34 @@ import {
 
 const THEME_STORAGE_KEY = "rr-theme";
 
+// `::view-transition-group(root){animation-duration:.5s;
+//  animation-timing-function:cubic-bezier(.4,0,.2,1)}` — matched exactly, and
+// it is the part that must not be touched.
+//
+// The TAIL is ours, and it is the one place this cannot be the web. The browser
+// has a snapshot, so behind its wipe edge the FINISHED PAGE is already painted.
+// We have only the finished FIELD, so the ink and the book arrive as the disc
+// leaves. That tail is therefore kept SHORT and front-loaded — out-quad puts
+// most of the opacity away in the first forty milliseconds, so the book is back
+// almost as the wipe lands rather than sitting under a wash.
+const SWEEP_MS = 500;
+const TAIL_MS = 140;
+
 type Pref = Mode | "system";
+
+/** Where the wipe starts, and how far it has to reach. */
+type Origin = { x: number; y: number; r: number; w: number; h: number };
+
+type RevealValue = {
+  active: boolean;
+  /** The mode being wiped IN — not the one in force until the sweep lands. */
+  incoming: Mode;
+  origin: Origin;
+  /** 0 → 1 across the sweep. */
+  sweep: SharedValue<number>;
+  /** 1 → 0 across the tail. */
+  fade: SharedValue<number>;
+};
 
 type ThemeValue = {
   mode: Mode;
@@ -67,9 +103,17 @@ type ThemeValue = {
   paperGradient: readonly [string, string];
   setPref: (next: Pref) => void;
   toggle: () => void;
+  /**
+   * Flip the theme with the site's circular reveal, growing from a point in
+   * SCREEN coordinates — the toggle's own centre. Falls back to an instant
+   * flip under reduced motion, exactly as ThemeToggle.tsx does: the theme
+   * change itself must never be blocked by the animation.
+   */
+  toggleFrom: (cx: number, cy: number) => void;
 };
 
 const ThemeContext = createContext<ThemeValue | null>(null);
+const RevealContext = createContext<RevealValue | null>(null);
 
 /** On web the store is localStorage and can be read before first paint;
  *  everywhere else the pinned mode arrives with the async read below. */
@@ -111,6 +155,67 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const mode: Mode = pref === "system" ? (system === "dark" ? "dark" : "light") : pref;
 
+  /* ------------------------------------------------ the lamp switch --- */
+
+  const reduced = useReducedMotion();
+  const sweep = useSharedValue(0);
+  const fade = useSharedValue(1);
+  const [reveal, setReveal] = useState<{ origin: Origin; to: Mode } | null>(null);
+  // the sweep's callbacks fire on the UI thread and must not close over stale
+  // render state
+  const pending = useRef<Mode | null>(null);
+
+  const end = useCallback(() => setReveal(null), []);
+
+  const land = useCallback(() => {
+    const to = pending.current;
+    if (to) setPref(to);
+    // the tail runs over a screen that is ALREADY the new theme, so it only
+    // has to take the disc away
+    fade.value = withTiming(
+      0,
+      { duration: TAIL_MS, easing: Easing.out(Easing.quad) },
+      (done) => {
+        if (done) runOnJS(end)();
+      },
+    );
+  }, [setPref, fade, end]);
+
+  const toggleFrom = useCallback(
+    (cx: number, cy: number) => {
+      const to: Mode = mode === "dark" ? "light" : "dark";
+      if (reduced) {
+        setPref(to);
+        return;
+      }
+      // SCREEN, not window: the reader's Modal is statusBarTranslucent and
+      // paints full-bleed, so a window-sized radius leaves a strip uncovered
+      // under the status bar.
+      const { width: w, height: h } = Dimensions.get("screen");
+      // setRevealOrigin() — the distance to the farthest corner, so the circle
+      // always finishes off-screen
+      const r = Math.hypot(Math.max(cx, w - cx), Math.max(cy, h - cy));
+      pending.current = to;
+      sweep.value = 0;
+      fade.value = 1;
+      setReveal({ origin: { x: cx, y: cy, r, w, h }, to });
+    },
+    [mode, reduced, setPref, sweep, fade],
+  );
+
+  // Start the sweep once the overlay is mounted, so its first frame is drawn
+  // at r=0 rather than jumping in a few pixels wide.
+  useEffect(() => {
+    if (!reveal) return;
+    sweep.value = withTiming(
+      1,
+      { duration: SWEEP_MS, easing: Easing.bezier(0.4, 0, 0.2, 1) },
+      (done) => {
+        if (done) runOnJS(land)();
+      },
+    );
+  }, [reveal, sweep, land]);
+
   const value = useMemo<ThemeValue>(
     () => ({
       mode,
@@ -136,11 +241,33 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       paperGradient: PAPER_GRADIENT[mode],
       setPref,
       toggle: () => setPref(mode === "dark" ? "light" : "dark"),
+      toggleFrom,
     }),
-    [mode, pref, setPref],
+    [mode, pref, setPref, toggleFrom],
   );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  const revealValue = useMemo<RevealValue>(
+    () => ({
+      active: !!reveal,
+      incoming: reveal?.to ?? mode,
+      origin: reveal?.origin ?? { x: 0, y: 0, r: 0, w: 0, h: 0 },
+      sweep,
+      fade,
+    }),
+    [reveal, mode, sweep, fade],
+  );
+
+  return (
+    <ThemeContext.Provider value={value}>
+      <RevealContext.Provider value={revealValue}>{children}</RevealContext.Provider>
+    </ThemeContext.Provider>
+  );
+}
+
+export function useThemeReveal(): RevealValue {
+  const ctx = useContext(RevealContext);
+  if (!ctx) throw new Error("useThemeReveal must be used inside <ThemeProvider>");
+  return ctx;
 }
 
 export function useTheme(): ThemeValue {

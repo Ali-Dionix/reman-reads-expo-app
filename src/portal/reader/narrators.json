@@ -1,0 +1,4064 @@
+{
+  "pressed": [
+    {
+      "id": "en-GB-Ollie:DragonHDLatestNeural",
+      "name": "Ambrose Reed",
+      "note": "Unhurried, and a little dry. Reads a joke as though he has not noticed it.",
+      "hue": "#7E2D1F",
+      "portrait": "https://www.romanreads.com/assets/narrators/ambrose-reed.webp",
+      "featured": 0
+    },
+    {
+      "id": "en-GB-Sonia:DragonHDLatestNeural",
+      "name": "Sylvia Wren",
+      "note": "Clear and close. Keeps the sentence's shape all the way to the full stop.",
+      "hue": "#9B7A4D",
+      "portrait": "https://www.romanreads.com/assets/narrators/sylvia-wren.webp",
+      "featured": 1
+    }
+  ],
+  "live": [
+    {
+      "id": "933563129e564b19a115bedd57b7406a",
+      "name": "Sarah",
+      "note": "Female, young. Conversational, narration, soft, breathy. English, as spoken in the United States.",
+      "hue": "#2e2214",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female, young · soft, breathy",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/933563129e564b19a115bedd57b7406a.webp"
+    },
+    {
+      "id": "bf322df2096a46f18c579d0baa36f41d",
+      "name": "Adrian",
+      "note": "Male, middle-aged. Narration, deep, slow, measured. English, as spoken in the United States.",
+      "hue": "#9b7a4d",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male, middle-aged · deep, slow",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/bf322df2096a46f18c579d0baa36f41d.webp"
+    },
+    {
+      "id": "b347db033a6549378b48d00acb0d06cd",
+      "name": "Selene",
+      "note": "Female, middle-aged. Narration, soft, calm, gentle. English, as spoken in the United States.",
+      "hue": "#4a3b27",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female, middle-aged · soft, calm",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b347db033a6549378b48d00acb0d06cd.webp"
+    },
+    {
+      "id": "536d3a5e000945adb7038665781a4aca",
+      "name": "Ethan",
+      "note": "Male, middle-aged. Educational, narration, professional, clear. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male, middle-aged",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/536d3a5e000945adb7038665781a4aca.webp"
+    },
+    {
+      "id": "9a9cf47702da476aa4629e2506d4a857",
+      "name": "Hannah",
+      "note": "Female, middle-aged. Advertisement, educational, professional, confident. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female, middle-aged",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9a9cf47702da476aa4629e2506d4a857.webp"
+    },
+    {
+      "id": "79d0bd3e4e5444b18f7b6d89b5927bf1",
+      "name": "Jordan",
+      "note": "Male, old. Educational, professional, confident, measured. English, as spoken in the United States.",
+      "hue": "#a63b2a",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male, old · measured",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/79d0bd3e4e5444b18f7b6d89b5927bf1.webp"
+    },
+    {
+      "id": "e3cd384158934cc9a01029cd7d278634",
+      "name": "Laura (US)",
+      "note": "Female, middle-aged. Conversational, educational, deep, warm. English, as spoken in the United States.",
+      "hue": "#4a3b27",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female, middle-aged · deep, warm",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e3cd384158934cc9a01029cd7d278634.webp"
+    },
+    {
+      "id": "0efe38923c0b445ab09382e851ae1e30",
+      "name": "Sophia",
+      "note": "Female. Professional. English, as spoken in Britain.",
+      "hue": "#9b7a4d",
+      "locale": "en-GB",
+      "gender": "female",
+      "language": "en",
+      "line": "GB · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0efe38923c0b445ab09382e851ae1e30.webp"
+    },
+    {
+      "id": "4f14b263c4ee418b9193de6ab1123015",
+      "name": "Sadie",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#9b7540",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4f14b263c4ee418b9193de6ab1123015.webp"
+    },
+    {
+      "id": "7882b0ed0f2a4a30bb89170985d19edc",
+      "name": "Juno",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7882b0ed0f2a4a30bb89170985d19edc.webp"
+    },
+    {
+      "id": "d17747d4522e4c3fb73aed8110f4df07",
+      "name": "Maren",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#9b7540",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d17747d4522e4c3fb73aed8110f4df07.webp"
+    },
+    {
+      "id": "04a767f405104eb7afa1a7e80f60bd1b",
+      "name": "Iris",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/04a767f405104eb7afa1a7e80f60bd1b.webp"
+    },
+    {
+      "id": "f3a2b90078d54a65af4b95f63bc7798e",
+      "name": "Sheila",
+      "note": "Female, young. English, as spoken in the United States.",
+      "hue": "#b98f55",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f3a2b90078d54a65af4b95f63bc7798e.webp"
+    },
+    {
+      "id": "51ae3c2a6e504830a0525e4745c04399",
+      "name": "Corey",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#6d2922",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/51ae3c2a6e504830a0525e4745c04399.webp"
+    },
+    {
+      "id": "a07450a60b8f453e86ef62391f2b9226",
+      "name": "Frankie",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#8c6a3f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a07450a60b8f453e86ef62391f2b9226.webp"
+    },
+    {
+      "id": "0db6e93af420470b9d9b9a886dbaa954",
+      "name": "Kai",
+      "note": "Male. Conversational. English, as spoken in the United States.",
+      "hue": "#795b38",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0db6e93af420470b9d9b9a886dbaa954.webp"
+    },
+    {
+      "id": "0984f8581bbb4e5e980a990abb865874",
+      "name": "Blair",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#795b38",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0984f8581bbb4e5e980a990abb865874.webp"
+    },
+    {
+      "id": "3f6a61eb4d084459b75c67d93810b61f",
+      "name": "Casey",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3f6a61eb4d084459b75c67d93810b61f.webp"
+    },
+    {
+      "id": "6f0ae9a9f53c4d5bb7f546b62368cc3c",
+      "name": "Elizabeth",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6f0ae9a9f53c4d5bb7f546b62368cc3c.webp"
+    },
+    {
+      "id": "ffe058c27068460a87f65335867c51d1",
+      "name": "Mary",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#7e2d1f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ffe058c27068460a87f65335867c51d1.webp"
+    },
+    {
+      "id": "732ea755bd9e446eb31dc79966b50428",
+      "name": "Beau",
+      "note": "Male. English, as spoken in the United States.",
+      "hue": "#a63b2a",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/732ea755bd9e446eb31dc79966b50428.webp"
+    },
+    {
+      "id": "ac23b666ac6149839d350ab4af7e4979",
+      "name": "Charlotte",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#4a1717",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ac23b666ac6149839d350ab4af7e4979.webp"
+    },
+    {
+      "id": "f493c40876fc4d5ab28daf77efb0e686",
+      "name": "Jennifer",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#4a3b27",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f493c40876fc4d5ab28daf77efb0e686.webp"
+    },
+    {
+      "id": "d556767a32b44f5c82572d718a8bdf79",
+      "name": "Quinn",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#9b7540",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d556767a32b44f5c82572d718a8bdf79.webp"
+    },
+    {
+      "id": "71007f272c954703ab5a05bb5de3e68b",
+      "name": "Sloane",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#a63b2a",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/71007f272c954703ab5a05bb5de3e68b.webp"
+    },
+    {
+      "id": "f663fef9788d4ac0a6bfe36f1b3c871f",
+      "name": "Cody",
+      "note": "Male, young. English, as spoken in the United States.",
+      "hue": "#9b7a4d",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f663fef9788d4ac0a6bfe36f1b3c871f.webp"
+    },
+    {
+      "id": "8451cb6e7e204684973f172cc616ec20",
+      "name": "Jonah",
+      "note": "Male. Conversational. English, as spoken in the United States.",
+      "hue": "#9b7a4d",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8451cb6e7e204684973f172cc616ec20.webp"
+    },
+    {
+      "id": "94bf3b7fe581422e89d6db3653a61a38",
+      "name": "Linda",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#30271d",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/94bf3b7fe581422e89d6db3653a61a38.webp"
+    },
+    {
+      "id": "15259c52cf5d41c28ea4394080e5e593",
+      "name": "Marion",
+      "note": "Female. English, as spoken in the United States.",
+      "hue": "#b98f55",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/15259c52cf5d41c28ea4394080e5e593.webp"
+    },
+    {
+      "id": "f983ef416c87413f986e1a5a000c385e",
+      "name": "Miles",
+      "note": "Male, young. English, as spoken in the United States.",
+      "hue": "#4a3b27",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f983ef416c87413f986e1a5a000c385e.webp"
+    },
+    {
+      "id": "2cb3eee641694eb5a11861d0f4a1d494",
+      "name": "Olivia",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2cb3eee641694eb5a11861d0f4a1d494.webp"
+    },
+    {
+      "id": "fbc1029c018041d4b17f2c1e57222dff",
+      "name": "Richard",
+      "note": "Male. Narration. English, as spoken in Britain.",
+      "hue": "#a63b2a",
+      "locale": "en-GB",
+      "gender": "male",
+      "language": "en",
+      "line": "GB · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fbc1029c018041d4b17f2c1e57222dff.webp"
+    },
+    {
+      "id": "8634617958764b539e0cdd5eb6c7723e",
+      "name": "Abel",
+      "note": "Male. English, as spoken in the United States.",
+      "hue": "#4a1717",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8634617958764b539e0cdd5eb6c7723e.webp"
+    },
+    {
+      "id": "c70cfb98867a4bfb9ae20d2401257b92",
+      "name": "Delia",
+      "note": "Female. English, as spoken in the United States.",
+      "hue": "#7e2d1f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c70cfb98867a4bfb9ae20d2401257b92.webp"
+    },
+    {
+      "id": "1f97ab64476c4e468a0888ae22954dab",
+      "name": "Felix",
+      "note": "Male. Conversational. English, as spoken in the United States.",
+      "hue": "#795b38",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1f97ab64476c4e468a0888ae22954dab.webp"
+    },
+    {
+      "id": "e041d483a7b54d96a6b91676468b304b",
+      "name": "Grant",
+      "note": "Male. English, as spoken in the United States.",
+      "hue": "#9b7a4d",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e041d483a7b54d96a6b91676468b304b.webp"
+    },
+    {
+      "id": "a5aafcd92cee4a7db52ee34c82fedcab",
+      "name": "Nova",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#7e2d1f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a5aafcd92cee4a7db52ee34c82fedcab.webp"
+    },
+    {
+      "id": "84a54330a178478a88e8c9589de585a0",
+      "name": "Wren",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#6d2922",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/84a54330a178478a88e8c9589de585a0.webp"
+    },
+    {
+      "id": "b121b91872f54f04ba9f6da08b8b6253",
+      "name": "Chloe",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in Australia.",
+      "hue": "#6e563a",
+      "locale": "en-AU",
+      "gender": "female",
+      "language": "en",
+      "line": "AU · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b121b91872f54f04ba9f6da08b8b6253.webp"
+    },
+    {
+      "id": "9fa4b7a1b67446b48208f2f5d4bcd8da",
+      "name": "Dax",
+      "note": "Male. English, as spoken in the United States.",
+      "hue": "#4a331c",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9fa4b7a1b67446b48208f2f5d4bcd8da.webp"
+    },
+    {
+      "id": "8abfa9ebd4c24a3399b68c3cdac8c7b5",
+      "name": "Freya",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in Britain.",
+      "hue": "#4a3b27",
+      "locale": "en-GB",
+      "gender": "female",
+      "language": "en",
+      "line": "GB · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8abfa9ebd4c24a3399b68c3cdac8c7b5.webp"
+    },
+    {
+      "id": "02e950ce577d4f008a2dfb4782789a3a",
+      "name": "Mason",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in the United States.",
+      "hue": "#6e563a",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/02e950ce577d4f008a2dfb4782789a3a.webp"
+    },
+    {
+      "id": "18b7e3bed34d46b088b8fbd10926feb2",
+      "name": "Michael",
+      "note": "Male. Conversational. English, as spoken in the United States.",
+      "hue": "#795b38",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/18b7e3bed34d46b088b8fbd10926feb2.webp"
+    },
+    {
+      "id": "7f3375b90d3e4494bbb1a3cbbf56c607",
+      "name": "Mila",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#b98f55",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7f3375b90d3e4494bbb1a3cbbf56c607.webp"
+    },
+    {
+      "id": "e33cb9b53cdf4b76a1b5913851b24c37",
+      "name": "Marlowe",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#6d2922",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e33cb9b53cdf4b76a1b5913851b24c37.webp"
+    },
+    {
+      "id": "89fe13ec21f54e40920c9a9c089d5ff3",
+      "name": "Milo",
+      "note": "Male. Conversational. English, as spoken in the United States.",
+      "hue": "#4a3b27",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/89fe13ec21f54e40920c9a9c089d5ff3.webp"
+    },
+    {
+      "id": "5b5b1e7d87fd4033b065146f504c8cfb",
+      "name": "Ray",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#30271d",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5b5b1e7d87fd4033b065146f504c8cfb.webp"
+    },
+    {
+      "id": "2321552f1b0d4120b89e59a108bfa9d7",
+      "name": "Reese",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#4a3520",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2321552f1b0d4120b89e59a108bfa9d7.webp"
+    },
+    {
+      "id": "db6abd0e4d5544e4ac75d777d90b9a35",
+      "name": "Theo",
+      "note": "Male. Conversational. English, as spoken in the United States.",
+      "hue": "#4a3520",
+      "locale": "en-US",
+      "gender": "male",
+      "language": "en",
+      "line": "US · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/db6abd0e4d5544e4ac75d777d90b9a35.webp"
+    },
+    {
+      "id": "9137ed6c094e41b08c74bec615a3c4b2",
+      "name": "Lindsay",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#9b7a4d",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9137ed6c094e41b08c74bec615a3c4b2.webp"
+    },
+    {
+      "id": "1dc966a13a564043ae15591f997a3144",
+      "name": "Sarah (2)",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#42331f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1dc966a13a564043ae15591f997a3144.webp"
+    },
+    {
+      "id": "16cabdb7f8d240569aff36c9e480d783",
+      "name": "Amelia",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#6e563a",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/16cabdb7f8d240569aff36c9e480d783.webp"
+    },
+    {
+      "id": "15e288e662ca4072b2276d5c7c962bb2",
+      "name": "Isabella",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#9b7540",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/15e288e662ca4072b2276d5c7c962bb2.webp"
+    },
+    {
+      "id": "7120c18aa277469483becf66310a4192",
+      "name": "Nell",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#7e2d1f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7120c18aa277469483becf66310a4192.webp"
+    },
+    {
+      "id": "33f160e820044eb89b61cda598f888df",
+      "name": "Patricia",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#4a3520",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/33f160e820044eb89b61cda598f888df.webp"
+    },
+    {
+      "id": "f83f2e43d24b4bccb3bd3a63a950aa93",
+      "name": "Rupert",
+      "note": "Male. English, as spoken in Britain.",
+      "hue": "#4a3b27",
+      "locale": "en-GB",
+      "gender": "male",
+      "language": "en",
+      "line": "GB · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f83f2e43d24b4bccb3bd3a63a950aa93.webp"
+    },
+    {
+      "id": "242624d5b8794da994805c51628782f1",
+      "name": "Tatum",
+      "note": "Female. Conversational. English, as spoken in the United States.",
+      "hue": "#8c6a3f",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/242624d5b8794da994805c51628782f1.webp"
+    },
+    {
+      "id": "1258154bb41540c7b9dc0d10cd6704bf",
+      "name": "Amara",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in Nigeria.",
+      "hue": "#7e2d1f",
+      "locale": "en-NG",
+      "gender": "female",
+      "language": "en",
+      "line": "NG · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1258154bb41540c7b9dc0d10cd6704bf.webp"
+    },
+    {
+      "id": "18b1276891524bd786fb8a59ecd3630a",
+      "name": "Ananya",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in India.",
+      "hue": "#795b38",
+      "locale": "en-IN",
+      "gender": "female",
+      "language": "en",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/18b1276891524bd786fb8a59ecd3630a.webp"
+    },
+    {
+      "id": "2e8a3bd7fb474d80b4e7966d678fb777",
+      "name": "Arjun (English)",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in India.",
+      "hue": "#b98f55",
+      "locale": "en-IN",
+      "gender": "male",
+      "language": "en",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2e8a3bd7fb474d80b4e7966d678fb777.webp"
+    },
+    {
+      "id": "ba875f2fb2ea4a4e9b175821014984b6",
+      "name": "Avery",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in Canada.",
+      "hue": "#8c6a3f",
+      "locale": "en-CA",
+      "gender": "female",
+      "language": "en",
+      "line": "CA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ba875f2fb2ea4a4e9b175821014984b6.webp"
+    },
+    {
+      "id": "6d7a45828f6a432c9233cd93bb93e5be",
+      "name": "Chidi",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in Nigeria.",
+      "hue": "#4a331c",
+      "locale": "en-NG",
+      "gender": "male",
+      "language": "en",
+      "line": "NG · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6d7a45828f6a432c9233cd93bb93e5be.webp"
+    },
+    {
+      "id": "be9ce4282d8e414daad6fa1797f1cee8",
+      "name": "Cian",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in Ireland.",
+      "hue": "#4a3520",
+      "locale": "en-IE",
+      "gender": "male",
+      "language": "en",
+      "line": "IE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/be9ce4282d8e414daad6fa1797f1cee8.webp"
+    },
+    {
+      "id": "c250136a9ec74cc0b799be54664a83f2",
+      "name": "Harper",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in the United States.",
+      "hue": "#4a3b27",
+      "locale": "en-US",
+      "gender": "female",
+      "language": "en",
+      "line": "US · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c250136a9ec74cc0b799be54664a83f2.webp"
+    },
+    {
+      "id": "a92fb82d739d428a80d4645c5cf91e38",
+      "name": "Jack",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in Australia.",
+      "hue": "#2e2214",
+      "locale": "en-AU",
+      "gender": "male",
+      "language": "en",
+      "line": "AU · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a92fb82d739d428a80d4645c5cf91e38.webp"
+    },
+    {
+      "id": "050df12e0f30484fb882a9a5410e5d66",
+      "name": "Lerato",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in South Africa.",
+      "hue": "#795b38",
+      "locale": "en-ZA",
+      "gender": "female",
+      "language": "en",
+      "line": "ZA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/050df12e0f30484fb882a9a5410e5d66.webp"
+    },
+    {
+      "id": "ce9db9be1ecb4c8a832802626864595d",
+      "name": "Liam",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in Canada.",
+      "hue": "#2e2214",
+      "locale": "en-CA",
+      "gender": "male",
+      "language": "en",
+      "line": "CA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ce9db9be1ecb4c8a832802626864595d.webp"
+    },
+    {
+      "id": "8d8aec63a56c460cb7def795bdf754fa",
+      "name": "Oliver",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in Britain.",
+      "hue": "#42331f",
+      "locale": "en-GB",
+      "gender": "male",
+      "language": "en",
+      "line": "GB · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8d8aec63a56c460cb7def795bdf754fa.webp"
+    },
+    {
+      "id": "7bb342e710854139b1d6e12411229f1f",
+      "name": "Ruan",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in South Africa.",
+      "hue": "#b98f55",
+      "locale": "en-ZA",
+      "gender": "male",
+      "language": "en",
+      "line": "ZA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7bb342e710854139b1d6e12411229f1f.webp"
+    },
+    {
+      "id": "4210f97652d14bec82edc1c2ee8296d2",
+      "name": "Saoirse",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in Ireland.",
+      "hue": "#2e2214",
+      "locale": "en-IE",
+      "gender": "female",
+      "language": "en",
+      "line": "IE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4210f97652d14bec82edc1c2ee8296d2.webp"
+    },
+    {
+      "id": "458abe2c9c0b41f793c7235a230caa8c",
+      "name": "Wei Jie",
+      "note": "Male, young. Conversational, professional, clear, confident. English, as spoken in Singapore.",
+      "hue": "#42331f",
+      "locale": "en-SG",
+      "gender": "male",
+      "language": "en",
+      "line": "SG · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/458abe2c9c0b41f793c7235a230caa8c.webp"
+    },
+    {
+      "id": "8784f1c03bdd41c3a381f65eae08e814",
+      "name": "Xin Yi",
+      "note": "Female, young. Conversational, professional, clear, confident. English, as spoken in Singapore.",
+      "hue": "#b98f55",
+      "locale": "en-SG",
+      "gender": "female",
+      "language": "en",
+      "line": "SG · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8784f1c03bdd41c3a381f65eae08e814.webp"
+    },
+    {
+      "id": "8d9bf05fea3a46ac9023a259300f91ed",
+      "name": "Annelie",
+      "note": "Female, young. Conversational, professional, clear, confident. Afrikaans, as spoken in South Africa.",
+      "hue": "#9b7540",
+      "locale": "af-ZA",
+      "gender": "female",
+      "language": "af",
+      "line": "ZA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8d9bf05fea3a46ac9023a259300f91ed.webp"
+    },
+    {
+      "id": "5eca8e87c88f487b9ee3d3c92c00b7f9",
+      "name": "Pieter",
+      "note": "Male, young. Conversational, professional, clear, confident. Afrikaans, as spoken in South Africa.",
+      "hue": "#42331f",
+      "locale": "af-ZA",
+      "gender": "male",
+      "language": "af",
+      "line": "ZA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5eca8e87c88f487b9ee3d3c92c00b7f9.webp"
+    },
+    {
+      "id": "e8fab1141b1143f99529619bcf053948",
+      "name": "ሰላም Selam",
+      "note": "Female, young. Conversational, professional, clear, confident. Amharic, as spoken in Ethiopia.",
+      "hue": "#8c6a3f",
+      "locale": "am-ET",
+      "gender": "female",
+      "language": "am",
+      "line": "ET · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e8fab1141b1143f99529619bcf053948.webp"
+    },
+    {
+      "id": "cf7ad9b8ef6d4f56827289e1ee261767",
+      "name": "አቤል Abel",
+      "note": "Male, young. Conversational, professional, clear, confident. Amharic, as spoken in Ethiopia.",
+      "hue": "#9b7540",
+      "locale": "am-ET",
+      "gender": "male",
+      "language": "am",
+      "line": "ET · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cf7ad9b8ef6d4f56827289e1ee261767.webp"
+    },
+    {
+      "id": "8522b905c9d047b6b7ecf5f24aa10cb8",
+      "name": "Omar",
+      "note": "Male, young. Professional. Arabic, as spoken in Saudi Arabia.",
+      "hue": "#b98f55",
+      "locale": "ar-SA",
+      "gender": "male",
+      "language": "ar",
+      "line": "SA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8522b905c9d047b6b7ecf5f24aa10cb8.webp"
+    },
+    {
+      "id": "0b14f34a13a94ed88fe6113193749bb0",
+      "name": "فاطمة",
+      "note": "Female, young. Professional. Arabic, as spoken in Saudi Arabia.",
+      "hue": "#4a331c",
+      "locale": "ar-SA",
+      "gender": "female",
+      "language": "ar",
+      "line": "SA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0b14f34a13a94ed88fe6113193749bb0.webp"
+    },
+    {
+      "id": "ca2e8fd4e045468da050957a1818c7a9",
+      "name": "أمين Amine",
+      "note": "Male, young. Conversational, professional, clear, confident. Arabic, as spoken in Morocco.",
+      "hue": "#795b38",
+      "locale": "ar-MA",
+      "gender": "male",
+      "language": "ar",
+      "line": "MA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ca2e8fd4e045468da050957a1818c7a9.webp"
+    },
+    {
+      "id": "f56ab06c909549c0999efa80c3c62fdc",
+      "name": "سلمى Salma",
+      "note": "Female, young. Conversational, professional, clear, confident. Arabic, as spoken in Morocco.",
+      "hue": "#795b38",
+      "locale": "ar-MA",
+      "gender": "female",
+      "language": "ar",
+      "line": "MA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f56ab06c909549c0999efa80c3c62fdc.webp"
+    },
+    {
+      "id": "893c2973de224346aa474f78fbe7ec6a",
+      "name": "فريدة Farida",
+      "note": "Female, young. Conversational, professional, clear, confident. Arabic, as spoken in Egypt.",
+      "hue": "#795b38",
+      "locale": "ar-EG",
+      "gender": "female",
+      "language": "ar",
+      "line": "EG · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/893c2973de224346aa474f78fbe7ec6a.webp"
+    },
+    {
+      "id": "eec5913dac6b4bdc9920f136e4e5ed78",
+      "name": "فهد Fahad",
+      "note": "Male, young. Conversational, professional, clear, confident. Arabic, as spoken in Saudi Arabia.",
+      "hue": "#7e2d1f",
+      "locale": "ar-SA",
+      "gender": "male",
+      "language": "ar",
+      "line": "SA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/eec5913dac6b4bdc9920f136e4e5ed78.webp"
+    },
+    {
+      "id": "07b797864a1b497b9f5dfed6fbc5fc18",
+      "name": "كريم Karim",
+      "note": "Male, young. Conversational, professional, clear, confident. Arabic, as spoken in Lebanon.",
+      "hue": "#7e2d1f",
+      "locale": "ar-LB",
+      "gender": "male",
+      "language": "ar",
+      "line": "LB · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/07b797864a1b497b9f5dfed6fbc5fc18.webp"
+    },
+    {
+      "id": "5814f46c02f5486d9c72b31bd82217ba",
+      "name": "ليان Layan",
+      "note": "Female, young. Conversational, professional, clear, confident. Arabic, as spoken in Lebanon.",
+      "hue": "#9b7a4d",
+      "locale": "ar-LB",
+      "gender": "female",
+      "language": "ar",
+      "line": "LB · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5814f46c02f5486d9c72b31bd82217ba.webp"
+    },
+    {
+      "id": "706f61d83985440499ce9c51501153a3",
+      "name": "نورة Noura",
+      "note": "Female, young. Conversational, professional, clear, confident. Arabic, as spoken in Saudi Arabia.",
+      "hue": "#42331f",
+      "locale": "ar-SA",
+      "gender": "female",
+      "language": "ar",
+      "line": "SA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/706f61d83985440499ce9c51501153a3.webp"
+    },
+    {
+      "id": "b26519ebdcd14bec967c020c5aabc927",
+      "name": "يوسف Youssef",
+      "note": "Male, young. Conversational, professional, clear, confident. Arabic, as spoken in Egypt.",
+      "hue": "#b98f55",
+      "locale": "ar-EG",
+      "gender": "male",
+      "language": "ar",
+      "line": "EG · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b26519ebdcd14bec967c020c5aabc927.webp"
+    },
+    {
+      "id": "5510c64cbb1d4e48af83543caf5b9f7a",
+      "name": "Elvin",
+      "note": "Male, young. Conversational, professional, clear, confident. Azerbaijani, as spoken in Azerbaijan.",
+      "hue": "#6e563a",
+      "locale": "az-AZ",
+      "gender": "male",
+      "language": "az",
+      "line": "AZ · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5510c64cbb1d4e48af83543caf5b9f7a.webp"
+    },
+    {
+      "id": "c49fcdb4cdf34c408d0c470075e38ec1",
+      "name": "Nigar",
+      "note": "Female, young. Conversational, professional, clear, confident. Azerbaijani, as spoken in Azerbaijan.",
+      "hue": "#30271d",
+      "locale": "az-AZ",
+      "gender": "female",
+      "language": "az",
+      "line": "AZ · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c49fcdb4cdf34c408d0c470075e38ec1.webp"
+    },
+    {
+      "id": "85222783823f4d71bfa93f6a80602e7f",
+      "name": "Мартин Martin",
+      "note": "Male, young. Conversational, professional, clear, confident. Bulgarian, as spoken in Bulgaria.",
+      "hue": "#6d2922",
+      "locale": "bg-BG",
+      "gender": "male",
+      "language": "bg",
+      "line": "BG · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/85222783823f4d71bfa93f6a80602e7f.webp"
+    },
+    {
+      "id": "1f21b4f87ec7496f88266be0be0c4ada",
+      "name": "Ралица Ralitsa",
+      "note": "Female, young. Conversational, professional, clear, confident. Bulgarian, as spoken in Bulgaria.",
+      "hue": "#2e2214",
+      "locale": "bg-BG",
+      "gender": "female",
+      "language": "bg",
+      "line": "BG · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1f21b4f87ec7496f88266be0be0c4ada.webp"
+    },
+    {
+      "id": "4077939785a742b0b26422afae643b1f",
+      "name": "তাসনিম Tasnim",
+      "note": "Female, young. Conversational, professional, clear, confident. Bengali, as spoken in Bangladesh.",
+      "hue": "#42331f",
+      "locale": "bn-BD",
+      "gender": "female",
+      "language": "bn",
+      "line": "BD · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4077939785a742b0b26422afae643b1f.webp"
+    },
+    {
+      "id": "e7c1eeb5267b45a2ac54780ad90f9243",
+      "name": "রাফি Rafi",
+      "note": "Male, young. Conversational, professional, clear, confident. Bengali, as spoken in Bangladesh.",
+      "hue": "#b98f55",
+      "locale": "bn-BD",
+      "gender": "male",
+      "language": "bn",
+      "line": "BD · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e7c1eeb5267b45a2ac54780ad90f9243.webp"
+    },
+    {
+      "id": "67256c4501cd4081a4bc8ffdd42360ba",
+      "name": "Laia",
+      "note": "Female, young. Conversational, professional, clear, confident. Catalan, as spoken in Spain.",
+      "hue": "#4a331c",
+      "locale": "ca-ES",
+      "gender": "female",
+      "language": "ca",
+      "line": "ES · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/67256c4501cd4081a4bc8ffdd42360ba.webp"
+    },
+    {
+      "id": "dcc09d3ca23a4e0e937ab9776f604613",
+      "name": "Pau",
+      "note": "Male, young. Conversational, professional, clear, confident. Catalan, as spoken in Spain.",
+      "hue": "#a63b2a",
+      "locale": "ca-ES",
+      "gender": "male",
+      "language": "ca",
+      "line": "ES · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/dcc09d3ca23a4e0e937ab9776f604613.webp"
+    },
+    {
+      "id": "31062906771d469b988c95c3889a2137",
+      "name": "Jakub",
+      "note": "Male, young. Professional. Czech, as spoken in Czechia.",
+      "hue": "#6d2922",
+      "locale": "cs-CZ",
+      "gender": "male",
+      "language": "cs",
+      "line": "CZ · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/31062906771d469b988c95c3889a2137.webp"
+    },
+    {
+      "id": "228ef3309d7e4b54b1ccae1c34a5d058",
+      "name": "Tereza",
+      "note": "Female, young. Professional. Czech, as spoken in Czechia.",
+      "hue": "#9b7a4d",
+      "locale": "cs-CZ",
+      "gender": "female",
+      "language": "cs",
+      "line": "CZ · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/228ef3309d7e4b54b1ccae1c34a5d058.webp"
+    },
+    {
+      "id": "51dadb4f7cb4415e9ed3e6a5dfc11a98",
+      "name": "Eliška",
+      "note": "Female, young. Conversational, professional, clear, confident. Czech, as spoken in Czechia.",
+      "hue": "#6e563a",
+      "locale": "cs-CZ",
+      "gender": "female",
+      "language": "cs",
+      "line": "CZ · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/51dadb4f7cb4415e9ed3e6a5dfc11a98.webp"
+    },
+    {
+      "id": "cba454937bb64418944d3dcd10340d44",
+      "name": "Vojtěch",
+      "note": "Male, young. Conversational, professional, clear, confident. Czech, as spoken in Czechia.",
+      "hue": "#42331f",
+      "locale": "cs-CZ",
+      "gender": "male",
+      "language": "cs",
+      "line": "CZ · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cba454937bb64418944d3dcd10340d44.webp"
+    },
+    {
+      "id": "3354fae3bf6d4115930b86298e7b4130",
+      "name": "Frederik",
+      "note": "Male, young. Professional. Danish, as spoken in Denmark.",
+      "hue": "#2e2214",
+      "locale": "da-DK",
+      "gender": "male",
+      "language": "da",
+      "line": "DK · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3354fae3bf6d4115930b86298e7b4130.webp"
+    },
+    {
+      "id": "6f2872e4a7d148d996e467e3a562ce74",
+      "name": "Freja",
+      "note": "Female, young. Professional. Danish, as spoken in Denmark.",
+      "hue": "#2e2214",
+      "locale": "da-DK",
+      "gender": "female",
+      "language": "da",
+      "line": "DK · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6f2872e4a7d148d996e467e3a562ce74.webp"
+    },
+    {
+      "id": "e0425934b42741638e56b6560744350a",
+      "name": "Josefine",
+      "note": "Female, young. Conversational, professional, clear, confident. Danish, as spoken in Denmark.",
+      "hue": "#8c6a3f",
+      "locale": "da-DK",
+      "gender": "female",
+      "language": "da",
+      "line": "DK · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e0425934b42741638e56b6560744350a.webp"
+    },
+    {
+      "id": "c89a011a49404d43ab72c039fa8ff573",
+      "name": "Oscar",
+      "note": "Male, young. Conversational, professional, clear, confident. Danish, as spoken in Denmark.",
+      "hue": "#4a331c",
+      "locale": "da-DK",
+      "gender": "male",
+      "language": "da",
+      "line": "DK · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c89a011a49404d43ab72c039fa8ff573.webp"
+    },
+    {
+      "id": "3235abc9a84b407d92f73539a5651720",
+      "name": "Emma",
+      "note": "Female, young. Professional. German, as spoken in Germany.",
+      "hue": "#6e563a",
+      "locale": "de-DE",
+      "gender": "female",
+      "language": "de",
+      "line": "DE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3235abc9a84b407d92f73539a5651720.webp"
+    },
+    {
+      "id": "d979e92f9c8a489fa581f55f6b9e48da",
+      "name": "Melanie",
+      "note": "Female, young. Professional. German, as spoken in Germany.",
+      "hue": "#6e563a",
+      "locale": "de-DE",
+      "gender": "female",
+      "language": "de",
+      "line": "DE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d979e92f9c8a489fa581f55f6b9e48da.webp"
+    },
+    {
+      "id": "86a132379c9e497785d53a4d1e05a2c1",
+      "name": "Stefan",
+      "note": "Male, young. Professional. German, as spoken in Germany.",
+      "hue": "#2e2214",
+      "locale": "de-DE",
+      "gender": "male",
+      "language": "de",
+      "line": "DE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/86a132379c9e497785d53a4d1e05a2c1.webp"
+    },
+    {
+      "id": "3937b44b604249f18b94913daef94043",
+      "name": "Lena",
+      "note": "Female, young. Conversational, professional, clear, confident. German, as spoken in Germany.",
+      "hue": "#9b7a4d",
+      "locale": "de-DE",
+      "gender": "female",
+      "language": "de",
+      "line": "DE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3937b44b604249f18b94913daef94043.webp"
+    },
+    {
+      "id": "44f1ec96a51e429f8b87776cbc55a997",
+      "name": "Jonas",
+      "note": "Male, young. Professional. German, as spoken in Germany.",
+      "hue": "#8c6a3f",
+      "locale": "de-DE",
+      "gender": "male",
+      "language": "de",
+      "line": "DE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/44f1ec96a51e429f8b87776cbc55a997.webp"
+    },
+    {
+      "id": "0b96bf70a20d47f6b9e825d9cfe0e8c8",
+      "name": "Elin",
+      "note": "Female, young. Conversational, professional, clear, confident. German, as spoken in Switzerland.",
+      "hue": "#4a3b27",
+      "locale": "de-CH",
+      "gender": "female",
+      "language": "de",
+      "line": "CH · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0b96bf70a20d47f6b9e825d9cfe0e8c8.webp"
+    },
+    {
+      "id": "7b7c88bf825a4ab3bca27d55c26ddf16",
+      "name": "Leon",
+      "note": "Male, young. Conversational, professional, clear, confident. German, as spoken in Germany.",
+      "hue": "#b98f55",
+      "locale": "de-DE",
+      "gender": "male",
+      "language": "de",
+      "line": "DE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7b7c88bf825a4ab3bca27d55c26ddf16.webp"
+    },
+    {
+      "id": "c1e7cc926aa5469aa966c353094d4b0b",
+      "name": "Lukas",
+      "note": "Male, young. Conversational, professional, clear, confident. German, as spoken in Austria.",
+      "hue": "#a63b2a",
+      "locale": "de-AT",
+      "gender": "male",
+      "language": "de",
+      "line": "AT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c1e7cc926aa5469aa966c353094d4b0b.webp"
+    },
+    {
+      "id": "a3f28343dfac42358e1f4fdf7562a773",
+      "name": "Nico",
+      "note": "Male, young. Conversational, professional, clear, confident. German, as spoken in Switzerland.",
+      "hue": "#6d2922",
+      "locale": "de-CH",
+      "gender": "male",
+      "language": "de",
+      "line": "CH · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a3f28343dfac42358e1f4fdf7562a773.webp"
+    },
+    {
+      "id": "e5fb46af69e0481fa0d2d0f209b07ae2",
+      "name": "Valentina (Austria)",
+      "note": "Female, young. Conversational, professional, clear, confident. German, as spoken in Austria.",
+      "hue": "#795b38",
+      "locale": "de-AT",
+      "gender": "female",
+      "language": "de",
+      "line": "AT · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e5fb46af69e0481fa0d2d0f209b07ae2.webp"
+    },
+    {
+      "id": "d5bfa117e7394e68b6a37d23e69f3c86",
+      "name": "Dimitris",
+      "note": "Male, young. Professional. Greek, as spoken in Greece.",
+      "hue": "#4a3b27",
+      "locale": "el-GR",
+      "gender": "male",
+      "language": "el",
+      "line": "GR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d5bfa117e7394e68b6a37d23e69f3c86.webp"
+    },
+    {
+      "id": "a7b8bf5c62ed4cab8c8d7e6c4936814a",
+      "name": "Μαρία",
+      "note": "Female, young. Professional. Greek, as spoken in Greece.",
+      "hue": "#a63b2a",
+      "locale": "el-GR",
+      "gender": "female",
+      "language": "el",
+      "line": "GR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a7b8bf5c62ed4cab8c8d7e6c4936814a.webp"
+    },
+    {
+      "id": "e0236c21db804086b02e0aa74872443e",
+      "name": "Γιώργος Giorgos",
+      "note": "Male, young. Conversational, professional, clear, confident. Greek, as spoken in Greece.",
+      "hue": "#a63b2a",
+      "locale": "el-GR",
+      "gender": "male",
+      "language": "el",
+      "line": "GR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e0236c21db804086b02e0aa74872443e.webp"
+    },
+    {
+      "id": "e7e18bd032ea46098a6ff393f83b421f",
+      "name": "Ελένη Eleni",
+      "note": "Female, young. Conversational, professional, clear, confident. Greek, as spoken in Greece.",
+      "hue": "#4a1717",
+      "locale": "el-GR",
+      "gender": "female",
+      "language": "el",
+      "line": "GR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e7e18bd032ea46098a6ff393f83b421f.webp"
+    },
+    {
+      "id": "ba2789ed32474fab820ceaf3266171a6",
+      "name": "Juana",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#4a3520",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ba2789ed32474fab820ceaf3266171a6.webp"
+    },
+    {
+      "id": "de3042eb048a4d37baf2e61d10183e23",
+      "name": "Julián",
+      "note": "Male, young. Conversational, professional, clear, confident. Spanish, as spoken in Colombia.",
+      "hue": "#9b7a4d",
+      "locale": "es-CO",
+      "gender": "male",
+      "language": "es",
+      "line": "CO · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/de3042eb048a4d37baf2e61d10183e23.webp"
+    },
+    {
+      "id": "28d27dadce5a41a68565c7d20ff43988",
+      "name": "Paula",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#8c6a3f",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/28d27dadce5a41a68565c7d20ff43988.webp"
+    },
+    {
+      "id": "e5d684e38c4e490985335ac0f94f019f",
+      "name": "Laura (Spain)",
+      "note": "Female. Professional. Spanish, as spoken in Spain.",
+      "hue": "#7e2d1f",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e5d684e38c4e490985335ac0f94f019f.webp"
+    },
+    {
+      "id": "cd0bc5cce98647268d5bf77943240b5c",
+      "name": "Pilar",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#30271d",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cd0bc5cce98647268d5bf77943240b5c.webp"
+    },
+    {
+      "id": "cfdef48803f04b38821a8010da142187",
+      "name": "Adriana",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#4a3520",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cfdef48803f04b38821a8010da142187.webp"
+    },
+    {
+      "id": "5d4ab5f266c8402eb7f0f3f4f97f76b8",
+      "name": "Alejandro",
+      "note": "Male. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#2e2214",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5d4ab5f266c8402eb7f0f3f4f97f76b8.webp"
+    },
+    {
+      "id": "4838cb6500d947f2a8dfdefcfcbe800b",
+      "name": "Álvaro",
+      "note": "Male, young. Professional. Spanish, as spoken in Spain.",
+      "hue": "#8c6a3f",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4838cb6500d947f2a8dfdefcfcbe800b.webp"
+    },
+    {
+      "id": "d85aae3c4f4d4c70860997c27554f533",
+      "name": "Andrés",
+      "note": "Male. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#4a1717",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d85aae3c4f4d4c70860997c27554f533.webp"
+    },
+    {
+      "id": "1dcb6447a95c4cc09e49561ddd2e51ba",
+      "name": "Diego",
+      "note": "Male. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#42331f",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1dcb6447a95c4cc09e49561ddd2e51ba.webp"
+    },
+    {
+      "id": "566359628f6a4d5fabf902f6f64ecec1",
+      "name": "Elena",
+      "note": "Female. Spanish, as spoken in Spain.",
+      "hue": "#795b38",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/566359628f6a4d5fabf902f6f64ecec1.webp"
+    },
+    {
+      "id": "61afe46cdbd64edc8361744c9f560d0c",
+      "name": "Emiliano",
+      "note": "Male. Spanish, as spoken in Mexico.",
+      "hue": "#a63b2a",
+      "locale": "es-MX",
+      "gender": "male",
+      "language": "es",
+      "line": "MX · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/61afe46cdbd64edc8361744c9f560d0c.webp"
+    },
+    {
+      "id": "7898cfc996b84e9d935732674e8abebc",
+      "name": "Julieta",
+      "note": "Female. Spanish, as spoken in Argentina.",
+      "hue": "#b98f55",
+      "locale": "es-AR",
+      "gender": "female",
+      "language": "es",
+      "line": "AR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7898cfc996b84e9d935732674e8abebc.webp"
+    },
+    {
+      "id": "fa65111eb1f44159bb2c0fa550698d59",
+      "name": "Lucía",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#6e563a",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fa65111eb1f44159bb2c0fa550698d59.webp"
+    },
+    {
+      "id": "a915219a5a4d477a82480860f80ac05d",
+      "name": "Manuela",
+      "note": "Female. Spanish, as spoken in Colombia.",
+      "hue": "#6e563a",
+      "locale": "es-CO",
+      "gender": "female",
+      "language": "es",
+      "line": "CO · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a915219a5a4d477a82480860f80ac05d.webp"
+    },
+    {
+      "id": "93d0f85c2a184a34b612151be0bff67c",
+      "name": "María",
+      "note": "Female. Professional. Spanish, as spoken in Spain.",
+      "hue": "#6e563a",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/93d0f85c2a184a34b612151be0bff67c.webp"
+    },
+    {
+      "id": "3a21ad7d1ff048b482c40e33a9b31bff",
+      "name": "Mariana",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#6d2922",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3a21ad7d1ff048b482c40e33a9b31bff.webp"
+    },
+    {
+      "id": "e8c4bf4a0a2d481991acf8bd1c25e2e0",
+      "name": "Marta",
+      "note": "Female. Spanish, as spoken in Spain.",
+      "hue": "#9b7540",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e8c4bf4a0a2d481991acf8bd1c25e2e0.webp"
+    },
+    {
+      "id": "c18c359b8e3a49259d5d7c9604ae42a2",
+      "name": "Martina",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#4a3520",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c18c359b8e3a49259d5d7c9604ae42a2.webp"
+    },
+    {
+      "id": "c0ce2d0b29924388b10283160f304956",
+      "name": "Matías",
+      "note": "Male. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#4a3b27",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c0ce2d0b29924388b10283160f304956.webp"
+    },
+    {
+      "id": "955096f5cb2642dd98dbd5c0b2d3c9ab",
+      "name": "Nicolás",
+      "note": "Male. Spanish, as spoken in Argentina.",
+      "hue": "#6e563a",
+      "locale": "es-AR",
+      "gender": "male",
+      "language": "es",
+      "line": "AR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/955096f5cb2642dd98dbd5c0b2d3c9ab.webp"
+    },
+    {
+      "id": "f08f8db359974d479dc50097b1a1bd63",
+      "name": "Rosa",
+      "note": "Female. Spanish, as spoken in Mexico.",
+      "hue": "#6e563a",
+      "locale": "es-MX",
+      "gender": "female",
+      "language": "es",
+      "line": "MX · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f08f8db359974d479dc50097b1a1bd63.webp"
+    },
+    {
+      "id": "ad675babbf7a45eeb44a5bbe111597c4",
+      "name": "Santiago",
+      "note": "Male. Spanish, as spoken in Colombia.",
+      "hue": "#6e563a",
+      "locale": "es-CO",
+      "gender": "male",
+      "language": "es",
+      "line": "CO · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ad675babbf7a45eeb44a5bbe111597c4.webp"
+    },
+    {
+      "id": "ad2a0e367c664e1a88208e0311ef97ee",
+      "name": "Sergio",
+      "note": "Male. Spanish, as spoken in Spain.",
+      "hue": "#42331f",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ad2a0e367c664e1a88208e0311ef97ee.webp"
+    },
+    {
+      "id": "f8f762acad2144e2bd4bc2afb6448d4c",
+      "name": "Sofía",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#795b38",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f8f762acad2144e2bd4bc2afb6448d4c.webp"
+    },
+    {
+      "id": "139804f77e9a4969958bc10504adf4a1",
+      "name": "Tomás (Spain)",
+      "note": "Male. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#b98f55",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/139804f77e9a4969958bc10504adf4a1.webp"
+    },
+    {
+      "id": "2dd433d57d4249c195d4bcc23af99142",
+      "name": "Valeria",
+      "note": "Female. Conversational. Spanish, as spoken in Spain.",
+      "hue": "#b98f55",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2dd433d57d4249c195d4bcc23af99142.webp"
+    },
+    {
+      "id": "fbb3f56280b140c98aa41a9c1da59be6",
+      "name": "Ximena",
+      "note": "Female. Spanish, as spoken in Mexico.",
+      "hue": "#b98f55",
+      "locale": "es-MX",
+      "gender": "female",
+      "language": "es",
+      "line": "MX · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fbb3f56280b140c98aa41a9c1da59be6.webp"
+    },
+    {
+      "id": "1b4cc0ad245b402ea72800319efe856a",
+      "name": "Camila",
+      "note": "Female, young. Conversational, professional, clear, confident. Spanish, as spoken in the United States.",
+      "hue": "#9b7540",
+      "locale": "es-US",
+      "gender": "female",
+      "language": "es",
+      "line": "US · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1b4cc0ad245b402ea72800319efe856a.webp"
+    },
+    {
+      "id": "3f065d660212478a9c697fa965b4d098",
+      "name": "Carmen",
+      "note": "Female, young. Conversational, professional, clear, confident. Spanish, as spoken in Spain.",
+      "hue": "#795b38",
+      "locale": "es-ES",
+      "gender": "female",
+      "language": "es",
+      "line": "ES · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3f065d660212478a9c697fa965b4d098.webp"
+    },
+    {
+      "id": "65793e1ac2e545bb9c56e7ca777d806a",
+      "name": "Fernanda",
+      "note": "Female, young. Conversational, professional, clear, confident. Spanish, as spoken in Mexico.",
+      "hue": "#9b7a4d",
+      "locale": "es-MX",
+      "gender": "female",
+      "language": "es",
+      "line": "MX · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/65793e1ac2e545bb9c56e7ca777d806a.webp"
+    },
+    {
+      "id": "7bf888807be64764b67aacbfc92c4121",
+      "name": "Gabriel",
+      "note": "Male, young. Conversational, professional, clear, confident. Spanish, as spoken in the United States.",
+      "hue": "#6e563a",
+      "locale": "es-US",
+      "gender": "male",
+      "language": "es",
+      "line": "US · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7bf888807be64764b67aacbfc92c4121.webp"
+    },
+    {
+      "id": "fb9d5855f185451983404deb10788ad4",
+      "name": "Isabela",
+      "note": "Female, young. Conversational, professional, clear, confident. Spanish, as spoken in Colombia.",
+      "hue": "#6d2922",
+      "locale": "es-CO",
+      "gender": "female",
+      "language": "es",
+      "line": "CO · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fb9d5855f185451983404deb10788ad4.webp"
+    },
+    {
+      "id": "1c6b981d50c743ed8050ce0aeee84fb0",
+      "name": "Mateo",
+      "note": "Male, young. Conversational, professional, clear, confident. Spanish, as spoken in Argentina.",
+      "hue": "#42331f",
+      "locale": "es-AR",
+      "gender": "male",
+      "language": "es",
+      "line": "AR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1c6b981d50c743ed8050ce0aeee84fb0.webp"
+    },
+    {
+      "id": "1bd666ea8ada44c789e0fec21cf78f33",
+      "name": "Pablo",
+      "note": "Male, young. Conversational, professional, clear, confident. Spanish, as spoken in Spain.",
+      "hue": "#4a1717",
+      "locale": "es-ES",
+      "gender": "male",
+      "language": "es",
+      "line": "ES · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1bd666ea8ada44c789e0fec21cf78f33.webp"
+    },
+    {
+      "id": "ec0718028a2445fb9be8e8bfb56a0150",
+      "name": "Rodrigo",
+      "note": "Male, young. Conversational, professional, clear, confident. Spanish, as spoken in Mexico.",
+      "hue": "#a63b2a",
+      "locale": "es-MX",
+      "gender": "male",
+      "language": "es",
+      "line": "MX · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ec0718028a2445fb9be8e8bfb56a0150.webp"
+    },
+    {
+      "id": "02057277c8a64fb19f41cfd0ab79572c",
+      "name": "Valentina (Argentina)",
+      "note": "Female, young. Conversational, professional, clear, confident. Spanish, as spoken in Argentina.",
+      "hue": "#4a3b27",
+      "locale": "es-AR",
+      "gender": "female",
+      "language": "es",
+      "line": "AR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/02057277c8a64fb19f41cfd0ab79572c.webp"
+    },
+    {
+      "id": "293493107ff04476a618b41776e87df2",
+      "name": "Liis",
+      "note": "Female, young. Conversational, professional, clear, confident. Estonian, as spoken in Estonia.",
+      "hue": "#42331f",
+      "locale": "et-EE",
+      "gender": "female",
+      "language": "et",
+      "line": "EE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/293493107ff04476a618b41776e87df2.webp"
+    },
+    {
+      "id": "c11069fab9c54ca79b585fecd4dbd56a",
+      "name": "Rasmus",
+      "note": "Male, young. Conversational, professional, clear, confident. Estonian, as spoken in Estonia.",
+      "hue": "#b98f55",
+      "locale": "et-EE",
+      "gender": "male",
+      "language": "et",
+      "line": "EE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c11069fab9c54ca79b585fecd4dbd56a.webp"
+    },
+    {
+      "id": "9ff6772961574ec299945754e686aaad",
+      "name": "نگار Negar",
+      "note": "Female, young. Conversational, professional, clear, confident. Persian, as spoken in Iran.",
+      "hue": "#4a331c",
+      "locale": "fa-IR",
+      "gender": "female",
+      "language": "fa",
+      "line": "IR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9ff6772961574ec299945754e686aaad.webp"
+    },
+    {
+      "id": "e29dfaf012b9453c9a8d781f8f6696c3",
+      "name": "آرش Arash",
+      "note": "Male, young. Conversational, professional, clear, confident. Persian, as spoken in Iran.",
+      "hue": "#4a331c",
+      "locale": "fa-IR",
+      "gender": "male",
+      "language": "fa",
+      "line": "IR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e29dfaf012b9453c9a8d781f8f6696c3.webp"
+    },
+    {
+      "id": "1e76b707e92448f3931eb0fd97549489",
+      "name": "Aino",
+      "note": "Female, young. Professional. Finnish, as spoken in Finland.",
+      "hue": "#30271d",
+      "locale": "fi-FI",
+      "gender": "female",
+      "language": "fi",
+      "line": "FI · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1e76b707e92448f3931eb0fd97549489.webp"
+    },
+    {
+      "id": "894c2a76456c4e1e8588872815650c8b",
+      "name": "Mikko",
+      "note": "Male, young. Professional. Finnish, as spoken in Finland.",
+      "hue": "#30271d",
+      "locale": "fi-FI",
+      "gender": "male",
+      "language": "fi",
+      "line": "FI · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/894c2a76456c4e1e8588872815650c8b.webp"
+    },
+    {
+      "id": "e77bc37bbbe843b88c73395254fb1dca",
+      "name": "Eetu",
+      "note": "Male, young. Conversational, professional, clear, confident. Finnish, as spoken in Finland.",
+      "hue": "#9b7a4d",
+      "locale": "fi-FI",
+      "gender": "male",
+      "language": "fi",
+      "line": "FI · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e77bc37bbbe843b88c73395254fb1dca.webp"
+    },
+    {
+      "id": "9f003497b380414aaad8bd94c1e26f13",
+      "name": "Venla",
+      "note": "Female, young. Conversational, professional, clear, confident. Finnish, as spoken in Finland.",
+      "hue": "#7e2d1f",
+      "locale": "fi-FI",
+      "gender": "female",
+      "language": "fi",
+      "line": "FI · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9f003497b380414aaad8bd94c1e26f13.webp"
+    },
+    {
+      "id": "6bc2c46f2f5d461b9a16d9b569d665ac",
+      "name": "Étienne",
+      "note": "Male, young. Professional. French, as spoken in France.",
+      "hue": "#6e563a",
+      "locale": "fr-FR",
+      "gender": "male",
+      "language": "fr",
+      "line": "FR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6bc2c46f2f5d461b9a16d9b569d665ac.webp"
+    },
+    {
+      "id": "3b8f4121a0d04a85bd3627ed73864f1a",
+      "name": "Camille",
+      "note": "Female. Professional. French, as spoken in France.",
+      "hue": "#a63b2a",
+      "locale": "fr-FR",
+      "gender": "female",
+      "language": "fr",
+      "line": "FR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3b8f4121a0d04a85bd3627ed73864f1a.webp"
+    },
+    {
+      "id": "9af982ac4fbc4877af9d33b06e694fb9",
+      "name": "Julien",
+      "note": "Male, young. Professional. French, as spoken in France.",
+      "hue": "#6e563a",
+      "locale": "fr-FR",
+      "gender": "male",
+      "language": "fr",
+      "line": "FR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9af982ac4fbc4877af9d33b06e694fb9.webp"
+    },
+    {
+      "id": "94702e20bb3e44d39c64ba74bb480dfc",
+      "name": "Thérèse",
+      "note": "Female. Professional. French, as spoken in France.",
+      "hue": "#30271d",
+      "locale": "fr-FR",
+      "gender": "female",
+      "language": "fr",
+      "line": "FR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/94702e20bb3e44d39c64ba74bb480dfc.webp"
+    },
+    {
+      "id": "b0cfbb23c7734c799788786846e130f9",
+      "name": "Arthur",
+      "note": "Male, young. Conversational, professional, clear, confident. French, as spoken in Belgium.",
+      "hue": "#6d2922",
+      "locale": "fr-BE",
+      "gender": "male",
+      "language": "fr",
+      "line": "BE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b0cfbb23c7734c799788786846e130f9.webp"
+    },
+    {
+      "id": "a7a679bc8eb04e09abc7dc8ad3158eb3",
+      "name": "Elise",
+      "note": "Female, young. Conversational, professional, clear, confident. French, as spoken in Belgium.",
+      "hue": "#7e2d1f",
+      "locale": "fr-BE",
+      "gender": "female",
+      "language": "fr",
+      "line": "BE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a7a679bc8eb04e09abc7dc8ad3158eb3.webp"
+    },
+    {
+      "id": "9de2386821234365afe250a45f0eba4e",
+      "name": "Félix",
+      "note": "Male, young. Conversational, professional, clear, confident. French, as spoken in Canada.",
+      "hue": "#30271d",
+      "locale": "fr-CA",
+      "gender": "male",
+      "language": "fr",
+      "line": "CA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9de2386821234365afe250a45f0eba4e.webp"
+    },
+    {
+      "id": "d70152e86d894abdbe476f6aa732986e",
+      "name": "Léa",
+      "note": "Female, young. Conversational, professional, clear, confident. French, as spoken in Canada.",
+      "hue": "#4a1717",
+      "locale": "fr-CA",
+      "gender": "female",
+      "language": "fr",
+      "line": "CA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d70152e86d894abdbe476f6aa732986e.webp"
+    },
+    {
+      "id": "f69bca092b674168a8d02d61ca20943c",
+      "name": "Lucas",
+      "note": "Male, young. Conversational, professional, clear, confident. French, as spoken in France.",
+      "hue": "#7e2d1f",
+      "locale": "fr-FR",
+      "gender": "male",
+      "language": "fr",
+      "line": "FR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f69bca092b674168a8d02d61ca20943c.webp"
+    },
+    {
+      "id": "10a3a20742114a4ea6dd441e7591850f",
+      "name": "Manon",
+      "note": "Female, young. Conversational, professional, clear, confident. French, as spoken in France.",
+      "hue": "#7e2d1f",
+      "locale": "fr-FR",
+      "gender": "female",
+      "language": "fr",
+      "line": "FR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/10a3a20742114a4ea6dd441e7591850f.webp"
+    },
+    {
+      "id": "65df8ca39f644eb0b603b68ad6822167",
+      "name": "રિદ્ધિ Riddhi",
+      "note": "Female, young. Conversational, professional, clear, confident. Gujarati, as spoken in India.",
+      "hue": "#2e2214",
+      "locale": "gu-IN",
+      "gender": "female",
+      "language": "gu",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/65df8ca39f644eb0b603b68ad6822167.webp"
+    },
+    {
+      "id": "e4349954438b4cc08d4b64185decb020",
+      "name": "હાર્દિક Hardik",
+      "note": "Male, young. Conversational, professional, clear, confident. Gujarati, as spoken in India.",
+      "hue": "#b98f55",
+      "locale": "gu-IN",
+      "gender": "male",
+      "language": "gu",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e4349954438b4cc08d4b64185decb020.webp"
+    },
+    {
+      "id": "2fe0a8861bd94da0b2d90413270b366e",
+      "name": "Hauwa",
+      "note": "Female, young. Conversational, professional, clear, confident. Hausa, as spoken in Nigeria.",
+      "hue": "#7e2d1f",
+      "locale": "ha-NG",
+      "gender": "female",
+      "language": "ha",
+      "line": "NG · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2fe0a8861bd94da0b2d90413270b366e.webp"
+    },
+    {
+      "id": "50bb91cdfd7e4f32971392d3f5c6e5ad",
+      "name": "Sani",
+      "note": "Male, young. Conversational, professional, clear, confident. Hausa, as spoken in Nigeria.",
+      "hue": "#4a1717",
+      "locale": "ha-NG",
+      "gender": "male",
+      "language": "ha",
+      "line": "NG · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/50bb91cdfd7e4f32971392d3f5c6e5ad.webp"
+    },
+    {
+      "id": "86686aa355f74bcca0757e5be98a7671",
+      "name": "איתי Itai",
+      "note": "Male, young. Conversational, professional, clear, confident. Hebrew, as spoken in Israel.",
+      "hue": "#2e2214",
+      "locale": "he-IL",
+      "gender": "male",
+      "language": "he",
+      "line": "IL · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/86686aa355f74bcca0757e5be98a7671.webp"
+    },
+    {
+      "id": "bacebd1545c74295a5705edeb8999822",
+      "name": "נועה Noa",
+      "note": "Female, young. Conversational, professional, clear, confident. Hebrew, as spoken in Israel.",
+      "hue": "#a63b2a",
+      "locale": "he-IL",
+      "gender": "female",
+      "language": "he",
+      "line": "IL · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/bacebd1545c74295a5705edeb8999822.webp"
+    },
+    {
+      "id": "cefd91a07b99468f9148e2580990082d",
+      "name": "Arjun (Hindi)",
+      "note": "Male, young. Professional. Hindi, as spoken in India.",
+      "hue": "#42331f",
+      "locale": "hi-IN",
+      "gender": "male",
+      "language": "hi",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cefd91a07b99468f9148e2580990082d.webp"
+    },
+    {
+      "id": "ce623052eec14d0281b8df4b4098a3fb",
+      "name": "Rahul",
+      "note": "Male, young. Professional. Hindi, as spoken in India.",
+      "hue": "#b98f55",
+      "locale": "hi-IN",
+      "gender": "male",
+      "language": "hi",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ce623052eec14d0281b8df4b4098a3fb.webp"
+    },
+    {
+      "id": "2f64e528a4f2406691925ab1e0ed5b7f",
+      "name": "अनन्या Ananya",
+      "note": "Female, young. Conversational, professional, clear, confident. Hindi, as spoken in India.",
+      "hue": "#9b7540",
+      "locale": "hi-IN",
+      "gender": "female",
+      "language": "hi",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2f64e528a4f2406691925ab1e0ed5b7f.webp"
+    },
+    {
+      "id": "b080019dc38545f39def724726386d30",
+      "name": "आरव Aarav",
+      "note": "Male, young. Conversational, professional, clear, confident. Hindi, as spoken in India.",
+      "hue": "#4a3520",
+      "locale": "hi-IN",
+      "gender": "male",
+      "language": "hi",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b080019dc38545f39def724726386d30.webp"
+    },
+    {
+      "id": "928ceefaec5e4b1583a6c5c63eeaa56b",
+      "name": "Ivan",
+      "note": "Male, young. Conversational, professional, clear, confident. Croatian, as spoken in Croatia.",
+      "hue": "#9b7a4d",
+      "locale": "hr-HR",
+      "gender": "male",
+      "language": "hr",
+      "line": "HR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/928ceefaec5e4b1583a6c5c63eeaa56b.webp"
+    },
+    {
+      "id": "21621bac1f2344dc8622107497c9d9b3",
+      "name": "Petra",
+      "note": "Female, young. Conversational, professional, clear, confident. Croatian, as spoken in Croatia.",
+      "hue": "#4a331c",
+      "locale": "hr-HR",
+      "gender": "female",
+      "language": "hr",
+      "line": "HR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/21621bac1f2344dc8622107497c9d9b3.webp"
+    },
+    {
+      "id": "13b278e3d20645e8815ef3b1115d3d05",
+      "name": "Katalin",
+      "note": "Female, young. Professional. Hungarian, as spoken in Hungary.",
+      "hue": "#a63b2a",
+      "locale": "hu-HU",
+      "gender": "female",
+      "language": "hu",
+      "line": "HU · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/13b278e3d20645e8815ef3b1115d3d05.webp"
+    },
+    {
+      "id": "88db7b714ed74dfa98abceea055779d2",
+      "name": "Bence",
+      "note": "Male, young. Professional. Hungarian, as spoken in Hungary.",
+      "hue": "#4a3520",
+      "locale": "hu-HU",
+      "gender": "male",
+      "language": "hu",
+      "line": "HU · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/88db7b714ed74dfa98abceea055779d2.webp"
+    },
+    {
+      "id": "5f797b400daa436cbf6983fee11f44a8",
+      "name": "Máté",
+      "note": "Male, young. Conversational, professional, clear, confident. Hungarian, as spoken in Hungary.",
+      "hue": "#4a331c",
+      "locale": "hu-HU",
+      "gender": "male",
+      "language": "hu",
+      "line": "HU · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5f797b400daa436cbf6983fee11f44a8.webp"
+    },
+    {
+      "id": "96d99cfe0a5a409b92a5a948e74811a9",
+      "name": "Réka",
+      "note": "Female, young. Conversational, professional, clear, confident. Hungarian, as spoken in Hungary.",
+      "hue": "#9b7a4d",
+      "locale": "hu-HU",
+      "gender": "female",
+      "language": "hu",
+      "line": "HU · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/96d99cfe0a5a409b92a5a948e74811a9.webp"
+    },
+    {
+      "id": "83929793ab5e4e02bd954bb0173fbe0e",
+      "name": "Անի Ani",
+      "note": "Female, young. Conversational, professional, clear, confident. Armenian, as spoken in Armenia.",
+      "hue": "#7e2d1f",
+      "locale": "hy-AM",
+      "gender": "female",
+      "language": "hy",
+      "line": "AM · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/83929793ab5e4e02bd954bb0173fbe0e.webp"
+    },
+    {
+      "id": "56cf98111fe14e1bb623b7a4526f50f3",
+      "name": "Արամ Aram",
+      "note": "Male, young. Conversational, professional, clear, confident. Armenian, as spoken in Armenia.",
+      "hue": "#9b7a4d",
+      "locale": "hy-AM",
+      "gender": "male",
+      "language": "hy",
+      "line": "AM · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/56cf98111fe14e1bb623b7a4526f50f3.webp"
+    },
+    {
+      "id": "a2013d5c8dc648b89cc10cf46937001c",
+      "name": "Budi",
+      "note": "Male, young. Professional. Indonesian, as spoken in Indonesia.",
+      "hue": "#4a1717",
+      "locale": "id-ID",
+      "gender": "male",
+      "language": "id",
+      "line": "ID · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a2013d5c8dc648b89cc10cf46937001c.webp"
+    },
+    {
+      "id": "60732b5136f1492c867f57574da203b3",
+      "name": "Sari",
+      "note": "Female, young. Professional. Indonesian, as spoken in Indonesia.",
+      "hue": "#9b7a4d",
+      "locale": "id-ID",
+      "gender": "female",
+      "language": "id",
+      "line": "ID · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/60732b5136f1492c867f57574da203b3.webp"
+    },
+    {
+      "id": "6ef10a3839594c6bbf20704470c84086",
+      "name": "Anindya",
+      "note": "Female, young. Conversational, professional, clear, confident. Indonesian, as spoken in Indonesia.",
+      "hue": "#9b7a4d",
+      "locale": "id-ID",
+      "gender": "female",
+      "language": "id",
+      "line": "ID · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6ef10a3839594c6bbf20704470c84086.webp"
+    },
+    {
+      "id": "a04c3049ecee4757b2dc5cbf036754a8",
+      "name": "Bagas",
+      "note": "Male, young. Conversational, professional, clear, confident. Indonesian, as spoken in Indonesia.",
+      "hue": "#4a1717",
+      "locale": "id-ID",
+      "gender": "male",
+      "language": "id",
+      "line": "ID · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a04c3049ecee4757b2dc5cbf036754a8.webp"
+    },
+    {
+      "id": "490ceebbd066409da071e8c4948fa5fe",
+      "name": "Jón",
+      "note": "Male, young. Conversational, professional, clear, confident. Icelandic, as spoken in Iceland.",
+      "hue": "#6d2922",
+      "locale": "is-IS",
+      "gender": "male",
+      "language": "is",
+      "line": "IS · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/490ceebbd066409da071e8c4948fa5fe.webp"
+    },
+    {
+      "id": "79f9a2bc327c4cd496b1b4ec41be16f9",
+      "name": "Katrín",
+      "note": "Female, young. Conversational, professional, clear, confident. Icelandic, as spoken in Iceland.",
+      "hue": "#6e563a",
+      "locale": "is-IS",
+      "gender": "female",
+      "language": "is",
+      "line": "IS · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/79f9a2bc327c4cd496b1b4ec41be16f9.webp"
+    },
+    {
+      "id": "0e36e185d0654d5bac3d24331562a0cc",
+      "name": "Giulia",
+      "note": "Female, young. Professional. Italian, as spoken in Italy.",
+      "hue": "#4a331c",
+      "locale": "it-IT",
+      "gender": "female",
+      "language": "it",
+      "line": "IT · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0e36e185d0654d5bac3d24331562a0cc.webp"
+    },
+    {
+      "id": "f6cbad8b89254774a495c088aeb7822e",
+      "name": "Marco",
+      "note": "Male, young. Professional. Italian, as spoken in Italy.",
+      "hue": "#4a1717",
+      "locale": "it-IT",
+      "gender": "male",
+      "language": "it",
+      "line": "IT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f6cbad8b89254774a495c088aeb7822e.webp"
+    },
+    {
+      "id": "ef02f46e6a7540759f9d767d7e22c2e5",
+      "name": "Chiara",
+      "note": "Female, young. Conversational, professional, clear, confident. Italian, as spoken in Italy.",
+      "hue": "#4a3b27",
+      "locale": "it-IT",
+      "gender": "female",
+      "language": "it",
+      "line": "IT · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ef02f46e6a7540759f9d767d7e22c2e5.webp"
+    },
+    {
+      "id": "59ac2b0ad66641b5ab4666d3ed89e5d4",
+      "name": "Lorenzo",
+      "note": "Male, young. Conversational, professional, clear, confident. Italian, as spoken in Italy.",
+      "hue": "#7e2d1f",
+      "locale": "it-IT",
+      "gender": "male",
+      "language": "it",
+      "line": "IT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/59ac2b0ad66641b5ab4666d3ed89e5d4.webp"
+    },
+    {
+      "id": "297a6fd278df47c3b9da9bfdf55ac89a",
+      "name": "さとる",
+      "note": "Male, young. Narration, educational, calm, relaxed. Japanese, as spoken in Japan.",
+      "hue": "#b98f55",
+      "locale": "ja-JP",
+      "gender": "male",
+      "language": "ja",
+      "line": "JP · Male, young · calm, relaxed",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/297a6fd278df47c3b9da9bfdf55ac89a.webp"
+    },
+    {
+      "id": "bf5634e34ee5489991fe687ad0d202c5",
+      "name": "女の子",
+      "note": "Neutral, young. Character-voice, soft, gentle, intimate. Japanese, as spoken in Japan.",
+      "hue": "#42331f",
+      "locale": "ja-JP",
+      "gender": "not_specified",
+      "language": "ja",
+      "line": "JP · Neutral, young · soft, gentle",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/bf5634e34ee5489991fe687ad0d202c5.webp"
+    },
+    {
+      "id": "c496c7d0e93640a59a0befd78b47f39e",
+      "name": "男の子",
+      "note": "Female, middle-aged. Character-voice, entertainment, energetic, confident. Japanese, as spoken in Japan.",
+      "hue": "#30271d",
+      "locale": "ja-JP",
+      "gender": "female",
+      "language": "ja",
+      "line": "JP · Female, middle-aged · energetic",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c496c7d0e93640a59a0befd78b47f39e.webp"
+    },
+    {
+      "id": "d738c70d206149e69f8e3b6fc8af9d96",
+      "name": "じん",
+      "note": "Male, middle-aged. Conversational, narration, medium, warm. Japanese, as spoken in Japan.",
+      "hue": "#4a1717",
+      "locale": "ja-JP",
+      "gender": "male",
+      "language": "ja",
+      "line": "JP · Male, middle-aged · warm",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d738c70d206149e69f8e3b6fc8af9d96.webp"
+    },
+    {
+      "id": "b2d9d8db057042688a5e318b8f405bc2",
+      "name": "きょうこ",
+      "note": "Female, middle-aged. Conversational, narration, educational, medium. Japanese, as spoken in Japan.",
+      "hue": "#2e2214",
+      "locale": "ja-JP",
+      "gender": "female",
+      "language": "ja",
+      "line": "JP · Female, middle-aged",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b2d9d8db057042688a5e318b8f405bc2.webp"
+    },
+    {
+      "id": "5da7f24e9e274f91b2b677669c818ce9",
+      "name": "しおり",
+      "note": "Female, young. Narration, conversational, social-media, clear. Japanese, as spoken in Japan.",
+      "hue": "#a63b2a",
+      "locale": "ja-JP",
+      "gender": "female",
+      "language": "ja",
+      "line": "JP · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5da7f24e9e274f91b2b677669c818ce9.webp"
+    },
+    {
+      "id": "97eda32449cf443bbc4b8782853ca554",
+      "name": "あかり",
+      "note": "Female, young. Conversational, narration, social-media, medium. Japanese, as spoken in Japan.",
+      "hue": "#4a1717",
+      "locale": "ja-JP",
+      "gender": "female",
+      "language": "ja",
+      "line": "JP · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/97eda32449cf443bbc4b8782853ca554.webp"
+    },
+    {
+      "id": "35c8e5ae5239435f8d9c26c86802b86d",
+      "name": "丁寧なヘルプデスク",
+      "note": "Female, young. Conversational, educational, medium, calm. Japanese, as spoken in Japan.",
+      "hue": "#795b38",
+      "locale": "ja-JP",
+      "gender": "female",
+      "language": "ja",
+      "line": "JP · Female, young · calm",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/35c8e5ae5239435f8d9c26c86802b86d.webp"
+    },
+    {
+      "id": "59a78821a8924989b70d2a63d588e8eb",
+      "name": "まこと",
+      "note": "Male, middle-aged. Conversational, narration, educational, professional. Japanese, as spoken in Japan.",
+      "hue": "#7e2d1f",
+      "locale": "ja-JP",
+      "gender": "male",
+      "language": "ja",
+      "line": "JP · Male, middle-aged",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/59a78821a8924989b70d2a63d588e8eb.webp"
+    },
+    {
+      "id": "88b4365cf39d46e980f07cce0dab0478",
+      "name": "結衣 Yui",
+      "note": "Female, young. Conversational, professional, clear, confident. Japanese, as spoken in Japan.",
+      "hue": "#7e2d1f",
+      "locale": "ja-JP",
+      "gender": "female",
+      "language": "ja",
+      "line": "JP · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/88b4365cf39d46e980f07cce0dab0478.webp"
+    },
+    {
+      "id": "8fb06bac5bff4f51936abd2a36df1535",
+      "name": "陽翔 Haruto",
+      "note": "Male, young. Conversational, professional, clear, confident. Japanese, as spoken in Japan.",
+      "hue": "#4a3b27",
+      "locale": "ja-JP",
+      "gender": "male",
+      "language": "ja",
+      "line": "JP · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8fb06bac5bff4f51936abd2a36df1535.webp"
+    },
+    {
+      "id": "ea3a1ca64c2b4992ae2340c7e1a9b4e7",
+      "name": "გიორგი Giorgi",
+      "note": "Male, young. Conversational, professional, clear, confident. Georgian, as spoken in Georgia.",
+      "hue": "#4a3520",
+      "locale": "ka-GE",
+      "gender": "male",
+      "language": "ka",
+      "line": "GE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ea3a1ca64c2b4992ae2340c7e1a9b4e7.webp"
+    },
+    {
+      "id": "8732891109d849adaf2d750f49bdb2c0",
+      "name": "ნინო Nino",
+      "note": "Female, young. Conversational, professional, clear, confident. Georgian, as spoken in Georgia.",
+      "hue": "#a63b2a",
+      "locale": "ka-GE",
+      "gender": "female",
+      "language": "ka",
+      "line": "GE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8732891109d849adaf2d750f49bdb2c0.webp"
+    },
+    {
+      "id": "bf22482bf1364ffc9bfb4024fe9d2eae",
+      "name": "Алихан Alikhan",
+      "note": "Male, young. Conversational, professional, clear, confident. Kazakh, as spoken in Kazakhstan.",
+      "hue": "#9b7540",
+      "locale": "kk-KZ",
+      "gender": "male",
+      "language": "kk",
+      "line": "KZ · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/bf22482bf1364ffc9bfb4024fe9d2eae.webp"
+    },
+    {
+      "id": "6d64a3041a584879af0476e5afc35e30",
+      "name": "Аружан Aruzhan",
+      "note": "Female, young. Conversational, professional, clear, confident. Kazakh, as spoken in Kazakhstan.",
+      "hue": "#9b7540",
+      "locale": "kk-KZ",
+      "gender": "female",
+      "language": "kk",
+      "line": "KZ · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6d64a3041a584879af0476e5afc35e30.webp"
+    },
+    {
+      "id": "86e2003b9e864c40992f941139e63f4c",
+      "name": "ಚೈತ್ರಾ Chaitra",
+      "note": "Female, young. Conversational, professional, clear, confident. Kannada, as spoken in India.",
+      "hue": "#6e563a",
+      "locale": "kn-IN",
+      "gender": "female",
+      "language": "kn",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/86e2003b9e864c40992f941139e63f4c.webp"
+    },
+    {
+      "id": "56e03b67752c41b19b894777ee9006c0",
+      "name": "ಪ್ರಜ್ವಲ್ Prajwal",
+      "note": "Male, young. Conversational, professional, clear, confident. Kannada, as spoken in India.",
+      "hue": "#9b7a4d",
+      "locale": "kn-IN",
+      "gender": "male",
+      "language": "kn",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/56e03b67752c41b19b894777ee9006c0.webp"
+    },
+    {
+      "id": "82703151e4b043dbbd98f082d4841b71",
+      "name": "Minjun",
+      "note": "Male, young. Professional. Korean, as spoken in Korea.",
+      "hue": "#30271d",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/82703151e4b043dbbd98f082d4841b71.webp"
+    },
+    {
+      "id": "3d31499f0e13438bbce8dcce7b7c4298",
+      "name": "Yuna",
+      "note": "Female, young. Professional. Korean, as spoken in Korea.",
+      "hue": "#b98f55",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3d31499f0e13438bbce8dcce7b7c4298.webp"
+    },
+    {
+      "id": "f3b62ddeb0fb4cac8c796c97c064f7cf",
+      "name": "도윤 Doyoon",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#b98f55",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f3b62ddeb0fb4cac8c796c97c064f7cf.webp"
+    },
+    {
+      "id": "254244b09ba24af89b7e381c84a2506b",
+      "name": "민준",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#2e2214",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/254244b09ba24af89b7e381c84a2506b.webp"
+    },
+    {
+      "id": "d02108f2e6124138b39004f3efce5e52",
+      "name": "서윤 Seoyun",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#2e2214",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d02108f2e6124138b39004f3efce5e52.webp"
+    },
+    {
+      "id": "57f8381fb53c4bc68200d579c91c566b",
+      "name": "수아 Suah",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#9b7a4d",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/57f8381fb53c4bc68200d579c91c566b.webp"
+    },
+    {
+      "id": "2c0eeb4aaf4042d7a85843d1f6148c2c",
+      "name": "태오 Taeo",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#a63b2a",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2c0eeb4aaf4042d7a85843d1f6148c2c.webp"
+    },
+    {
+      "id": "8f3cc2e594cf4a96a5049cb538f1b6d6",
+      "name": "하은 Haeun",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#4a3b27",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8f3cc2e594cf4a96a5049cb538f1b6d6.webp"
+    },
+    {
+      "id": "d7ec83d63be940f19abd933eb7b28816",
+      "name": "도윤 Doyun",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#9b7a4d",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d7ec83d63be940f19abd933eb7b28816.webp"
+    },
+    {
+      "id": "14a76e187ac64a46b99f4f6b49f885b9",
+      "name": "서연 Seoyeon",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#2e2214",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/14a76e187ac64a46b99f4f6b49f885b9.webp"
+    },
+    {
+      "id": "69c83054095f4519b643d38b85446f27",
+      "name": "시우 Siwoo",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#9b7540",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/69c83054095f4519b643d38b85446f27.webp"
+    },
+    {
+      "id": "e2064c249afe4ac0abea622680a54073",
+      "name": "예린 Yerin",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#9b7a4d",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e2064c249afe4ac0abea622680a54073.webp"
+    },
+    {
+      "id": "a450ded93e014e6aa0c4be3f2bb8594b",
+      "name": "재민 Jaemin",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#7e2d1f",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a450ded93e014e6aa0c4be3f2bb8594b.webp"
+    },
+    {
+      "id": "c57e2f9342954ccc9d676b25b676f92c",
+      "name": "준서 Junseo",
+      "note": "Male. Conversational. Korean, as spoken in Korea.",
+      "hue": "#6e563a",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c57e2f9342954ccc9d676b25b676f92c.webp"
+    },
+    {
+      "id": "c09e0a67c0ec4e3f90d3a04a55bc0b46",
+      "name": "지우 Jiwoo",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#30271d",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c09e0a67c0ec4e3f90d3a04a55bc0b46.webp"
+    },
+    {
+      "id": "849c4e02d2f347bfafcbf355507f7808",
+      "name": "혜진 Hyejin",
+      "note": "Female. Conversational. Korean, as spoken in Korea.",
+      "hue": "#7e2d1f",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/849c4e02d2f347bfafcbf355507f7808.webp"
+    },
+    {
+      "id": "1faa840246094164bf4b0b0b94ae1675",
+      "name": "지훈 Jihoon",
+      "note": "Male, young. Conversational, professional, clear, confident. Korean, as spoken in Korea.",
+      "hue": "#4a3520",
+      "locale": "ko-KR",
+      "gender": "male",
+      "language": "ko",
+      "line": "KR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1faa840246094164bf4b0b0b94ae1675.webp"
+    },
+    {
+      "id": "96ed4e3f47334430b990df471d0a0268",
+      "name": "하윤 Hayoon",
+      "note": "Female, young. Conversational, professional, clear, confident. Korean, as spoken in Korea.",
+      "hue": "#4a3520",
+      "locale": "ko-KR",
+      "gender": "female",
+      "language": "ko",
+      "line": "KR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/96ed4e3f47334430b990df471d0a0268.webp"
+    },
+    {
+      "id": "73d08f408a2241bb9818122534e1b176",
+      "name": "Gabija",
+      "note": "Female, young. Conversational, professional, clear, confident. Lithuanian, as spoken in Lithuania.",
+      "hue": "#6e563a",
+      "locale": "lt-LT",
+      "gender": "female",
+      "language": "lt",
+      "line": "LT · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/73d08f408a2241bb9818122534e1b176.webp"
+    },
+    {
+      "id": "0e9cac30b72742708cbfa442719bacb6",
+      "name": "Mantas",
+      "note": "Male, young. Conversational, professional, clear, confident. Lithuanian, as spoken in Lithuania.",
+      "hue": "#4a3b27",
+      "locale": "lt-LT",
+      "gender": "male",
+      "language": "lt",
+      "line": "LT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0e9cac30b72742708cbfa442719bacb6.webp"
+    },
+    {
+      "id": "2f4d87e859694084bf21a9ed838bd5ea",
+      "name": "Elīna",
+      "note": "Female, young. Conversational, professional, clear, confident. Latvian, as spoken in Latvia.",
+      "hue": "#6e563a",
+      "locale": "lv-LV",
+      "gender": "female",
+      "language": "lv",
+      "line": "LV · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2f4d87e859694084bf21a9ed838bd5ea.webp"
+    },
+    {
+      "id": "a19e34264cae4aed9a2104372c1803cd",
+      "name": "Roberts",
+      "note": "Male, young. Conversational, professional, clear, confident. Latvian, as spoken in Latvia.",
+      "hue": "#9b7540",
+      "locale": "lv-LV",
+      "gender": "male",
+      "language": "lv",
+      "line": "LV · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a19e34264cae4aed9a2104372c1803cd.webp"
+    },
+    {
+      "id": "fcd1d26cdf464e5184507d9f97877496",
+      "name": "അഖിൽ Akhil",
+      "note": "Male, young. Conversational, professional, clear, confident. Malayalam, as spoken in India.",
+      "hue": "#4a1717",
+      "locale": "ml-IN",
+      "gender": "male",
+      "language": "ml",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fcd1d26cdf464e5184507d9f97877496.webp"
+    },
+    {
+      "id": "3e378c8d80dd459fb2bde2d0199077c3",
+      "name": "ആതിര Athira",
+      "note": "Female, young. Conversational, professional, clear, confident. Malayalam, as spoken in India.",
+      "hue": "#a63b2a",
+      "locale": "ml-IN",
+      "gender": "female",
+      "language": "ml",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3e378c8d80dd459fb2bde2d0199077c3.webp"
+    },
+    {
+      "id": "4c7b5fd24ef741f19cfc9507a0455616",
+      "name": "सई Sai",
+      "note": "Female, young. Conversational, professional, clear, confident. Marathi, as spoken in India.",
+      "hue": "#a63b2a",
+      "locale": "mr-IN",
+      "gender": "female",
+      "language": "mr",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4c7b5fd24ef741f19cfc9507a0455616.webp"
+    },
+    {
+      "id": "a938373c830f4aa6b611af6b48f56315",
+      "name": "सोहम Soham",
+      "note": "Male, young. Conversational, professional, clear, confident. Marathi, as spoken in India.",
+      "hue": "#6e563a",
+      "locale": "mr-IN",
+      "gender": "male",
+      "language": "mr",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a938373c830f4aa6b611af6b48f56315.webp"
+    },
+    {
+      "id": "11e5828c9ee244feb6b7146f1d0652c9",
+      "name": "Aisyah",
+      "note": "Female, young. Professional. Malay, as spoken in Malaysia.",
+      "hue": "#4a3520",
+      "locale": "ms-MY",
+      "gender": "female",
+      "language": "ms",
+      "line": "MY · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/11e5828c9ee244feb6b7146f1d0652c9.webp"
+    },
+    {
+      "id": "2f23c1c4a66c4330ba367546dd03e964",
+      "name": "Amir",
+      "note": "Male, young. Professional. Malay, as spoken in Malaysia.",
+      "hue": "#795b38",
+      "locale": "ms-MY",
+      "gender": "male",
+      "language": "ms",
+      "line": "MY · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2f23c1c4a66c4330ba367546dd03e964.webp"
+    },
+    {
+      "id": "a36ba367cd52449fb87947637d3ec779",
+      "name": "Haziq",
+      "note": "Male, young. Conversational, professional, clear, confident. Malay, as spoken in Malaysia.",
+      "hue": "#7e2d1f",
+      "locale": "ms-MY",
+      "gender": "male",
+      "language": "ms",
+      "line": "MY · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a36ba367cd52449fb87947637d3ec779.webp"
+    },
+    {
+      "id": "3f8f85df7496400d9075329393802c8c",
+      "name": "Nurul",
+      "note": "Female, young. Conversational, professional, clear, confident. Malay, as spoken in Malaysia.",
+      "hue": "#b98f55",
+      "locale": "ms-MY",
+      "gender": "female",
+      "language": "ms",
+      "line": "MY · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3f8f85df7496400d9075329393802c8c.webp"
+    },
+    {
+      "id": "8c6558251ab74a6c9b31b83b3192fb58",
+      "name": "ကျော်ဇင် Kyaw Zin",
+      "note": "Male, young. Conversational, professional, clear, confident. Burmese, as spoken in Myanmar.",
+      "hue": "#30271d",
+      "locale": "my-MM",
+      "gender": "male",
+      "language": "my",
+      "line": "MM · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8c6558251ab74a6c9b31b83b3192fb58.webp"
+    },
+    {
+      "id": "c54b797c9e4343019b141b19e200ab4e",
+      "name": "စုမြတ် Su Myat",
+      "note": "Female, young. Conversational, professional, clear, confident. Burmese, as spoken in Myanmar.",
+      "hue": "#a63b2a",
+      "locale": "my-MM",
+      "gender": "female",
+      "language": "my",
+      "line": "MM · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c54b797c9e4343019b141b19e200ab4e.webp"
+    },
+    {
+      "id": "1bf631b9ed214b01b508da1925228247",
+      "name": "Ingrid",
+      "note": "Female, young. Conversational, professional, clear, confident. Norwegian, as spoken in Norway.",
+      "hue": "#a63b2a",
+      "locale": "nb-NO",
+      "gender": "female",
+      "language": "nb",
+      "line": "NO · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1bf631b9ed214b01b508da1925228247.webp"
+    },
+    {
+      "id": "02707ad5560b43809bc4c6d779af512d",
+      "name": "Jakob",
+      "note": "Male, young. Conversational, professional, clear, confident. Norwegian, as spoken in Norway.",
+      "hue": "#7e2d1f",
+      "locale": "nb-NO",
+      "gender": "male",
+      "language": "nb",
+      "line": "NO · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/02707ad5560b43809bc4c6d779af512d.webp"
+    },
+    {
+      "id": "83d00d59ca3647319933177f5eb20f12",
+      "name": "प्रतिमा Pratima",
+      "note": "Female, young. Conversational, professional, clear, confident. Nepali, as spoken in Nepal.",
+      "hue": "#4a3520",
+      "locale": "ne-NP",
+      "gender": "female",
+      "language": "ne",
+      "line": "NP · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/83d00d59ca3647319933177f5eb20f12.webp"
+    },
+    {
+      "id": "dd6098ad65944943b204da2bb33e8499",
+      "name": "सुमन Suman",
+      "note": "Male, young. Conversational, professional, clear, confident. Nepali, as spoken in Nepal.",
+      "hue": "#8c6a3f",
+      "locale": "ne-NP",
+      "gender": "male",
+      "language": "ne",
+      "line": "NP · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/dd6098ad65944943b204da2bb33e8499.webp"
+    },
+    {
+      "id": "fa6dc2d97c7c43a1be30879e7fe8b650",
+      "name": "Sanne",
+      "note": "Female, young. Conversational, professional, clear, confident. Dutch, as spoken in the Netherlands.",
+      "hue": "#8c6a3f",
+      "locale": "nl-NL",
+      "gender": "female",
+      "language": "nl",
+      "line": "NL · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fa6dc2d97c7c43a1be30879e7fe8b650.webp"
+    },
+    {
+      "id": "72fbc0a1964a49da88215ebb3008b8ef",
+      "name": "Daan",
+      "note": "Male, young. Professional. Dutch, as spoken in the Netherlands.",
+      "hue": "#4a3520",
+      "locale": "nl-NL",
+      "gender": "male",
+      "language": "nl",
+      "line": "NL · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/72fbc0a1964a49da88215ebb3008b8ef.webp"
+    },
+    {
+      "id": "f04252977808440d9c49e1272ae990b3",
+      "name": "Marie",
+      "note": "Female, young. Conversational, professional, clear, confident. Dutch, as spoken in Belgium.",
+      "hue": "#30271d",
+      "locale": "nl-BE",
+      "gender": "female",
+      "language": "nl",
+      "line": "BE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f04252977808440d9c49e1272ae990b3.webp"
+    },
+    {
+      "id": "4e41be2d0c8d4c76b51198330fcac6ce",
+      "name": "Sem",
+      "note": "Male, young. Conversational, professional, clear, confident. Dutch, as spoken in the Netherlands.",
+      "hue": "#a63b2a",
+      "locale": "nl-NL",
+      "gender": "male",
+      "language": "nl",
+      "line": "NL · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4e41be2d0c8d4c76b51198330fcac6ce.webp"
+    },
+    {
+      "id": "a607de24d1db4d59ae60c590480e9e8c",
+      "name": "Wout",
+      "note": "Male, young. Conversational, professional, clear, confident. Dutch, as spoken in Belgium.",
+      "hue": "#4a3520",
+      "locale": "nl-BE",
+      "gender": "male",
+      "language": "nl",
+      "line": "BE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a607de24d1db4d59ae60c590480e9e8c.webp"
+    },
+    {
+      "id": "c802b310ae2441cd8e72d77afc382e56",
+      "name": "ਸਿਮਰਨ Simran",
+      "note": "Female, young. Conversational, professional, clear, confident. Punjabi, as spoken in India.",
+      "hue": "#6d2922",
+      "locale": "pa-IN",
+      "gender": "female",
+      "language": "pa",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c802b310ae2441cd8e72d77afc382e56.webp"
+    },
+    {
+      "id": "4353f2ba29614cadbcd76e94538bbfcc",
+      "name": "ਗੁਰਪ੍ਰੀਤ Gurpreet",
+      "note": "Male, young. Conversational, professional, clear, confident. Punjabi, as spoken in India.",
+      "hue": "#8c6a3f",
+      "locale": "pa-IN",
+      "gender": "male",
+      "language": "pa",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/4353f2ba29614cadbcd76e94538bbfcc.webp"
+    },
+    {
+      "id": "1676c716234d4ba3a4eb8613f1382179",
+      "name": "Anna",
+      "note": "Female, young. Professional. Polish, as spoken in Poland.",
+      "hue": "#4a3520",
+      "locale": "pl-PL",
+      "gender": "female",
+      "language": "pl",
+      "line": "PL · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1676c716234d4ba3a4eb8613f1382179.webp"
+    },
+    {
+      "id": "2993fb1f32c449669166c344a2436d62",
+      "name": "Piotr",
+      "note": "Male, young. Professional. Polish, as spoken in Poland.",
+      "hue": "#6e563a",
+      "locale": "pl-PL",
+      "gender": "male",
+      "language": "pl",
+      "line": "PL · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2993fb1f32c449669166c344a2436d62.webp"
+    },
+    {
+      "id": "de953b8550924896b07c0ab0ab528917",
+      "name": "Kacper",
+      "note": "Male, young. Conversational, professional, clear, confident. Polish, as spoken in Poland.",
+      "hue": "#4a3b27",
+      "locale": "pl-PL",
+      "gender": "male",
+      "language": "pl",
+      "line": "PL · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/de953b8550924896b07c0ab0ab528917.webp"
+    },
+    {
+      "id": "ebd78f5f61154a2b9586d78e1ce03650",
+      "name": "Zuzanna",
+      "note": "Female, young. Conversational, professional, clear, confident. Polish, as spoken in Poland.",
+      "hue": "#4a3b27",
+      "locale": "pl-PL",
+      "gender": "female",
+      "language": "pl",
+      "line": "PL · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ebd78f5f61154a2b9586d78e1ce03650.webp"
+    },
+    {
+      "id": "cdc1a2dc59e24a58a8b9997a5f72081f",
+      "name": "Mateus",
+      "note": "Male, young. Professional. Portuguese, as spoken in Portugal.",
+      "hue": "#4a3520",
+      "locale": "pt-PT",
+      "gender": "male",
+      "language": "pt",
+      "line": "PT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cdc1a2dc59e24a58a8b9997a5f72081f.webp"
+    },
+    {
+      "id": "0353b2d7ef894ba4945825ac508e8b40",
+      "name": "Ana",
+      "note": "Female. Professional. Portuguese, as spoken in Portugal.",
+      "hue": "#2e2214",
+      "locale": "pt-PT",
+      "gender": "female",
+      "language": "pt",
+      "line": "PT · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0353b2d7ef894ba4945825ac508e8b40.webp"
+    },
+    {
+      "id": "2d193bd5b86e4c46b55ff7d2c8e874df",
+      "name": "Júlia",
+      "note": "Female. Professional. Portuguese, as spoken in Portugal.",
+      "hue": "#2e2214",
+      "locale": "pt-PT",
+      "gender": "female",
+      "language": "pt",
+      "line": "PT · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2d193bd5b86e4c46b55ff7d2c8e874df.webp"
+    },
+    {
+      "id": "a7846ed7945c4e99a048b43dfcce8aab",
+      "name": "Tiago",
+      "note": "Male, young. Professional. Portuguese, as spoken in Portugal.",
+      "hue": "#9b7540",
+      "locale": "pt-PT",
+      "gender": "male",
+      "language": "pt",
+      "line": "PT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a7846ed7945c4e99a048b43dfcce8aab.webp"
+    },
+    {
+      "id": "0e26d2df0d0848e3b34099bfb55fd6ea",
+      "name": "Beatriz",
+      "note": "Female, young. Conversational, professional, clear, confident. Portuguese, as spoken in Brazil.",
+      "hue": "#4a1717",
+      "locale": "pt-BR",
+      "gender": "female",
+      "language": "pt",
+      "line": "BR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0e26d2df0d0848e3b34099bfb55fd6ea.webp"
+    },
+    {
+      "id": "5f2350f72d864ba0915668843dd1a584",
+      "name": "Matilde",
+      "note": "Female, young. Conversational, professional, clear, confident. Portuguese, as spoken in Portugal.",
+      "hue": "#b98f55",
+      "locale": "pt-PT",
+      "gender": "female",
+      "language": "pt",
+      "line": "PT · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5f2350f72d864ba0915668843dd1a584.webp"
+    },
+    {
+      "id": "0ffee1af32254090b3630823baade12b",
+      "name": "Rafael",
+      "note": "Male, young. Conversational, professional, clear, confident. Portuguese, as spoken in Brazil.",
+      "hue": "#8c6a3f",
+      "locale": "pt-BR",
+      "gender": "male",
+      "language": "pt",
+      "line": "BR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0ffee1af32254090b3630823baade12b.webp"
+    },
+    {
+      "id": "70d10a6856b241ca81e5abe3bc0ec3e8",
+      "name": "Tomás (Portugal)",
+      "note": "Male, young. Conversational, professional, clear, confident. Portuguese, as spoken in Portugal.",
+      "hue": "#9b7a4d",
+      "locale": "pt-PT",
+      "gender": "male",
+      "language": "pt",
+      "line": "PT · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/70d10a6856b241ca81e5abe3bc0ec3e8.webp"
+    },
+    {
+      "id": "37adc9899008456693e7418c1e3ebaad",
+      "name": "Andrei",
+      "note": "Male, young. Professional. Romanian, as spoken in Romania.",
+      "hue": "#2e2214",
+      "locale": "ro-RO",
+      "gender": "male",
+      "language": "ro",
+      "line": "RO · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/37adc9899008456693e7418c1e3ebaad.webp"
+    },
+    {
+      "id": "ed04b20b4ebd4a12b0a9bf4d8a21d8e3",
+      "name": "Ioana",
+      "note": "Female, young. Professional. Romanian, as spoken in Romania.",
+      "hue": "#4a3b27",
+      "locale": "ro-RO",
+      "gender": "female",
+      "language": "ro",
+      "line": "RO · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ed04b20b4ebd4a12b0a9bf4d8a21d8e3.webp"
+    },
+    {
+      "id": "995bb68cd88f4989b3360d1144553b81",
+      "name": "Alexandra",
+      "note": "Female, young. Conversational, professional, clear, confident. Romanian, as spoken in Romania.",
+      "hue": "#8c6a3f",
+      "locale": "ro-RO",
+      "gender": "female",
+      "language": "ro",
+      "line": "RO · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/995bb68cd88f4989b3360d1144553b81.webp"
+    },
+    {
+      "id": "ca55bc47696c416db7e0f4435f41d064",
+      "name": "Cristian",
+      "note": "Male, young. Conversational, professional, clear, confident. Romanian, as spoken in Romania.",
+      "hue": "#b98f55",
+      "locale": "ro-RO",
+      "gender": "male",
+      "language": "ro",
+      "line": "RO · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/ca55bc47696c416db7e0f4435f41d064.webp"
+    },
+    {
+      "id": "659f2173c5e346c198ea856f5f22eb15",
+      "name": "Aarav",
+      "note": "Male. Russian, as spoken in India.",
+      "hue": "#a63b2a",
+      "locale": "ru-IN",
+      "gender": "male",
+      "language": "ru",
+      "line": "IN · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/659f2173c5e346c198ea856f5f22eb15.webp"
+    },
+    {
+      "id": "2911dfe1c9d54419b24ed8c4a1489355",
+      "name": "Dmitri",
+      "note": "Male, young. Professional. Russian, as spoken in Russia.",
+      "hue": "#6d2922",
+      "locale": "ru-RU",
+      "gender": "male",
+      "language": "ru",
+      "line": "RU · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2911dfe1c9d54419b24ed8c4a1489355.webp"
+    },
+    {
+      "id": "7adab54c80d34cba8c11463ab1502c9a",
+      "name": "Maria",
+      "note": "Female, young. Professional. Russian, as spoken in Russia.",
+      "hue": "#42331f",
+      "locale": "ru-RU",
+      "gender": "female",
+      "language": "ru",
+      "line": "RU · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7adab54c80d34cba8c11463ab1502c9a.webp"
+    },
+    {
+      "id": "b871e425b6c0442baa5cf73f6c336bbe",
+      "name": "Артём Artyom",
+      "note": "Male, young. Conversational, professional, clear, confident. Russian, as spoken in Russia.",
+      "hue": "#7e2d1f",
+      "locale": "ru-RU",
+      "gender": "male",
+      "language": "ru",
+      "line": "RU · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/b871e425b6c0442baa5cf73f6c336bbe.webp"
+    },
+    {
+      "id": "bf75c2e80b0e441485eeec20330a75fa",
+      "name": "Полина Polina",
+      "note": "Female, young. Conversational, professional, clear, confident. Russian, as spoken in Russia.",
+      "hue": "#6e563a",
+      "locale": "ru-RU",
+      "gender": "female",
+      "language": "ru",
+      "line": "RU · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/bf75c2e80b0e441485eeec20330a75fa.webp"
+    },
+    {
+      "id": "6e2cf26650da47948e2aa4b5d58e3eea",
+      "name": "නෙතුමි Nethumi",
+      "note": "Female, young. Conversational, professional, clear, confident. Sinhala, as spoken in Sri Lanka.",
+      "hue": "#b98f55",
+      "locale": "si-LK",
+      "gender": "female",
+      "language": "si",
+      "line": "LK · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/6e2cf26650da47948e2aa4b5d58e3eea.webp"
+    },
+    {
+      "id": "f0513115130a4fcfa74b335565e0059f",
+      "name": "සුනිල් Sunil",
+      "note": "Male, young. Conversational, professional, clear, confident. Sinhala, as spoken in Sri Lanka.",
+      "hue": "#4a1717",
+      "locale": "si-LK",
+      "gender": "male",
+      "language": "si",
+      "line": "LK · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f0513115130a4fcfa74b335565e0059f.webp"
+    },
+    {
+      "id": "0e0f2df9c403452a9899681bd70bd345",
+      "name": "Matúš",
+      "note": "Male, young. Conversational, professional, clear, confident. Slovak, as spoken in Slovakia.",
+      "hue": "#795b38",
+      "locale": "sk-SK",
+      "gender": "male",
+      "language": "sk",
+      "line": "SK · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0e0f2df9c403452a9899681bd70bd345.webp"
+    },
+    {
+      "id": "0958b8f201fc440b9dc44c96dd9ae264",
+      "name": "Natália",
+      "note": "Female, young. Conversational, professional, clear, confident. Slovak, as spoken in Slovakia.",
+      "hue": "#795b38",
+      "locale": "sk-SK",
+      "gender": "female",
+      "language": "sk",
+      "line": "SK · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0958b8f201fc440b9dc44c96dd9ae264.webp"
+    },
+    {
+      "id": "27fbfe9011bd4c8f8721cb8ce3bf77db",
+      "name": "Aida",
+      "note": "Female, young. Conversational, professional, clear, confident. Albanian, as spoken in Albania.",
+      "hue": "#9b7a4d",
+      "locale": "sq-AL",
+      "gender": "female",
+      "language": "sq",
+      "line": "AL · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/27fbfe9011bd4c8f8721cb8ce3bf77db.webp"
+    },
+    {
+      "id": "d6d6c3b92f8b4d5bbd0f957170323b8e",
+      "name": "Endrit",
+      "note": "Male, young. Conversational, professional, clear, confident. Albanian, as spoken in Albania.",
+      "hue": "#4a3b27",
+      "locale": "sq-AL",
+      "gender": "male",
+      "language": "sq",
+      "line": "AL · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d6d6c3b92f8b4d5bbd0f957170323b8e.webp"
+    },
+    {
+      "id": "2ad62aaf885e4a14add09fe4a38ffd23",
+      "name": "Milica",
+      "note": "Female, young. Conversational, professional, clear, confident. Serbian, as spoken in Serbia.",
+      "hue": "#7e2d1f",
+      "locale": "sr-RS",
+      "gender": "female",
+      "language": "sr",
+      "line": "RS · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/2ad62aaf885e4a14add09fe4a38ffd23.webp"
+    },
+    {
+      "id": "076ad255234448a5b2adb3f8bd292acd",
+      "name": "Nikola",
+      "note": "Male, young. Conversational, professional, clear, confident. Serbian, as spoken in Serbia.",
+      "hue": "#4a1717",
+      "locale": "sr-RS",
+      "gender": "male",
+      "language": "sr",
+      "line": "RS · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/076ad255234448a5b2adb3f8bd292acd.webp"
+    },
+    {
+      "id": "a2f24930dcaa4264ac1eb5c486515b70",
+      "name": "Alice",
+      "note": "Female, young. Professional. Swedish, as spoken in Sweden.",
+      "hue": "#9b7a4d",
+      "locale": "sv-SE",
+      "gender": "female",
+      "language": "sv",
+      "line": "SE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a2f24930dcaa4264ac1eb5c486515b70.webp"
+    },
+    {
+      "id": "3782415457704e91a7fdcacff02255e5",
+      "name": "Erik",
+      "note": "Male, young. Professional. Swedish, as spoken in Sweden.",
+      "hue": "#a63b2a",
+      "locale": "sv-SE",
+      "gender": "male",
+      "language": "sv",
+      "line": "SE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3782415457704e91a7fdcacff02255e5.webp"
+    },
+    {
+      "id": "7e3f8c2db5f2441aa3f274ca08bc0c7a",
+      "name": "Alva",
+      "note": "Female, young. Conversational, professional, clear, confident. Swedish, as spoken in Sweden.",
+      "hue": "#4a3b27",
+      "locale": "sv-SE",
+      "gender": "female",
+      "language": "sv",
+      "line": "SE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7e3f8c2db5f2441aa3f274ca08bc0c7a.webp"
+    },
+    {
+      "id": "317a12a6485e4172a0e2222d369c08b2",
+      "name": "Elias",
+      "note": "Male, young. Conversational, professional, clear, confident. Swedish, as spoken in Sweden.",
+      "hue": "#7e2d1f",
+      "locale": "sv-SE",
+      "gender": "male",
+      "language": "sv",
+      "line": "SE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/317a12a6485e4172a0e2222d369c08b2.webp"
+    },
+    {
+      "id": "7703cd2a5d554907aadbbdc8cb76af78",
+      "name": "Juma",
+      "note": "Male, young. Conversational, professional, clear, confident. Swahili, as spoken in Kenya.",
+      "hue": "#4a3520",
+      "locale": "sw-KE",
+      "gender": "male",
+      "language": "sw",
+      "line": "KE · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7703cd2a5d554907aadbbdc8cb76af78.webp"
+    },
+    {
+      "id": "0935ee283103426a89bd14617a60eeee",
+      "name": "Zawadi",
+      "note": "Female, young. Conversational, professional, clear, confident. Swahili, as spoken in Kenya.",
+      "hue": "#8c6a3f",
+      "locale": "sw-KE",
+      "gender": "female",
+      "language": "sw",
+      "line": "KE · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0935ee283103426a89bd14617a60eeee.webp"
+    },
+    {
+      "id": "0e528439944c40ffab077a5e5952e67e",
+      "name": "காவ்யா Kavya",
+      "note": "Female, young. Conversational, professional, clear, confident. Tamil, as spoken in India.",
+      "hue": "#2e2214",
+      "locale": "ta-IN",
+      "gender": "female",
+      "language": "ta",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0e528439944c40ffab077a5e5952e67e.webp"
+    },
+    {
+      "id": "956b0d842f3947ad963cab5f892151a0",
+      "name": "விஜய் Vijay",
+      "note": "Male, young. Conversational, professional, clear, confident. Tamil, as spoken in India.",
+      "hue": "#2e2214",
+      "locale": "ta-IN",
+      "gender": "male",
+      "language": "ta",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/956b0d842f3947ad963cab5f892151a0.webp"
+    },
+    {
+      "id": "3c4f38ade425426192794d5731bbef36",
+      "name": "అర్జున్ Arjun",
+      "note": "Male, young. Conversational, professional, clear, confident. Telugu, as spoken in India.",
+      "hue": "#9b7a4d",
+      "locale": "te-IN",
+      "gender": "male",
+      "language": "te",
+      "line": "IN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3c4f38ade425426192794d5731bbef36.webp"
+    },
+    {
+      "id": "37eadcf844804e9b83d7fc931368114e",
+      "name": "శ్రావణి Sravani",
+      "note": "Female, young. Conversational, professional, clear, confident. Telugu, as spoken in India.",
+      "hue": "#9b7540",
+      "locale": "te-IN",
+      "gender": "female",
+      "language": "te",
+      "line": "IN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/37eadcf844804e9b83d7fc931368114e.webp"
+    },
+    {
+      "id": "132aae3eb8f044779dc104fca1ac1718",
+      "name": "Somchai",
+      "note": "Male, young. Professional. Thai, as spoken in Thailand.",
+      "hue": "#4a1717",
+      "locale": "th-TH",
+      "gender": "male",
+      "language": "th",
+      "line": "TH · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/132aae3eb8f044779dc104fca1ac1718.webp"
+    },
+    {
+      "id": "e0457cfd982542308a7908a2723e2574",
+      "name": "กัญญา",
+      "note": "Female, young. Professional. Thai, as spoken in Thailand.",
+      "hue": "#4a3b27",
+      "locale": "th-TH",
+      "gender": "female",
+      "language": "th",
+      "line": "TH · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e0457cfd982542308a7908a2723e2574.webp"
+    },
+    {
+      "id": "0b1181acb94d420ab74de43ee773f8d4",
+      "name": "ธนา Thana",
+      "note": "Male, young. Conversational, professional, clear, confident. Thai, as spoken in Thailand.",
+      "hue": "#795b38",
+      "locale": "th-TH",
+      "gender": "male",
+      "language": "th",
+      "line": "TH · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/0b1181acb94d420ab74de43ee773f8d4.webp"
+    },
+    {
+      "id": "f6ad7ed873f14e5a9f8e30c400a0a23f",
+      "name": "ปรียา Preeya",
+      "note": "Female, young. Conversational, professional, clear, confident. Thai, as spoken in Thailand.",
+      "hue": "#4a1717",
+      "locale": "th-TH",
+      "gender": "female",
+      "language": "th",
+      "line": "TH · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f6ad7ed873f14e5a9f8e30c400a0a23f.webp"
+    },
+    {
+      "id": "eb2b29a699424ba7b0edb046b79d28d3",
+      "name": "Miguel",
+      "note": "Male, young. Professional. Tagalog, as spoken in the Philippines.",
+      "hue": "#795b38",
+      "locale": "tl-PH",
+      "gender": "male",
+      "language": "tl",
+      "line": "PH · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/eb2b29a699424ba7b0edb046b79d28d3.webp"
+    },
+    {
+      "id": "3a88a7144fa64671affe11be01f332ad",
+      "name": "Teresita",
+      "note": "Female, young. Professional. Tagalog, as spoken in the Philippines.",
+      "hue": "#4a331c",
+      "locale": "tl-PH",
+      "gender": "female",
+      "language": "tl",
+      "line": "PH · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/3a88a7144fa64671affe11be01f332ad.webp"
+    },
+    {
+      "id": "5f612a848ad54f91a98622eef8a14b3b",
+      "name": "Andrea",
+      "note": "Female, young. Conversational, professional, clear, confident. Tagalog, as spoken in the Philippines.",
+      "hue": "#2e2214",
+      "locale": "tl-PH",
+      "gender": "female",
+      "language": "tl",
+      "line": "PH · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5f612a848ad54f91a98622eef8a14b3b.webp"
+    },
+    {
+      "id": "f84b266e9f44429fb6c8c970fd453f2e",
+      "name": "Paolo",
+      "note": "Male, young. Conversational, professional, clear, confident. Tagalog, as spoken in the Philippines.",
+      "hue": "#6d2922",
+      "locale": "tl-PH",
+      "gender": "male",
+      "language": "tl",
+      "line": "PH · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f84b266e9f44429fb6c8c970fd453f2e.webp"
+    },
+    {
+      "id": "1ae38c797dd8432694345e13bdb55e21",
+      "name": "Merve",
+      "note": "Female, young. Professional. Turkish, as spoken in Türkiye.",
+      "hue": "#4a3520",
+      "locale": "tr-TR",
+      "gender": "female",
+      "language": "tr",
+      "line": "TR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1ae38c797dd8432694345e13bdb55e21.webp"
+    },
+    {
+      "id": "7adfd2555965423eb5f2e2e5cf22d93b",
+      "name": "Baran",
+      "note": "Male. Professional. Turkish, as spoken in Türkiye.",
+      "hue": "#b98f55",
+      "locale": "tr-TR",
+      "gender": "male",
+      "language": "tr",
+      "line": "TR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7adfd2555965423eb5f2e2e5cf22d93b.webp"
+    },
+    {
+      "id": "c328a714ab184283bf166c527b598147",
+      "name": "Ceren",
+      "note": "Female. Conversational. Turkish, as spoken in Türkiye.",
+      "hue": "#6d2922",
+      "locale": "tr-TR",
+      "gender": "female",
+      "language": "tr",
+      "line": "TR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/c328a714ab184283bf166c527b598147.webp"
+    },
+    {
+      "id": "921a067af53a4e928ca014d8c53395e4",
+      "name": "Derya",
+      "note": "Female. Professional. Turkish, as spoken in Türkiye.",
+      "hue": "#2e2214",
+      "locale": "tr-TR",
+      "gender": "female",
+      "language": "tr",
+      "line": "TR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/921a067af53a4e928ca014d8c53395e4.webp"
+    },
+    {
+      "id": "01838aab01bf4f008fa0ece3113d0b8d",
+      "name": "Emre",
+      "note": "Male, young. Professional. Turkish, as spoken in Türkiye.",
+      "hue": "#9b7540",
+      "locale": "tr-TR",
+      "gender": "male",
+      "language": "tr",
+      "line": "TR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/01838aab01bf4f008fa0ece3113d0b8d.webp"
+    },
+    {
+      "id": "eea09230cdac44fdb466466e2d51d5d9",
+      "name": "Mehmet",
+      "note": "Male. Conversational. Turkish, as spoken in Türkiye.",
+      "hue": "#4a331c",
+      "locale": "tr-TR",
+      "gender": "male",
+      "language": "tr",
+      "line": "TR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/eea09230cdac44fdb466466e2d51d5d9.webp"
+    },
+    {
+      "id": "7bc8d9b40ebe4c4b997b63d470d7d361",
+      "name": "Mustafa",
+      "note": "Male. Professional. Turkish, as spoken in Türkiye.",
+      "hue": "#b98f55",
+      "locale": "tr-TR",
+      "gender": "male",
+      "language": "tr",
+      "line": "TR · Male",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7bc8d9b40ebe4c4b997b63d470d7d361.webp"
+    },
+    {
+      "id": "291c07c2539743b79acc3b7f85bde4ee",
+      "name": "Zeynep",
+      "note": "Female. Professional. Turkish, as spoken in Türkiye.",
+      "hue": "#795b38",
+      "locale": "tr-TR",
+      "gender": "female",
+      "language": "tr",
+      "line": "TR · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/291c07c2539743b79acc3b7f85bde4ee.webp"
+    },
+    {
+      "id": "979c28ed51854fb6ad98df0070861d09",
+      "name": "Elif",
+      "note": "Female, young. Conversational, professional, clear, confident. Turkish, as spoken in Türkiye.",
+      "hue": "#7e2d1f",
+      "locale": "tr-TR",
+      "gender": "female",
+      "language": "tr",
+      "line": "TR · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/979c28ed51854fb6ad98df0070861d09.webp"
+    },
+    {
+      "id": "778d117554c9470bb7c664a781fe13a5",
+      "name": "Kerem",
+      "note": "Male, young. Conversational, professional, clear, confident. Turkish, as spoken in Türkiye.",
+      "hue": "#2e2214",
+      "locale": "tr-TR",
+      "gender": "male",
+      "language": "tr",
+      "line": "TR · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/778d117554c9470bb7c664a781fe13a5.webp"
+    },
+    {
+      "id": "cdfaf39672e840019d9d8788fade19c4",
+      "name": "Остап Ostap",
+      "note": "Male, young. Conversational, professional, clear, confident. Ukrainian, as spoken in Ukraine.",
+      "hue": "#30271d",
+      "locale": "uk-UA",
+      "gender": "male",
+      "language": "uk",
+      "line": "UA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/cdfaf39672e840019d9d8788fade19c4.webp"
+    },
+    {
+      "id": "a34ffe8852f34de59f198630ffe641e1",
+      "name": "Соломія Solomiia",
+      "note": "Female, young. Conversational, professional, clear, confident. Ukrainian, as spoken in Ukraine.",
+      "hue": "#6e563a",
+      "locale": "uk-UA",
+      "gender": "female",
+      "language": "uk",
+      "line": "UA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a34ffe8852f34de59f198630ffe641e1.webp"
+    },
+    {
+      "id": "1737c90ee182475ebefdd4684b6ab1f6",
+      "name": "عائشہ Ayesha",
+      "note": "Female, young. Conversational, professional, clear, confident. Urdu, as spoken in Pakistan.",
+      "hue": "#7e2d1f",
+      "locale": "ur-PK",
+      "gender": "female",
+      "language": "ur",
+      "line": "PK · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1737c90ee182475ebefdd4684b6ab1f6.webp"
+    },
+    {
+      "id": "7a3572d4ca954981a2d605d7b362dcfc",
+      "name": "حمزہ Hamza",
+      "note": "Male, young. Conversational, professional, clear, confident. Urdu, as spoken in Pakistan.",
+      "hue": "#795b38",
+      "locale": "ur-PK",
+      "gender": "male",
+      "language": "ur",
+      "line": "PK · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/7a3572d4ca954981a2d605d7b362dcfc.webp"
+    },
+    {
+      "id": "db821a01fdcb4c1ab91d5f716a24bb9b",
+      "name": "Minh",
+      "note": "Male, young. Professional. Vietnamese, as spoken in Vietnam.",
+      "hue": "#2e2214",
+      "locale": "vi-VN",
+      "gender": "male",
+      "language": "vi",
+      "line": "VN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/db821a01fdcb4c1ab91d5f716a24bb9b.webp"
+    },
+    {
+      "id": "51a8ed94b23843818d9ceeb742c8767e",
+      "name": "Trang",
+      "note": "Female, young. Professional. Vietnamese, as spoken in Vietnam.",
+      "hue": "#6e563a",
+      "locale": "vi-VN",
+      "gender": "female",
+      "language": "vi",
+      "line": "VN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/51a8ed94b23843818d9ceeb742c8767e.webp"
+    },
+    {
+      "id": "df44848ce16847f7a89ccd9d45289dd1",
+      "name": "Minh Khôi",
+      "note": "Male, young. Conversational, professional, clear, confident. Vietnamese, as spoken in Vietnam.",
+      "hue": "#a63b2a",
+      "locale": "vi-VN",
+      "gender": "male",
+      "language": "vi",
+      "line": "VN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/df44848ce16847f7a89ccd9d45289dd1.webp"
+    },
+    {
+      "id": "f39f37c50b7b43959d01e5ec9747affe",
+      "name": "Thu Hà",
+      "note": "Female, young. Conversational, professional, clear, confident. Vietnamese, as spoken in Vietnam.",
+      "hue": "#4a3520",
+      "locale": "vi-VN",
+      "gender": "female",
+      "language": "vi",
+      "line": "VN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/f39f37c50b7b43959d01e5ec9747affe.webp"
+    },
+    {
+      "id": "72d420551bfb4c9eb7c0e861abc61268",
+      "name": "Folake",
+      "note": "Female, young. Conversational, professional, clear, confident. Yoruba, as spoken in Nigeria.",
+      "hue": "#8c6a3f",
+      "locale": "yo-NG",
+      "gender": "female",
+      "language": "yo",
+      "line": "NG · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/72d420551bfb4c9eb7c0e861abc61268.webp"
+    },
+    {
+      "id": "9b5174ea9da74fe8a170ec6f39eaebf0",
+      "name": "Tunde",
+      "note": "Male, young. Conversational, professional, clear, confident. Yoruba, as spoken in Nigeria.",
+      "hue": "#4a1717",
+      "locale": "yo-NG",
+      "gender": "male",
+      "language": "yo",
+      "line": "NG · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/9b5174ea9da74fe8a170ec6f39eaebf0.webp"
+    },
+    {
+      "id": "e7af89da8abc4fbdacd9a10ab9881933",
+      "name": "Chia-Hao",
+      "note": "Male, young. Professional. Chinese, as spoken in China.",
+      "hue": "#4a1717",
+      "locale": "zh-CN",
+      "gender": "male",
+      "language": "zh",
+      "line": "CN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e7af89da8abc4fbdacd9a10ab9881933.webp"
+    },
+    {
+      "id": "50c586f7c811466cac751c28c3e4a671",
+      "name": "詠詩 Wing Sze",
+      "note": "Female, young. Conversational, professional, clear, confident. Chinese, as spoken in Hong Kong.",
+      "hue": "#42331f",
+      "locale": "zh-HK",
+      "gender": "female",
+      "language": "zh",
+      "line": "HK · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/50c586f7c811466cac751c28c3e4a671.webp"
+    },
+    {
+      "id": "e98fa6cdad6946bf8d9bb8f9cb8c2532",
+      "name": "Bingbing",
+      "note": "Female. Professional. Chinese, as spoken in China.",
+      "hue": "#6d2922",
+      "locale": "zh-CN",
+      "gender": "female",
+      "language": "zh",
+      "line": "CN · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/e98fa6cdad6946bf8d9bb8f9cb8c2532.webp"
+    },
+    {
+      "id": "d675c275d1d44e57b4ef3840c5a23209",
+      "name": "Haoran",
+      "note": "Male, young. Professional. Chinese, as spoken in China.",
+      "hue": "#4a1717",
+      "locale": "zh-CN",
+      "gender": "male",
+      "language": "zh",
+      "line": "CN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/d675c275d1d44e57b4ef3840c5a23209.webp"
+    },
+    {
+      "id": "49066cb45f0a427484ade915a4474534",
+      "name": "Ya-Ting",
+      "note": "Female. Professional. Chinese, as spoken in China.",
+      "hue": "#4a3b27",
+      "locale": "zh-CN",
+      "gender": "female",
+      "language": "zh",
+      "line": "CN · Female",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/49066cb45f0a427484ade915a4474534.webp"
+    },
+    {
+      "id": "fc917a4b147145258519982fe306b2cf",
+      "name": "俊傑 Chun Kit",
+      "note": "Male, young. Conversational, professional, clear, confident. Chinese, as spoken in Hong Kong.",
+      "hue": "#9b7540",
+      "locale": "zh-HK",
+      "gender": "male",
+      "language": "zh",
+      "line": "HK · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/fc917a4b147145258519982fe306b2cf.webp"
+    },
+    {
+      "id": "1e85fd1e0d3e4cc2b79fbca800e7e3fe",
+      "name": "承翰 Chenghan",
+      "note": "Male, young. Conversational, professional, clear, confident. Chinese, as spoken in Taiwan.",
+      "hue": "#42331f",
+      "locale": "zh-TW",
+      "gender": "male",
+      "language": "zh",
+      "line": "TW · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/1e85fd1e0d3e4cc2b79fbca800e7e3fe.webp"
+    },
+    {
+      "id": "5d29a99739c14d4ca3e4fe42193105b2",
+      "name": "梓轩 Zixuan",
+      "note": "Male, young. Conversational, professional, clear, confident. Chinese, as spoken in China.",
+      "hue": "#9b7a4d",
+      "locale": "zh-CN",
+      "gender": "male",
+      "language": "zh",
+      "line": "CN · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/5d29a99739c14d4ca3e4fe42193105b2.webp"
+    },
+    {
+      "id": "91ec588cf8ef443a9c0d5b21d0c1fa36",
+      "name": "詩涵 Shihan",
+      "note": "Female, young. Conversational, professional, clear, confident. Chinese, as spoken in Taiwan.",
+      "hue": "#7e2d1f",
+      "locale": "zh-TW",
+      "gender": "female",
+      "language": "zh",
+      "line": "TW · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/91ec588cf8ef443a9c0d5b21d0c1fa36.webp"
+    },
+    {
+      "id": "74c6aba5cbf94a15bbdc547ffce5cb38",
+      "name": "语彤 Yutong",
+      "note": "Female, young. Conversational, professional, clear, confident. Chinese, as spoken in China.",
+      "hue": "#b98f55",
+      "locale": "zh-CN",
+      "gender": "female",
+      "language": "zh",
+      "line": "CN · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/74c6aba5cbf94a15bbdc547ffce5cb38.webp"
+    },
+    {
+      "id": "a00a17b7797943eaa26fa5f9990bd8a8",
+      "name": "Nomsa",
+      "note": "Female, young. Conversational, professional, clear, confident. Zulu, as spoken in South Africa.",
+      "hue": "#30271d",
+      "locale": "zu-ZA",
+      "gender": "female",
+      "language": "zu",
+      "line": "ZA · Female, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/a00a17b7797943eaa26fa5f9990bd8a8.webp"
+    },
+    {
+      "id": "8e1cab30b15040898d204d7aa8fa21df",
+      "name": "Sipho",
+      "note": "Male, young. Conversational, professional, clear, confident. Zulu, as spoken in South Africa.",
+      "hue": "#a63b2a",
+      "locale": "zu-ZA",
+      "gender": "male",
+      "language": "zu",
+      "line": "ZA · Male, young",
+      "portrait": "https://www.romanreads.com/assets/narrators/live/8e1cab30b15040898d204d7aa8fa21df.webp"
+    }
+  ],
+  "featured": [
+    "933563129e564b19a115bedd57b7406a",
+    "bf322df2096a46f18c579d0baa36f41d",
+    "b347db033a6549378b48d00acb0d06cd",
+    "79d0bd3e4e5444b18f7b6d89b5927bf1",
+    "e3cd384158934cc9a01029cd7d278634"
+  ],
+  "languages": [
+    {
+      "code": "en",
+      "label": "English",
+      "count": 72
+    },
+    {
+      "code": "af",
+      "label": "Afrikaans",
+      "count": 2
+    },
+    {
+      "code": "sq",
+      "label": "Albanian",
+      "count": 2
+    },
+    {
+      "code": "am",
+      "label": "Amharic",
+      "count": 2
+    },
+    {
+      "code": "ar",
+      "label": "Arabic",
+      "count": 10
+    },
+    {
+      "code": "hy",
+      "label": "Armenian",
+      "count": 2
+    },
+    {
+      "code": "az",
+      "label": "Azerbaijani",
+      "count": 2
+    },
+    {
+      "code": "bn",
+      "label": "Bengali",
+      "count": 2
+    },
+    {
+      "code": "bg",
+      "label": "Bulgarian",
+      "count": 2
+    },
+    {
+      "code": "my",
+      "label": "Burmese",
+      "count": 2
+    },
+    {
+      "code": "ca",
+      "label": "Catalan",
+      "count": 2
+    },
+    {
+      "code": "zh",
+      "label": "Chinese",
+      "count": 10
+    },
+    {
+      "code": "hr",
+      "label": "Croatian",
+      "count": 2
+    },
+    {
+      "code": "cs",
+      "label": "Czech",
+      "count": 4
+    },
+    {
+      "code": "da",
+      "label": "Danish",
+      "count": 4
+    },
+    {
+      "code": "nl",
+      "label": "Dutch",
+      "count": 5
+    },
+    {
+      "code": "et",
+      "label": "Estonian",
+      "count": 2
+    },
+    {
+      "code": "fi",
+      "label": "Finnish",
+      "count": 4
+    },
+    {
+      "code": "fr",
+      "label": "French",
+      "count": 10
+    },
+    {
+      "code": "ka",
+      "label": "Georgian",
+      "count": 2
+    },
+    {
+      "code": "de",
+      "label": "German",
+      "count": 10
+    },
+    {
+      "code": "el",
+      "label": "Greek",
+      "count": 4
+    },
+    {
+      "code": "gu",
+      "label": "Gujarati",
+      "count": 2
+    },
+    {
+      "code": "ha",
+      "label": "Hausa",
+      "count": 2
+    },
+    {
+      "code": "he",
+      "label": "Hebrew",
+      "count": 2
+    },
+    {
+      "code": "hi",
+      "label": "Hindi",
+      "count": 4
+    },
+    {
+      "code": "hu",
+      "label": "Hungarian",
+      "count": 4
+    },
+    {
+      "code": "is",
+      "label": "Icelandic",
+      "count": 2
+    },
+    {
+      "code": "id",
+      "label": "Indonesian",
+      "count": 4
+    },
+    {
+      "code": "it",
+      "label": "Italian",
+      "count": 4
+    },
+    {
+      "code": "ja",
+      "label": "Japanese",
+      "count": 11
+    },
+    {
+      "code": "kn",
+      "label": "Kannada",
+      "count": 2
+    },
+    {
+      "code": "kk",
+      "label": "Kazakh",
+      "count": 2
+    },
+    {
+      "code": "ko",
+      "label": "Korean",
+      "count": 18
+    },
+    {
+      "code": "lv",
+      "label": "Latvian",
+      "count": 2
+    },
+    {
+      "code": "lt",
+      "label": "Lithuanian",
+      "count": 2
+    },
+    {
+      "code": "ms",
+      "label": "Malay",
+      "count": 4
+    },
+    {
+      "code": "ml",
+      "label": "Malayalam",
+      "count": 2
+    },
+    {
+      "code": "mr",
+      "label": "Marathi",
+      "count": 2
+    },
+    {
+      "code": "ne",
+      "label": "Nepali",
+      "count": 2
+    },
+    {
+      "code": "nb",
+      "label": "Norwegian",
+      "count": 2
+    },
+    {
+      "code": "fa",
+      "label": "Persian",
+      "count": 2
+    },
+    {
+      "code": "pl",
+      "label": "Polish",
+      "count": 4
+    },
+    {
+      "code": "pt",
+      "label": "Portuguese",
+      "count": 8
+    },
+    {
+      "code": "pa",
+      "label": "Punjabi",
+      "count": 2
+    },
+    {
+      "code": "ro",
+      "label": "Romanian",
+      "count": 4
+    },
+    {
+      "code": "ru",
+      "label": "Russian",
+      "count": 5
+    },
+    {
+      "code": "sr",
+      "label": "Serbian",
+      "count": 2
+    },
+    {
+      "code": "si",
+      "label": "Sinhala",
+      "count": 2
+    },
+    {
+      "code": "sk",
+      "label": "Slovak",
+      "count": 2
+    },
+    {
+      "code": "es",
+      "label": "Spanish",
+      "count": 37
+    },
+    {
+      "code": "sw",
+      "label": "Swahili",
+      "count": 2
+    },
+    {
+      "code": "sv",
+      "label": "Swedish",
+      "count": 4
+    },
+    {
+      "code": "tl",
+      "label": "Tagalog",
+      "count": 4
+    },
+    {
+      "code": "ta",
+      "label": "Tamil",
+      "count": 2
+    },
+    {
+      "code": "te",
+      "label": "Telugu",
+      "count": 2
+    },
+    {
+      "code": "th",
+      "label": "Thai",
+      "count": 4
+    },
+    {
+      "code": "tr",
+      "label": "Turkish",
+      "count": 10
+    },
+    {
+      "code": "uk",
+      "label": "Ukrainian",
+      "count": 2
+    },
+    {
+      "code": "ur",
+      "label": "Urdu",
+      "count": 2
+    },
+    {
+      "code": "vi",
+      "label": "Vietnamese",
+      "count": 4
+    },
+    {
+      "code": "yo",
+      "label": "Yoruba",
+      "count": 2
+    },
+    {
+      "code": "zu",
+      "label": "Zulu",
+      "count": 2
+    }
+  ]
+}

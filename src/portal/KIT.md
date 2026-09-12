@@ -102,14 +102,33 @@ golden — that is the Next.js dev-tools badge on the local site, not chrome
 | `ROOMS, SLOTS, SHEET_KEYS, roomByKey` (src/nav/rooms) | — | `PORTAL_NAV`, `SLOTS`, `SHEET_KEYS` | Verbatim; the coverage assertion runs at import. |
 
 **The deck** (`src/lib/audioStore`): one player above the router. `useDeck()`
-gives `now, playing, position, duration, loading, finished, spots` and
-`playBand(slug, band?, at?)`, `begin(slug)` (the site's beginBook — where the
-book was left, or the top if it was played through; a title already on the
-platter resumes), `toggle, seekTo, nudge, step, stop, rate, setRate`. The
-needle's memory (`ListeningSpot` per slug under `rr-listening`, the site's
+gives `now` (`{slug, band, voice}`), `recording, chapter, playing, position,
+duration, loading, finished, spots` and `playBand(slug, band?, at?)`,
+`begin(slug)` (the site's beginBook — where the book was left, or the top if
+it was played through; a title already on the platter resumes), `playAt(slug,
+band, seconds)` (a finger on a word: no restart), `toggle, seekTo, nudge,
+step, stop, rate, setRate`; the turntable — `voice, voices, setNarrator(id)`
+(the needle restated by the ratio of the two pressings' run lengths, landed
+through a parked seek once the NEW player is loaded; `chaptersOf(rec, voice)`
+picks a pressing's chapters); the shop door — `locked` (the site's
+listeningLocked: a guest pass or nobody signed in), `say` (`{text, bad}`,
+"Listening needs an account." — muted on arrival, brick after a refused tap;
+the console adds the "Sign up to listen." link), `voiceLocked(id)` (a live
+voice is the subscription's; TODO reader_subscriptions); and the read-along's
+clock — `useFastPosition()` subscribes ONE component to a 100ms sample of the
+player's own time (`subscribePosition`), so the gilt lands on every word while
+`position` and everything else stays at the player's 500ms. The needle's
+memory (`ListeningSpot` per slug under `rr-listening`, the site's
 `state.listening` shape) is stamped by the provider itself on every band
 change, pause, resume and every 5s while playing; `readSpots()`,
 `heardSeconds()`, `resumable()` build the Continue-listening shelf.
+
+**The opened volume** (`src/portal/reader/`): `Reader` is the frame (modal,
+rail, state, wiring); `Codex` the leaf (boards, pages, gilt, pinch, tap-to-
+seek); `Console` the torn tail band; `VoiceSheet`, `SpeedSheet`, `LampSheet`,
+`TypeSheet` the sheets; `Contents` the chapters / bookmarks drawer. Each
+file's header names its site classes. The narrator directory is baked by
+`reader/gen-narrators.mjs` (run from the site root) into `reader/narrators.json`.
 
 **The session** (`src/lib/session`): `user, booting, guest, reader` (the
 readers row, hydrated once per signed-in reader — card_no, name, langs, the
