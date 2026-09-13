@@ -32,6 +32,25 @@ const GUEST_EMAIL = "guest@roman.reads";
  *  of reader drops the last reader's, as portalClient.ts's clearSession /
  *  adoptSession do with rr-account-owner. */
 const STATE_KEY = "rr-account-state";
+/** A DEVELOPMENT SEAM, and nothing else: a signed-in reader seeded by a test
+ *  rig (the parity walk) under this key — `{ id, email, name }` — walks in
+ *  as if the keychain held their token. Read only in a dev bundle, never
+ *  written by the app, and swept at sign-out. Nothing behind it can reach
+ *  Supabase (no token), which is the point: the rooms, the deck and the
+ *  console for a reader, without a live account on the desk. */
+const TEST_USER_KEY = "rr-test-user";
+
+async function readTestUser(): Promise<AuthUser | null> {
+  if (!__DEV__) return null;
+  try {
+    const raw = await cache.get(TEST_USER_KEY);
+    const u = raw ? (JSON.parse(raw) as Partial<AuthUser>) : null;
+    if (!u || typeof u.id !== "string" || !u.id || typeof u.email !== "string") return null;
+    return { id: u.id, email: u.email, name: typeof u.name === "string" ? u.name : "" };
+  } catch {
+    return null;
+  }
+}
 
 /**
  * The reader's own row — what portalClient.hydrate() brings down
@@ -124,6 +143,11 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         // under the name the guest gave it, if any (the pass is the guest's
         // only record).
         if (!u) {
+          const test = await readTestUser();
+          if (test) {
+            if (alive) setUser(test);
+            return;
+          }
           const stored = await readStored();
           if (stored?.guest) {
             if (alive) {
@@ -161,6 +185,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const signOut = useCallback(async () => {
     await authSignOut();
     await cache.remove(GUEST_KEY);
+    if (__DEV__) await cache.remove(TEST_USER_KEY);
     // A guest's memory leaves with the guest; a reader's stays for the next
     // sign-in on this device, keyed to them (the site's clearSession keeps a
     // reader's rr-account-state too, and adoptSession drops it on a new owner).

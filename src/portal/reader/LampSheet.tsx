@@ -3,10 +3,11 @@
 // `.rr-lr-menu-row` (`[data-rr-lr-lamp-set]`, `[data-rr-lr-lamp-add]`,
 // `[data-rr-lr-lamp-off]`), `.rr-lr-lamp-line`, `.rr-lr-menu-foot`.
 //
-// Site: app/data/accountListeningPage.ts (markup and rules at the ≤620px
-// branch); behaviour in app/components/ListeningEnhancer.tsx — paintLamp,
-// setSleep, extendSleep — and the stage lamp that dims as the timer runs
-// down (`.rr-lr-reader[data-lamp="75|50|30"] .rr-lr-lamp`).
+// Site: app/data/accountListeningPage.ts (markup and rules at the ≤900px
+// branch); behaviour in app/components/ListeningEnhancer.tsx — paintLamp
+// ("stops at the end of this chapter" / "stops in m:ss"), setSleep,
+// extendSleep — and the stage lamp that dims as the timer runs down
+// (`.rr-lr-reader[data-lamp="75|50|30"] .rr-lr-lamp`).
 //
 // THE PHONE CONSOLE HAS NO OPENER for this sheet on the site: the lamp's
 // button left the console when it became five slots, and the sheet is
@@ -16,24 +17,28 @@
 //
 // The timer itself — pausing playback when it lands, and the lamp dimming
 // through 75/50/30 — is the frame's (`lamp` state) and still a TODO: this
-// sheet only sets and clears the request.
+// sheet only sets and clears the request. The sheet's chrome is
+// console/Sheet.tsx's, shared with the dial's and the type sheet.
 
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
-import { useInk, em } from "../../theme/ink";
-import { FONTS } from "../../theme/type";
+import { mmss } from "../../lib/audioStore";
+import { FONTS, lh } from "../../theme/type";
+import { deckInk } from "./console/ink";
+import { MenuFoot, MenuHead, MenuRow, Sheet } from "./console/Sheet";
 
 /** What the reader asked for: the end of this chapter, or minutes from now. */
 export type Lamp = { kind: "band" } | { kind: "at"; endsAt: number } | null;
 
 const MINUTES = [15, 30, 45, 60];
 
-/** paintLamp's line: "pauses at the end of this chapter" / "pauses in 14 min". */
-const lampLine = (lamp: Lamp): string => {
+/** paintLamp's line. */
+const lampLine = (lamp: Lamp, nowMs: number): string => {
   if (!lamp) return " ";
-  if (lamp.kind === "band") return "pauses at the end of this chapter";
-  const left = Math.max(0, Math.round((lamp.endsAt - Date.now()) / 60000));
-  return `pauses in ${left} min`;
+  if (lamp.kind === "band") return "stops at the end of this chapter";
+  const remain = Math.max(0, Math.round((lamp.endsAt - nowMs) / 1000));
+  return `stops in ${mmss(remain)}`;
 };
 
 export function LampSheet({
@@ -43,7 +48,6 @@ export function LampSheet({
   lamp,
   setLamp,
   bottom,
-  maxHeight,
 }: {
   open: boolean;
   onClose: () => void;
@@ -51,126 +55,82 @@ export function LampSheet({
   lamp: Lamp;
   setLamp: (next: Lamp) => void;
   bottom: number;
-  maxHeight: number;
+  /** The frame's cap; the sheet keeps the site's own (`min(58vh,470px)`). */
+  maxHeight?: number;
 }) {
-  const { ink } = useInk();
-  if (!open) return null;
+  const ink = deckInk(night);
 
-  const inkHead = night ? "#F4EBD6" : "#0B0A08";
-  const inkBody = night ? "#F4EBD6" : "#171411";
-  const inkMuted = night ? "rgba(240,229,207,.62)" : "rgba(11,10,8,.6)";
-
-  const Row = ({ label, note, onPress }: { label: string; note?: string; onPress: () => void }) => (
-    <Pressable onPress={onPress} accessibilityRole="button" style={[styles.row, { borderBottomColor: ink(0.1) }]}>
-      <Text style={[styles.rowLabel, { color: inkBody }]}>{label}</Text>
-      {note ? <Text style={[styles.rowNote, { color: inkMuted }]}>{note}</Text> : null}
-    </Pressable>
-  );
+  // the armed line counts down while the sheet is open (the site repaints it
+  // on the store's tick)
+  const [nowMs, setNowMs] = useState(Date.now());
+  useEffect(() => {
+    if (!open || lamp?.kind !== "at") return;
+    const id = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [open, lamp]);
 
   return (
-    <>
-      <Pressable style={styles.scrim} onPress={onClose} accessibilityLabel="Close" />
-      <View
-        style={[styles.sheet, night ? styles.sheetNight : styles.sheetDay, { bottom, maxHeight }]}
-        accessibilityLabel="Sleep timer"
-      >
-        <Pressable onPress={onClose} style={styles.grab} accessibilityRole="button" accessibilityLabel="Close">
-          <View style={[styles.grabBar, { backgroundColor: ink(0.28) }]} />
-        </Pressable>
+    <Sheet open={open} onClose={onClose} night={night} bottom={bottom} label="Sleep timer">
+      <MenuHead night={night}>Sleep timer</MenuHead>
 
-        {/* .rr-lr-menu-h — the card's own head, ruled under */}
-        <Text style={[styles.menuH, { color: inkHead, borderBottomColor: night ? "rgba(201,166,98,.35)" : "rgba(110,86,58,.3)" }]}>
-          Sleep timer
-        </Text>
-
-        {!lamp ? (
-          <View>
-            <Row
-              label="at the end of this chapter"
-              note="whichever one is playing then"
+      {!lamp ? (
+        <View>
+          <MenuRow
+            night={night}
+            first
+            label="at the end of this chapter"
+            note="whichever one is playing then"
+            onPress={() => {
+              setLamp({ kind: "band" });
+              onClose();
+            }}
+          />
+          {MINUTES.map((m) => (
+            <MenuRow
+              key={m}
+              night={night}
+              label={`in ${m} minutes`}
               onPress={() => {
-                setLamp({ kind: "band" });
+                setLamp({ kind: "at", endsAt: Date.now() + m * 60000 });
                 onClose();
               }}
             />
-            {MINUTES.map((m) => (
-              <Row
-                key={m}
-                label={`in ${m} minutes`}
-                onPress={() => {
-                  setLamp({ kind: "at", endsAt: Date.now() + m * 60000 });
-                  onClose();
-                }}
-              />
-            ))}
-          </View>
-        ) : (
-          <View>
-            <Text style={[styles.lampLine, { color: inkHead }]}>{lampLine(lamp)}</Text>
-            <Row
-              label="+15 minutes"
-              onPress={() =>
-                setLamp(
-                  lamp.kind === "at"
-                    ? { kind: "at", endsAt: lamp.endsAt + 15 * 60000 }
-                    : { kind: "at", endsAt: Date.now() + 15 * 60000 },
-                )
-              }
-            />
-            <Row
-              label="Turn the timer off"
-              onPress={() => {
-                setLamp(null);
-                onClose();
-              }}
-            />
-          </View>
-        )}
+          ))}
+        </View>
+      ) : (
+        <View>
+          {/* .rr-lr-lamp-line — Cormorant 19px, tabular, 4 under */}
+          <Text style={[styles.lampLine, { color: ink.head }]}>{lampLine(lamp, nowMs)}</Text>
+          {/* the site's extendSleep: only a MINUTES timer extends, and from
+              now if its deadline has already passed; a chapter's-end timer
+              is left as it is */}
+          <MenuRow
+            night={night}
+            label="+15 minutes"
+            onPress={() => {
+              if (lamp.kind !== "at") return;
+              setLamp({ kind: "at", endsAt: Math.max(lamp.endsAt, Date.now()) + 15 * 60000 });
+            }}
+          />
+          <MenuRow
+            night={night}
+            label="Turn the timer off"
+            onPress={() => {
+              setLamp(null);
+              onClose();
+            }}
+          />
+        </View>
+      )}
 
-        {/* .rr-lr-menu-foot */}
-        <Text style={[styles.foot, { color: inkMuted }]}>playback pauses; your place is kept.</Text>
-      </View>
-    </>
+      <MenuFoot>playback pauses; your place is kept.</MenuFoot>
+    </Sheet>
   );
 }
 
 /* -------------------------------------------------------------- styles --- */
 
 const styles = StyleSheet.create({
-  scrim: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(11,10,8,.28)" },
-  sheet: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    borderTopLeftRadius: 14,
-    borderTopRightRadius: 14,
-    paddingHorizontal: 20,
-    paddingBottom: 24,
-    shadowColor: "#362A1C",
-    shadowOpacity: 0.28,
-    shadowRadius: 16,
-    shadowOffset: { width: 0, height: -6 },
-    elevation: 8,
-  },
-  sheetDay: { backgroundColor: "#FFFEFC" },
-  sheetNight: { backgroundColor: "#1D2537" },
-  grab: { alignItems: "center", paddingTop: 10, paddingBottom: 6 },
-  grabBar: { width: 36, height: 4, borderRadius: 2 },
-  // .rr-lr-menu-h — the card's own head, ruled under
-  menuH: {
-    fontFamily: FONTS.serifMedium,
-    fontSize: 14.5,
-    letterSpacing: em(14.5, 0.16),
-    fontVariant: ["small-caps"],
-    paddingTop: 8,
-    paddingBottom: 8,
-    borderBottomWidth: 1,
-  },
-  // .rr-lr-menu-row — a full-width row, the note in italics beside it
-  row: { paddingVertical: 12, borderBottomWidth: 1, flexDirection: "row", alignItems: "baseline", gap: 8, flexWrap: "wrap" },
-  rowLabel: { fontFamily: FONTS.serif, fontSize: 16 },
-  rowNote: { fontFamily: FONTS.serifItalicLight, fontSize: 13.5 },
-  // .rr-lr-lamp-line — Cormorant 19px, tabular
-  lampLine: { fontFamily: FONTS.serifRegular, fontSize: 19, fontVariant: ["tabular-nums"], paddingTop: 10, paddingBottom: 4 },
-  foot: { fontFamily: FONTS.sans, fontSize: 11.5, lineHeight: 16.5, paddingTop: 12 },
+  // .rr-lr-lamp-line{margin:0 0 4px;font-size:19px;font-variant-numeric:tabular-nums}
+  lampLine: { marginBottom: 4, fontFamily: FONTS.serifRegular, fontSize: 19, lineHeight: lh("Cormorant Garamond", 19), fontVariant: ["tabular-nums"] },
 });

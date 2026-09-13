@@ -63,7 +63,10 @@ export function Rule({
           : line.dashed);
   const [len, setLen] = useState(0);
   const dash =
-    kind === "solid" ? undefined : kind === "dotted" ? "1 2" : chromeDashes(len, thickness);
+    // Chrome paints a 1px dotted border one pixel on, one off (measured on the
+    // contents drawer's leader: dots at x=210,212,214…) — a dot's width for
+    // the dot and the same for the gap, at any thickness
+    kind === "solid" ? undefined : kind === "dotted" ? `${thickness} ${thickness}` : chromeDashes(len, thickness);
   const vertical = axis === "vertical";
 
   return (

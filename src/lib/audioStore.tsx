@@ -62,7 +62,9 @@ import {
 } from "react";
 
 import shelf from "../data/listeningShelf.json";
+import { useStanding, voiceInForce } from "../portal/reader/voice/standing";
 import { audioUrl } from "./audioResolve";
+import { GUEST_OWNER, ownerOf, type Owner } from "./portalState";
 import { useSession } from "./session";
 import { cache } from "./storage";
 
@@ -124,6 +126,9 @@ const PRESSED_IDS = new Set(
   Object.values(RECORDINGS).flatMap((r) => Object.keys(r.pressings ?? {})),
 );
 
+/** The ids this book was pressed in — what voiceInForce() may choose from. */
+const pressedIds = (rec: Recording): string[] => Object.keys(rec.pressings ?? {});
+
 /* ----------------------------------------------------------- the spots --- */
 
 /** The site's ListeningSpot: `chapter` is the band index, `seconds` the
@@ -137,6 +142,10 @@ export type ListeningSpot = {
   at: number;
   listenedS?: number;
   finishedAt?: number;
+  /** Which pressing these numbers refer to — the site's `editionId` (the
+   *  voice id here, which is what a pressing is keyed by). A spot from the
+   *  other pressing is restated onto this clock (see fitSpot). */
+  editionId?: string;
 };
 
 export type Spots = Record<string, ListeningSpot>;
@@ -144,6 +153,11 @@ export type Spots = Record<string, ListeningSpot>;
 /** portalShared.ts PORTAL_STATE_KEY carries the whole state on the web; the
  *  app keeps the one slice it has under its own key. */
 const SPOTS_KEY = "rr-listening";
+/** Whose spots they are — the site's rr-account-owner, for this slice. A
+ *  change of owner (a guest after a reader, a reader after a guest, reader B
+ *  after reader A) drops the last owner's needle positions, as the site's
+ *  adoptSession / clearSession do with the state they ride in there. */
+const SPOTS_OWNER_KEY = "rr-listening-owner";
 
 export async function readSpots(): Promise<Spots> {
   try {
@@ -161,6 +175,7 @@ export async function readSpots(): Promise<Spots> {
         at: typeof s.at === "number" ? s.at : 0,
         ...(typeof s.listenedS === "number" ? { listenedS: s.listenedS } : {}),
         ...(typeof s.finishedAt === "number" ? { finishedAt: s.finishedAt } : {}),
+        ...(typeof s.editionId === "string" && s.editionId ? { editionId: s.editionId } : {}),
       };
     }
     return out;
@@ -205,6 +220,32 @@ export const resumable = (spots: Spots): { slug: string; spot: ListeningSpot; bo
 const fits = (spot: ListeningSpot | undefined, book: Recording): boolean =>
   !!spot && spot.chapter >= 0 && spot.chapter < book.chapters.length;
 
+/**
+ * The site's spotOnPressing, the other half: a spot stamped on the OTHER
+ * pressing is restated onto this one's clock by the ratio of the two
+ * chapters' run lengths (every pressing reads the same text in the same
+ * chapters — only the clock differs), so a resume on the pressing the reader
+ * has since chosen lands on the same sentence. A spot with no edition stamp
+ * (from before the deck stamped one) is trusted as it stands.
+ */
+const fitSpot = (
+  spot: ListeningSpot | undefined,
+  book: Recording,
+  voice: string | null,
+): { band: number; seconds: number } | null => {
+  if (!fits(spot, book)) return null;
+  const s = spot!;
+  if (!s.editionId || !voice || s.editionId === voice) return { band: s.chapter, seconds: s.seconds };
+  const from = chaptersOf(book, s.editionId)[s.chapter];
+  const to = chaptersOf(book, voice)[s.chapter];
+  if (!from || !to) return { band: s.chapter, seconds: s.seconds };
+  const seconds =
+    from.duration && from.duration !== to.duration
+      ? Math.max(0, Math.min(to.duration, s.seconds * (to.duration / from.duration)))
+      : Math.max(0, Math.min(to.duration, s.seconds));
+  return { band: s.chapter, seconds };
+};
+
 /* ------------------------------------------------------------- the deck --- */
 
 type Now = { slug: string; band: number; voice: string | null } | null;
@@ -236,9 +277,13 @@ export type DeckValue = {
    * lengths rather than reset — the web's setNarrator, in the hand.
    */
   setNarrator: (voiceId: string) => void;
-  /** Drop the needle on a book at a given band, and optionally a second into
-   *  it — the seek waits for the chapter to load (a seek on a player that has
-   *  not loaded its source is a seek the platform drops). */
+  /** THE SITE'S playBand (app/components/audioStore.ts 662): the band on
+   *  the platter tapped again, with no `at`, is play / pause; any other band
+   *  is cued — in the pressing already in force for this book, else the
+   *  reader's standing choice (voice/standing.ts voiceInForce), resuming at
+   *  the ledger's seconds when the ledger rests in that band — and played.
+   *  The seek waits for the chapter to load (a seek on a player that has not
+   *  loaded its source is a seek the platform drops). */
   playBand: (slug: string, band?: number, at?: number) => void;
   /**
    * Drop the needle at an exact spot in a band — what a finger on a printed
@@ -267,9 +312,16 @@ export type DeckValue = {
   spots: Spots;
   /** The site's listeningLocked: a guest pass, or nobody signed in. */
   locked: boolean;
+  /** The site's refuseLocked: in a locked room, say so (the sentence goes
+   *  brick) and answer true — `if (refuse()) return;` in front of anything
+   *  that would put a record on. Every deck verb calls it itself; this is for
+   *  a control that refuses without one (a locked live reader's label). */
+  refuse: () => boolean;
   /** What the console prints under the groove, and whether it is a refusal
-   *  (brick, 600) or a muted notice. Null when there is nothing to say. */
-  say: { text: string; bad: boolean } | null;
+   *  (brick, 600) or a muted notice. `n` COUNTS the refusals, so a console
+   *  mounted after some can tell a new one from the standing ink (it reads
+   *  the rise since its mount). Null when there is nothing to say. */
+  say: { text: string; bad: boolean; n: number } | null;
   /** Is THIS voice off limits: a live reader is the subscription's; a
    *  pressed one is free to a signed-in reader; everything is shut to a guest. */
   voiceLocked: (voiceId: string) => boolean;
@@ -305,22 +357,32 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const uri = chapter ? audioUrl(chapter.src) : null;
 
   /* --- the shop door --- */
-  const { guest, user } = useSession();
+  const { guest, user, booting } = useSession();
   const locked = guest || !user;
   const lockedRef = useRef(locked);
   lockedRef.current = locked;
-  const [refused, setRefused] = useState(false);
+  // COUNTED, not latched: a console mounted over a room already refused once
+  // reads the rise since its mount, so a refusal from any control — the big
+  // key, a contents row, a locked live reader — turns its line brick.
+  const [refused, setRefused] = useState(0);
   // Refuse, visibly. Returns true when it refused, so a caller reads
   // `if (refuse()) return;` — the site's refuseLocked.
   const refuse = useCallback((): boolean => {
     if (!lockedRef.current) return false;
-    setRefused(true);
+    setRefused((n) => n + 1);
     return true;
   }, []);
   // A sign-in unlocks the room and the refusal ink goes with it.
   useEffect(() => {
-    if (!locked) setRefused(false);
+    if (!locked) setRefused(0);
   }, [locked]);
+
+  // THE READER'S STANDING NARRATOR — the site's audioVoice, kept by
+  // voice/standing.ts under the portal state's key. Hydrated here for this
+  // owner so playBand / playAt can ask voiceInForce() for the pressing to
+  // drop, before the narrator sheet has ever been opened.
+  const owner: Owner = booting ? "" : guest ? GUEST_OWNER : ownerOf(user?.id);
+  useStanding(owner || GUEST_OWNER);
 
   // The documented path: hand the hook the source and let it own loading.
   // (An earlier version created the player sourceless and fed it replace() —
@@ -406,6 +468,41 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  // WHOSE NEEDLE. The spots are stamped with their owner; a different owner
+  // (a reader after a guest, a guest after a reader, reader B after A) starts
+  // from nothing — the site drops the state a new owner would otherwise
+  // inherit, and a "continue listening" shelf that shows the last reader's
+  // books is the leak that rule exists to stop. Nobody signed in (the wall)
+  // is not an owner: the stamp stands until the next one walks in.
+  useEffect(() => {
+    if (!owner) return;
+    let alive = true;
+    void (async () => {
+      const was = await cache.get(SPOTS_OWNER_KEY);
+      if (!alive) return;
+      if (was && was !== owner) {
+        await cache.set(SPOTS_KEY, "{}");
+        if (!alive) return;
+        spotsRef.current = {};
+        setSpots({});
+      }
+      if (was !== owner) await cache.set(SPOTS_OWNER_KEY, owner);
+    })();
+    return () => {
+      alive = false;
+    };
+  }, [owner]);
+
+  // The pass handed back under a playing record: the site unloads the
+  // platter outright at sign-out. Nothing a guest can hear stays audible.
+  useEffect(() => {
+    if (locked && now) {
+      setWantPlay(false);
+      setNow(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [locked]);
+
   // Auto-advance — roll into the next chapter, and stop cleanly at the end of
   // the book rather than looping; the spot takes `finishedAt`, so the next
   // begin() starts it from the top.
@@ -451,18 +548,54 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     if (p.seconds > 0) player.seekTo(Math.min(p.seconds, status.duration));
   }, [now, status.isLoaded, status.duration, player]);
 
+  // THE PRESSING TO DROP — the site's loadBand: `opts.voice ?? (st.slug ===
+  // slug ? st.voiceId : null) ?? narratorFor(slug)`. The one already on the
+  // platter for this book, else the reader's standing choice (a narrator
+  // chosen while browsing, or on another book), else the house's default.
+  const voiceFor = useCallback(
+    (slug: string, rec: Recording): string | null =>
+      now?.slug === slug ? now.voice : voiceInForce(slug, pressedIds(rec), rec.voiceId ?? null),
+    [now],
+  );
+
+  // wantPlay as the intent, so a play/pause on the platter's own band can
+  // read it inside a callback keyed on `now` alone
+  const wantRef = useRef(wantPlay);
+  wantRef.current = wantPlay;
+  const playingRef = useRef(false);
+
   const playBand = useCallback(
     (slug: string, band = 0, at?: number) => {
       const rec = RECORDINGS[slug];
       if (!rec) return;
       if (refuse()) return;
-      const voice = rec.voiceId ?? null;
-      pendingSeek.current = at && at > 0 ? { slug, band, voice, seconds: at } : null;
+      // the band on the platter, tapped again: play / pause, not a re-cue
+      // from the top (the site's `same && at == null`)
+      if (now?.slug === slug && now.band === band && at == null) {
+        const next = !(wantRef.current || playingRef.current);
+        setWantPlay(next);
+        try {
+          if (next) {
+            if (__DEV__) console.log("[deck] play() called", uri);
+            player.play();
+          } else player.pause();
+        } catch (e) {
+          if (__DEV__) console.log("[deck] play() threw", String(e));
+        }
+        return;
+      }
+      const voice = voiceFor(slug, rec);
+      if (!chaptersOf(rec, voice)[band]) return;
+      // loadBand's resume: `at ?? (fit.band === band ? fit.seconds : 0)` —
+      // the ledger's seconds when it rests in this band, on this clock
+      const fit = at == null ? fitSpot(spotsRef.current[slug], rec, voice) : null;
+      const seconds = at ?? (fit && fit.band === band ? fit.seconds : 0);
+      pendingSeek.current = seconds > 0 ? { slug, band, voice, seconds } : null;
       setFinished(null);
       setNow({ slug, band, voice });
       setWantPlay(true);
     },
-    [refuse],
+    [now, player, uri, refuse, voiceFor],
   );
 
   const playAt = useCallback(
@@ -471,7 +604,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       if (!rec) return;
       if (refuse()) return;
       // stay on the pressing already in force for this book
-      const voiceId = now?.slug === slug ? now.voice : (rec.voiceId ?? null);
+      const voiceId = voiceFor(slug, rec);
       const ch = chaptersOf(rec, voiceId)[band];
       if (!ch) return;
       const at = Math.max(0, Math.min(ch.duration, seconds));
@@ -486,7 +619,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       setFinished(null);
       setNow({ slug, band, voice: voiceId });
     },
-    [now, player, refuse],
+    [now, player, refuse, voiceFor],
   );
 
   /**
@@ -501,7 +634,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       const from = chaptersOf(recording, now.voice)[now.band];
       const to = chaptersOf(recording, voiceId)[now.band];
       if (!from || !to) return; // this book has no such pressing
-      const at = status.currentTime ?? 0;
+      // A resume still parked (the player has not loaded) is the needle's
+      // real place: scale THAT, not the unloaded player's 0 — or a switch
+      // made before the chapter arrives throws the reader to the top.
+      const parked = pendingSeek.current;
+      const at =
+        parked && parked.slug === now.slug && parked.band === now.band && !status.isLoaded
+          ? parked.seconds
+          : (status.currentTime ?? 0);
       const seconds =
         from.duration && from.duration !== to.duration
           ? Math.max(0, Math.min(to.duration, at * (to.duration / from.duration)))
@@ -509,7 +649,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       pendingSeek.current = { slug: now.slug, band: now.band, voice: voiceId, seconds };
       setNow({ ...now, voice: voiceId });
     },
-    [now, recording, status.currentTime, refuse],
+    [now, recording, status.currentTime, status.isLoaded, refuse],
   );
 
   const toggle = useCallback(() => {
@@ -545,7 +685,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         playBand(slug, 0, 0);
         return true;
       }
-      playBand(slug, spot!.chapter, spot!.seconds);
+      // beginBook's `playBand(slug, fit.band)` — playBand restates the
+      // seconds onto the pressing it drops
+      playBand(slug, spot!.chapter);
       return true;
     },
     [now, wantPlay, toggle, playBand, refuse],
@@ -606,7 +748,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const slug = now?.slug ?? "";
   const band = now?.band ?? 0;
   const playing = !!status.playing;
+  playingRef.current = playing;
   const position = status.currentTime ?? 0;
+  const voiceRef = useRef(now?.voice ?? null);
+  voiceRef.current = now?.voice ?? null;
 
   // Refs, so the interval and the effects read the LIVE values rather than
   // the ones their closures were built with.
@@ -652,6 +797,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
           speed: rateRef.current,
           at: Date.now(),
           listenedS: Math.round(heardRef.current.listenedS),
+          ...(voiceRef.current ? { editionId: voiceRef.current } : {}),
         },
         fresh,
       );
@@ -703,7 +849,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   /* --- the sentence --- */
   const say = useMemo<DeckValue["say"]>(
-    () => (locked ? { text: LOCKED_SAY, bad: refused } : null),
+    () => (locked ? { text: LOCKED_SAY, bad: refused > 0, n: refused } : null),
     [locked, refused],
   );
 
@@ -745,6 +891,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       setRate,
       spots,
       locked,
+      refuse,
       say,
       voiceLocked,
       subscribePosition,
@@ -771,6 +918,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       setRate,
       spots,
       locked,
+      refuse,
       say,
       voiceLocked,
       subscribePosition,

@@ -110,11 +110,22 @@ band, seconds)` (a finger on a word: no restart), `toggle, seekTo, nudge,
 step, stop, rate, setRate`; the turntable — `voice, voices, setNarrator(id)`
 (the needle restated by the ratio of the two pressings' run lengths, landed
 through a parked seek once the NEW player is loaded; `chaptersOf(rec, voice)`
-picks a pressing's chapters); the shop door — `locked` (the site's
-listeningLocked: a guest pass or nobody signed in), `say` (`{text, bad}`,
-"Listening needs an account." — muted on arrival, brick after a refused tap;
-the console adds the "Sign up to listen." link), `voiceLocked(id)` (a live
-voice is the subscription's; TODO reader_subscriptions); and the read-along's
+picks a pressing's chapters). `playBand` is the SITE's: the platter's band
+tapped again is play / pause; any other band is cued in the pressing already
+in force for the book, else the reader's standing choice
+(`reader/voice/standing.ts` — `voiceInForce`, `chooseVoice`, `noteHeard`,
+`useStanding(owner)`; the site's `audioVoice` under the portal state's key),
+resuming at the ledger's seconds when it rests in that band — restated onto
+the pressing's clock when the spot was stamped on the other one
+(`ListeningSpot.editionId`). The shop door — `locked` (the site's
+listeningLocked: a guest pass or nobody signed in), `refuse()` (the site's
+refuseLocked: says so and answers true; every deck verb calls it itself),
+`say` (`{text, bad, n}`, "Listening needs an account." — muted on arrival,
+brick after a refused tap, `n` counting the refusals so a console mounted
+later reads the rise; the console adds the "Sign up to listen." link),
+`voiceLocked(id)` (a live voice is the subscription's; TODO
+reader_subscriptions). The spots are stamped with their owner
+(`rr-listening-owner`) and dropped when another walks in. And the read-along's
 clock — `useFastPosition()` subscribes ONE component to a 100ms sample of the
 player's own time (`subscribePosition`), so the gilt lands on every word while
 `position` and everything else stays at the player's 500ms. The needle's
@@ -124,11 +135,30 @@ change, pause, resume and every 5s while playing; `readSpots()`,
 `heardSeconds()`, `resumable()` build the Continue-listening shelf.
 
 **The opened volume** (`src/portal/reader/`): `Reader` is the frame (modal,
-rail, state, wiring); `Codex` the leaf (boards, pages, gilt, pinch, tap-to-
-seek); `Console` the torn tail band; `VoiceSheet`, `SpeedSheet`, `LampSheet`,
-`TypeSheet` the sheets; `Contents` the chapters / bookmarks drawer. Each
-file's header names its site classes. The narrator directory is baked by
-`reader/gen-narrators.mjs` (run from the site root) into `reader/narrators.json`.
+rail, state, wiring — it measures the stage and the console's box and hands
+both down; a sheet's `bottom` is the console's BOX, the site's
+`bottom:100%` of .rr-lr-deck, and `TornBand` keeps its hems out of flow so
+that measure is the box); `Codex` the leaf (boards, pages, gilt, pinch,
+tap-to-seek; `codexStands()` says whether the codex of pages — and so the
+frame's foot arrows — stands); `Console` the torn tail band (`liveSay` is
+the narrator sheet's line, said here too); `VoiceSheet`, `SpeedSheet`,
+`LampSheet`, `TypeSheet` the sheets; `Contents` the chapters / bookmarks
+drawer. Each file's header names its site classes. The narrator directory
+is baked by `reader/gen-narrators.mjs` (run from the site root) into
+`reader/narrators.json`.
+
+Its own primitives, reusable beyond it: `TornBand` exports the deck tile
+(`TEAR`, `JAG`, `TILE_W/H`) — one copy, the console's `Sheet` draws its
+torn head from it; `reader/voice/SheetPaper` (the torn-head sheet paper with
+the mask-clipped ink line and haze), `reader/voice/Face` (a reader's record
+label: hue, portrait over the initial, greyscale shut state, a badge as
+child) and `reader/voice/palette` (the reader's hand-set light/dark pairs);
+`reader/contents/TornCard` (the site's CARD_BG under the five-layer mask —
+solid rect inset 15/16, HTEARF head, HTEAR foot, VTEARF/VTEAR sides — with
+the 4px-stroke-clipped-to-2px ink, sized by onLayout; `.rr-lr-menu--rail`
+and the sheets' `.rr-lr-menu` carry the same stock); `reader/contents/
+SmallCaps` and `reader/codex/SmallCaps` (font-variant: small-caps,
+synthesised). `Rule kind="dotted"` is Chrome's 1px dotted: one on, one off.
 
 **The session** (`src/lib/session`): `user, booting, guest, reader` (the
 readers row, hydrated once per signed-in reader — card_no, name, langs, the

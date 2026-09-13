@@ -38,6 +38,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AudioProvider } from "../src/lib/audioStore";
 import { SessionProvider } from "../src/lib/session";
+import { SpeedFollower } from "../src/portal/reader/console/SpeedFollower";
 import { ThemeProvider, useTheme } from "../src/theme/ThemeProvider";
 import { ThemeReveal } from "../src/theme/ThemeReveal";
 
@@ -71,6 +72,11 @@ export default function RootLayout() {
             {/* The deck lives ABOVE the router, like the site's globalThis
                 audioStore singleton — one player, and navigation never stops it */}
             <AudioProvider>
+              {/* The platter's follower, ONCE, under the deck: every book
+                  that lands takes its own dial before the recorder's first
+                  stamp, and the creep keeps counting with the volume shut —
+                  the site's loadBand and runRamp (console/SpeedFollower.tsx) */}
+              <SpeedFollower />
               <Chrome />
             </AudioProvider>
           </SessionProvider>

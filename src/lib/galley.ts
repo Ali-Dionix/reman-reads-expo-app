@@ -168,9 +168,15 @@ export function boxesForSentence(
 }
 
 /**
- * The printed box under a finger, in normalised page space. Null when the
- * reader put it on the margin, a plate, or a blank — which must do nothing at
- * all rather than seek somewhere arbitrary.
+ * The printed box under a finger, in normalised page space — the NEAREST run
+ * on the page, as the site's wordAtPoint (app/components/readAlong.ts) finds
+ * it: a fingertip is not a caret, so a tap in the margin beside a line, or in
+ * the leading between two lines, reads from the adjacent word rather than
+ * doing nothing. Distance is weighted `dy × 3 + dx` (a line of type is
+ * ~1.7% of a page tall, so vertical misses count for more) and capped at
+ * 0.05 of the page: past that the reader put their finger on a plate, a
+ * blank, or the deep margin, and null means "do nothing at all" rather than
+ * seek somewhere arbitrary.
  *
  * Separate from the word lookup ON PURPOSE. Boxes live in the BOOK's page
  * manifest, so every chapter's are on hand at once; the words live in a
@@ -178,6 +184,8 @@ export function boxesForSentence(
  * lets a tap on a page the sounding chapter is not printed on resolve to the
  * chapter that IS printed there, and only then pay for its galley.
  */
+export const TAP_REACH = 0.05;
+
 export function boxAtPoint(
   boxes: PageBox[],
   page: number,
@@ -189,18 +197,65 @@ export function boxAtPoint(
   // tap ends up seeking to the top of the chapter.
   if (!Number.isFinite(nx) || !Number.isFinite(ny)) return null;
 
-  // a little slack: a line of type is ~1.7% of a page tall, and a fingertip
-  // is not that accurate
-  const pad = 0.004;
+  let best: PageBox | null = null;
+  let bestDist = Infinity;
   for (const b of boxes) {
     if (b[3] !== page) continue;
-    if (nx < b[4] - pad || nx > b[4] + b[6] + pad) continue;
-    if (ny < b[5] - pad || ny > b[5] + b[7] + pad) continue;
-    return b;
+    const dx = nx < b[4] ? b[4] - nx : nx > b[4] + b[6] ? nx - b[4] - b[6] : 0;
+    const dy = ny < b[5] ? b[5] - ny : ny > b[5] + b[7] ? ny - b[5] - b[7] : 0;
+    const dist = dy * 3 + dx;
+    if (dist < bestDist) {
+      bestDist = dist;
+      best = b;
+    }
   }
-  return null;
+  return best && bestDist <= TAP_REACH ? best : null;
 }
 
 /** The word a printed box belongs to, as an index into `galley.words`, or -1. */
 export const wordOfBox = (g: Galley, box: PageBox): number =>
   g.words.findIndex((w) => w[0] === box[0] && w[1] < box[2] && w[2] > box[1]);
+
+/**
+ * Forget one chapter's answer — the site's `[data-rr-lr-galley-retry]`: a
+ * fetch that failed is remembered as "no text", and asking again is exactly
+ * what that button means, so the memory has to go first.
+ */
+export function forgetGalley(slug: string, voice: string | null, band: number): void {
+  cache.delete(keyOf(slug, voice, band));
+}
+
+/**
+ * One paragraph cut into the runs the reflowed galley sets: every word as
+ * its own run (carrying its index into `galley.words`, so the gilt and a
+ * finger can find it) and the text between words — spaces, punctuation, a
+ * dash — as plain runs. The site's `wrapPara` does the same with spans; here
+ * the runs become nested <Text>. Computed once per galley, never per beat.
+ */
+export type GalleyRun = { text: string; word: number };
+
+export function paraRuns(g: Galley): GalleyRun[][] {
+  const out: GalleyRun[][] = g.paras.map(() => []);
+  const cursor: number[] = g.paras.map(() => 0);
+  g.words.forEach((w, i) => {
+    const [p, cs, ce] = w;
+    const para = g.paras[p];
+    if (para == null) return;
+    const runs = out[p];
+    const at = cursor[p];
+    // a word that overlaps the last one (a bad timing) is skipped, never
+    // painted twice
+    if (cs < at) return;
+    if (cs > at) runs.push({ text: para.slice(at, cs), word: -1 });
+    runs.push({ text: para.slice(cs, ce), word: i });
+    cursor[p] = ce;
+  });
+  g.paras.forEach((para, p) => {
+    if (cursor[p] < para.length) out[p].push({ text: para.slice(cursor[p]), word: -1 });
+  });
+  return out;
+}
+
+/** The sentence a word belongs to, as [first, last] word indices, or null. */
+export const sentenceOf = (g: Galley, wordIdx: number): [number, number] | null =>
+  g.sents?.find(([a, b]) => wordIdx >= a && wordIdx <= b) ?? null;
