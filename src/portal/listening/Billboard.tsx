@@ -31,6 +31,7 @@ import { useInk } from "../../theme/ink";
 import { useTheme } from "../../theme/ThemeProvider";
 import { Rule } from "../../ui/Rule";
 import { Txt } from "../../ui/Type";
+import { fillProps, strokeProps } from "../../ui/svgPaint";
 
 export type BillboardBook = {
   slug: string;
@@ -90,7 +91,7 @@ function Grooves({ size }: { size: number }) {
   return (
     <Svg width={size} height={size} style={[StyleSheet.absoluteFill, { pointerEvents: "none" }]}>
       {rings.map((rr) => (
-        <Circle key={rr} cx={r} cy={r} r={rr} fill="none" stroke={OBJ.recordGroove} strokeWidth={1} />
+        <Circle key={rr} cx={r} cy={r} r={rr} fill="none" {...strokeProps(OBJ.recordGroove)} strokeWidth={1} />
       ))}
     </Svg>
   );
@@ -150,7 +151,7 @@ function Platter({ hue }: { hue: string }) {
 function PlayGlyph({ color }: { color: string }) {
   return (
     <Svg width={14} height={14} viewBox="0 0 14 14">
-      <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" fill={color} />
+      <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" {...fillProps(color)} />
     </Svg>
   );
 }

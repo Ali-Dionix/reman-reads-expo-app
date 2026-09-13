@@ -72,6 +72,7 @@ import { TornBand } from "./TornBand";
 import { TypeSheet, TYPE_DEFAULTS, type TypePrefs } from "./TypeSheet";
 import { useStanding, voiceInForce } from "./voice/standing";
 import { VoiceSheet } from "./VoiceSheet";
+import { fillProps, strokeProps } from "../../ui/svgPaint";
 
 /* ------------------------------------------------------------- icons --- */
 
@@ -91,8 +92,8 @@ const Ic = {
 function BandStep({ next, color }: { next?: boolean; color: string }) {
   return (
     <Svg width={16} height={16} viewBox="0 0 16 16" fill="none">
-      <Path d={next ? "M11.5 3v10" : "M4.5 3v10"} stroke={color} strokeWidth={1.7} strokeLinecap="round" />
-      <Path d={next ? "M3 3.4v9.2L9.4 8 3 3.4Z" : "M13 3.4v9.2L6.6 8 13 3.4Z"} fill={color} />
+      <Path d={next ? "M11.5 3v10" : "M4.5 3v10"} {...strokeProps(color)} strokeWidth={1.7} strokeLinecap="round" />
+      <Path d={next ? "M3 3.4v9.2L9.4 8 3 3.4Z" : "M13 3.4v9.2L6.6 8 13 3.4Z"} {...fillProps(color)} />
     </Svg>
   );
 }
@@ -101,8 +102,8 @@ function BandStep({ next, color }: { next?: boolean; color: string }) {
 function SearchGlyph({ color }: { color: string }) {
   return (
     <Svg width={16} height={16} viewBox="0 0 18 18" fill="none">
-      <Circle cx={8} cy={8} r={5} stroke={color} strokeWidth={1.6} />
-      <Path d="m12 12 3.6 3.6" stroke={color} strokeWidth={1.6} strokeLinecap="round" />
+      <Circle cx={8} cy={8} r={5} {...strokeProps(color)} strokeWidth={1.6} />
+      <Path d="m12 12 3.6 3.6" {...strokeProps(color)} strokeWidth={1.6} strokeLinecap="round" />
     </Svg>
   );
 }
@@ -127,7 +128,7 @@ function Glyph({
     <Svg width={size} height={size} viewBox={`0 0 ${ic.box} ${ic.box}`} fill="none">
       <Path
         d={ic.d}
-        stroke={color}
+        {...strokeProps(color)}
         strokeWidth={ic.w ?? 1.6}
         strokeLinecap={ic.cap ? "round" : "butt"}
         strokeLinejoin="round"

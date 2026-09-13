@@ -25,6 +25,7 @@ import Svg, { Circle, Defs, Line, LinearGradient, Path, Stop } from "react-nativ
 
 import { sheetPath } from "../../ui/TornEdge";
 import type { LoginPalette } from "./palette";
+import { fillProps, strokeProps, stopProps } from "../../ui/svgPaint";
 
 /** STARS — footerOverride.ts's 280×280 tile, [cx, cy, r, opacity]. */
 const STARS: readonly (readonly [number, number, number, number])[] = [
@@ -90,9 +91,9 @@ export function BottomPaper({
             x2={0}
             y2={H}
           >
-            <Stop offset={0} stopColor={p.paperFace[0]} />
-            <Stop offset={0.58} stopColor={p.paperFace[1]} />
-            <Stop offset={1} stopColor={p.paperFace[2]} />
+            <Stop offset={0} {...stopProps(p.paperFace[0])} />
+            <Stop offset={0.58} {...stopProps(p.paperFace[1])} />
+            <Stop offset={1} {...stopProps(p.paperFace[2])} />
           </LinearGradient>
         </Defs>
         {/* night: drop-shadow(0 -3px 3px rgba(0,0,0,.4)) — a short fan stands in for the blur */}
@@ -108,9 +109,9 @@ export function BottomPaper({
             ))
           : null}
         {/* the cut edge: the union silhouette, 1.5px up */}
-        <Path d={`${before(2)} ${after(2)}`} fill={p.paperLine} fillRule="nonzero" />
+        <Path d={`${before(2)} ${after(2)}`} {...fillProps(p.paperLine)} fillRule="nonzero" />
         {/* ::before — the back sheet */}
-        <Path d={before(0)} fill={p.paperBack} />
+        <Path d={before(0)} {...fillProps(p.paperBack)} />
         {/* ::after — the face */}
         <Path d={after(0)} fill={`url(#lg-paper-face-${dark ? "n" : "d"})`} />
         {/* the 35px ruling: one line, 34px up from the foot */}
@@ -119,7 +120,7 @@ export function BottomPaper({
           y1={H - 34.5}
           x2={width}
           y2={H - 34.5}
-          stroke={p.paperRule}
+          {...strokeProps(p.paperRule)}
           strokeWidth={1}
         />
         {stars.map((s, i) => (

@@ -19,6 +19,7 @@
 import type { ReactNode } from "react";
 import { Pressable, View, type StyleProp, type ViewStyle } from "react-native";
 import Svg, { Circle } from "react-native-svg";
+import { svgPaint } from "./svgPaint";
 
 export function Disc({
   size,
@@ -106,7 +107,8 @@ export function Disc({
               cy={r}
               r={r - ringWidth / 2}
               fill="none"
-              stroke={ring}
+              stroke={svgPaint(ring).color}
+              strokeOpacity={svgPaint(ring).alpha}
               strokeWidth={ringWidth}
               strokeDasharray="3 2"
             />

@@ -49,6 +49,7 @@ import { StyleSheet, View, useWindowDimensions } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 import { useTheme } from "../../theme/ThemeProvider";
+import { fillProps } from "../../ui/svgPaint";
 
 /** HTEAR — the navbar's 360×17 tear tile. The path IS the paper. Shared
  *  with the sheets (console/Sheet.tsx, voice/SheetPaper.tsx): one copy. */
@@ -92,7 +93,7 @@ function Hem({
           <Path
             key={i}
             d={TEAR}
-            fill={color}
+            {...fillProps(color)}
             // ONE transform attribute string, not a translateX prop: on web
             // react-native-svg passes an unknown `translateX` straight to the
             // DOM (React warns on every render), so the tile offset and the

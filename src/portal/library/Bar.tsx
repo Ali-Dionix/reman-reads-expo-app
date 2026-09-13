@@ -32,6 +32,7 @@ import { FONTS } from "../../theme/type";
 import { Squiggle } from "../../ui/Squiggle";
 import { Txt } from "../../ui/Type";
 import { TABS, pickCount, useFacets, type FacetKey, type Picks, type Tab } from "./data";
+import { strokeProps } from "../../ui/svgPaint";
 
 /** html[data-rr-theme="dark"] .rr-ly-search{background:rgba(20,27,46,.42)} */
 const NIGHT_FIELD = "rgba(20,27,46,.42)";
@@ -53,8 +54,8 @@ const withAlpha = (hex: string, a: number): string => {
 export function SearchGlyph({ size, color }: { size: number; color: string }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 16 16" fill="none">
-      <Circle cx={7} cy={7} r={5} stroke={color} strokeWidth={1.6} />
-      <Path d="M11 11l4 4" stroke={color} strokeWidth={1.6} strokeLinecap="round" />
+      <Circle cx={7} cy={7} r={5} {...strokeProps(color)} strokeWidth={1.6} />
+      <Path d="M11 11l4 4" {...strokeProps(color)} strokeWidth={1.6} strokeLinecap="round" />
     </Svg>
   );
 }

@@ -55,6 +55,7 @@ import { Disc } from "../ui/Disc";
 import { Icon } from "../ui/Icon";
 import { TornSheet } from "../ui/TornEdge";
 import { Kicker, Txt } from "../ui/Type";
+import { fillProps, strokeProps } from "../ui/svgPaint";
 
 const MARK = require("../../assets/mark.png");
 
@@ -99,13 +100,13 @@ export function ThemeDisc({ size = 36, glyph = 18 }: { size?: number; glyph?: nu
     >
       <Svg viewBox="0 0 24 24" width={glyph} height={glyph}>
         {mode === "dark" ? (
-          <Path d="M20.2 13.6A8.1 8.1 0 0 1 10.4 3.8a8.1 8.1 0 1 0 9.8 9.8Z" fill={c} />
+          <Path d="M20.2 13.6A8.1 8.1 0 0 1 10.4 3.8a8.1 8.1 0 1 0 9.8 9.8Z" {...fillProps(c)} />
         ) : (
           <>
-            <Path d="M12 12m-4.6 0a4.6 4.6 0 1 0 9.2 0a4.6 4.6 0 1 0 -9.2 0" fill="none" stroke={c} strokeWidth={1.6} />
+            <Path d="M12 12m-4.6 0a4.6 4.6 0 1 0 9.2 0a4.6 4.6 0 1 0 -9.2 0" fill="none" {...strokeProps(c)} strokeWidth={1.6} />
             <Path
               d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"
-              stroke={c}
+              {...strokeProps(c)}
               strokeWidth={1.6}
               strokeLinecap="round"
             />
@@ -394,7 +395,7 @@ export function Head({ title, em, sub, ls = -0.01 }: { title: string; em?: strin
             {/* right:-1.5% — the swoosh runs 1.5% of the word past its end. */}
             <View style={{ position: "absolute", left: 0, right: "-1.5%", bottom: -(hang + h), height: h }}>
               <Svg width="100%" height={h} viewBox="0 0 320 14" preserveAspectRatio="none">
-                <Path d={SWOOSH} fill={colors.brass} />
+                <Path d={SWOOSH} {...fillProps(colors.brass)} />
               </Svg>
             </View>
           </View>

@@ -12,6 +12,7 @@
 import { useState } from "react";
 import { PixelRatio, StyleSheet, View } from "react-native";
 import Svg, { Rect } from "react-native-svg";
+import { svgPaint } from "./svgPaint";
 
 /**
  * A CSS border width as Chrome actually lays it out and paints it: snapped
@@ -56,6 +57,7 @@ export function DashedBox({ color, width: cssWidth = 1, radius = 0 }: { color: s
   const h = box.h - width;
   const r = Math.max(0, Math.min(radius, box.h / 2, box.w / 2) - inset);
   const perimeter = 2 * (w + h) - (8 - 2 * Math.PI) * r;
+  const paint = svgPaint(color);
   return (
     <View style={[StyleSheet.absoluteFill, { pointerEvents: "none" }]} onLayout={onLayout}>
       {box.w > 0 && box.h > 0 ? (
@@ -67,7 +69,8 @@ export function DashedBox({ color, width: cssWidth = 1, radius = 0 }: { color: s
             height={h}
             rx={r}
             fill="none"
-            stroke={color}
+            stroke={paint.color}
+            strokeOpacity={paint.alpha}
             strokeWidth={width}
             strokeDasharray={perimeterDashes(perimeter, width)}
           />

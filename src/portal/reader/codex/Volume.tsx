@@ -38,6 +38,7 @@ import Svg, { Defs, FeDropShadow, Filter, LinearGradient as SvgGrad, Polygon, Re
 
 import { useDeck, type Recording } from "../../../lib/audioStore";
 import { Colophon, ContentsLeaf, Frontispiece, TitlePage } from "./leaves";
+import { fillProps, stopProps } from "../../../ui/svgPaint";
 
 /* -------------------------------------------------------- the cut edges --- */
 
@@ -82,7 +83,7 @@ function CutEdge({
     <View style={[styles.cut, { width, [side]: at ?? -width }]}>
       <Svg width={w} height="100%" viewBox={`0 0 ${w} 1`} preserveAspectRatio="none">
         {Array.from({ length: w }, (_, i) => (
-          <Rect key={i} x={i} y={0} width={1} height={1} fill={i % 2 ? rule : paper} />
+          <Rect key={i} x={i} y={0} width={1} height={1} {...fillProps(i % 2 ? rule : paper)} />
         ))}
       </Svg>
     </View>
@@ -182,9 +183,9 @@ function DogEar({
       <Svg width={50} height={50} viewBox="0 0 50 50">
         <Defs>
           <SvgGrad id={id} x1={next ? 0 : 1} y1={0} x2={next ? 1 : 0} y2={1}>
-            <Stop offset="0" stopColor={stops[0]} />
-            <Stop offset="0.52" stopColor={stops[1]} />
-            <Stop offset="1" stopColor={stops[2]} />
+            <Stop offset="0" {...stopProps(stops[0])} />
+            <Stop offset="0.52" {...stopProps(stops[1])} />
+            <Stop offset="1" {...stopProps(stops[2])} />
           </SvgGrad>
           <Filter id={`${id}-sh`} x="-20%" y="-20%" width="140%" height="140%">
             <FeDropShadow dx={-1} dy={-1} stdDeviation={2} floodColor={shadow} />

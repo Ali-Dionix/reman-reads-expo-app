@@ -52,6 +52,7 @@ import { Rule } from "../ui/Rule";
 import { TornSheet } from "../ui/TornEdge";
 import { Txt } from "../ui/Type";
 import { GUT } from "./PortalPage";
+import { strokeProps } from "../ui/svgPaint";
 
 /** importFormats.ts — the four ways are behind the subscription. */
 const IMPORTS_NEED_SUBSCRIPTION = true;
@@ -208,7 +209,7 @@ export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void
               <Svg viewBox="0 0 16 16" width={13} height={13}>
                 <Path
                   d="M3.4 3.4l9.2 9.2M12.6 3.4l-9.2 9.2"
-                  stroke={colors.gold2}
+                  {...strokeProps(colors.gold2)}
                   strokeWidth={1.6}
                   strokeLinecap="round"
                 />

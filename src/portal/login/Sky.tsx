@@ -22,6 +22,7 @@ import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
 
 import { useInk } from "../../theme/ink";
 import { CRATERS, type LoginPalette } from "./palette";
+import { fillProps, stopProps } from "../../ui/svgPaint";
 
 /** Coverage of a Gaussian-blurred edge at d = k·σ outside the edge. */
 const EDGE = [
@@ -73,8 +74,7 @@ export function Sky({ p }: { p: LoginPalette }) {
                   <Stop
                     key={k}
                     offset={(r + k * sigma) / R}
-                    stopColor={color}
-                    stopOpacity={alpha * cov}
+                    {...stopProps(color, alpha * cov)}
                   />
                 ))}
               </RadialGradient>
@@ -87,9 +87,9 @@ export function Sky({ p }: { p: LoginPalette }) {
             cy={c - r + 0.34 * size}
             r={0.9055 * size}
           >
-            <Stop offset={0} stopColor={p.orb[0]} />
-            <Stop offset={dark ? 0.61 : 0.56} stopColor={p.orb[1]} />
-            <Stop offset={1} stopColor={p.orb[2]} />
+            <Stop offset={0} {...stopProps(p.orb[0])} />
+            <Stop offset={dark ? 0.61 : 0.56} {...stopProps(p.orb[1])} />
+            <Stop offset={1} {...stopProps(p.orb[2])} />
           </RadialGradient>
         </Defs>
         {p.orbGlow.map(([, blur], i) => (
@@ -103,8 +103,7 @@ export function Sky({ p }: { p: LoginPalette }) {
                 cx={c - r + k.cx * size}
                 cy={c - r + k.cy * size}
                 r={k.r * size}
-                fill={k.fill}
-                fillOpacity={k.alpha}
+                {...fillProps(k.fill, k.alpha)}
               />
             ))
           : null}

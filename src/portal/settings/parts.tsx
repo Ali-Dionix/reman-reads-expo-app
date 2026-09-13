@@ -30,6 +30,7 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { face } from "../../theme/type";
 import { Rule } from "../../ui/Rule";
 import { Txt } from "../../ui/Type";
+import { fillProps, strokeProps } from "../../ui/svgPaint";
 
 /** `.rr-pf-well{padding:4px 2px 22px}` — where a fold's controls sit. */
 export function Well({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
@@ -416,7 +417,7 @@ export function Field({
               width={box.w - 1}
               height={box.h - 1}
               fill="none"
-              stroke={ink(0.3, "border")}
+              {...strokeProps(ink(0.3, "border"))}
               strokeWidth={1}
               strokeDasharray="3 2"
             />
@@ -503,7 +504,7 @@ export function CountryField({
           pointerEvents="none"
           style={{ position: "absolute", right: 14, top: 20 }}
         >
-          <Path d="M0 0H10L5 5Z" fill={ink(0.5)} />
+          <Path d="M0 0H10L5 5Z" {...fillProps(ink(0.5))} />
         </Svg>
       </Pressable>
       <Bad text={bad} />
@@ -593,7 +594,7 @@ export function Locked({ children }: { children: string }) {
     >
       {w > 0 ? (
         <Svg width={w} height={24} viewBox={`0 0 ${w} 24`} style={StyleSheet.absoluteFill}>
-          <Rect x={0.5} y={0.5} width={w - 1} height={23} rx={11.5} fill="none" stroke={ink(0.3, "border")} strokeWidth={1} strokeDasharray="3 2" />
+          <Rect x={0.5} y={0.5} width={w - 1} height={23} rx={11.5} fill="none" {...strokeProps(ink(0.3, "border"))} strokeWidth={1} strokeDasharray="3 2" />
         </Svg>
       ) : null}
       <Txt weight={700} size={8} ls={0.2} upper tone={0.5} numberOfLines={1}>

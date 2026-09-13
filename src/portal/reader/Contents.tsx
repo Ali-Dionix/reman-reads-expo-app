@@ -82,6 +82,7 @@ import {
   type Owner,
   type WordAnchor,
 } from "./contents/slips";
+import { strokeProps } from "../../ui/svgPaint";
 
 /** accountListeningPage.ts roman() — I to X, then the arabic figure. */
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
@@ -172,13 +173,13 @@ function Leader({ color }: { color: string }) {
       <Svg width="100%" height={1}>
         {even ? (
           <>
-            <Line x1={0} y1={0.5} x2={1} y2={0.5} stroke={color} strokeWidth={1} {...CRISP} />
+            <Line x1={0} y1={0.5} x2={1} y2={0.5} {...strokeProps(color)} strokeWidth={1} {...CRISP} />
             <Line
               x1={0}
               y1={0.5}
               x2="100%"
               y2={0.5}
-              stroke={color}
+              {...strokeProps(color)}
               strokeWidth={1}
               strokeDasharray="1 1"
               strokeDashoffset={1}
@@ -186,7 +187,7 @@ function Leader({ color }: { color: string }) {
             />
           </>
         ) : (
-          <Line x1={0} y1={0.5} x2="100%" y2={0.5} stroke={color} strokeWidth={1} strokeDasharray="1 1" {...CRISP} />
+          <Line x1={0} y1={0.5} x2="100%" y2={0.5} {...strokeProps(color)} strokeWidth={1} strokeDasharray="1 1" {...CRISP} />
         )}
       </Svg>
     </View>
@@ -199,7 +200,7 @@ function Leader({ color }: { color: string }) {
 function SlipGlyph({ color, size }: { color: string; size: number }) {
   return (
     <Svg width={size} height={size} viewBox="0 0 20 20" fill="none">
-      <Path d="M6 3h8v14l-4-3-4 3V3Z" stroke={color} strokeWidth={1.6} strokeLinejoin="round" />
+      <Path d="M6 3h8v14l-4-3-4 3V3Z" {...strokeProps(color)} strokeWidth={1.6} strokeLinejoin="round" />
     </Svg>
   );
 }

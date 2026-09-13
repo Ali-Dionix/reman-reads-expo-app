@@ -49,6 +49,7 @@ import { Cover } from "../../../ui/Cover";
 import { DashedBox } from "../../../ui/DashedBox";
 import { SmallCaps } from "./SmallCaps";
 import { roman, runShort, sleeveFor, voiceName } from "./sleeve";
+import { fillProps, strokeProps } from "../../../ui/svgPaint";
 
 /* ------------------------------------------------------------- inks --- */
 
@@ -289,10 +290,10 @@ export function LampPool() {
 function Ornament({ color, width = 104 }: { color: string; width?: number }) {
   return (
     <Svg width={width} height={10} viewBox="0 0 132 10" fill="none" style={{ marginVertical: 5 }}>
-      <Path d="M4 5h44M84 5h44" stroke={color} strokeWidth={1} strokeLinecap="round" />
-      <Path d="M66 .8 70.2 5 66 9.2 61.8 5Z" fill={color} />
-      <Circle cx={53} cy={5} r={1.4} fill={color} />
-      <Circle cx={79} cy={5} r={1.4} fill={color} />
+      <Path d="M4 5h44M84 5h44" {...strokeProps(color)} strokeWidth={1} strokeLinecap="round" />
+      <Path d="M66 .8 70.2 5 66 9.2 61.8 5Z" {...fillProps(color)} />
+      <Circle cx={53} cy={5} r={1.4} {...fillProps(color)} />
+      <Circle cx={79} cy={5} r={1.4} {...fillProps(color)} />
     </Svg>
   );
 }
@@ -329,7 +330,7 @@ function FrontDisc({ size, label, spinning }: { size: number; label: string; spi
           <Circle key={d} cx={r} cy={r} r={d} fill="none" stroke="rgba(0,0,0,.5)" strokeWidth={1} />
         ))}
         {/* ::before — the label, 38%, with its inset ring */}
-        <Circle cx={r} cy={r} r={r * 0.38} fill={label} />
+        <Circle cx={r} cy={r} r={r * 0.38} {...fillProps(label)} />
         <Circle cx={r} cy={r} r={r * 0.38 - 0.5} fill="none" stroke="rgba(0,0,0,.35)" strokeWidth={1} />
         {/* ::after — the spindle, 7px, ringed */}
         <Circle cx={r} cy={r} r={3.5} fill="#FBF5E4" stroke="rgba(0,0,0,.4)" strokeWidth={1.5} />
@@ -548,7 +549,7 @@ export function ContentsLeaf({
 function DotLead({ color }: { color: string }) {
   return (
     <Svg width="100%" height={1}>
-      <Line x1="0" y1={0.5} x2="100%" y2={0.5} stroke={color} strokeWidth={1} strokeDasharray="1 1" {...CRISP} />
+      <Line x1="0" y1={0.5} x2="100%" y2={0.5} {...strokeProps(color)} strokeWidth={1} strokeDasharray="1 1" {...CRISP} />
     </Svg>
   );
 }
@@ -579,7 +580,7 @@ function EndMark({ color }: { color: string }) {
         key={`${cx}-${cy}-${deg}`}
         // a petal: out from the hub to r≈5.8, ~2.8 wide at the waist, round-tipped
         d="M0 -0.9 C 1.45 -1.6, 1.9 -3.5, 1.2 -5.1 C 0.75 -6, -0.75 -6, -1.2 -5.1 C -1.9 -3.5, -1.45 -1.6, 0 -0.9Z"
-        fill={color}
+        {...fillProps(color)}
         transform={`translate(${cx} ${cy}) rotate(${deg})`}
       />
     ));

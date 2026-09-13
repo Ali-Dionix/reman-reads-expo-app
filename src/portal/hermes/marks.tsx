@@ -16,6 +16,7 @@ import { StyleSheet, View } from "react-native";
 import Svg, { Line } from "react-native-svg";
 
 import { useBox } from "../../ui/DashedBox";
+import { strokeProps } from "../../ui/svgPaint";
 
 /**
  * Ruled paper: a 1px line every `period` px, counted from the bottom of the
@@ -45,7 +46,7 @@ export function DottedLine({ color, solid = false }: { color: string; solid?: bo
     >
       {box.w > 0 ? (
         <Svg width={box.w} height={2} viewBox={`0 0 ${box.w} 2`}>
-          <Line x1={0} y1={1} x2={box.w} y2={1} stroke={color} strokeWidth={2} strokeDasharray={solid ? undefined : "2 2"} />
+          <Line x1={0} y1={1} x2={box.w} y2={1} {...strokeProps(color)} strokeWidth={2} strokeDasharray={solid ? undefined : "2 2"} />
         </Svg>
       ) : null}
     </View>

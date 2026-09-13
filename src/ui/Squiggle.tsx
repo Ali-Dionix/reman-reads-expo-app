@@ -12,6 +12,7 @@ import { View, type StyleProp, type ViewStyle } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 import { useTheme } from "../theme/ThemeProvider";
+import { svgPaint } from "./svgPaint";
 
 const TILE_W = 44;
 const TILE_H = 5;
@@ -32,6 +33,7 @@ export function Squiggle({
   const { mode } = useTheme();
   const stroke = color ?? SQUIGGLE_COLOR[mode];
   const n = Math.max(1, Math.ceil(width / TILE_W));
+  const paint = svgPaint(stroke);
 
   return (
     <View
@@ -43,7 +45,8 @@ export function Squiggle({
             key={i}
             d={STROKE}
             fill="none"
-            stroke={stroke}
+            stroke={paint.color}
+            strokeOpacity={paint.alpha}
             strokeWidth={1.4}
             strokeLinecap="round"
             transform={`translate(${i * TILE_W} 0)`}

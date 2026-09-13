@@ -16,6 +16,7 @@ import { mmss, useDeck } from "../lib/audioStore";
 import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
+import { fillProps } from "../ui/svgPaint";
 
 export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
   const { now, recording, chapter, playing, position, duration, loading, toggle, stop } =
@@ -111,11 +112,11 @@ export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
           <Svg width={14} height={14} viewBox="0 0 14 14">
             {playing ? (
               <>
-                <Rect x={1.5} y={1.5} width={3} height={11} rx={1} fill={colors.brick} />
-                <Rect x={7.5} y={1.5} width={3} height={11} rx={1} fill={colors.brick} />
+                <Rect x={1.5} y={1.5} width={3} height={11} rx={1} {...fillProps(colors.brick)} />
+                <Rect x={7.5} y={1.5} width={3} height={11} rx={1} {...fillProps(colors.brick)} />
               </>
             ) : (
-              <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" fill={colors.brick} />
+              <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" {...fillProps(colors.brick)} />
             )}
           </Svg>
         </Pressable>

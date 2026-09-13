@@ -24,6 +24,7 @@ import { OBJECT, lit, litRgba } from "../../theme/tokens";
 import { Rule } from "../../ui/Rule";
 import { Txt } from "../../ui/Type";
 import { WINGS, type Rail as RailT, type ShelfBook } from "./data";
+import { strokeProps } from "../../ui/svgPaint";
 
 /**
  * A COVER IS A THEME ISLAND (theme.ts ISLAND_ROOTS carries .rr-shf-cover):
@@ -40,7 +41,7 @@ export const cardWidthFor = (window: number): number => (window <= 640 ? (window
 function RailArrow({ color }: { color: string }) {
   return (
     <Svg width={11} height={9} viewBox="0 0 12 10" fill="none">
-      <Path d="M1 5h9M6.5 1l4 4-4 4" stroke={color} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
+      <Path d="M1 5h9M6.5 1l4 4-4 4" {...strokeProps(color)} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" />
     </Svg>
   );
 }

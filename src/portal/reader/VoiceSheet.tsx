@@ -85,6 +85,7 @@ import { SheetPaper } from "./voice/SheetPaper";
 import { paletteFor, type Palette } from "./voice/palette";
 import { chooseVoice, noteHeard, useStanding, voiceInForce } from "./voice/standing";
 import narrators from "./narrators.json";
+import { fillProps, strokeProps } from "../../ui/svgPaint";
 
 /** The house mark on the clone tile — /public/favicon/favicon-96x96.png,
  *  byte for byte (the app's assets/mark.png). */
@@ -170,8 +171,8 @@ const PICK_TICK = 18;
 function SearchGlyph({ color }: { color: string }) {
   return (
     <Svg width={16} height={16} viewBox="0 0 18 18" fill="none">
-      <Circle cx={8} cy={8} r={5} stroke={color} strokeWidth={1.6} />
-      <Path d="m12 12 3.6 3.6" stroke={color} strokeWidth={1.6} strokeLinecap="round" />
+      <Circle cx={8} cy={8} r={5} {...strokeProps(color)} strokeWidth={1.6} />
+      <Path d="m12 12 3.6 3.6" {...strokeProps(color)} strokeWidth={1.6} strokeLinecap="round" />
     </Svg>
   );
 }
@@ -185,7 +186,7 @@ function Caret({ color, up }: { color: string; up: boolean }) {
       viewBox="0 0 9 6"
       style={{ opacity: 0.6, transform: [{ rotate: up ? "180deg" : "0deg" }] }}
     >
-      <Polygon points="0,0 9,0 4.5,6" fill={color} />
+      <Polygon points="0,0 9,0 4.5,6" {...fillProps(color)} />
     </Svg>
   );
 }
@@ -194,15 +195,15 @@ function Caret({ color, up }: { color: string; up: boolean }) {
 function Tick({ color }: { color: string }) {
   return (
     <Svg width={10} height={10} viewBox="0 0 12 12" fill="none">
-      <Path d="m2 6.3 2.6 2.6L10 3.4" stroke={color} strokeWidth={2.1} strokeLinecap="round" strokeLinejoin="round" />
+      <Path d="m2 6.3 2.6 2.6L10 3.4" {...strokeProps(color)} strokeWidth={2.1} strokeLinecap="round" strokeLinejoin="round" />
     </Svg>
   );
 }
 function Lock({ color }: { color: string }) {
   return (
     <Svg width={10} height={10} viewBox="0 0 12 12" fill="none">
-      <Rect x={2.4} y={5.3} width={7.2} height={5.1} rx={1.1} fill={color} />
-      <Path d="M4.2 5.3V4a1.8 1.8 0 0 1 3.6 0v1.3" stroke={color} strokeWidth={1.3} fill="none" />
+      <Rect x={2.4} y={5.3} width={7.2} height={5.1} rx={1.1} {...fillProps(color)} />
+      <Path d="M4.2 5.3V4a1.8 1.8 0 0 1 3.6 0v1.3" {...strokeProps(color)} strokeWidth={1.3} fill="none" />
     </Svg>
   );
 }
@@ -211,8 +212,8 @@ function Lock({ color }: { color: string }) {
 function Mic({ color }: { color: string }) {
   return (
     <Svg width={18} height={18} viewBox="0 0 20 20" fill="none">
-      <Rect x={7.4} y={2.2} width={5.2} height={9} rx={2.6} stroke={color} strokeWidth={1.5} />
-      <Path d="M4.6 9.4a5.4 5.4 0 0 0 10.8 0M10 14.8v3" stroke={color} strokeWidth={1.5} strokeLinecap="round" />
+      <Rect x={7.4} y={2.2} width={5.2} height={9} rx={2.6} {...strokeProps(color)} strokeWidth={1.5} />
+      <Path d="M4.6 9.4a5.4 5.4 0 0 0 10.8 0M10 14.8v3" {...strokeProps(color)} strokeWidth={1.5} strokeLinecap="round" />
     </Svg>
   );
 }

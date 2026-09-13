@@ -22,6 +22,7 @@ import { View, type StyleProp, type ViewStyle } from "react-native";
 import Svg, { Line } from "react-native-svg";
 
 import { useTheme } from "../theme/ThemeProvider";
+import { svgPaint } from "./svgPaint";
 
 export type RuleKind = "dashed" | "dotted" | "solid" | "brick";
 
@@ -68,6 +69,7 @@ export function Rule({
     // the dot and the same for the gap, at any thickness
     kind === "solid" ? undefined : kind === "dotted" ? `${thickness} ${thickness}` : chromeDashes(len, thickness);
   const vertical = axis === "vertical";
+  const paint = svgPaint(stroke);
 
   return (
     <View
@@ -86,7 +88,8 @@ export function Rule({
               y1={0}
               x2={thickness / 2}
               y2={len}
-              stroke={stroke}
+              stroke={paint.color}
+              strokeOpacity={paint.alpha}
               strokeWidth={thickness}
               strokeDasharray={dash}
               {...CRISP}
@@ -100,7 +103,8 @@ export function Rule({
             y1={thickness / 2}
             x2="100%"
             y2={thickness / 2}
-            stroke={stroke}
+            stroke={paint.color}
+            strokeOpacity={paint.alpha}
             strokeWidth={thickness}
             strokeDasharray={dash}
             {...CRISP}

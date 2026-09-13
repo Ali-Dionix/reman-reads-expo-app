@@ -76,6 +76,7 @@ import { TYPE_DEFAULTS, type TypePrefs } from "./TypeSheet";
 import { FollowChip } from "./codex/FollowChip";
 import { GalleyLeaf } from "./codex/GalleyLeaf";
 import { Volume } from "./codex/Volume";
+import { fillProps, strokeProps } from "../../ui/svgPaint";
 
 /* ------------------------------------------------------------- codex --- */
 
@@ -926,7 +927,7 @@ function PagesCodex({
                     y={b[5] * ph}
                     width={b[6] * pw}
                     height={b[7] * ph}
-                    fill={night ? "rgba(224,183,112,.14)" : "rgba(155,122,77,.14)"}
+                    {...fillProps(night ? "rgba(224,183,112,.14)" : "rgba(155,122,77,.14)")}
                   />
                 ))}
                 {gilt.map((b, i) => (
@@ -936,7 +937,7 @@ function PagesCodex({
                     y={b[5] * ph}
                     width={b[6] * pw}
                     height={b[7] * ph}
-                    fill={night ? "rgba(224,183,112,.4)" : "rgba(155,122,77,.38)"}
+                    {...fillProps(night ? "rgba(224,183,112,.4)" : "rgba(155,122,77,.38)")}
                   />
                 ))}
                 {/* the rule is ONE device pixel at every scale, the way a printed
@@ -945,7 +946,7 @@ function PagesCodex({
                   <Path
                     key={`u${i}`}
                     d={`M${b[4] * pw} ${(b[5] + b[7]) * ph}h${b[6] * pw}`}
-                    stroke={night ? "rgba(224,183,112,.6)" : "rgba(155,122,77,.6)"}
+                    {...strokeProps(night ? "rgba(224,183,112,.6)" : "rgba(155,122,77,.6)")}
                     strokeWidth={1}
                     vectorEffect="non-scaling-stroke"
                   />

@@ -22,6 +22,7 @@ import { useTheme } from "../theme/ThemeProvider";
 import { Disc } from "./Disc";
 import { Icon, type IconName } from "./Icon";
 import { Txt } from "./Type";
+import { fillProps, strokeProps } from "./svgPaint";
 
 export type Act = {
   label: string;
@@ -37,8 +38,8 @@ export type Act = {
 function Lock({ color }: { color: string }) {
   return (
     <Svg width={14} height={14} viewBox="0 0 12 12" style={{ position: "absolute", right: -5, bottom: -3 }}>
-      <Rect x={2.4} y={5.3} width={7.2} height={5.1} rx={1.1} fill={color} />
-      <Path d="M4.2 5.3V4a1.8 1.8 0 0 1 3.6 0v1.3" stroke={color} strokeWidth={1.3} fill="none" />
+      <Rect x={2.4} y={5.3} width={7.2} height={5.1} rx={1.1} {...fillProps(color)} />
+      <Path d="M4.2 5.3V4a1.8 1.8 0 0 1 3.6 0v1.3" {...strokeProps(color)} strokeWidth={1.3} fill="none" />
     </Svg>
   );
 }

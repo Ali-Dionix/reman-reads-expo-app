@@ -42,6 +42,7 @@ import { snap } from "../../theme/type";
 import { Rule } from "../../ui/Rule";
 import { Txt } from "../../ui/Type";
 import { pressedSlugOf, useLedger, type Order, type OrderItem, type OrderStep } from "./data";
+import { strokeProps } from "../../ui/svgPaint";
 
 /** paperMarks.ts's NOISE, baked (see the header). */
 const GRAIN = require("./grain.png");
@@ -144,7 +145,7 @@ function Caret({ open }: { open: boolean }) {
   return (
     <View style={[styles.caret, open && styles.caretOpen]}>
       <Svg width={13} height={3} viewBox="0 0 12 8" preserveAspectRatio="xMidYMid meet" fill="none">
-        <Path d="M1 1l5 5 5-5" stroke={ink(0.4)} strokeWidth={1.5} strokeLinecap="round" />
+        <Path d="M1 1l5 5 5-5" {...strokeProps(ink(0.4))} strokeWidth={1.5} strokeLinecap="round" />
       </Svg>
     </View>
   );
@@ -180,12 +181,12 @@ function Post({ step, state, last }: { step: OrderStep; state: "done" | "now" | 
       {state === "now" ? (
         <Svg width={11} height={11} style={styles.dot} pointerEvents="none">
           {/* border:1.5px solid — the outer rim, r 5.5 → 4 */}
-          <Circle cx={5.5} cy={5.5} r={4.75} stroke={colors.brick} strokeWidth={1.5} fill="none" />
+          <Circle cx={5.5} cy={5.5} r={4.75} {...strokeProps(colors.brick)} strokeWidth={1.5} fill="none" />
           {/* inset 0 0 0 2.5px — the inner ring. Nominally r 4 → 1.5, but
               Chrome rounds the spread on the 4px-radius padding box to a 2px
               ring with a 4px hole (site pixels: hole cols 45–47 clear, 44 and
               48 half-covered), and the pixels are what parity measures. */}
-          <Circle cx={5.5} cy={5.5} r={3} stroke={NOW_RING} strokeWidth={2} fill="none" />
+          <Circle cx={5.5} cy={5.5} r={3} {...strokeProps(NOW_RING)} strokeWidth={2} fill="none" />
         </Svg>
       ) : (
         <View style={[styles.dot, dot]} />

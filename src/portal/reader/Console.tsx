@@ -72,6 +72,7 @@ import { deckInk } from "./console/ink";
 import { speedShort, useBookSpeed, useSpeedRamp } from "./console/speed";
 import narrators from "./narrators.json";
 import { useStanding, voiceInForce } from "./voice/standing";
+import { strokeProps, stopProps } from "../../ui/svgPaint";
 
 /** The web's own ten-entry table — past X the console prints the figure. */
 const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
@@ -124,12 +125,12 @@ function Stud({ night, held }: { night: boolean; held: boolean }) {
         {/* CSS sizes the circle to the farthest corner — .96 of the face's box,
             which the gradient's bounding-box units measure the same way */}
         <RadialGradient id="rr-lr-stud" cx="34%" cy="30%" r="96%" fx="34%" fy="30%">
-          <Stop offset="0" stopColor={stud.hi} />
-          <Stop offset={stud.midAt} stopColor={stud.mid} />
-          <Stop offset="1" stopColor={stud.rim} />
+          <Stop offset="0" {...stopProps(stud.hi)} />
+          <Stop offset={stud.midAt} {...stopProps(stud.mid)} />
+          <Stop offset="1" {...stopProps(stud.rim)} />
         </RadialGradient>
       </Defs>
-      <Circle cx={8} cy={8} r={7.5} fill="none" stroke={studRing} strokeWidth={1} />
+      <Circle cx={8} cy={8} r={7.5} fill="none" {...strokeProps(studRing)} strokeWidth={1} />
       <Circle cx={8} cy={8} r={7} fill="url(#rr-lr-stud)" />
     </Svg>
     </View>

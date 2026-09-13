@@ -25,6 +25,7 @@ import { useTheme } from "../../../theme/ThemeProvider";
 import { FONTS, lh, lineOf } from "../../../theme/type";
 import { JAG, TEAR, TILE_H, TILE_W } from "../TornBand";
 import { deckInk } from "./ink";
+import { fillProps, strokeProps } from "../../../ui/svgPaint";
 
 export { TILE_H };
 
@@ -48,11 +49,11 @@ function TornHead({ width, stock, jag }: { width: number; stock: string; jag: st
           </ClipPath>
         </Defs>
         {Array.from({ length: repeats }, (_, i) => (
-          <Path key={i} d={TEAR} fill={stock} transform={flip(i)} />
+          <Path key={i} d={TEAR} {...fillProps(stock)} transform={flip(i)} />
         ))}
         <G clipPath="url(#rr-lr-sheet-paper)">
           {Array.from({ length: repeats }, (_, i) => (
-            <Path key={i} d={JAG} fill="none" stroke={jag} strokeWidth={4} transform={flip(i)} />
+            <Path key={i} d={JAG} fill="none" {...strokeProps(jag)} strokeWidth={4} transform={flip(i)} />
           ))}
         </G>
       </Svg>

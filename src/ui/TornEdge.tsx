@@ -25,6 +25,7 @@
 
 import { View, type StyleProp, type ViewStyle } from "react-native";
 import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
+import { svgPaint } from "./svgPaint";
 
 /* ------------------------------------------------------------ the tiles --- */
 
@@ -125,6 +126,9 @@ export function TornSheet({
   const H = height;
   const fan = hazeSpread === "bar" ? HAZE_BAR : HAZE_SHEET;
   const washId = `wash-${edge}-${Math.round(height)}`;
+  // opaque paints + alpha on the opacity props — see svgPaint.ts for why
+  const hz = svgPaint(haze);
+  const wp = svgPaint(wash);
 
   /* --- hanging sheet (.rr-ap-top-paper / .rr-nav5-paper), box 0..H:
        ::before  top:0 bottom:-20px  → solid to H+4, tile at H+3 (x −53)
@@ -177,8 +181,8 @@ export function TornSheet({
               x2={0}
               y2={washY[1]}
             >
-              <Stop offset={0} stopColor={wash} stopOpacity={hang ? 0 : 1} />
-              <Stop offset={1} stopColor={wash} stopOpacity={hang ? 1 : 0} />
+              <Stop offset={0} stopColor={wp.color} stopOpacity={hang ? 0 : wp.alpha} />
+              <Stop offset={1} stopColor={wp.color} stopOpacity={hang ? wp.alpha : 0} />
             </LinearGradient>
           </Defs>
         ) : null}
@@ -187,8 +191,8 @@ export function TornSheet({
           <Path
             key={i}
             d={`${beforeAt(d)} ${afterAt(d)}`}
-            fill={haze}
-            fillOpacity={0.28 - i * 0.04}
+            fill={hz.color}
+            fillOpacity={hz.alpha * (0.28 - i * 0.04)}
             fillRule="nonzero"
           />
         ))}

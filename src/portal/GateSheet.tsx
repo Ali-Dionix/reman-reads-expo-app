@@ -50,6 +50,7 @@ import { useTheme } from "../theme/ThemeProvider";
 import { Disc } from "../ui/Disc";
 import { Icon, type IconName } from "../ui/Icon";
 import { Txt } from "../ui/Type";
+import { fillProps, strokeProps } from "../ui/svgPaint";
 
 /** appShell.ts ADD_WAYS, verbatim — the four rows the device shows and the
  *  four labels the copy lists. */
@@ -303,7 +304,7 @@ export function GateSheet({
                   <Svg viewBox="0 0 24 24" width={20} height={20}>
                     <Path
                       d="M4 12h15m-6-6 6 6-6 6"
-                      stroke={paper}
+                      {...strokeProps(paper)}
                       strokeWidth={1.5}
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -347,7 +348,7 @@ export function GateSheet({
             <Svg viewBox="0 0 16 16" width={12} height={12}>
               <Path
                 d="M3.4 3.4l9.2 9.2M12.6 3.4l-9.2 9.2"
-                stroke={colors.ink}
+                {...strokeProps(colors.ink)}
                 strokeWidth={1.7}
                 strokeLinecap="round"
               />
@@ -468,7 +469,7 @@ function Device({ width, short, paper, shadow }: { width: number; short: boolean
             <Svg viewBox="0 0 16 16" width={9} height={9}>
               <Path
                 d="M6 3.5 10.5 8 6 12.5"
-                stroke={ink(0.3)}
+                {...strokeProps(ink(0.3))}
                 strokeWidth={1.9}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -500,7 +501,7 @@ function Device({ width, short, paper, shadow }: { width: number; short: boolean
             }}
           >
             <Svg viewBox="0 0 14 14" width={9} height={9}>
-              <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" fill={colors.paper} />
+              <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" {...fillProps(colors.paper)} />
             </Svg>
           </View>
           <View style={{ flex: 1, minWidth: 0 }}>

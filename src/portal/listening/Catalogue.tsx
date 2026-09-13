@@ -41,6 +41,7 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { Cover } from "../../ui/Cover";
 import { Seg } from "../../ui/Seg";
 import { Head, Lede, Txt } from "../../ui/Type";
+import { strokeProps } from "../../ui/svgPaint";
 
 export type AudioEntry = {
   slug: string;
@@ -183,7 +184,7 @@ function Rail({
             See all
           </Txt>
           <Svg width={11} height={9} viewBox="0 0 12 10">
-            <Path d={railArrow} stroke={colors.ink} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
+            <Path d={railArrow} {...strokeProps(colors.ink)} strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </Svg>
         </Pressable>
       </View>

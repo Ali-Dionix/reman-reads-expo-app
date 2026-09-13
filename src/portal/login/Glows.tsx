@@ -13,6 +13,7 @@
 //               wash and under the rig's threshold.
 
 import Svg, { Defs, Ellipse, RadialGradient, Rect, Stop } from "react-native-svg";
+import { stopProps } from "../../ui/svgPaint";
 
 export function HeroGlow({ width, height, color, alpha, id }: { width: number; height: number; color: string; alpha: number; id: string }) {
   const cx = 0.72 * width;
@@ -28,8 +29,8 @@ export function HeroGlow({ width, height, color, alpha, id }: { width: number; h
     >
       <Defs>
         <RadialGradient id={id} gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={r}>
-          <Stop offset={0} stopColor={color} stopOpacity={alpha} />
-          <Stop offset={1} stopColor={color} stopOpacity={0} />
+          <Stop offset={0} {...stopProps(color, alpha)} />
+          <Stop offset={1} {...stopProps(color, 0)} />
         </RadialGradient>
       </Defs>
       <Rect x={0} y={0} width={width} height={height} fill={`url(#${id})`} />
@@ -60,8 +61,8 @@ export function WindowGlow({ width, height, color, alpha, id }: { width: number;
     >
       <Defs>
         <RadialGradient id={id} gradientUnits="userSpaceOnUse" cx={cx} cy={cy} r={r}>
-          <Stop offset={0} stopColor={color} stopOpacity={alpha} />
-          <Stop offset={1} stopColor={color} stopOpacity={0} />
+          <Stop offset={0} {...stopProps(color, alpha)} />
+          <Stop offset={1} {...stopProps(color, 0)} />
         </RadialGradient>
       </Defs>
       <Ellipse cx={x0 + w / 2} cy={y0 + h / 2} rx={w / 2} ry={h / 2} fill={`url(#${id})`} />

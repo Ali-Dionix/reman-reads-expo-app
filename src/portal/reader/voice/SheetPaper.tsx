@@ -20,6 +20,7 @@ import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
 
 import { sheetPath } from "../../../ui/TornEdge";
 import type { Palette } from "./palette";
+import { fillProps, stopProps } from "../../../ui/svgPaint";
 
 /** How far the haze reaches above the box. */
 export const HAZE_BLEED = 22;
@@ -59,16 +60,16 @@ export function SheetPaper({
       <Svg width={width} height={svgH} viewBox={`0 0 ${width} ${svgH}`}>
         <Defs>
           <LinearGradient id="rr-vc-stock" x1="0" y1="0" x2="0" y2="1">
-            <Stop offset="0" stopColor={pal.paperTop} />
-            <Stop offset="1" stopColor={pal.paperBot} />
+            <Stop offset="0" {...stopProps(pal.paperTop)} />
+            <Stop offset="1" {...stopProps(pal.paperBot)} />
           </LinearGradient>
         </Defs>
         {/* the haze — farthest copy first */}
         {FAN.map(([d, a], i) => (
-          <Path key={i} d={paperAt(-d)} fill={pal.haze} fillOpacity={a} />
+          <Path key={i} d={paperAt(-d)} {...fillProps(pal.haze, a)} />
         ))}
         {/* the ink under the paper: what the mask leaves of the 4px stroke */}
-        <Path d={paper} fill={pal.tearInk} />
+        <Path d={paper} {...fillProps(pal.tearInk)} />
         {/* the stock, its tile a hair lower so the ink shows along the tear */}
         <Path d={paperAt(INK_DROP)} fill="url(#rr-vc-stock)" />
       </Svg>

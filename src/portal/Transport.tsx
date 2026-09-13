@@ -18,6 +18,7 @@ import { mmss, useDeck } from "../lib/audioStore";
 import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
+import { fillProps, strokeProps } from "../ui/svgPaint";
 
 /** icBack15 / its mirror — the ± buttons. Shared with the Reading Desk. */
 export function Jump({ back, color }: { back?: boolean; color: string }) {
@@ -29,7 +30,7 @@ export function Jump({ back, color }: { back?: boolean; color: string }) {
             ? "M11.5 5.5V2L7 5.5l4.5 3.5V6.9a5.6 5.6 0 1 1-5.4 4.2"
             : "M12.5 5.5V2L17 5.5l-4.5 3.5V6.9a5.6 5.6 0 1 0 5.4 4.2"
         }
-        stroke={color}
+        {...strokeProps(color)}
         strokeWidth={1.6}
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -146,11 +147,11 @@ export function Transport() {
           <Svg width={18} height={18} viewBox="0 0 14 14">
             {playing ? (
               <>
-                <Rect x={1.5} y={1.5} width={3} height={11} rx={1} fill={colors.paper} />
-                <Rect x={7.5} y={1.5} width={3} height={11} rx={1} fill={colors.paper} />
+                <Rect x={1.5} y={1.5} width={3} height={11} rx={1} {...fillProps(colors.paper)} />
+                <Rect x={7.5} y={1.5} width={3} height={11} rx={1} {...fillProps(colors.paper)} />
               </>
             ) : (
-              <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" fill={colors.paper} />
+              <Path d="M3 2.2v9.6l8-4.8-8-4.8Z" {...fillProps(colors.paper)} />
             )}
           </Svg>
         </Pressable>

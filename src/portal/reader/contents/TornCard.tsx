@@ -39,6 +39,7 @@ import Svg, {
 } from "react-native-svg";
 
 import { TEETH, TILE_H, TILE_W } from "../../../ui/TornEdge";
+import { fillProps, strokeProps } from "../../../ui/svgPaint";
 
 /** VTEAR — the 16×120 tile's torn profile, y ascending; the tile is filled
  *  from x=0 to this line. VTEARF (the left edge) is its mirror, 16 − x. */
@@ -159,14 +160,14 @@ export function TornCard({
         </Defs>
         {/* the stock, with its cast shadow: five shapes, one silhouette */}
         <G filter={shadow ? `url(#${id}-shadow)` : undefined}>
-          <Path d={dRect} fill={fill} />
-          <Path d={dTop} fill={fill} />
-          <Path d={dBot} fill={fill} />
-          <Path d={dLeft} fill={fill} />
-          <Path d={dRight} fill={fill} />
+          <Path d={dRect} {...fillProps(fill)} />
+          <Path d={dTop} {...fillProps(fill)} />
+          <Path d={dBot} {...fillProps(fill)} />
+          <Path d={dLeft} {...fillProps(fill)} />
+          <Path d={dRight} {...fillProps(fill)} />
         </G>
         {/* the tear's ink — the outer half of each stroke falls outside the mask */}
-        <G clipPath={`url(#${id}-clip)`} fill="none" stroke={ink} strokeWidth={4}>
+        <G clipPath={`url(#${id}-clip)`} fill="none" {...strokeProps(ink)} strokeWidth={4}>
           <Path d={lTop} />
           <Path d={lBot} />
           <Path d={lLeft} />

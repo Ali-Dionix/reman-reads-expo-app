@@ -78,6 +78,7 @@ import { useTheme } from "../../src/theme/ThemeProvider";
 import { face } from "../../src/theme/type";
 import { Rule } from "../../src/ui/Rule";
 import { Txt } from "../../src/ui/Type";
+import { strokeProps } from "../../src/ui/svgPaint";
 
 /* --------------------------------------------------------------- copy --- */
 
@@ -468,7 +469,7 @@ export default function Hermes() {
                   </Txt>
                   <View style={{ position: "absolute", right: 13, top: 0, bottom: 0, justifyContent: "center" }}>
                     <Svg width={12} height={8} viewBox="0 0 12 8">
-                      <Path d="M1 1l5 5 5-5" fill="none" stroke={colors.brass} strokeWidth={1.5} strokeLinecap="round" />
+                      <Path d="M1 1l5 5 5-5" fill="none" {...strokeProps(colors.brass)} strokeWidth={1.5} strokeLinecap="round" />
                     </Svg>
                   </View>
                 </Pressable>
@@ -634,7 +635,7 @@ export default function Hermes() {
               <Svg width={26} height={26} viewBox="0 0 24 24" fill="none">
                 <Path
                   d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3M12 4v11m0-11L7.5 8.5M12 4l4.5 4.5"
-                  stroke={colors.brass}
+                  {...strokeProps(colors.brass)}
                   strokeWidth={1.6}
                   strokeLinecap="round"
                   strokeLinejoin="round"
