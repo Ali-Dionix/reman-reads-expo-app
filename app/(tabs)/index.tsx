@@ -70,7 +70,7 @@ const startable: ShelfCard[] = shelf.pressings.map((p) => ({
 }));
 
 export default function Home() {
-  const { user, guest } = useSession();
+  const { user } = useSession();
   const router = useRouter();
   const { now, position, begin, spots } = useDeck();
   const { add } = useLocalSearchParams<{ add?: string }>();
@@ -188,7 +188,6 @@ export default function Home() {
       {/* importSheetHtml()'s locked panel — .rr-im.is-upgrade */}
       <GateSheet
         open={gate !== null}
-        guest={guest}
         onClose={() => setGate(null)}
         onContinue={() => {
           const key = gate ?? "files";

@@ -64,7 +64,7 @@ import {
 import shelf from "../data/listeningShelf.json";
 import { useStanding, voiceInForce } from "../portal/reader/voice/standing";
 import { audioUrl } from "./audioResolve";
-import { GUEST_OWNER, ownerOf, type Owner } from "./portalState";
+import { NO_OWNER, ownerOf, type Owner } from "./portalState";
 import { useSession } from "./session";
 import { cache } from "./storage";
 
@@ -357,8 +357,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const uri = chapter ? audioUrl(chapter.src) : null;
 
   /* --- the shop door --- */
-  const { guest, user, booting } = useSession();
-  const locked = guest || !user;
+  const { user, booting } = useSession();
+  const locked = !user;
   const lockedRef = useRef(locked);
   lockedRef.current = locked;
   // COUNTED, not latched: a console mounted over a room already refused once
@@ -381,8 +381,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   // voice/standing.ts under the portal state's key. Hydrated here for this
   // owner so playBand / playAt can ask voiceInForce() for the pressing to
   // drop, before the narrator sheet has ever been opened.
-  const owner: Owner = booting ? "" : guest ? GUEST_OWNER : ownerOf(user?.id);
-  useStanding(owner || GUEST_OWNER);
+  const owner: Owner = booting ? "" : ownerOf(user?.id);
+  useStanding(owner || NO_OWNER);
 
   // The documented path: hand the hook the source and let it own loading.
   // (An earlier version created the player sourceless and fed it replace() —

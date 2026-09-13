@@ -199,7 +199,7 @@ export const ownLine = (copy: OwnedCopy): string =>
 const DEFAULT_SHELF = ["crime-and-punishment", "meditations", "the-little-prince"];
 const DEFAULT_WAITLIST = ["the-brothers-karamazov", "1984"];
 
-export function guestMarks(): Marks {
+export function sampleMarks(): Marks {
   return {
     owned: new Map(),
     saved: new Set([...DEFAULT_SHELF, ...DEFAULT_WAITLIST].filter((s) => BY_SLUG.has(s))),
@@ -207,13 +207,14 @@ export function guestMarks(): Marks {
 }
 
 /**
- * The marks the room draws for this session. A guest reads the sample state
- * above; a signed-in reader's shelf_items and orders are not yet read through
- * the session, so their shelf is honestly empty — the site's own empty rooms
- * (savedSet() / ownedBySlug() over an empty PortalState), never the guest's
- * sample under a real name.
+ * The marks the room draws for this session. The reader's shelf_items and
+ * orders are not yet read through the session, so the shelf is honestly
+ * empty — the site's own empty rooms (savedSet() / ownedBySlug() over an
+ * empty PortalState). sampleMarks() above is the site's demo state, kept for
+ * the day a preview wants it; no screen reads it now that the app has no
+ * guest.
  * TODO(Phase 2): read the signed-in reader's shelf_items and orders here.
  */
-export function readerMarks(guest: boolean): Marks {
-  return guest ? guestMarks() : { owned: new Map(), saved: new Set() };
+export function readerMarks(): Marks {
+  return { owned: new Map(), saved: new Set() };
 }

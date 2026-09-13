@@ -46,12 +46,9 @@ import {
 import { Txt } from "../../src/ui/Type";
 
 export default function Library() {
-  const { guest } = useSession();
-
-  // The reader's marks. A guest reads the sample state; a signed-in reader's
-  // shelf is empty until their shelf and orders arrive through the session in
-  // Phase 2 (see data.ts) — the site's own empty rooms, never the sample.
-  const marks = useMemo(() => readerMarks(guest), [guest]);
+  // The reader's marks: empty until their shelf and orders arrive through
+  // the session in Phase 2 (see data.ts) — the site's own empty rooms.
+  const marks = useMemo(() => readerMarks(), []);
 
   // Land on the shelf that actually has something on it (the enhancer's rule).
   const [tab, setTab] = useState<Tab>(() => (marks.owned.size ? "owned" : "all"));

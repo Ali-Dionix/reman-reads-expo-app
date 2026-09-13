@@ -713,7 +713,7 @@ export function VoiceSheet({
             </View>
           );
         case "cv":
-          return <CloneCard pal={pal} guest={locked} onSignIn={onSignIn} />;
+          return <CloneCard pal={pal} locked={locked} onSignIn={onSignIn} />;
         case "livesay": {
           // an open room with no live pipeline says so at rest, in the
           // muted ink — a note (a tap's answer) is the refusal's
@@ -1036,7 +1036,7 @@ function LangMenu({
  *  app carries no recorder, so the pill stands disabled
  *  (.rr-lr-cv-btn[disabled]{opacity:.4}) with the caveat on the control,
  *  as a .rr-lr-cv-note under the row — the house's coming-soon rule. */
-function CloneCard({ pal, guest, onSignIn }: { pal: Palette; guest: boolean; onSignIn: () => void }) {
+function CloneCard({ pal, locked, onSignIn }: { pal: Palette; locked: boolean; onSignIn: () => void }) {
   const body = (
     <>
       <View
@@ -1055,7 +1055,7 @@ function CloneCard({ pal, guest, onSignIn }: { pal: Palette; guest: boolean; onS
         </Text>
       </View>
       <View style={styles.cvActs}>
-        {guest ? (
+        {locked ? (
           <Pressable
             onPress={onSignIn}
             accessibilityRole="link"
@@ -1109,7 +1109,7 @@ function CloneCard({ pal, guest, onSignIn }: { pal: Palette; guest: boolean; onS
         />
       </View>
       {/* .rr-lr-cv-note — the caveat the disabled pill needs, on the tile */}
-      {guest ? null : (
+      {locked ? null : (
         <Text style={[styles.cvNote, { color: pal.cvNote }]}>recording your voice is coming to the app soon.</Text>
       )}
     </View>

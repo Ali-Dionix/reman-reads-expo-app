@@ -93,7 +93,6 @@ golden — that is the Next.js dev-tools badge on the local site, not chrome
 | `BandHead` | `title, sub?, link?, band?=true, after?=0` | `.rr-ap-band`, `.rr-ap-band-h` | 30px above; serif 23px; link underlined 1.5px ink. The 2px under the head COLLAPSES on the web into the follower's margin, so it draws none; a follower with no top margin passes `after={2}`. |
 | `Seg` | `segments:[{key,label,count?}], selected, onSelect, size?=19, gap?=22, top?=18, count?="super"\|"baseline", countGap?, dim?=.45, role?="tab"\|"radio"` | `.rr-ap-seg`; `.rr-lr-pill` at `size={18} gap={20} top={16} count="baseline" role="radio"` | Serif words, squiggle under the live one, brass count — superscript on the kit's (inline content), on the baseline on the pill (inline-flex, so `super` is moot). `.rr-ly-tab` is NOT this segment (its own padding and a brick count). |
 | `Note` | `label, children` | `.rr-ap-note` | Brick dashed rules above and below. |
-| `GuestNote` (src/ui) | `onCreateAccount` | `.rr-pf-guestnote` (Profile and Settings carry the same rule) | 18 above, 13/14 inside brick rules; 700 8.5px .22em label; 13px/1.6 ink .7 with the underlined ink link. |
 | `Txt` (src/ui/Type) | `family?, weight?, italic?, size, ls?, line?, upper?, color?, tone?` | any `font:` shorthand | `face()` resolves the loaded file; `lh()` Chrome's normal line-height; a unitless `line` is snapped to 1/64px. |
 | Voices | `Title Head Row Body Lede Micro Kicker Tab Sub Value Numeral Hand` | `.rr-pt-h1 .rr-ap-band-h h2 .rr-ap-row-l b .rr-pt-sub .rr-ap-band-h p .rr-ap-group-h b .rr-ap-title i .rr-ap-tab b .rr-ap-row-l em .rr-ap-row-v .rr-ap-seg i .rr-ap-row-note` | Presets in `TEXT`, src/theme/type.ts; line-heights via `lineOf(size, factor)`. |
 | `useTheme()` | `mode, colors, bg(), text(), border(), line, chrome, toggle, setPref` | theme.ts | `chrome` carries the night-rule constants (tear line, haze, scrim, fab shadow). |
@@ -160,15 +159,18 @@ and the sheets' `.rr-lr-menu` carry the same stock); `reader/contents/
 SmallCaps` and `reader/codex/SmallCaps` (font-variant: small-caps,
 synthesised). `Rule kind="dotted"` is Chrome's 1px dotted: one on, one off.
 
-**The session** (`src/lib/session`): `user, booting, guest, reader` (the
-readers row, hydrated once per signed-in reader — card_no, name, langs, the
-audio settings), `setUser` (drops the guest pass only when what is stored IS
-a guest pass), `startGuest`, `signOut` (a guest's `rr-account-state` leaves
-with the guest), `rename` (in memory and on the pass). `useCardNo()` is the
-member number as the web paints it. **The working model**
-(`src/lib/portalState`): `readState(owner?)`, `writeState(owner, patch)` over
-`rr-account-state` — merges, stamped with the owner (`ownerOf(id)`; a guest
-is "guest"), so no room clobbers another's slice and no reader sees
+**The session** (`src/lib/session`): `user, booting, reader` (the readers
+row, hydrated once per signed-in reader — card_no, name, langs, the audio
+settings), `setUser` (a different reader drops the last one's
+`rr-account-state`), `signOut`, `rename` (in memory). There is NO guest pass
+in the app — an account is mandatory (product owner, 13 Sep 2026); the site's
+"Continue as a guest →" door is not offered, and a pass an earlier build
+persisted under `rr-account` is swept at boot. `useCardNo()` is the member
+number as the web paints it. **The working model** (`src/lib/portalState`):
+`readState(owner?)`, `writeState(owner, patch)` over `rr-account-state` —
+merges, stamped with the owner (`ownerOf(id)`; nobody signed in is
+`NO_OWNER`, "guest", the site's own stamp), so no room clobbers another's
+slice and no reader sees
 another's.
 
 Fonts loaded (`app/_layout.tsx`, mirrored in `FONTS`): Manrope 400/500/600/700/800,

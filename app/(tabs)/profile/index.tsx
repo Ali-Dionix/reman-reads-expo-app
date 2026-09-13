@@ -22,34 +22,21 @@
 // rows and until then it is empty, which draws the honest empty state.
 //
 
-import { useRouter } from "expo-router";
-import { useCallback } from "react";
-
 import { useSession } from "../../../src/lib/session";
 import { PortalPage, Wrap } from "../../../src/portal/PortalPage";
 import { EMPTY_LEDGER } from "../../../src/portal/profile/ledger";
 import { Identity, Questions, Slab, Stats, Support } from "../../../src/portal/profile/parts";
-import { GuestNote } from "../../../src/ui/GuestNote";
 
 export default function Profile() {
-  const router = useRouter();
-  const { user, guest, signOut } = useSession();
+  const { user } = useSession();
 
   // portalClient.fillReaderName: the session's name, trimmed, or "Reader".
   const name = (user?.name ?? "").trim() || "Reader";
 
-  // "Create a free account" — the site sends a guest to /login. Here the pass
-  // is dropped first (session.signOut) so the gate lets the wall show, then
-  // the wall is the whole stack.
-  const createAccount = useCallback(() => {
-    void signOut().finally(() => router.replace("/sign-in"));
-  }, [router, signOut]);
-
   return (
     <PortalPage title="Profile">
       <Wrap>
-        <Identity name={name} guest={guest} />
-        {guest ? <GuestNote onCreateAccount={createAccount} /> : null}
+        <Identity name={name} />
         <Slab />
         <Stats listening={EMPTY_LEDGER} />
         <Support />

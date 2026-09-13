@@ -80,14 +80,11 @@ export function GateSheet({
   open,
   onClose,
   onContinue,
-  guest,
 }: {
   open: boolean;
   onClose: () => void;
   /** The press. The caller decides where it goes (openToBuy). */
   onContinue: () => void;
-  /** paintGate's `subGuest`: a guest is offered the sign-in, not the sale. */
-  guest: boolean;
 }) {
   const { colors, mode } = useTheme();
   const { ink, brass, width, clamp } = useInk();
@@ -277,10 +274,11 @@ export function GateSheet({
                   </Txt>
                 </View>
 
-                {/* .rr-im-upgrade-continue — the press (button for a reader, link for a guest) */}
+                {/* .rr-im-upgrade-continue — the press. The site's subGuest branch (a link
+                    to sign in) has no reader here: the app has no guest. */}
                 <Pressable
                   onPress={onContinue}
-                  accessibilityRole={guest ? "link" : "button"}
+                  accessibilityRole="button"
                   accessibilityLabel="Continue"
                   style={({ pressed }) => ({
                     flexDirection: "row",
@@ -320,7 +318,7 @@ export function GateSheet({
                   style={{ marginTop: pocket ? 8 : 10, textAlign: "center" }}
                   accessibilityRole="text"
                 >
-                  {guest ? "Sign in to choose your subscription." : "Monthly subscription. Cancel from Settings."}
+                  Monthly subscription. Cancel from Settings.
                 </Txt>
               </View>
             </View>

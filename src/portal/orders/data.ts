@@ -265,8 +265,8 @@ export async function fetchLedgerOrders(): Promise<Order[]> {
  * has no counterpart in the app.
  */
 export function useLedger(): Order[] {
-  const { user, guest } = useSession();
-  const readerId = !guest && user ? user.id : "";
+  const { user } = useSession();
+  const readerId = user ? user.id : "";
   const [mine, setMine] = useState<Order[]>([]);
 
   useEffect(() => {

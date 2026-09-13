@@ -20,8 +20,9 @@
 // opens on Create an account), the same copy branches (including the
 // supabaseReady split), the same sent panel, the same carrying panel for a
 // reader already signed in, the same landing (the audiobooks, or a same-origin
-// `?next=`), and the same third door — "Continue as a guest →" mints the guest
-// pass and walks into the rooms. A letter's link opens THIS screen
+// `?next=`). NOT the site's third door: "Continue as a guest →" is absent on
+// purpose — an account is mandatory in the app (product owner, 13 Sep 2026),
+// so the panel ends at the submit. A letter's link opens THIS screen
 // (romanreads://sign-in) and is read off the URL, as the site reads its hash.
 //
 // Colour is the page's own oklch palette (src/portal/login/palette.ts), not
@@ -345,7 +346,7 @@ function Field({
 /* ----------------------------------------------------------- the screen --- */
 
 export default function SignIn() {
-  const { user, booting, guest, setUser, startGuest, signOut } = useSession();
+  const { user, booting, setUser, signOut } = useSession();
   const { mode } = useTheme();
   const { width, clamp } = useInk();
   const { width: winW, height: winH } = useWindowDimensions();
@@ -506,8 +507,7 @@ export default function SignIn() {
 
   if (booting) return null;
 
-  // A guest pass is not a card: the desk still offers one. A real session is.
-  const carrying = !!user && !guest;
+  const carrying = !!user;
   const guidance = error ?? guidanceCopy(flow, way);
   // --lg-paper-h: clamp(34px,4.6vh,46px); ≤730 tall clamp(26px,4vh,38px)
   const paperH = (tier.t730 ? vh(winH, 26, 4, 38) : vh(winH, 34, 4.6, 46)) + insets.bottom;
@@ -926,32 +926,8 @@ export default function SignIn() {
                       </View>
                     )}
 
-                    {/* .rr-lg-panelnav — the third door, on a rule; 16/14,
-                        14/13 at ≤730 tall, 12/11 at ≤670 */}
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                        gap: 16,
-                        marginTop: at(tier, 16, 14, 12),
-                        paddingTop: at(tier, 14, 13, 11),
-                        borderTopWidth: 1,
-                        borderTopColor: p.line,
-                      }}
-                    >
-                      <LinkWord
-                        p={p}
-                        size={10}
-                        onPress={() => {
-                          // No account, no letter, no server — the rooms on sample data.
-                          startGuest();
-                          router.replace(landing(next));
-                        }}
-                      >
-                        Continue as a guest →
-                      </LinkWord>
-                    </View>
+                    {/* .rr-lg-panelnav — the site's third door ("Continue as a
+                        guest →") is not offered here: no guest mode in the app. */}
                   </View>
                 )}
               </View>

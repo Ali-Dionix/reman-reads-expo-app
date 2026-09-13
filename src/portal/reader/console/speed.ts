@@ -122,10 +122,10 @@ export function setSpeedRamp(on: boolean): void {
 
 /** The reader's default, read once per owner off the settings ledger. */
 let dfltJob: string | null = null;
-function ensureDefault(owner: string, guest: boolean): void {
+function ensureDefault(owner: string): void {
   if (state.dfltOwner === owner || dfltJob === owner) return;
   dfltJob = owner;
-  readSettings(owner, guest)
+  readSettings(owner)
     .then((s) => {
       if (dfltJob !== owner) return;
       dfltJob = null;
@@ -150,11 +150,11 @@ export function speedFor(slug: string, spots: Spots, st: SpeedState = state): nu
 
 /** Subscribe to the store, and see the reader's default is on its way. */
 function useSpeedStore(): SpeedState {
-  const { user, guest } = useSession();
+  const { user } = useSession();
   const owner = ownerOf(user?.id);
   useEffect(() => {
-    ensureDefault(owner, guest);
-  }, [owner, guest]);
+    ensureDefault(owner);
+  }, [owner]);
   return useSyncExternalStore(subscribe, read, read);
 }
 

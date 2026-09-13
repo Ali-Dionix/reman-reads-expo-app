@@ -65,7 +65,6 @@ import {
   AUDIO_SLEEP,
   BINDINGS,
   DEFAULTS,
-  GUEST_CARD_NO,
   SPEEDS,
   STATE_KEY,
   addressLine,
@@ -78,7 +77,6 @@ import {
   type SettingsState,
 } from "../../../src/portal/settings/state";
 import { ownerOf } from "../../../src/lib/portalState";
-import { GuestNote } from "../../../src/ui/GuestNote";
 import { Fold, Group, Row } from "../../../src/ui/Rows";
 import { Rule } from "../../../src/ui/Rule";
 import { Switch } from "../../../src/ui/Switch";
@@ -87,40 +85,41 @@ import { Txt } from "../../../src/ui/Type";
 /** The speed chips, drawn from audioStore's SPEEDS as the enhancer draws them. */
 const SPEED_STOPS = SPEEDS.map((v) => ({ value: v, label: `${v}×` }));
 
-/** `.rr-pf-needs-card` — .45 and inert for a guest. */
-function NeedsCard({ guest, children }: { guest: boolean; children: ReactNode }) {
-  return <View style={{ opacity: guest ? 0.45 : 1, pointerEvents: guest ? "none" : "auto" }}>{children}</View>;
+/** `.rr-pf-needs-card` — the site dims these to .45 for a guest; every
+ *  reader here holds a card, so the wrapper is the plain box. */
+function NeedsCard({ children }: { children: ReactNode }) {
+  return <View>{children}</View>;
 }
 
 export default function SettingsScreen() {
   const router = useRouter();
-  const { user, guest, signOut, rename } = useSession();
+  const { user, signOut, rename } = useSession();
 
   // The member number is what portalClient.hydrate() brings down from the
-  // readers row — the ledger's own cardNo is only ever a copy of it. Guests
-  // read 000000, a reader reads the dash until the row lands.
+  // readers row — the ledger's own cardNo is only ever a copy of it. A reader
+  // reads the dash until the row lands.
   const cardNo = useCardNo();
 
   // --- the ledger, keyed to the reader who wrote it
-  const owner = ownerOf(guest ? null : user?.id);
-  const [state, setState] = useState<SettingsState>(guest ? { ...DEFAULTS, cardNo: GUEST_CARD_NO } : DEFAULTS);
+  const owner = ownerOf(user?.id);
+  const [state, setState] = useState<SettingsState>(DEFAULTS);
   useEffect(() => {
     let alive = true;
-    readSettings(owner, guest).then((s) => {
+    readSettings(owner).then((s) => {
       if (alive) setState(s);
     });
     return () => {
       alive = false;
     };
-  }, [owner, guest]);
+  }, [owner]);
 
   /** commit — write a patch and re-ink. */
   const commit = useCallback(
     (patch: Partial<SettingsState>) => {
       setState((s) => ({ ...s, ...patch }));
-      void writeSettings(owner, patch, guest).then((s) => setState(s));
+      void writeSettings(owner, patch).then((s) => setState(s));
     },
-    [owner, guest],
+    [owner],
   );
   const cardNoKnown = cardNo !== "–";
   useEffect(() => {
@@ -137,28 +136,28 @@ export default function SettingsScreen() {
   // One armed press for the whole page (ProfileEnhancer's twoTap).
   const twoTap = useTwoTap();
 
-  // "Reading since" — readers.created_at, or the guest pass's own year.
+  // "Reading since" — readers.created_at.
   const [joined, setJoined] = useState(thisYear);
   useEffect(() => {
     let alive = true;
-    readJoined(user?.id ?? "", guest).then((y) => {
+    readJoined(user?.id ?? "").then((y) => {
       if (alive) setJoined(y);
     });
     return () => {
       alive = false;
     };
-  }, [user?.id, guest]);
+  }, [user?.id]);
 
-  // paintAccount's two lines, from GoTrue rather than the ledger: null for a
-  // guest, or while the record is in flight, or when it cannot be read.
+  // paintAccount's two lines, from GoTrue rather than the ledger: null while
+  // the record is in flight, or when it cannot be read.
   const [record, setRecord] = useState<AuthRecord | null>(null);
   const loadRecord = useCallback(() => {
-    if (guest || !user?.id) {
+    if (!user?.id) {
       setRecord(null);
       return;
     }
     void authRecord().then(setRecord);
-  }, [guest, user?.id]);
+  }, [user?.id]);
   useEffect(loadRecord, [loadRecord]);
   const issued = issuedOn(record?.createdAt ?? 0);
 
@@ -170,7 +169,7 @@ export default function SettingsScreen() {
    * emptied. Nothing when unchanged. A reader's name goes three places, as
    * writeSession + setAuthName send it — the session (so Profile shows it),
    * the readers row, and the auth record, which order mail reads with no
-   * session to consult. A guest's goes on the pass alone.
+   * session to consult.
    */
   const commitName = useCallback(() => {
     if (!user) return;
@@ -178,10 +177,9 @@ export default function SettingsScreen() {
     if (next !== name) setName(next);
     if (next === user.name) return;
     rename(next);
-    if (guest) return;
     void pushName(user.id, next);
     void setAuthName(next);
-  }, [guest, name, rename, user]);
+  }, [name, rename, user]);
 
   const [drawer, setDrawer] = useState<"email" | "password" | null>(null);
   const [newEmail, setNewEmail] = useState("");
@@ -340,12 +338,10 @@ export default function SettingsScreen() {
   return (
     <PortalPage title="Settings" eyebrow="Profile" back="/profile">
       <Wrap>
-        {guest ? <GuestNote onCreateAccount={createAccount} /> : null}
-
         {/* ------------------------------------------------------ Account */}
         <Group label="Account">
           <Fold label="Name" note="on the parcel and every email" value="Edit">
-            {/* .rr-pf-well>*:first-child{margin-top:0}; a guest can type here too (commitName writes the pass). */}
+            {/* .rr-pf-well>*:first-child{margin-top:0} */}
             <Field
               label="Name on the account"
               value={name}
@@ -356,8 +352,8 @@ export default function SettingsScreen() {
               autoComplete="name"
               style={{ marginTop: 0 }}
             />
-            {/* <p class="rr-pf-hint" data-rr-pf-ink="since"> — "Card issued 12 September 2026." for a
-                reader; a guest's is never inked, but its 8px margin is laid out. */}
+            {/* <p class="rr-pf-hint" data-rr-pf-ink="since"> — "Card issued 12 September 2026."; its
+                8px margin is laid out even while the record is in flight. */}
             {issued ? <Hint>Card issued {issued}.</Hint> : <View style={{ marginTop: 8 }} />}
           </Fold>
 
@@ -372,7 +368,7 @@ export default function SettingsScreen() {
                 above is still the one on your account.
               </SideNote>
             ) : null}
-            <NeedsCard guest={guest}>
+            <NeedsCard>
               <Act>
                 <MiniButton label="Change the email" onPress={() => setDrawer((d) => (d === "email" ? null : "email"))} />
                 <MiniButton label="Set a new password" onPress={() => setDrawer((d) => (d === "password" ? null : "password"))} />
@@ -656,7 +652,7 @@ export default function SettingsScreen() {
               />
             </RowList>
             <Hint>Your address is never sold, forwarded or handed to anyone.</Hint>
-            <NeedsCard guest={guest}>
+            <NeedsCard>
               <Act>
                 <MiniButton label="Send me a test email" onPress={() => void doTestLetter()} disabled={!!busy.test} />
                 <Say text={said.test?.text ?? ""} bad={said.test?.bad} />
@@ -705,11 +701,10 @@ export default function SettingsScreen() {
             cta="Sign out everywhere"
             onPress={() => void doGlobalSignOut()}
             twoTap={twoTap("global")}
-            needsCard={guest}
             said={said.global}
           />
           <Fold label="Close the account" note="this cannot be undone" value="Delete">
-            <NeedsCard guest={guest}>
+            <NeedsCard>
               <Hint style={{ marginTop: 0 }}>
                 Deletes the account and everything on it: wishlist, waitlist, listening positions, bookmarks, AI
                 conversations, and profile details. Your orders are kept, without you attached to them, because a shop

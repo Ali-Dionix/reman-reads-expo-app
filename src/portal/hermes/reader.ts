@@ -10,7 +10,7 @@
 //
 //   a guest          portalClient.defaultPortalState(): three on the shelf,
 //                    two on the waitlist (the same five slugs
-//                    src/portal/library/data.ts's guestMarks() marks), and
+//                    src/portal/library/data.ts's sampleMarks() marks), and
 //                    no orders at all.
 //   a signed-in      shelf_items (kind = shelf | waitlist) and the orders
 //   reader           table, both under the reader's own token so RLS applies;
@@ -59,8 +59,8 @@ async function fetchShelf(readerId: string): Promise<{ shelf: string[]; waitlist
 
 /** The ledger Hermes answers from. A guest's is the sample one; a reader's is theirs. */
 export function useReader(): ReaderLedger {
-  const { user, guest } = useSession();
-  const readerId = !guest && user ? user.id : "";
+  const { user } = useSession();
+  const readerId = user ? user.id : "";
   const [ledger, setLedger] = useState<ReaderLedger>(readerId ? EMPTY_LEDGER : GUEST_LEDGER);
 
   useEffect(() => {

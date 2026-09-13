@@ -2,7 +2,7 @@
 // phone branch (mobile is the unqualified state; the ≥901px rule is discarded).
 //
 //   1  Identity   .rr-pf-id        the mark in a ring, the name, the plan, the cog
-//      (GuestNote .rr-pf-guestnote is the kit's — src/ui/GuestNote.tsx)
+//      (.rr-pf-guestnote has no reader here: the app has no guest)
 //   2  Slab       .rr-pf-slab      the one filled surface: the plan being built
 //   3  Stats      .rr-pf-stats     the figure, the tally, ruled top and bottom
 //   4  Support    .rr-pf-support   three discs on the kit's action grid
@@ -42,7 +42,7 @@ const MARK = require("../../../assets/mark.png");
  * its lower right; the name is the hand at 29px, .6° off true; the plan line
  * under it says what the account is; the cog is the shell's own 36px disc.
  */
-export function Identity({ name, guest }: { name: string; guest: boolean }) {
+export function Identity({ name }: { name: string }) {
   const router = useRouter();
   const { colors } = useTheme();
   const { ink } = useInk();
@@ -84,7 +84,7 @@ export function Identity({ name, guest }: { name: string; guest: boolean }) {
         </Txt>
         {/* .rr-pf-id-plan — 500 12px Manrope, ink .55, 6px under */}
         <Txt weight={500} size={12} tone={0.55} style={{ marginTop: 6 }}>
-          {guest ? "Guest" : "Free account"}
+          Free account
         </Txt>
       </View>
       {/* .rr-ap-disc.rr-pf-cog → /account/profile/settings */}

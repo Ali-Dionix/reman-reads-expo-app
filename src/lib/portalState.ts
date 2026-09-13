@@ -27,8 +27,10 @@ import { cache } from "./storage";
 export const STATE_KEY = "rr-account-state";
 
 export type Owner = string;
-export const GUEST_OWNER: Owner = "guest";
-export const ownerOf = (readerId: string | null | undefined): Owner => readerId || GUEST_OWNER;
+/** The owner stamp when nobody is signed in — the string the site's guest
+ *  ledger used, kept so a record an earlier build wrote still matches. */
+export const NO_OWNER: Owner = "guest";
+export const ownerOf = (readerId: string | null | undefined): Owner => readerId || NO_OWNER;
 
 export type PortalState = { owner?: Owner } & Record<string, unknown>;
 

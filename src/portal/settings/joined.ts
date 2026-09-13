@@ -9,11 +9,8 @@
 // the reader's own id, under RLS. Listed in the report's sharedRequests: an
 // AuthUser.createdAt would make this one line.
 
-import { cache } from "../../lib/storage";
 import { selectRows } from "../../lib/supabase";
 
-/** portalShared.ts's PORTAL_SESSION_KEY — where the guest pass keeps `joined`. */
-const SESSION_KEY = "rr-account";
 
 export const thisYear = (): string => String(new Date().getUTCFullYear());
 
@@ -23,24 +20,13 @@ const yearOf = (iso: unknown): string | null => {
   return Number.isNaN(t.getTime()) ? null : String(t.getUTCFullYear());
 };
 
-/** The guest pass's `joined`, or null when there is no pass. */
-async function guestJoined(): Promise<string | null> {
-  try {
-    const raw = await cache.get(SESSION_KEY);
-    const s = raw ? (JSON.parse(raw) as { joined?: unknown }) : null;
-    return typeof s?.joined === "string" && /^\d{4}$/.test(s.joined) ? s.joined : null;
-  } catch {
-    return null;
-  }
-}
-
 /**
- * The year for the row. `id` is the signed-in reader's GoTrue id, empty for a
- * guest. Resolves to this year when nothing better is known, exactly as
- * inkCard's `readSession()?.joined ?? String(new Date().getUTCFullYear())`.
+ * The year for the row. `id` is the signed-in reader's GoTrue id. Resolves
+ * to this year when nothing better is known, exactly as inkCard's
+ * `readSession()?.joined ?? String(new Date().getUTCFullYear())`.
  */
-export async function readJoined(id: string, guest: boolean): Promise<string> {
-  if (guest || !id) return (await guestJoined()) ?? thisYear();
+export async function readJoined(id: string): Promise<string> {
+  if (!id) return thisYear();
   const rows = await selectRows<{ created_at?: string }>("readers", `select=created_at&id=eq.${id}`);
   return yearOf(rows[0]?.created_at) ?? thisYear();
 }

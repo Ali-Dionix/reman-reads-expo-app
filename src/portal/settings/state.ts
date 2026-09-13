@@ -120,10 +120,6 @@ export const DEFAULTS: SettingsState = {
   readAlong: true,
 };
 
-/** A guest's ledger is the defaults with a stand-in card number — what
- *  portalClient.startGuestSession() writes. */
-export const GUEST_CARD_NO = "000000";
-
 /** portalShared.ts's toStop: a stored value snapped to its own list. */
 export const toStop = <T,>(stops: Stop<T>[], value: unknown, fallback: T): T =>
   stops.some((s) => s.value === value) ? (value as T) : fallback;
@@ -131,8 +127,8 @@ export const toStop = <T,>(stops: Stop<T>[], value: unknown, fallback: T): T =>
 const bool = (v: unknown, fallback: boolean): boolean => (typeof v === "boolean" ? v : fallback);
 const str = (v: unknown, fallback: string): string => (typeof v === "string" ? v : fallback);
 
-function normalise(raw: Record<string, unknown> | null, guest: boolean): SettingsState {
-  const base = guest ? { ...DEFAULTS, cardNo: GUEST_CARD_NO } : DEFAULTS;
+function normalise(raw: Record<string, unknown> | null): SettingsState {
+  const base = DEFAULTS;
   if (!raw) return base;
   const a = (raw.address ?? {}) as Partial<ReaderAddress>;
   return {
@@ -170,13 +166,13 @@ export async function readLedger(): Promise<Record<string, unknown> | null> {
 }
 
 /** The ledger's settings slice for this reader, defaults filled in. */
-export async function readSettings(owner: Owner, guest: boolean): Promise<SettingsState> {
-  return normalise(await readState(owner), guest);
+export async function readSettings(owner: Owner): Promise<SettingsState> {
+  return normalise(await readState(owner));
 }
 
 /** Write a patch over the reader's stored ledger and return the new slice. */
-export async function writeSettings(owner: Owner, patch: Partial<SettingsState>, guest: boolean): Promise<SettingsState> {
-  return normalise(await writeState(owner, patch), guest);
+export async function writeSettings(owner: Owner, patch: Partial<SettingsState>): Promise<SettingsState> {
+  return normalise(await writeState(owner, patch));
 }
 
 /* --- the ink hooks: what a row says it is set to (ProfileEnhancer.inkCard) --- */

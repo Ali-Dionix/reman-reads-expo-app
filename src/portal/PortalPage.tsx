@@ -47,10 +47,8 @@ import { Image, Pressable, ScrollView, View, type ScrollViewProps, type StylePro
 import Svg, { Path } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { useSession } from "../lib/session";
 import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
-import { DashedBox } from "../ui/DashedBox";
 import { Disc } from "../ui/Disc";
 import { Icon } from "../ui/Icon";
 import { TornSheet } from "../ui/TornEdge";
@@ -117,32 +115,6 @@ export function ThemeDisc({ size = 36, glyph = 18 }: { size?: number; glyph?: nu
   );
 }
 
-/**
- * `.rr-pt-guest` — the guest stamp: a dashed brick pill, 700 8px Manrope,
- * .12em at ≤760px ("GUEST" alone; the second word is dropped there), 1.5°
- * off true. appShell.ts sets 5px 9px and .2em; portalShared.ts's ≤760px
- * block, spliced in after it, cuts that to 6px 8px and .12em. The 1px
- * dashed border is INSIDE the box (border-box), so the padding here carries
- * it: 7px 9px around the letters, the ring drawn over the outer pixel. The
- * ring is SVG because it is a dashed ring on Android too.
- */
-export function GuestStamp() {
-  const { colors } = useTheme();
-  const { brick } = useInk();
-  return (
-    <View
-      accessibilityLabel="Guest mode. This is sample data, and nothing you do here is saved"
-      style={{ transform: [{ rotate: "-1.5deg" }] }}
-    >
-      <View style={{ paddingVertical: 6 + 1, paddingHorizontal: 8 + 1 }}>
-        <Txt weight={700} size={8} ls={0.12} upper style={{ color: colors.brick }}>
-          Guest
-        </Txt>
-      </View>
-      <DashedBox color={brick(0.55, "border")} width={1} radius={999} />
-    </View>
-  );
-}
 
 /** `.rr-ap-top` — the bar itself, with its torn paper. */
 export function TopBar({
@@ -161,7 +133,6 @@ export function TopBar({
   const insets = useSafeAreaInsets();
   const { colors, chrome } = useTheme();
   const { width, ink } = useInk();
-  const { guest } = useSession();
   const router = useRouter();
 
   const height = insets.top + TOP_BOX;
@@ -235,7 +206,6 @@ export function TopBar({
           </Txt>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          {guest ? <GuestStamp /> : null}
           <ThemeDisc />
         </View>
       </View>

@@ -20,13 +20,14 @@ import { cache } from "./storage";
 import { initAuth, selectRows, signOut as authSignOut, type AuthUser } from "./supabase";
 
 /**
- * The guest pass lives where the site keeps it — portalShared.ts's
- * PORTAL_SESSION_KEY, "rr-account", the same shape portalClient.ts writes:
- * `{ name, email, joined, guest: true }`. So a guest who closes the app comes
- * back to the rooms, as on the web, rather than to the sign-in wall.
+ * NO GUEST PASS. The site lets a visitor walk the rooms without a card
+ * ("Continue as a guest →", portalClient.startGuestSession); the app does not
+ * — product owner's call, 13 Sep 2026: an account is mandatory on the phone.
+ * portalShared.ts's PORTAL_SESSION_KEY, "rr-account", is still the key an
+ * earlier build persisted its pass under, so boot sweeps a stale one rather
+ * than leaving a guest record on a device that can no longer honour it.
  */
-const GUEST_KEY = "rr-account";
-const GUEST_EMAIL = "guest@roman.reads";
+const SESSION_KEY = "rr-account";
 /** portalShared.ts's PORTAL_STATE_KEY — the reader's working state (settings,
  *  the Ask AI log, bookmarks). A guest's leaves with the guest, and a change
  *  of reader drops the last reader's, as portalClient.ts's clearSession /
@@ -72,44 +73,24 @@ type SessionValue = {
   user: AuthUser | null;
   /** True until the keychain has been read. Gate on this, not on `user`. */
   booting: boolean;
-  /** The readers row, once it has landed; null for a guest, before the fetch,
-   *  or when the row cannot be read (no backend, a lapsed token). */
+  /** The readers row, once it has landed; null before the fetch, or when the
+   *  row cannot be read (no backend, a lapsed token). */
   reader: ReaderRow | null;
-  /** A guest pass — the rooms, on sample data, with no account behind them. */
-  guest: boolean;
   setUser: (user: AuthUser | null) => void;
-  /** portalClient.startGuestSession()'s equivalent: walk in without a card.
-   *  Nothing is sent anywhere, and the next real sign-in replaces it. */
-  startGuest: () => void;
   signOut: () => Promise<void>;
-  /** Rename the reader in memory AND on the pass — a guest's name lives on
-   *  the pass alone (setUser would end guest mode). */
+  /** Rename the reader in memory. */
   rename: (name: string) => void;
 };
 
-/** The guest's stand-in record. `id` stays empty so nothing can be written
- *  against it by accident. */
-const GUEST: AuthUser = { id: "", email: GUEST_EMAIL, name: "Guest reader" };
-
-/** The stored record, if any — a guest pass, or the preview's working model. */
-async function readStored(): Promise<{ guest?: boolean; name?: string } | null> {
+/** A pass an earlier build left under the site's session key. Swept at boot. */
+async function sweepStaleGuestPass(): Promise<void> {
   try {
-    const raw = await cache.get(GUEST_KEY);
-    return raw ? (JSON.parse(raw) as { guest?: boolean; name?: string }) : null;
+    const raw = await cache.get(SESSION_KEY);
+    const s = raw ? (JSON.parse(raw) as { guest?: boolean }) : null;
+    if (s?.guest === true) await cache.remove(SESSION_KEY);
   } catch {
-    return null;
+    /* an unreadable record is not worth a crash at boot */
   }
-}
-
-async function readGuestPass(): Promise<boolean> {
-  return !!(await readStored())?.guest;
-}
-
-/** Remove the stored record only when it IS a guest pass: the preview's
- *  working-model record lives under the same key, and is written a tick
- *  before a real adoption clears the pass. */
-async function dropGuestPass(): Promise<void> {
-  if ((await readStored())?.guest === true) await cache.remove(GUEST_KEY);
 }
 
 const SessionContext = createContext<SessionValue | null>(null);
@@ -118,11 +99,9 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [booting, setBooting] = useState(true);
 
-  const [guest, setGuest] = useState(false);
-
   // hydrate(): the readers row, once per signed-in reader.
   const [reader, setReader] = useState<ReaderRow | null>(null);
-  const uid = !guest && user?.id ? user.id : "";
+  const uid = user?.id ?? "";
   useEffect(() => {
     setReader(null);
     if (!uid) return;
@@ -137,23 +116,14 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let alive = true;
+    void sweepStaleGuestPass();
     initAuth()
       .then(async (u) => {
-        // A real token wins; failing that, a persisted guest pass walks in —
-        // under the name the guest gave it, if any (the pass is the guest's
-        // only record).
+        // A real token wins; failing that, only the dev seam can walk in.
         if (!u) {
           const test = await readTestUser();
           if (test) {
             if (alive) setUser(test);
-            return;
-          }
-          const stored = await readStored();
-          if (stored?.guest) {
-            if (alive) {
-              setGuest(true);
-              setUser({ ...GUEST, name: (stored.name ?? "").trim() || GUEST.name });
-            }
             return;
           }
         }
@@ -168,62 +138,37 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const startGuest = useCallback(() => {
-    setGuest(true);
-    setUser(GUEST);
-    void cache.set(
-      GUEST_KEY,
-      JSON.stringify({
-        name: GUEST.name,
-        email: GUEST_EMAIL,
-        joined: String(new Date().getUTCFullYear()),
-        guest: true,
-      }),
-    );
-  }, []);
-
   const signOut = useCallback(async () => {
     await authSignOut();
-    await cache.remove(GUEST_KEY);
+    // The preview's working-model record (src/portal/login/preview.ts) lives
+    // under the site's session key; a sign-out hands that back too.
+    await cache.remove(SESSION_KEY);
     if (__DEV__) await cache.remove(TEST_USER_KEY);
-    // A guest's memory leaves with the guest; a reader's stays for the next
-    // sign-in on this device, keyed to them (the site's clearSession keeps a
-    // reader's rr-account-state too, and adoptSession drops it on a new owner).
-    if (guest) await cache.remove(STATE_KEY);
-    setGuest(false);
+    // A reader's memory stays for their next sign-in on this device, keyed
+    // to them (the site's clearSession keeps rr-account-state too, and
+    // adoptSession drops it on a new owner).
     setUser(null);
-  }, [guest]);
+  }, []);
 
-  const setUserAndClearGuest = useCallback(
+  const adopt = useCallback(
     (u: AuthUser | null) => {
-      setGuest(false);
       // A different reader than the last: the last reader's state goes, as
       // adoptSession does when rr-account-owner changes.
-      if (u && user && !guest && user.id && u.id !== user.id) void cache.remove(STATE_KEY);
+      if (u && user && user.id && u.id !== user.id) void cache.remove(STATE_KEY);
       setUser(u);
-      // The next real sign-in replaces the pass, as portalClient.ts's adoptSession does.
-      if (u) void dropGuestPass();
     },
-    [user, guest],
+    [user],
   );
 
-  const rename = useCallback(
-    (name: string) => {
-      const next = name.trim();
-      if (!next) return;
-      setUser((u) => (u ? { ...u, name: next } : u));
-      if (guest) {
-        void readStored().then((s) => {
-          if (s?.guest) void cache.set(GUEST_KEY, JSON.stringify({ ...s, name: next }));
-        });
-      }
-    },
-    [guest],
-  );
+  const rename = useCallback((name: string) => {
+    const next = name.trim();
+    if (!next) return;
+    setUser((u) => (u ? { ...u, name: next } : u));
+  }, []);
 
   const value = useMemo<SessionValue>(
-    () => ({ user, booting, guest, reader, setUser: setUserAndClearGuest, startGuest, signOut, rename }),
-    [user, booting, guest, reader, setUserAndClearGuest, startGuest, signOut, rename],
+    () => ({ user, booting, reader, setUser: adopt, signOut, rename }),
+    [user, booting, reader, adopt, signOut, rename],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;
@@ -237,19 +182,15 @@ export function useSession(): SessionValue {
 
 /** The web's baked placeholder for the member number. */
 const PENDING = "–";
-/** portalClient.startGuestSession — a guest's number reads as unissued. */
-const GUEST_NO = "000000";
 
 /**
  * The member number — accountPage.ts bakes `<span data-rr-pt-card-no>&ndash;
  * </span>` and hydrate() paints the readers row's card_no over it. The
  * placeholder while the row is in flight, the number once it lands, the dash
- * left standing if the row cannot be read, exactly as the web leaves it; a
- * guest's is "000000" and never a fetch.
+ * left standing if the row cannot be read, exactly as the web leaves it.
  */
 export function useCardNo(): string {
-  const { guest, reader } = useSession();
-  if (guest) return GUEST_NO;
+  const { reader } = useSession();
   const card = reader?.card_no;
   return typeof card === "string" && card.trim() ? card.trim() : PENDING;
 }
