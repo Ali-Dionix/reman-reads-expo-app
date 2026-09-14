@@ -29,21 +29,36 @@ import { Manrope_500Medium } from "@expo-google-fonts/manrope/500Medium";
 import { Manrope_600SemiBold } from "@expo-google-fonts/manrope/600SemiBold";
 import { Manrope_700Bold } from "@expo-google-fonts/manrope/700Bold";
 import { Manrope_800ExtraBold } from "@expo-google-fonts/manrope/800ExtraBold";
+import { isRunningInExpoGo } from "expo";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider as NavigationTheme } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import { useEffect, useMemo } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { AudioProvider } from "../src/lib/audioStore";
-import { SessionProvider } from "../src/lib/session";
+import { SessionProvider, useSession } from "../src/lib/session";
 import { SpeedFollower } from "../src/portal/reader/console/SpeedFollower";
 import { ThemeProvider, useTheme } from "../src/theme/ThemeProvider";
 import { ThemeReveal } from "../src/theme/ThemeReveal";
 
+// THE SPLASH STAYS UP UNTIL THERE IS SOMETHING TO SHOW. Left to itself it
+// hides on the first frame the root draws, which here is nothing: the faces
+// are still loading, then the keychain is still being read, then the gate
+// decides between the rooms and the sign-in wall. Three blank cuts before
+// the first real screen. Held, and then let go with a fade over the finished
+// first screen, the boot is one cut: the splash dissolves into the room.
+// Called at module scope, as the package insists — from a component it can
+// be too late. (No-ops on web, where there is no native splash.)
+SplashScreen.preventAutoHideAsync().catch(() => {});
+// Expo Go cannot take options and warns if asked; a built app fades.
+if (!isRunningInExpoGo()) SplashScreen.setOptions({ fade: true, duration: 260 });
+
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     CormorantGaramond_400Regular,
     CormorantGaramond_400Regular_Italic,
     CormorantGaramond_500Medium,
@@ -59,7 +74,9 @@ export default function RootLayout() {
     Caveat_500Medium,
   });
 
-  if (!fontsLoaded) return null;
+  // A face that fails to load must not hold the splash up forever: the app
+  // goes on in the system faces, which is a worse look and a working app.
+  if (!fontsLoaded && !fontError) return null;
 
   return (
     // Gesture handler wants to be OUTSIDE everything, and it must be a real
@@ -90,26 +107,63 @@ export default function RootLayout() {
  *  otherwise a push animation flashes white over the desk. */
 function Chrome() {
   const { colors, mode } = useTheme();
+  const { booting } = useSession();
+
+  // The router paints surfaces of its own — the scene behind every tab, the
+  // card a push slides in on, the ground under a transition — and paints
+  // them from ITS theme, which is a light grey unless told otherwise. On the
+  // night desk that grey showed as a flash between rooms, in the frame a
+  // lazy tab took to mount. So the router's theme is the desk's own colours,
+  // and there is nothing of another colour anywhere under a transition.
+  const navTheme = useMemo(() => {
+    const base = mode === "dark" ? DarkTheme : DefaultTheme;
+    return {
+      ...base,
+      colors: {
+        ...base.colors,
+        background: colors.desk,
+        card: colors.white,
+        text: colors.ink,
+        border: colors.desk,
+        primary: colors.brass,
+        notification: colors.brick,
+      },
+    };
+  }, [mode, colors]);
+
+  // The first real screen is on the tree once the session is known — the
+  // rooms for a reader with a card, the sign-in wall for one without. The
+  // splash lets go a frame later, so the fade lands on a painted screen and
+  // never on the desk alone.
+  useEffect(() => {
+    if (booting) return;
+    const id = requestAnimationFrame(() => {
+      SplashScreen.hideAsync().catch(() => {});
+    });
+    return () => cancelAnimationFrame(id);
+  }, [booting]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.desk }}>
-      <StatusBar style={mode === "dark" ? "light" : "dark"} />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.desk },
-          // The platform's own push, not a custom one. A portal that animates
-          // like the web feels like a website in a frame.
-          animation: "default",
-        }}
-      >
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="sign-in" options={{ animation: "fade" }} />
-      </Stack>
-      {/* The lamp switch's reveal, over every ordinary screen. The reader is a
-          native Modal and therefore its own window, so it mounts a SECOND
-          copy — see ThemeReveal. Both read the same shared values. */}
-      <ThemeReveal />
-    </View>
+    <NavigationTheme value={navTheme}>
+      <View style={{ flex: 1, backgroundColor: colors.desk }}>
+        <StatusBar style={mode === "dark" ? "light" : "dark"} />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.desk },
+            // The platform's own push, not a custom one. A portal that animates
+            // like the web feels like a website in a frame.
+            animation: "default",
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="sign-in" options={{ animation: "fade" }} />
+        </Stack>
+        {/* The lamp switch's reveal, over every ordinary screen. The reader is a
+            native Modal and therefore its own window, so it mounts a SECOND
+            copy — see ThemeReveal. Both read the same shared values. */}
+        <ThemeReveal />
+      </View>
+    </NavigationTheme>
   );
 }

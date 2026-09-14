@@ -23,8 +23,8 @@
 
 import type { BottomTabBarProps } from "expo-router/tabs";
 import * as Haptics from "expo-haptics";
-import { useState } from "react";
-import { Pressable, View } from "react-native";
+import { useEffect, useState } from "react";
+import { InteractionManager, Pressable, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { roomByKey, roomKeyForRoute, SLOTS, type RoomKey } from "../nav/rooms";
@@ -47,6 +47,42 @@ export function BottomBar({ state, navigation }: BottomTabBarProps) {
 
   const height = TAB_H + insets.bottom;
   const activeKey = roomKeyForRoute(state.routes[state.index]?.name ?? "");
+
+  // THE OTHER ROOMS ARE MOUNTED BEHIND THIS ONE, once it has settled. A lazy
+  // tab pays its whole mount — the module, its JSON, a grid of covers — on
+  // the first tap, on the JS thread, in the same frames the cross-fade wants;
+  // on a mid-range phone that is the "blink". Preloaded, the tap only has to
+  // attach a tree that already exists. One room at a time, a beat apart, in
+  // the bar's own order and the sheet's two rooms last, so nothing here
+  // competes with the first screen's own first seconds. `preload` is the
+  // navigator's: a room it has already loaded is a no-op.
+  useEffect(() => {
+    const names = state.routes.map((r) => r.name);
+    const order = ["index", "library", "listening", "profile", "orders", "hermes"].filter((n) =>
+      names.includes(n),
+    );
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    const task = InteractionManager.runAfterInteractions(() => {
+      order.forEach((name, i) => {
+        timers.push(
+          setTimeout(() => {
+            try {
+              navigation.preload(name);
+            } catch {
+              /* a route the navigator does not know is nothing to preload */
+            }
+          }, 400 + i * 250),
+        );
+      });
+    });
+    return () => {
+      task.cancel();
+      timers.forEach(clearTimeout);
+    };
+    // once: the set of rooms is fixed (src/nav/rooms.ts), and the effect
+    // must not re-run on every tab change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const go = (key: RoomKey) => {
     const routeName = key === "overview" ? "index" : key;

@@ -13,6 +13,7 @@
 // argument for exactly that case; it defaults to "text", which is what nine
 // calls in ten are.
 
+import { useMemo } from "react";
 import { useWindowDimensions } from "react-native";
 
 import { useTheme } from "./ThemeProvider";
@@ -39,36 +40,42 @@ export function useInk() {
   const { mode } = useTheme();
   const { width } = useWindowDimensions();
 
-  const at = (name: RgbaName, scope: Scope) => (a: number) => rgbaRole(name, a, scope, mode);
+  // One object per (mode, width). Every helper below reads only those two,
+  // and this hook is called from every Txt on every screen — a fresh set of
+  // closures per render made the result useless as a memo dependency and
+  // cost a dozen allocations per glyph run for nothing.
+  return useMemo(() => {
+    const at = (name: RgbaName, scope: Scope) => (a: number) => rgbaRole(name, a, scope, mode);
 
-  return {
-    mode,
-    width,
-    /** rgba(<brand>, α) — the same call the CSS makes, in `scope`. */
-    rgba: (name: RgbaName, a: number, scope: Scope = "text") => rgbaRole(name, a, scope, mode),
-    /** rgba(11,10,8,α) as text (default) — pass "border" for a hairline. */
-    ink: (a: number, scope: Scope = "text") => rgbaRole("ink", a, scope, mode),
-    brown: (a: number, scope: Scope = "text") => rgbaRole("brown", a, scope, mode),
-    brick: (a: number, scope: Scope = "text") => rgbaRole("brick", a, scope, mode),
-    brass: (a: number, scope: Scope = "text") => rgbaRole("brass", a, scope, mode),
-    /** The border-scoped forms, pre-bound, for the hairline-heavy row kit. */
-    inkLine: at("ink", "border"),
-    brownLine: at("brown", "border"),
-    brickLine: at("brick", "border"),
-    /** Slab ink — lit object, never flips. */
-    slab: (a: number) => lit("slab", a),
-    slab2: (a: number) => lit("slab2", a),
-    /**
-     * CSS `clamp(min, <vw>vw, max)`, resolved against the live viewport.
-     * The portal sizes the slab's inked labels this way, and they sit on a
-     * percentage-positioned overlay — so they have to scale with the screen
-     * exactly as they do in the browser, not settle on one fixed px.
-     */
-    clamp: (min: number, vw: number, max: number) =>
-      Math.min(max, Math.max(min, (width * vw) / 100)),
-    /** CSS `<n>vw`. */
-    vw: (n: number) => (width * n) / 100,
-  };
+    return {
+      mode,
+      width,
+      /** rgba(<brand>, α) — the same call the CSS makes, in `scope`. */
+      rgba: (name: RgbaName, a: number, scope: Scope = "text") => rgbaRole(name, a, scope, mode),
+      /** rgba(11,10,8,α) as text (default) — pass "border" for a hairline. */
+      ink: (a: number, scope: Scope = "text") => rgbaRole("ink", a, scope, mode),
+      brown: (a: number, scope: Scope = "text") => rgbaRole("brown", a, scope, mode),
+      brick: (a: number, scope: Scope = "text") => rgbaRole("brick", a, scope, mode),
+      brass: (a: number, scope: Scope = "text") => rgbaRole("brass", a, scope, mode),
+      /** The border-scoped forms, pre-bound, for the hairline-heavy row kit. */
+      inkLine: at("ink", "border"),
+      brownLine: at("brown", "border"),
+      brickLine: at("brick", "border"),
+      /** Slab ink — lit object, never flips. */
+      slab: (a: number) => lit("slab", a),
+      slab2: (a: number) => lit("slab2", a),
+      /**
+       * CSS `clamp(min, <vw>vw, max)`, resolved against the live viewport.
+       * The portal sizes the slab's inked labels this way, and they sit on a
+       * percentage-positioned overlay — so they have to scale with the screen
+       * exactly as they do in the browser, not settle on one fixed px.
+       */
+      clamp: (min: number, vw: number, max: number) =>
+        Math.min(max, Math.max(min, (width * vw) / 100)),
+      /** CSS `<n>vw`. */
+      vw: (n: number) => (width * n) / 100,
+    };
+  }, [mode, width]);
 }
 
 /** CSS `letter-spacing: <em>em` at `size`px → RN's absolute px. */

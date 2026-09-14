@@ -23,6 +23,7 @@
 // drop-shadow's Gaussian haze, which is approximated by a fan of translucent
 // copies rather than a real blur. Both are under pixelmatch's threshold.
 
+import { memo, useMemo } from "react";
 import { View, type StyleProp, type ViewStyle } from "react-native";
 import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
 import { svgPaint } from "./svgPaint";
@@ -89,7 +90,18 @@ export const TORN_BLEED = { bottom: 32, top: 30 } as const;
 const HAZE_BAR = [4, 5.2, 6.4, 7.6, 8.8, 10] as const;
 const HAZE_SHEET = [5, 8, 11, 14, 17, 20] as const;
 
-export function TornSheet({
+/**
+ * DRAWN ONCE PER SHAPE. A sheet is sixteen polygons of a hundred-odd points
+ * each, and it sits on every screen's top bar and under the tab bar — so it
+ * used to be rebuilt, and re-parsed by react-native-svg, on every render of
+ * either: twice a second on Home while a recording plays (the deck's tick),
+ * and on every tab change. The geometry depends on nothing but the edge, the
+ * width, the height and the fan, so it is computed under `useMemo` on those
+ * four; and the component is `memo`, so a parent's render with the same
+ * props does not reach it at all. The colours are plain props — a theme
+ * change re-renders, with the same strings.
+ */
+export const TornSheet = memo(function TornSheet({
   edge,
   width,
   height,
@@ -145,15 +157,22 @@ export function TornSheet({
   // tooth (phase 0) reaches past the underlayer's (phase −53), the line
   // follows the face. Each layer is shifted and drawn; the union takes care
   // of itself. Same for the haze.
-  const beforeAt = (d: number) =>
-    hang
-      ? sheetPath(width, 0, H + 3 + d, -53, false)
-      : sheetPath(width, svgH, o - 17 - d, -53, true);
-  const afterAt = (d: number) =>
-    hang
-      ? sheetPath(width, 0, H - 1 + d, 0, false)
-      : sheetPath(width, svgH, o - 13 - d, 0, true);
-  const afterPath = afterAt(0);
+  const { hazePaths, linePath, beforePath, afterPath } = useMemo(() => {
+    const beforeAt = (d: number) =>
+      hang
+        ? sheetPath(width, 0, H + 3 + d, -53, false)
+        : sheetPath(width, svgH, o - 17 - d, -53, true);
+    const afterAt = (d: number) =>
+      hang
+        ? sheetPath(width, 0, H - 1 + d, 0, false)
+        : sheetPath(width, svgH, o - 13 - d, 0, true);
+    return {
+      hazePaths: fan.map((d) => `${beforeAt(d)} ${afterAt(d)}`),
+      linePath: `${beforeAt(3)} ${afterAt(3)}`,
+      beforePath: beforeAt(0),
+      afterPath: afterAt(0),
+    };
+  }, [hang, width, H, svgH, o, fan]);
   const washY: [number, number] = hang ? [H - 10, H + 16] : [o - 13, o + 13];
 
   return (
@@ -187,26 +206,26 @@ export function TornSheet({
           </Defs>
         ) : null}
         {/* the haze — drawn first, farthest out */}
-        {fan.map((d, i) => (
+        {hazePaths.map((d, i) => (
           <Path
             key={i}
-            d={`${beforeAt(d)} ${afterAt(d)}`}
+            d={d}
             fill={hz.color}
             fillOpacity={hz.alpha * (0.28 - i * 0.04)}
             fillRule="nonzero"
           />
         ))}
         {/* the ink line: the union silhouette, 3px over */}
-        <Path d={`${beforeAt(3)} ${afterAt(3)}`} fill={line} fillRule="nonzero" />
+        <Path d={linePath} fill={line} fillRule="nonzero" />
         {/* ::before — the bright underlayer peeking past the deckle */}
-        <Path d={beforeAt(0)} fill={paper} />
+        <Path d={beforePath} fill={paper} />
         {/* ::after — the face */}
         <Path d={afterPath} fill={paper} />
         {wash ? <Path d={afterPath} fill={`url(#${washId})`} /> : null}
       </Svg>
     </View>
   );
-}
+});
 
 /* ------------------------------------------------- the older two figures --- */
 
