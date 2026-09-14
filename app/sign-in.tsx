@@ -5,7 +5,7 @@
 // in the top-right (.rr-lg-sky), the shell centring the auth column
 // (margin:auto), and inside it the doorway window lifted above the form
 // (.rr-lg-mobile-window, order:-1) and the panel — kicker, the <h1>, the two
-// doors (Sign in / Create an account), the two ways (Email link / Password),
+// doors (Sign in / Create an account), the two ways (Email code / Password),
 // the ruled fields, the one line of guidance, the ink button, the guest link
 // on a rule — with the footer's torn paper cut short at the foot
 // (.rr-lg-bottom-paper). The 390×844 numbers are in the comments as the
@@ -18,12 +18,26 @@
 //
 // Behaviour is LoginEnhancer.tsx's: the same flow/mode state (`?flow=signup`
 // opens on Create an account), the same copy branches (including the
-// supabaseReady split), the same sent panel, the same carrying panel for a
-// reader already signed in, the same landing (the audiobooks, or a same-origin
-// `?next=`). NOT the site's third door: "Continue as a guest →" is absent on
-// purpose — an account is mandatory in the app (product owner, 13 Sep 2026),
-// so the panel ends at the submit. A letter's link opens THIS screen
-// (romanreads://sign-in) and is read off the URL, as the site reads its hash.
+// supabaseReady split), the same carrying panel for a reader already signed
+// in, the same landing (the audiobooks, or a same-origin `?next=`). NOT the
+// site's third door: "Continue as a guest →" is absent on purpose — an
+// account is mandatory in the app (product owner, 13 Sep 2026), so the panel
+// ends at the submit.
+//
+// ONE WAY IS NOT THE SITE'S. The site's first way is "Email link": the
+// letter is a link, and opening it lands the browser back on /login signed
+// in. On a phone the letter is read in a mail app, and a link there is a
+// trip through the browser — or nowhere at all, in Expo Go. So the app's
+// first way is "Email code" (product owner, 13 Sep 2026): the same letter,
+// but the reader types the digits it carries into the panel that replaces
+// the site's sent panel, and verifyEmailCode() walks them in. That panel
+// also serves a password sign-up the project asked to confirm — the
+// confirmation letter carries the same digits. The letter's link goes on
+// pointing at the website (supabase.ts's header says why not the app's own
+// scheme); a link that reaches this screen anyway is still read off the
+// URL, as the site reads its hash. The parity rig's goldens are the site's,
+// so on this screen the chip, the guidance and the panel are designed
+// differences.
 //
 // Colour is the page's own oklch palette (src/portal/login/palette.ts), not
 // the kit's tokens: loginPage.ts hand-writes its night rule, and so does this.
@@ -49,10 +63,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useSession } from "../src/lib/session";
 import {
+  OTP_LENGTH,
   consumeAuthLink,
-  sendMagicLink,
+  sendEmailCode,
   signInWithPassword,
   signUpWithPassword,
+  verifyEmailCode,
 } from "../src/lib/supabase";
 import { openOnSite } from "../src/lib/web";
 import { BottomPaper } from "../src/portal/login/BottomPaper";
@@ -82,7 +98,18 @@ const WINDOW_DARK = require("../assets/login-hermes-window-dark-v1.webp");
 const MARK = require("../assets/mark.png");
 
 type Flow = "signin" | "signup";
-type Mode = "letter" | "password";
+type Mode = "code" | "password";
+/** Which letter the digits are in: the code letter, or a password sign-up's confirmation. */
+type Sent = { email: string; kind: "code" | "confirm" };
+
+/** GoTrue lets an address ask for a letter once a minute (SMTP_MAX_FREQUENCY). */
+const RESEND_S = 60;
+/** "eight" — the guidance names the count in words, as the site writes numbers. */
+const DIGITS_WORD =
+  ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][OTP_LENGTH] ??
+  String(OTP_LENGTH);
+/** "an eight-digit code", "a six-digit code". */
+const A_DIGIT_CODE = `${/^[aeio8]/.test(DIGITS_WORD) ? "an" : "a"} ${DIGITS_WORD}-digit code`;
 
 /** CSS clamp(min, <n>vh, max) against the live window. */
 const vh = (h: number, min: number, n: number, max: number) =>
@@ -118,18 +145,34 @@ function guidanceCopy(flow: Flow, mode: Mode): string {
   }
   if (signingUp) {
     return DESK_LIVE
-      ? "We’ll email you a link. Opening it creates your account."
-      : "Your sign-up link appears right here in this preview.";
+      ? `We’ll email you ${A_DIGIT_CODE}. Typing it in here creates your account.`
+      : "Any code works in this preview.";
   }
   return DESK_LIVE
-    ? "We’ll email you a one-time sign-in link, no password needed."
-    : "Your sign-in link appears right here in this preview.";
+    ? `We’ll email you ${A_DIGIT_CODE} to type in here, no password needed.`
+    : "Any code works in this preview.";
 }
 
 function submitCopy(flow: Flow, mode: Mode): string {
-  if (flow === "signup") return mode === "password" ? "Create my account" : "Email me a sign-up link";
+  if (flow === "signup") return mode === "password" ? "Create my account" : "Email me a sign-up code";
   if (mode === "password") return "Sign in";
-  return DESK_LIVE ? "Email me a sign-in link" : "Show my sign-in link";
+  return DESK_LIVE ? "Email me a sign-in code" : "Continue";
+}
+
+/** The code panel's own lines — what letter went, and what the digits do. */
+function codeTitle(kind: Sent["kind"]): string {
+  if (!DESK_LIVE) return "Your code is ready.";
+  return kind === "confirm" ? "Confirm your email address." : "Your code is on its way.";
+}
+function codeBody(kind: Sent["kind"], signingUp: boolean): string {
+  if (!DESK_LIVE) return "Type anything below and you’re signed in to your account.";
+  const creates = kind === "confirm" || signingUp;
+  return creates
+    ? `Type the ${DIGITS_WORD} digits from the email here and your account is created.`
+    : `Type the ${DIGITS_WORD} digits from the email here and you are in.`;
+}
+function codeSubmitCopy(kind: Sent["kind"], signingUp: boolean): string {
+  return kind === "confirm" || signingUp ? "Create my account" : "Sign in";
 }
 
 // The site validates with form.reportValidity(), so what a phone shows there
@@ -343,6 +386,127 @@ function Field({
   );
 }
 
+/**
+ * The code's field — a ruled field like the others, but for digits: the
+ * numeric keyboard, the platform's one-time-code autofill (iOS reads the
+ * digits out of Mail; Android out of a message), the letter's length as its
+ * limit, and the digits set wide so eight of them read as a code and not a
+ * number. Typing the last digit submits, as the letter's own link would; the
+ * button stays for a reader who pastes and pauses.
+ */
+function CodeField({
+  p,
+  value,
+  onChange,
+  onFull,
+  tier,
+  inputRef,
+}: {
+  p: LoginPalette;
+  value: string;
+  onChange: (v: string) => void;
+  /** The last digit has landed. */
+  onFull: (code: string) => void;
+  tier: Tier;
+  inputRef?: RefObject<TextInput | null>;
+}) {
+  const [focus, setFocus] = useState(false);
+  const inH = at(tier, 43, 39, 37);
+  const inPad = at(tier, 10, 8, 7);
+  return (
+    <View style={{ gap: 3 }}>
+      <Label p={p}>Code</Label>
+      <View>
+        <TextInput
+          ref={inputRef}
+          value={value}
+          onChangeText={(raw) => {
+            // digits only, however they arrive — typed, pasted with spaces,
+            // or filled in by the platform
+            const digits = raw.replace(/\D+/g, "").slice(0, OTP_LENGTH);
+            onChange(digits);
+            if (digits.length === OTP_LENGTH && digits !== value) onFull(digits);
+          }}
+          placeholder="From the email we sent"
+          placeholderTextColor={p.faint}
+          keyboardType="number-pad"
+          inputMode="numeric"
+          autoComplete="one-time-code"
+          textContentType="oneTimeCode"
+          autoCapitalize="none"
+          autoCorrect={false}
+          maxLength={OTP_LENGTH}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          onSubmitEditing={() => {
+            if (value.length === OTP_LENGTH) onFull(value);
+          }}
+          style={{
+            minHeight: inH,
+            paddingVertical: inPad,
+            paddingHorizontal: 2,
+            borderBottomWidth: 1,
+            borderBottomColor: focus ? p.accent : p.rule,
+            color: p.ink,
+            fontFamily: FONTS.sansSemi,
+            fontSize: 18,
+            letterSpacing: value ? 18 * 0.16 : 0,
+          }}
+        />
+        {focus ? (
+          <View style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 1, backgroundColor: p.accent }} />
+        ) : null}
+      </View>
+    </View>
+  );
+}
+
+/**
+ * `.rr-lg-guidance` — a margin note against a brass rule; :empty takes it
+ * away. .is-error carries a ringed "!". margin-top 19px, 15px at ≤730 tall,
+ * 12px at ≤670. The form and the code panel both write in it.
+ */
+function Guidance({ p, text, error, tier }: { p: LoginPalette; text: string; error: boolean; tier: Tier }) {
+  if (!text) return null;
+  return (
+    <View
+      accessibilityLiveRegion="polite"
+      style={{
+        flexDirection: "row",
+        alignItems: "flex-start",
+        gap: 8,
+        marginTop: at(tier, 19, 15, 12),
+        paddingVertical: 1,
+        paddingLeft: 13,
+        borderLeftWidth: 2,
+        borderLeftColor: error ? p.warn : p.accentSoft,
+      }}
+    >
+      {error ? (
+        <View
+          style={{
+            width: 17,
+            height: 17,
+            borderRadius: 8.5,
+            borderWidth: 1,
+            borderColor: p.warn,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {/* .rr-lg-guidance.is-error::before — 700 11px Cormorant */}
+          <Txt family="Cormorant Garamond" weight={700} size={11} line={11} style={{ color: p.warn }}>
+            !
+          </Txt>
+        </View>
+      ) : null}
+      <Txt weight={500} size={10.5} line={1.6} style={{ color: error ? p.warn : p.muted, flex: 1 }}>
+        {text}
+      </Txt>
+    </View>
+  );
+}
+
 /* ----------------------------------------------------------- the screen --- */
 
 export default function SignIn() {
@@ -360,14 +524,18 @@ export default function SignIn() {
   // opened on the wrong panel. `?next=` is where to go once in.
   const { flow: wanted, next } = useLocalSearchParams<{ flow?: string; next?: string }>();
   const [flow, setFlow] = useState<Flow>(wanted === "signup" ? "signup" : "signin");
-  const [way, setWay] = useState<Mode>("letter");
+  const [way, setWay] = useState<Mode>("code");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  /** The sent panel: who the letter went to, and which letter. */
-  const [sent, setSent] = useState<{ email: string; kind: "letter" | "confirm" } | null>(null);
+  /** The code panel: who the letter went to, and which letter. */
+  const [sent, setSent] = useState<Sent | null>(null);
+  /** When the address may ask for another letter (ms epoch), and a clock to draw the wait. */
+  const [resendAt, setResendAt] = useState(0);
+  const [now, setNow] = useState(() => Date.now());
   const [heroH, setHeroH] = useState(0);
 
   const signingUp = flow === "signup";
@@ -377,15 +545,36 @@ export default function SignIn() {
   // input on "Sign in" and on "Enter it again." — on a phone that raises the
   // keyboard on the first field. The name field mounts on the render after
   // the door is chosen, so the focus is asked for and paid once it exists.
+  // The code field is focused the same way once the letter has gone.
   const nameRef = useRef<TextInput | null>(null);
   const emailRef = useRef<TextInput | null>(null);
-  const wantFocus = useRef<"name" | "email" | null>(null);
+  const codeRef = useRef<TextInput | null>(null);
+  const wantFocus = useRef<"name" | "email" | "code" | null>(null);
   useEffect(() => {
     const which = wantFocus.current;
     if (!which) return;
     wantFocus.current = null;
-    (which === "name" ? nameRef : emailRef).current?.focus();
+    const ref = which === "name" ? nameRef : which === "code" ? codeRef : emailRef;
+    ref.current?.focus();
   }, [flow, sent]);
+
+  // The resend clock ticks only while there is a wait to draw.
+  const waiting = sent !== null && resendAt > now;
+  useEffect(() => {
+    if (!waiting) return;
+    const t = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(t);
+  }, [waiting]);
+  const waitS = Math.max(0, Math.ceil((resendAt - now) / 1000));
+
+  /** A letter has gone: open the code panel, start the clock, raise the keyboard on the field. */
+  const letterSent = (to: string, kind: Sent["kind"]) => {
+    setCode("");
+    setResendAt(Date.now() + RESEND_S * 1000);
+    setNow(Date.now());
+    wantFocus.current = "code";
+    setSent({ email: to, kind });
+  };
 
   const chooseFlow = (next: Flow) => {
     // The door already open: nothing re-renders, so the focus is paid now.
@@ -480,7 +669,7 @@ export default function SignIn() {
     // Preview mode: anything is accepted, the letter arrives instantly.
     if (!DESK_LIVE) {
       if (byPassword) return void enterPreview(e, name);
-      setSent({ email: e, kind: "letter" });
+      letterSent(e, "code");
       return;
     }
 
@@ -491,13 +680,58 @@ export default function SignIn() {
           ? await signUpWithPassword(e, password, name.trim())
           : await signInWithPassword(e, password);
         if (result.error) return setError(result.error);
-        // No session back means the project asks for email confirmation.
-        if (!result.user) return setSent({ email: e, kind: "confirm" });
+        // No session back means the project asks for email confirmation —
+        // and the confirmation letter carries the digits too, so the code
+        // panel finishes the sign-up here rather than in a browser.
+        if (!result.user) return letterSent(e, "confirm");
         return enter({ ...result.user, name: result.user.name || name.trim() });
       }
-      const result = await sendMagicLink(e, name.trim(), signingUp);
+      const result = await sendEmailCode(e, name.trim(), signingUp);
       if (result.error) return setError(result.error);
-      setSent({ email: e, kind: "letter" });
+      letterSent(e, "code");
+    } catch {
+      setError("We couldn’t reach our server. Check your connection and try again.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  /** The digits, back to the desk. */
+  const verify = async (digits = code) => {
+    if (busy || !sent) return;
+    const t = digits.trim();
+    if (!t) return setError(FILL_IN);
+    if (t.length !== OTP_LENGTH) return setError(`Please enter the ${DIGITS_WORD}-digit code from the email.`);
+    setError(null);
+
+    if (!DESK_LIVE) return void enterPreview(sent.email, name);
+
+    setBusy(true);
+    try {
+      const result = await verifyEmailCode(sent.email, t);
+      if (result.error) return setError(result.error);
+      if (!result.user) return setError("That code was accepted but no session came back. Try again.");
+      enter({ ...result.user, name: result.user.name || name.trim() });
+    } catch {
+      setError("We couldn’t reach our server. Check your connection and try again.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  /** Another letter to the same address, once the minute is up. */
+  const resend = async () => {
+    if (busy || !sent || waiting) return;
+    setError(null);
+    if (!DESK_LIVE) return letterSent(sent.email, sent.kind);
+    setBusy(true);
+    try {
+      // A password sign-up still waiting on its confirmation is an unconfirmed
+      // account: asked again, GoTrue sends the confirmation letter once more.
+      const create = sent.kind === "confirm" || signingUp;
+      const result = await sendEmailCode(sent.email, name.trim(), create);
+      if (result.error) return setError(result.error);
+      letterSent(sent.email, sent.kind);
     } catch {
       setError("We couldn’t reach our server. Check your connection and try again.");
     } finally {
@@ -635,7 +869,8 @@ export default function SignIn() {
                   /* .rr-lg-panel */
                   <View>
                     {sent ? (
-                      /* .rr-lg-sent */
+                      /* .rr-lg-sent, as the code panel: the mark, the title,
+                         the address, the field, the button, the two links */
                       <View style={{ paddingTop: 2 }}>
                         <View
                           style={{
@@ -656,49 +891,74 @@ export default function SignIn() {
                           size={29}
                           line={1.02}
                           ls={-0.028}
+                          accessibilityRole="header"
                           style={{ color: p.ink, marginTop: 16 }}
                         >
-                          {DESK_LIVE
-                            ? sent.kind === "confirm"
-                              ? "Confirm your email address."
-                              : "Your sign-in link is on its way."
-                            : "Your sign-in link is ready."}
+                          {codeTitle(sent.kind)}
                         </Txt>
                         <Txt size={12.5} line={1.7} style={{ color: p.muted, marginTop: 10 }}>
                           Sent to{" "}
                           <Txt weight={700} size={12.5} line={1.7} style={{ color: p.ink }}>
                             {sent.email}
                           </Txt>
-                          .{" "}
-                          {DESK_LIVE
-                            ? sent.kind === "confirm"
-                              ? "Open the email we sent and your account is created."
-                              : "Open it from your inbox and you will land back here, signed in."
-                            : "Open the link and you’re signed in to your account."}
+                          . {codeBody(sent.kind, signingUp)}
                         </Txt>
-                        {DESK_LIVE ? null : (
-                          /* .rr-lg-sent .rr-pt-btn — preview only */
-                          <InkButton
+
+                        <View style={{ marginTop: at(tier, 20, 16, 14) }}>
+                          <CodeField
                             p={p}
-                            label="Open the sign-in link"
-                            onPress={() => void enterPreview(sent.email, name)}
-                            style={{ marginTop: 20 }}
+                            value={code}
+                            onChange={edit(setCode)}
+                            onFull={(digits) => void verify(digits)}
+                            tier={tier}
+                            inputRef={codeRef}
                           />
-                        )}
-                        <View style={{ maxWidth: 320, marginTop: 14, flexDirection: "row", flexWrap: "wrap", alignItems: "baseline" }}>
-                          <Txt size={11} line={1.6} style={{ color: p.muted }}>
-                            Not your address?{" "}
-                          </Txt>
-                          <LinkWord
-                            p={p}
-                            size={11}
-                            onPress={() => {
-                              wantFocus.current = "email";
-                              setSent(null);
-                            }}
-                          >
-                            Enter it again.
-                          </LinkWord>
+                        </View>
+
+                        <Guidance p={p} text={error ?? ""} error={!!error} tier={tier} />
+
+                        <InkButton
+                          p={p}
+                          submit
+                          minHeight={submitH}
+                          label={codeSubmitCopy(sent.kind, signingUp)}
+                          onPress={() => void verify()}
+                          disabled={busy}
+                          style={{ marginTop: at(tier, 18, 16, 13) }}
+                        />
+
+                        {/* .rr-lg-small — the two ways back: another letter, or another address */}
+                        <View style={{ maxWidth: 320, marginTop: 14, gap: 6 }}>
+                          <View style={{ flexDirection: "row", flexWrap: "wrap", alignItems: "baseline" }}>
+                            <Txt size={11} line={1.6} style={{ color: p.muted }}>
+                              Didn’t get it?{" "}
+                            </Txt>
+                            {waiting ? (
+                              <Txt size={11} line={1.6} style={{ color: p.faint }}>
+                                Send a new code in {waitS}s.
+                              </Txt>
+                            ) : (
+                              <LinkWord p={p} size={11} onPress={() => void resend()}>
+                                Send a new code.
+                              </LinkWord>
+                            )}
+                          </View>
+                          <View style={{ flexDirection: "row", flexWrap: "wrap", alignItems: "baseline" }}>
+                            <Txt size={11} line={1.6} style={{ color: p.muted }}>
+                              Not your address?{" "}
+                            </Txt>
+                            <LinkWord
+                              p={p}
+                              size={11}
+                              onPress={() => {
+                                wantFocus.current = "email";
+                                setError(null);
+                                setSent(null);
+                              }}
+                            >
+                              Enter it again.
+                            </LinkWord>
+                          </View>
                         </View>
                       </View>
                     ) : (
@@ -784,7 +1044,7 @@ export default function SignIn() {
                         >
                           {(
                             [
-                              ["letter", "Email link"],
+                              ["code", "Email code"],
                               ["password", "Password"],
                             ] as const
                           ).map(([key, label]) => {
@@ -847,52 +1107,14 @@ export default function SignIn() {
                               placeholder="Enter your password"
                               secure
                               autoComplete={signingUp ? "new-password" : "current-password"}
-                              hint="Forgot it? Use Email link instead."
+                              hint="Forgot it? Use Email code instead."
                               tier={tier}
                             />
                           ) : null}
                         </View>
 
-                        {/* .rr-lg-guidance — a margin note against a brass rule;
-                            :empty takes it away. .is-error carries a ringed "!".
-                            margin-top 19px, 15px at ≤730 tall, 12px at ≤670 */}
-                        {guidance ? (
-                          <View
-                            accessibilityLiveRegion="polite"
-                            style={{
-                              flexDirection: "row",
-                              alignItems: "flex-start",
-                              gap: 8,
-                              marginTop: at(tier, 19, 15, 12),
-                              paddingVertical: 1,
-                              paddingLeft: 13,
-                              borderLeftWidth: 2,
-                              borderLeftColor: error ? p.warn : p.accentSoft,
-                            }}
-                          >
-                            {error ? (
-                              <View
-                                style={{
-                                  width: 17,
-                                  height: 17,
-                                  borderRadius: 8.5,
-                                  borderWidth: 1,
-                                  borderColor: p.warn,
-                                  alignItems: "center",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                {/* .rr-lg-guidance.is-error::before — 700 11px Cormorant */}
-                                <Txt family="Cormorant Garamond" weight={700} size={11} line={11} style={{ color: p.warn }}>
-                                  !
-                                </Txt>
-                              </View>
-                            ) : null}
-                            <Txt weight={500} size={10.5} line={1.6} style={{ color: error ? p.warn : p.muted, flex: 1 }}>
-                              {guidance}
-                            </Txt>
-                          </View>
-                        ) : null}
+                        {/* .rr-lg-guidance — the margin note (Guidance, above) */}
+                        <Guidance p={p} text={guidance} error={!!error} tier={tier} />
 
                         {/* .rr-lg-submit — margin-top:18px; min-height:50px at ≤560px;
                             16px at ≤730 tall; 48px over 13px at ≤670 */}

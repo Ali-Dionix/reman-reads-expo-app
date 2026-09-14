@@ -8,11 +8,17 @@
 //      the web's localStorage is synchronous. So the token cache is hydrated
 //      once at boot by initAuth(), and currentUser() stays synchronous after
 //      that — the screens call it during render, exactly as the enhancers do.
-//   2. `redirectTo` cannot be window.location.origin. Letters carry
-//      APP_LOGIN_LINK (romanreads://sign-in, the app's own scheme and its
-//      sign-in route) so the phone opens the app, not the site. The scheme
-//      must be on the project's Redirect URLs allow-list; until it is, GoTrue
-//      falls back to the Site URL and the letter opens www.romanreads.com/login.
+//   2. THE LETTER CARRIES A CODE, and the code is the way in. The site's
+//      letter is a link that lands the browser back on /login with tokens;
+//      a phone cannot rely on that (Expo Go cannot claim a scheme at all,
+//      a tap on a link in a mail app is a trip through the browser either
+//      way — and a custom scheme like romanreads:// can be claimed by ANY
+//      app on an Android phone, so tokens sent down one are not safe). So
+//      the app asks GoTrue for the same one-time letter and the reader
+//      types the digits from it into the sign-in screen — sendEmailCode()
+//      then verifyEmailCode(), the /otp and /verify pair. The letter's link
+//      stays pointed at the site (no redirect_to: GoTrue uses the Site URL),
+//      where a tap on it signs the reader in on the website, harmlessly.
 //   3. consumeAuthRedirect() becomes consumeAuthLink(url): the same hash and
 //      token_hash reading, over the URL expo-linking hands the screen.
 //
@@ -230,43 +236,93 @@ export async function selectRows<T>(table: string, query = "select=*"): Promise<
   }
 }
 
-/* -------------------------------------------------------------- letter --- */
+/* ---------------------------------------------------------------- code --- */
 
 /**
- * The one-time sign-in letter — GoTrue's OTP endpoint, exactly as the site's
- * sendMagicLink() calls it. `create` is the Create-an-account door: with it
- * off, an unknown address is refused rather than quietly issued a card.
- *
- * `redirect_to` is APP_LOGIN_LINK — the phone opens the app on its sign-in
- * screen, which reads the tokens off the URL (consumeAuthLink) and walks the
- * reader in. That is what the sent panel's "you will land back here" promises.
+ * How many digits the letter carries — the project's "Email OTP Length"
+ * (Authentication → Sign In / Providers → Email). Read off the project on
+ * 13 Sep 2026: 8. The screen sizes its field and phrases its guidance by
+ * this; change the two together.
  */
-export async function sendMagicLink(
+export const OTP_LENGTH = 8;
+
+/**
+ * The one-time letter — GoTrue's OTP endpoint, the same call the site's
+ * sendMagicLink() makes. What the letter contains is the TEMPLATE's business:
+ * with `{{ .Token }}` in it (Magic Link for a reader who exists, Confirm
+ * signup for one who does not) it carries the digits the screen asks for;
+ * with `{{ .ConfirmationURL }}` it carries the link as well. Both are in
+ * the house templates (app/server/email/authLetters.ts on the site).
+ *
+ * `create` is the Create-an-account door: with it off, an unknown address is
+ * refused rather than quietly issued a card. No `redirect_to`: the code needs
+ * none, and the letter's link then goes where the project's Site URL points,
+ * the website's /login — see the header on why not the app's own scheme.
+ *
+ * GoTrue lets an address ask once a minute; the screen keeps that clock
+ * itself and the refusal is phrased below for the reader who beat it.
+ */
+export async function sendEmailCode(
   email: string,
   name: string,
   create: boolean,
 ): Promise<AuthResult> {
   if (!supabaseReady) return NO_BACKEND;
-  const redirect = encodeURIComponent(APP_LOGIN_LINK);
-  const r = await post(`/auth/v1/otp?redirect_to=${redirect}`, {
+  const r = await post("/auth/v1/otp", {
     email,
     create_user: create,
     data: { name },
   });
-  if (!r.ok) return { user: null, error: errorText(r.body, r.status) };
+  if (!r.ok) return { user: null, error: codeError(r.body, r.status) };
   return { user: null, error: null, pending: true };
+}
+
+/**
+ * The digits, back to GoTrue — `/auth/v1/verify` with type "email", which
+ * accepts a sign-in code and a sign-up (confirmation) code alike, so one
+ * call serves the sign-in door, the create-account door and a password
+ * sign-up the project asked to confirm. A good code answers with a session;
+ * a spent, stale or mistyped one is refused, and that refusal is the one
+ * message a reader will actually meet here.
+ */
+export async function verifyEmailCode(email: string, token: string): Promise<AuthResult> {
+  if (!supabaseReady) return NO_BACKEND;
+  const r = await post("/auth/v1/verify", { type: "email", email, token: token.trim() });
+  if (!r.ok) return { user: null, error: codeError(r.body, r.status) };
+  const user = await keepSession(r.body);
+  if (!user) return { user: null, error: "That code was accepted but no session came back. Try again." };
+  return { user, error: null };
+}
+
+/**
+ * GoTrue's refusals, in the desk's words. Every other message is passed
+ * through as the site passes it — errorText() — because GoTrue's own
+ * sentences are sound and a rate-limit one names its seconds.
+ */
+function codeError(body: unknown, status: number): string {
+  const b = (body ?? {}) as Record<string, string>;
+  const code = String(b.error_code ?? "");
+  const msg = errorText(body, status);
+  if (code === "otp_expired" || /expired or is invalid/i.test(msg)) {
+    return "That code isn’t right, or it has expired. Ask for a new one below.";
+  }
+  if (code === "otp_disabled" || /signups not allowed/i.test(msg)) {
+    return "We don’t have an account for that address. Choose Create an account.";
+  }
+  if (code === "user_already_exists" || /already registered/i.test(msg)) {
+    return "There is already an account for that address. Choose Sign in.";
+  }
+  return msg;
 }
 
 /* ---------------------------------------------------------- the letter --- */
 
 /**
- * Where a sign-in letter sends the phone: the app's own scheme (app.json
- * `scheme`) at the sign-in route. Fixed rather than Linking.createURL(),
- * which in Expo Go would mint an exp:// address no allow-list could hold.
- *
- * THIS MUST BE ON THE PROJECT'S REDIRECT URLS (Supabase dashboard →
- * Authentication → URL Configuration). A redirect_to the project does not
- * know is dropped for the Site URL, and the letter opens the website instead.
+ * The app's own sign-in address: its scheme (app.json `scheme`) at the
+ * sign-in route. No letter is sent to it any more — the code is the app's
+ * door, and a custom scheme is not a safe place to send tokens (the header).
+ * Kept, with consumeAuthLink() below, for a link that arrives anyway: an
+ * older letter, or a project whose allow-list still carries the scheme.
  */
 export const APP_LOGIN_LINK = "romanreads://sign-in";
 
