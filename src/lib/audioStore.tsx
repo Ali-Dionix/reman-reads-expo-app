@@ -34,7 +34,32 @@
 // upstream can play by accident; what the room owes on top is the sentence,
 // which `say` carries for the console to print with its "Sign up to listen."
 // link. The two PRESSED voices are free to a signed-in reader; the LIVE
-// voices (Fish) are on the subscription — see `voiceLocked`.
+// voices (Fish) are on the subscription — see `voiceLocked`, which reads the
+// entitlement (src/lib/subscription.tsx). The subscription is bought on the
+// WEBSITE; the app only knows the answer.
+//
+// THE LIVE READERS. A book can be put on in one of the 338 live voices
+// (src/lib/liveRead.ts), and the deck treats such a pressing like any other
+// with two exceptions, both the site's (ListeningEnhancer's gateLiveBand
+// and audioStore's `streaming`):
+//
+//   A LIVE CHAPTER IS ASKED FOR BEFORE IT PLAYS. Its plain href plays only
+//   what is already in the bucket; a chapter never read needs the signed
+//   pass the site's maker route issues. So the player's source is withheld
+//   (`uri` null) until ensureLiveChapter has answered, for every path that
+//   moves the needle onto a live band — a pick, a chapter jog, the
+//   auto-advance. A refusal (the 402, a limit) pauses the deck and says so.
+//
+//   A CHAPTER BEING READ CANNOT BE SEEKED INTO. A pass on the href means the
+//   chapter streams as it is synthesized: it starts at the top whatever the
+//   ledger says, the scrubber and the jogs are refused and told why, and the
+//   duration is the pressed estimate until the reading is filed. The deck
+//   polls the cue file while it streams (the site's watchReading) so the
+//   read-along grows behind the voice, and when the file comes back finished
+//   the chapter is "saved": the first seek then reloads from the finished
+//   object at that second — one seam, at the moment the reader chose to jump
+//   — and never before, because on this platform a new source is a new
+//   player and swapping it under a listener would put a gap mid-sentence.
 //
 // TWO CLOCKS. The context's `position` ticks at the player's 500ms — enough
 // for a groove and a readout, and every useDeck() consumer (the tab bar, the
@@ -64,9 +89,22 @@ import {
 import shelf from "../data/listeningShelf.json";
 import { useStanding, voiceInForce } from "../portal/reader/voice/standing";
 import { audioUrl } from "./audioResolve";
+import { refreshGalley } from "./galley";
+import {
+  dressLiveChapter,
+  ensureLiveChapter,
+  isLivePressing,
+  isStreamingHref,
+  liveKey,
+  liveOpenedFor,
+  noteLiveDuration,
+  noteLiveSaved,
+  noteReadingSaved,
+} from "./liveRead";
 import { NO_OWNER, ownerOf, type Owner } from "./portalState";
 import { useSession } from "./session";
 import { cache } from "./storage";
+import { useSubscription } from "./subscription";
 
 export type Chapter = {
   n: number;
@@ -253,6 +291,21 @@ type Now = { slug: string; band: number; voice: string | null } | null;
 /** The console's sentence for a locked room. The console appends the site's
  *  "Sign up to listen." link itself, so the link can route. */
 export const LOCKED_SAY = "Listening needs an account.";
+/** The site's refusal of a seek into a chapter still being read. */
+export const STILL_READING_SAY =
+  "This chapter is still being read. You can move about in it once it is saved.";
+
+/** What the console prints under the groove. `lock` is the standing lock
+ *  line (bad only once a refusal has been counted — see `n`); `note` is a
+ *  sentence the deck said on its own account, bad or muted as it says, with
+ *  `subscribe` when the door to offer is the website's subscription. */
+export type DeckSay = {
+  text: string;
+  bad: boolean;
+  n: number;
+  kind: "lock" | "note";
+  subscribe?: boolean;
+};
 
 export type DeckValue = {
   /** What is on the platter — null when nothing has been started. */
@@ -321,10 +374,22 @@ export type DeckValue = {
    *  (brick, 600) or a muted notice. `n` COUNTS the refusals, so a console
    *  mounted after some can tell a new one from the standing ink (it reads
    *  the rise since its mount). Null when there is nothing to say. */
-  say: { text: string; bad: boolean; n: number } | null;
+  say: DeckSay | null;
   /** Is THIS voice off limits: a live reader is the subscription's; a
    *  pressed one is free to a signed-in reader; everything is shut to a guest. */
   voiceLocked: (voiceId: string) => boolean;
+  /** The site's AudioState.streaming: "live" while the chapter on the
+   *  platter is being read as it plays (no seeking), "saved" once its
+   *  reading has been filed and the first seek will reload from the
+   *  object, null for an ordinary chapter. */
+  streaming: "live" | "saved" | null;
+  /** The site's canSeek(): false only while a chapter is being read. */
+  canSeek: boolean;
+  /** Tell the deck the live registry changed under it (a pressing
+   *  registered, a chapter dressed) so it re-reads the chapter list. */
+  bumpLive: () => void;
+  /** Moves when bumpLive() is called — for a memo keyed on the pressings. */
+  liveTick: number;
   /** The read-along's clock — see useFastPosition. */
   subscribePosition: (cb: (seconds: number) => void) => () => void;
 };
@@ -346,18 +411,39 @@ const FAST_MS = 100;
  *  the transport's rate; the read-along has its own clock above. */
 const STATUS_MS = 500;
 
+/** How often the cue file of a chapter being read is asked for again —
+ *  fast enough that the gilding is never far behind the voice, slow enough
+ *  to be unnoticeable next to the audio beside it (the site's WATCH_EVERY_MS). */
+const WATCH_EVERY_MS = 4000;
+/** A reading that has not finished in this long has failed in a way the
+ *  watch cannot see: twice the chapter ceiling, and nothing more is coming. */
+const WATCH_LIMIT = Math.ceil((8 * 60_000) / WATCH_EVERY_MS);
+
 export function AudioProvider({ children }: { children: ReactNode }) {
   const [now, setNow] = useState<Now>(null);
   const [wantPlay, setWantPlay] = useState(false);
   const [finished, setFinished] = useState<string | null>(null);
+  // the live registry is mutated in place (liveRead.ts); this moves so the
+  // chapter list is re-read after a pressing is registered or dressed
+  const [liveTick, setLiveTick] = useState(0);
+  const bumpLive = useCallback(() => setLiveTick((t) => t + 1), []);
 
   const recording = now ? (RECORDINGS[now.slug] ?? null) : null;
   const chapters = chaptersOf(recording, now?.voice ?? null);
   const chapter = chapters[now?.band ?? 0] ?? null;
-  const uri = chapter ? audioUrl(chapter.src) : null;
+  // THE GATE. A live chapter that has not been asked for has no source yet:
+  // its plain href would 404 (or, worse, play nothing and look dead). The
+  // effect below asks, dresses the chapter, and bumps — and only then does
+  // the player get a uri. `liveTick` is read so the memo is honest.
+  const live = !!now && isLivePressing(now.slug, now.voice);
+  const opened = live && now ? liveOpenedFor(now.slug, now.voice!, now.band) : null;
+  const gated = live && !opened?.made;
+  const uri = chapter && !gated ? audioUrl(chapter.src) : null;
+  void liveTick;
 
   /* --- the shop door --- */
   const { user, booting } = useSession();
+  const { active: subscribed } = useSubscription();
   const locked = !user;
   const lockedRef = useRef(locked);
   lockedRef.current = locked;
@@ -376,6 +462,15 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!locked) setRefused(0);
   }, [locked]);
+
+  // A sentence of the deck's own — a refused seek, a live chapter the site
+  // would not read — printed by the console until the needle moves on.
+  const [note, setNote] = useState<{ text: string; bad: boolean; subscribe?: boolean; n: number } | null>(null);
+  const noted = useRef(0);
+  const sayNote = useCallback((text: string, bad: boolean, subscribe = false) => {
+    noted.current += 1;
+    setNote(text ? { text, bad, subscribe, n: noted.current } : null);
+  }, []);
 
   // THE READER'S STANDING NARRATOR — the site's audioVoice, kept by
   // voice/standing.ts under the portal state's key. Hydrated here for this
@@ -503,6 +598,96 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locked]);
 
+  /* --- the live gate: the site's gateLiveBand, at the one interception
+         point — the needle landing on a live band the site has not yet
+         agreed to read --- */
+  // the resume the caller wanted, honoured only if the chapter turns out to
+  // be in the bucket already; a chapter being read starts at the top
+  const wantedSeek = useRef<number>(0);
+  // the site is being asked — the transport shows its wait, not a dead band
+  const [asking, setAsking] = useState(false);
+  useEffect(() => {
+    if (!now || !gated || !recording) return;
+    const { slug, voice, band } = now;
+    if (!voice) return;
+    let alive = true;
+    setAsking(true);
+    void ensureLiveChapter(slug, voice, band).then((o) => {
+      if (!alive) return;
+      setAsking(false);
+      if (!o.made) {
+        // The needle is on a band that will not play. Stopped rather than
+        // left spinning on nothing, and the reader told why — on the
+        // console, with the website's door when it is the subscription.
+        setWantPlay(false);
+        sayNote(o.why, true, !!o.subscribe);
+        return;
+      }
+      dressLiveChapter(recording, voice, band, o);
+      pendingSeek.current =
+        !o.reading && wantedSeek.current > 0
+          ? { slug, band, voice, seconds: wantedSeek.current }
+          : null;
+      wantedSeek.current = 0;
+      bumpLive();
+    });
+    return () => {
+      alive = false;
+      setAsking(false);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now?.slug, now?.voice, now?.band, gated]);
+
+  /* --- streaming: a pass on the href means the chapter is being read as it
+         plays; "saved" once its cue file came back finished --- */
+  const streamKey =
+    live && now?.voice && chapter && isStreamingHref(chapter.src) ? liveKey(now.slug, now.voice, now.band) : "";
+  const streaming: DeckValue["streaming"] = streamKey ? (opened?.saved ? "saved" : "live") : null;
+  const canSeek = streaming !== "live";
+
+  // The watch — the site's watchReading. Polling, and unapologetically:
+  // a refresh of the cue file every four seconds for the couple of minutes
+  // a reading takes, which stops by itself when the file says it is
+  // finished or the reader turns to something else.
+  useEffect(() => {
+    if (streaming !== "live" || !now?.voice || !recording || !chapter) return;
+    const { slug, voice, band } = now;
+    const path = chapter.galley;
+    let stopped = false;
+    let tries = 0;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const tick = async () => {
+      if (stopped) return;
+      tries += 1;
+      if (tries > WATCH_LIMIT) return;
+      const answer = await refreshGalley(slug, voice, band, path);
+      if (stopped) return;
+      if (answer && !answer.partial) {
+        // Finished: the object is in the bucket. The measured length
+        // replaces the pressed estimate, and the needle becomes movable.
+        if (answer.durationMs) noteLiveDuration(recording, voice, band, answer.durationMs);
+        noteReadingSaved(slug, voice, band);
+        // "once it is saved" — it is: a refused seek's sentence comes down
+        setNote((n) => (n?.text === STILL_READING_SAY ? null : n));
+        bumpLive();
+        return;
+      }
+      timer = setTimeout(() => void tick(), WATCH_EVERY_MS);
+    };
+    timer = setTimeout(() => void tick(), WATCH_EVERY_MS);
+    return () => {
+      stopped = true;
+      if (timer) clearTimeout(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [streaming, streamKey]);
+
+  // the deck's own sentence goes with the band it was said on
+  useEffect(() => {
+    setNote(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [now?.slug, now?.voice, now?.band]);
+
   // Auto-advance — roll into the next chapter, and stop cleanly at the end of
   // the book rather than looping; the spot takes `finishedAt`, so the next
   // begin() starts it from the top.
@@ -590,7 +775,16 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       // the ledger's seconds when it rests in this band, on this clock
       const fit = at == null ? fitSpot(spotsRef.current[slug], rec, voice) : null;
       const seconds = at ?? (fit && fit.band === band ? fit.seconds : 0);
-      pendingSeek.current = seconds > 0 ? { slug, band, voice, seconds } : null;
+      // A CHAPTER BEING READ FOR THE FIRST TIME STARTS AT THE BEGINNING,
+      // whatever the ledger says: there is no audio behind the playhead of
+      // a stream. The place is not lost — it is honoured the next time this
+      // chapter is played, when it is an ordinary file. A live chapter not
+      // yet asked for parks the wish with the gate, which honours it only
+      // if the site answers "already made".
+      const answer = voice && isLivePressing(slug, voice) ? liveOpenedFor(slug, voice, band) : null;
+      const fresh = !!voice && isLivePressing(slug, voice) && (!answer || !!answer.reading);
+      wantedSeek.current = !answer && fresh ? seconds : 0;
+      pendingSeek.current = seconds > 0 && !fresh ? { slug, band, voice, seconds } : null;
       setFinished(null);
       setNow({ slug, band, voice });
       setWantPlay(true);
@@ -612,10 +806,14 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       // values would not change the uri, so the pending-seek effect would
       // never fire and the tap would look ignored.
       if (now?.slug === slug && now.band === band) {
-        player.seekTo(at);
+        seekRef.current(at);
         return;
       }
-      pendingSeek.current = { slug, band, voice: voiceId, seconds: at };
+      // a live chapter still being read starts at the top — see playBand
+      const answer = voiceId && isLivePressing(slug, voiceId) ? liveOpenedFor(slug, voiceId, band) : null;
+      const fresh = !!voiceId && isLivePressing(slug, voiceId) && (!answer || !!answer.reading);
+      wantedSeek.current = !answer && fresh ? at : 0;
+      pendingSeek.current = fresh ? null : { slug, band, voice: voiceId, seconds: at };
       setFinished(null);
       setNow({ slug, band, voice: voiceId });
     },
@@ -646,7 +844,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         from.duration && from.duration !== to.duration
           ? Math.max(0, Math.min(to.duration, at * (to.duration / from.duration)))
           : Math.max(0, Math.min(to.duration, at));
-      pendingSeek.current = { slug: now.slug, band: now.band, voice: voiceId, seconds };
+      // onto a live reading still being made: the top, as everywhere else
+      const answer = isLivePressing(now.slug, voiceId) ? liveOpenedFor(now.slug, voiceId, now.band) : null;
+      const fresh = isLivePressing(now.slug, voiceId) && (!answer || !!answer.reading);
+      wantedSeek.current = !answer && fresh ? seconds : 0;
+      pendingSeek.current = fresh ? null : { slug: now.slug, band: now.band, voice: voiceId, seconds };
       setNow({ ...now, voice: voiceId });
     },
     [now, recording, status.currentTime, status.isLoaded, refuse],
@@ -695,11 +897,32 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   const seekTo = useCallback(
     (seconds: number) => {
+      // A stream has nothing behind the playhead to seek to. Refused, and
+      // said — a groove that swallows a drag reads as a broken control.
+      if (streaming === "live") {
+        sayNote(STILL_READING_SAY, true);
+        return;
+      }
+      // Saved since this stream started: the finished object can be
+      // seeked, so reload from it at the asked-for second. The pass comes
+      // off the href, the uri changes, a new player is made, and the seek
+      // is parked for it exactly as a resume is.
+      if (streaming === "saved" && now?.voice && recording) {
+        const end = chaptersOf(recording, now.voice)[now.band]?.duration || 0;
+        const at = Math.max(0, end ? Math.min(seconds, end) : seconds);
+        noteLiveSaved(recording, now.voice, now.band);
+        pendingSeek.current = at > 0 ? { slug: now.slug, band: now.band, voice: now.voice, seconds: at } : null;
+        bumpLive();
+        return;
+      }
       const end = status.duration || 0;
       player.seekTo(Math.max(0, end ? Math.min(seconds, end) : seconds));
     },
-    [player, status.duration],
+    [player, status.duration, streaming, now, recording, sayNote, bumpLive],
   );
+  // playAt is built before seekTo and reads it through this
+  const seekRef = useRef(seekTo);
+  seekRef.current = seekTo;
 
   const nudge = useCallback(
     (seconds: number) => seekTo((status.currentTime || 0) + seconds),
@@ -849,21 +1072,25 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
   /* --- the sentence --- */
   const say = useMemo<DeckValue["say"]>(
-    () => (locked ? { text: LOCKED_SAY, bad: refused > 0, n: refused } : null),
-    [locked, refused],
+    () =>
+      locked
+        ? { text: LOCKED_SAY, bad: refused > 0, n: refused, kind: "lock" }
+        : note
+          ? { text: note.text, bad: note.bad, n: note.n, kind: "note", subscribe: note.subscribe }
+          : null,
+    [locked, refused, note],
   );
 
   /**
-   * A live voice is the subscription's. The readers row carries no
-   * entitlement yet, so every live voice is shut for now.
-   *
-   * TODO(subscription): read reader_subscriptions (the site's
-   * hasActiveSubscription — status in OPEN_STATUSES, current_period_end in
-   * the future) for the signed-in reader, and open the live voices on it.
+   * A live voice is the subscription's; a pressed one is free to a
+   * signed-in reader; everything is shut to a guest. The entitlement is the
+   * site's answer (subscription.tsx), null-is-locked until it has answered.
+   * The line is PRESSED vs LIVE, not "featured": a live voice with a
+   * portrait is still a live voice.
    */
   const voiceLocked = useCallback(
-    (voiceId: string): boolean => locked || !PRESSED_IDS.has(voiceId),
-    [locked],
+    (voiceId: string): boolean => locked || (!PRESSED_IDS.has(voiceId) && !subscribed),
+    [locked, subscribed],
   );
 
   const value = useMemo<DeckValue>(
@@ -874,7 +1101,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       playing,
       position,
       duration: status.duration || (chapter?.duration ?? 0),
-      loading: !!now && !status.isLoaded,
+      // the platform's wait, or the site's — a live band it would not read
+      // is neither: the needle stands, with the reason under the groove
+      loading: !!now && (asking || (!gated && !status.isLoaded)),
       finished,
       voice: now?.voice ?? null,
       voices: recording?.voices ?? [],
@@ -894,6 +1123,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       refuse,
       say,
       voiceLocked,
+      streaming,
+      canSeek,
+      bumpLive,
+      liveTick,
       subscribePosition,
     }),
     [
@@ -904,6 +1137,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       position,
       status.duration,
       status.isLoaded,
+      asking,
+      gated,
       finished,
       setNarrator,
       playBand,
@@ -921,6 +1156,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       refuse,
       say,
       voiceLocked,
+      streaming,
+      canSeek,
+      bumpLive,
+      liveTick,
       subscribePosition,
     ],
   );

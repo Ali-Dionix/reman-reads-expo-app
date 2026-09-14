@@ -24,7 +24,7 @@
 //
 // Everything else is the web file with `await` in front of the token calls.
 
-import { secure } from "./storage";
+import { cache, secure } from "./storage";
 import { SUPABASE_KEY, SUPABASE_URL, supabaseReady } from "./config";
 
 export { supabaseReady };
@@ -59,11 +59,26 @@ export type AuthResult = {
 // yet"; `null` means "hydrated, and there is no session".
 let cached: Tokens | null | undefined;
 
+/**
+ * A DEVELOPMENT SEAM, the token-carrying twin of session.tsx's rr-test-user:
+ * a GoTrue token pair a test rig planted under this key in the plain cache
+ * — `{ access_token, refresh_token, expires_at, user }`, the shape the
+ * keychain holds — walks in as if the keychain held it. Read only in a dev
+ * bundle, only when the keychain is empty, never written by the app, and
+ * swept with the keychain at sign-out. What it is for: the web build, where
+ * expo-secure-store is a no-op and no session can be kept, so the rooms
+ * behind the site's routes (the entitlement, a live reader's 402, the
+ * handoff) could not be walked at all. Mint the pair the way
+ * scripts/verify-rls.mjs does — the password grant on a throwaway reader.
+ */
+const TEST_AUTH_KEY = "rr-test-auth";
+
 /** Hydrate the token cache. Call once, before the first screen renders. */
 export async function initAuth(): Promise<AuthUser | null> {
   if (cached !== undefined) return cached?.user ?? null;
   const raw = await secure.get(AUTH_KEY);
   cached = parse(raw);
+  if (!cached && __DEV__) cached = parse(await cache.get(TEST_AUTH_KEY));
   return cached?.user ?? null;
 }
 
@@ -209,6 +224,7 @@ export async function readerBearerToken(): Promise<string | null> {
 export async function signOut(): Promise<void> {
   const tokens = cached;
   await writeTokens(null);
+  if (__DEV__) await cache.remove(TEST_AUTH_KEY);
   if (!supabaseReady || !tokens) return;
   try {
     await post("/auth/v1/logout", {}, tokens.access_token);

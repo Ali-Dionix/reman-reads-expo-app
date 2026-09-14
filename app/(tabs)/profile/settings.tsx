@@ -25,8 +25,15 @@ import { View } from "react-native";
 import { SITE_ORIGIN } from "../../../src/lib/config";
 import { useCardNo, useSession } from "../../../src/lib/session";
 import { cache } from "../../../src/lib/storage";
+import {
+  COVERS,
+  PRICE_PER_MONTH,
+  SUBSCRIPTION_PATH,
+  describeSubscription,
+  useSubscription,
+} from "../../../src/lib/subscription";
 import { readerBearerToken } from "../../../src/lib/supabase";
-import { openOnSite } from "../../../src/lib/web";
+import { openOnSite, openSignedIn } from "../../../src/lib/web";
 import { PortalPage, Wrap } from "../../../src/portal/PortalPage";
 import {
   authRecord,
@@ -425,7 +432,16 @@ export default function SettingsScreen() {
             </Drawer>
           </Fold>
 
-            <Row label="Subscription" note="every audiobook in one plan" value="Coming soon" />
+          {/* accountSettingsPage.ts's subscriptionGroup, painted by
+              ProfileEnhancer.paintSubscription from /api/subscription — here
+              from the same answer (src/lib/subscription.tsx). Baked in the
+              UNKNOWN state ("checking…"), never "not subscribed": a subscriber
+              must not be shown a Subscribe press for one paint. The two
+              presses are the site's two — subscribe, and Stripe's billing
+              portal — and BOTH LEAVE FOR THE WEBSITE, signed in through the
+              handoff: the subscription is bought and cancelled there, never
+              in the app (src/lib/web.ts). */}
+          <SubscriptionFold />
           {/* Read-only, and deliberately last: the only two rows that cannot be changed. */}
             <Row label="Member no." note="on the card and on every order" value={cardNo} />
           {/* min-height 56 is border-box on the web: 55 + the rule. */}
@@ -751,6 +767,48 @@ export default function SettingsScreen() {
         </View>
       </Wrap>
     </PortalPage>
+  );
+}
+
+/**
+ * The Subscription fold. ProfileEnhancer's paintSubscription, state for
+ * state: "checking…" until the desk answers; "Not available on this site."
+ * with nothing to press when the site cannot sell one; Active / Ending with
+ * the renewal or the end date and a "Manage or cancel" press; None with the
+ * plan's four covers and the Subscribe press. A reader who once subscribed
+ * still has invoices and a card on file, so the portal press stays beside
+ * Subscribe for them.
+ */
+function SubscriptionFold() {
+  const { state, refresh } = useSubscription();
+  const d = describeSubscription(state);
+  const [said, setSaid] = useState("");
+  const go = useCallback(async () => {
+    setSaid("opening the website…");
+    await openSignedIn(SUBSCRIPTION_PATH);
+    // the answer may have changed by the time the reader is back — the
+    // provider asks again on foreground; this covers the web build too
+    setTimeout(() => {
+      void refresh();
+      setSaid("");
+    }, 1500);
+  }, [refresh]);
+  return (
+    <Fold label="Subscription" note={d.note} value={d.state || " "}>
+      {d.press === "subscribe" ? <Hint>{COVERS.join(" ")}</Hint> : null}
+      {d.press === "manage" ? (
+        <Hint>Cancelling, your card and your invoices are on the website, in Stripe's billing portal.</Hint>
+      ) : null}
+      {d.press ? (
+        <Act>
+          {d.press === "subscribe" ? (
+            <MiniButton label={`Subscribe — ${PRICE_PER_MONTH}`} onPress={() => void go()} />
+          ) : null}
+          {d.portal ? <MiniButton label="Manage or cancel" onPress={() => void go()} /> : null}
+          <Say text={said} />
+        </Act>
+      ) : null}
+    </Fold>
   );
 }
 

@@ -68,9 +68,9 @@ golden — that is the Next.js dev-tools badge on the local site, not chrome
 | `GuestStamp` | — | `.rr-pt-guest` | ≤760px cut: "GUEST" alone, 700 8px .12em, 6px 8px INSIDE a 1px dashed brick .55 border (so 7px 9px here, the `DashedBox` over the outer pixel), −1.5°. |
 | `Wrap` / `Bleed` | `children, style?` | `.rr-pt-wrap` | 20px gutters / −20px to break out. |
 | `Head` | `title, em?, sub?, ls?=-0.01` | `.rr-pt-head`, `.rr-pt-h1`, `.rr-pt-h1 em`, `.rr-pt-sub` | App-shell sizes: h1 clamp(26,6.8vw,36)/1.04 Cormorant 500; `em` is the 600 half with globals.css's brass swoosh (max(5px,.13em) tall, −.2em under, 1.5% wider); sub 13.5/1.65 ink .62. Kicker is display:none. |
-| `GateSheet` (src/portal) | `open, guest, onClose, onContinue`; `gateHref(key)` | `.rr-im.is-upgrade` (importUpgrade.ts) | The locked panel, full-screen in place; Continue goes out on `/login?next=%2Faccount%3Fadd%3D<key>`. Home's cells and the Library's locked cells. |
+| `GateSheet` (src/portal) | `open, onClose, onContinue`; `gateNext(key)` | `.rr-im.is-upgrade` (importUpgrade.ts) | The locked panel, full-screen in place; Continue goes out through `openSignedIn(gateNext(key))` — the site's `/account?add=<key>`, signed in by the handoff (a plain `/login?next=` when the handoff cannot be had). Home's cells open it only for a reader the entitlement has not opened; a subscriber's tap goes straight to the site's import sheet. |
 | `BottomBar` | (react-navigation tab bar props) | `.rr-pt-bottom`, `.rr-ap-slots`, `.rr-ap-tab`, `.rr-ap-fab` | Five slots from `SLOTS`; squiggle under the live label; centre disc opens `AddSheet`. |
-| `AddSheet` | `open, onClose` | `#rr-pt-side`, `.rr-ap-add`, `.rr-ap-add-gate`, `.rr-ap-side-foot`, `.rr-pt-scrim` | Copy verbatim from appShell.ts; rows route Home with `?add=`; foot routes `/orders`, `/hermes`. |
+| `AddSheet` | `open, onClose` | `#rr-pt-side`, `.rr-ap-add`, `.rr-ap-add-gate`, `.rr-ap-side-foot`, `.rr-pt-scrim` | Copy verbatim from appShell.ts; rows route Home with `?add=`; foot routes `/orders`, `/hermes`. The padlocks and the gate line read `useSubscription()` (null-is-locked), as the site's paintLocks. |
 | `TornNav` | `onBrand?` | `.rr-nav5--minimal`, `.rr-nav5-paper` | The public nav /login wears: 44px mark PNG, wordmark, 40px theme disc, `sheet` paper (#fff / #1d263c). |
 | `TornSheet` (src/ui/TornEdge) | `edge:"bottom"\|"top", width, height, paper, line, haze, hazeSpread?, wash?, style?` | `.rr-ap-top-paper`, `.rr-ap-nav-paper`, `.rr-ap-sheet-paper` | The two-layer torn paper plus the ink line; absolute, bleeds 32/30px past the box. |
 | `sheetPath`, `TEETH`, `TILE_W/H` (TornEdge) | `sheetPath(width, solidY, tileTop, phase, mirror)` | HTEAR / HTEAR_TOP (= TEAR_TOP) | One sheet silhouette from the tile — for a torn strip whose offsets are not a bar's (/login's foot, the footer). |
@@ -122,8 +122,21 @@ refuseLocked: says so and answers true; every deck verb calls it itself),
 `say` (`{text, bad, n}`, "Listening needs an account." — muted on arrival,
 brick after a refused tap, `n` counting the refusals so a console mounted
 later reads the rise; the console adds the "Sign up to listen." link),
-`voiceLocked(id)` (a live voice is the subscription's; TODO
-reader_subscriptions). The spots are stamped with their owner
+`voiceLocked(id)` (a live voice is the subscription's — the entitlement is
+`src/lib/subscription.tsx`, the site's `/api/subscription` asked once per
+reader, on every foreground and on demand; null is locked). The live
+readers: `src/lib/liveRead.ts` registers a reading as a PRESSING of the
+book (the site's registerLiveVoice) and asks the site's maker route
+(`ensureLiveChapter`); the deck withholds the player's source until the site
+has agreed (the gate — `loading` while it asks, a `say` note with the
+website's door on a 402), reads `streaming` ("live" / "saved" / null) off
+the pass on the href, refuses `seekTo`/`nudge`/`playAt` while "live" and
+reloads from the finished object on the first seek after, polls the cue
+file every 4s while streaming (`galley.ts refreshGalley`, `useGalleyVersion`
+for the strip), and `bumpLive()` / `liveTick` re-read the registry after a
+mutation. `say` is `{text, bad, n, kind, subscribe?}` now — `kind` "lock"
+for the standing line, "note" for a sentence of the deck's own. The spots
+are stamped with their owner
 (`rr-listening-owner`) and dropped when another walks in. And the read-along's
 clock — `useFastPosition()` subscribes ONE component to a 100ms sample of the
 player's own time (`subscribePosition`), so the gilt lands on every word while
@@ -140,7 +153,11 @@ both down; a sheet's `bottom` is the console's BOX, the site's
 that measure is the box); `Codex` the leaf (boards, pages, gilt, pinch,
 tap-to-seek; `codexStands()` says whether the codex of pages — and so the
 frame's foot arrows — stands); `Console` the torn tail band (`liveSay` is
-the narrator sheet's line, said here too); `VoiceSheet`, `SpeedSheet`,
+the narrator sheet's line, said here too, with "Subscribe on the website."
+under the subscription's refusal — `openSignedIn(SUBSCRIPTION_PATH)`);
+`VoiceSheet` (a live reader's tap is the site's pickLiveNarrator: ask,
+register, `setNarrator`; "Reading…" while the site is asked;
+`standingBand` is the codex's chapter, the site's galleyBand), `SpeedSheet`,
 `LampSheet`, `TypeSheet` the sheets; `Contents` the chapters / bookmarks
 drawer. Each file's header names its site classes. The narrator directory
 is baked by `reader/gen-narrators.mjs` (run from the site root) into

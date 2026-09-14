@@ -28,11 +28,12 @@ import shelf from "../../src/data/listeningShelf.json";
 import { heardSeconds, recordingFor, resumable, useDeck, type Spots } from "../../src/lib/audioStore";
 import { useCardNo, useSession } from "../../src/lib/session";
 import { cache } from "../../src/lib/storage";
-import { openToBuy } from "../../src/lib/web";
+import { useSubscription } from "../../src/lib/subscription";
+import { openSignedIn } from "../../src/lib/web";
 import { AddBand, type AddKey } from "../../src/portal/home/AddBand";
 import { ContinueShelf, type ShelfCard } from "../../src/portal/home/ContinueShelf";
 import { fmtDur } from "../../src/portal/home/fmt";
-import { GateSheet, gateHref } from "../../src/portal/GateSheet";
+import { GateSheet, gateNext } from "../../src/portal/GateSheet";
 import { Hello } from "../../src/portal/home/Hello";
 import { Promo } from "../../src/portal/home/Promo";
 import { PortalPage, Wrap } from "../../src/portal/PortalPage";
@@ -98,16 +99,27 @@ export default function Home() {
   };
 
   /**
-   * THE GATE. Every cell is behind the subscription (IMPORTS_NEED_SUBSCRIPTION),
-   * so a tap opens the locked panel IN PLACE — importUpgradeHtml, as the web
-   * does — rather than leaving the app. The panel's Continue is the one thing
-   * that goes out, to the site's own gate-login href with the intent kept
-   * (see GateSheet's header); the sources themselves are TODO(imports).
+   * THE GATE. Every cell is behind the subscription — the site's answer
+   * (src/lib/subscription.tsx), null-is-locked until it has answered — so a
+   * tap without one opens the locked panel IN PLACE, importUpgradeHtml as
+   * the web does, rather than leaving the app. The panel's Continue is the
+   * one thing that goes out: to the site, signed in through the handoff,
+   * with the intent kept (`/account?add=<key>` is what the site's own gate
+   * carries as `next`). A SUBSCRIBER's tap goes straight there — the import
+   * sheet itself is the site's (importSheet.ts) and is TODO(imports) here,
+   * so the source opens on the website, signed in, rather than a padlock
+   * being drawn over something the reader has paid for.
    */
+  const { active: subscribed } = useSubscription();
   const [gate, setGate] = useState<AddKey | null>(null);
-  const openImport = useCallback((key: AddKey | string) => {
-    setGate(asAddKey(String(key)));
-  }, []);
+  const openImport = useCallback(
+    (key: AddKey | string) => {
+      const k = asAddKey(String(key));
+      if (subscribed) void openSignedIn(`/account?add=${k}`);
+      else setGate(k);
+    },
+    [subscribed],
+  );
 
   // A row on the + sheet routes here carrying ?add=<key>, as every other
   // room's link does on the web; the enhancer opens the panel on arrival.
@@ -177,7 +189,7 @@ export default function Home() {
           <Promo onTry={() => router.navigate("/listening")} onShut={() => shut("promo")} />
         ) : null}
         <ContinueShelf cards={cards} sub={sub} onOpen={open} />
-        <AddBand onOpen={openImport} />
+        <AddBand onOpen={openImport} locked={!subscribed} />
         {/* .rr-ov-files — the reader's own uploads; ships hidden and stays
             hidden for a reader with nothing. Nothing has been brought in on
             this side yet (TODO(imports): GET /api/imports with the reader's
@@ -193,8 +205,10 @@ export default function Home() {
           const key = gate ?? "files";
           setGate(null);
           // Money may change hands on the far side: the reader's REAL
-          // browser, never the in-app tab (src/lib/web.ts's header).
-          void openToBuy(gateHref(key));
+          // browser, never the in-app tab (src/lib/web.ts's header) — and
+          // signed in, so the site's gate opens on its Stripe press rather
+          // than on a second sign-in
+          void openSignedIn(gateNext(key));
         }}
       />
     </PortalPage>

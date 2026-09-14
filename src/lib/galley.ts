@@ -23,6 +23,8 @@
 // of the shelf will be in that state for a long time — every path here answers
 // "no" cheaply and never throws, exactly as pages.ts does.
 
+import { useSyncExternalStore } from "react";
+
 import { audioUrl } from "./audioResolve";
 import type { PageBox } from "./pages";
 
@@ -39,16 +41,29 @@ export type Galley = {
   words: GalleyWord[];
   /** [firstWordIdx, lastWordIdx] per sentence; sentences never cross paras. */
   sents: [number, number][];
+  /**
+   * A LIVE reading's cue file, as far as the reading has got. The site's
+   * /api/voice/read/galley answers `<key>.live.json` with `partial: true`
+   * while the chapter is still being read — the paragraphs arrive complete
+   * on the first write and only the word rows grow — and the finished file
+   * without it. A partial galley is never the last word: refreshGalley()
+   * replaces it, and the deck polls while a chapter streams (audioStore's
+   * watch), so the strip lights up behind the voice as the words land.
+   */
+  partial?: boolean;
 };
 
 /** Reject anything that would paint a highlight in the wrong place. */
 function asGalley(raw: unknown): Galley | null {
   const g = raw as Partial<Galley> | null;
   if (!g || typeof g !== "object") return null;
-  if (!Array.isArray(g.paras) || !Array.isArray(g.words) || !g.words.length) return null;
+  const partial = g.partial === true;
+  // a partial galley's first write carries the paragraphs and no words yet:
+  // real text to show, nothing to gild — kept, so the strip can stand
+  if (!Array.isArray(g.paras) || !Array.isArray(g.words) || (!g.words.length && !partial)) return null;
   if (g.words.some((w) => !Array.isArray(w) || w.length < 5)) return null;
   // sentence spans are optional: a pressing without them simply gets no wash
-  return { ...(g as Galley), sents: Array.isArray(g.sents) ? g.sents : [] };
+  return { ...(g as Galley), sents: Array.isArray(g.sents) ? g.sents : [], partial };
 }
 
 const cache = new Map<string, Galley | null>();
@@ -56,6 +71,36 @@ const inflight = new Map<string, Promise<Galley | null>>();
 
 const keyOf = (slug: string, voice: string | null, band: number): string =>
   `${slug}\0${voice ?? "-"}\0${band}`;
+
+/* ------------------------------------------------------- the changes --- */
+//
+// A galley in the cache is replaced in ONE case: a live reading's partial
+// cue file growing, or finishing. Every reader of the cache is a component
+// that asked loadGalley() once on mount — so a replacement has to be told,
+// or the strip would stand on the two paragraphs the reading had got to
+// when the leaf was turned. useGalleyVersion() is that telling: a counter
+// that moves on every replacement, for an effect's dependency list.
+
+let version = 0;
+const listeners = new Set<() => void>();
+const bump = () => {
+  version += 1;
+  listeners.forEach((cb) => cb());
+};
+const subscribe = (cb: () => void) => {
+  listeners.add(cb);
+  return () => {
+    listeners.delete(cb);
+  };
+};
+const snapshot = () => version;
+
+/** A number that changes whenever a cached galley is replaced. Put it in
+ *  the dependency list of the effect that calls loadGalley(), and the
+ *  chapter is re-read from the cache when a live reading grows. */
+export function useGalleyVersion(): number {
+  return useSyncExternalStore(subscribe, snapshot, snapshot);
+}
 
 /**
  * Fetch and validate one chapter's galley. Null means "there is no text to
@@ -74,19 +119,46 @@ export async function loadGalley(
     cache.set(key, null);
     return null;
   }
+  return fetchGalley(key, path, false);
+}
+
+/**
+ * Ask for a chapter's galley AGAIN — the site's refreshGalley(): the cue
+ * file of a live reading, re-read while the chapter is being made. Replaces
+ * the cached copy and tells every reader of it. Answers whether the reading
+ * is finished, for the deck's watch; null when the cue file is not there.
+ */
+export async function refreshGalley(
+  slug: string,
+  voice: string | null,
+  band: number,
+  path: string | undefined,
+): Promise<{ partial: boolean; durationMs: number } | null> {
+  if (!path) return null;
+  const g = await fetchGalley(keyOf(slug, voice, band), path, true);
+  return g ? { partial: !!g.partial, durationMs: Number(g.durationMs ?? 0) || 0 } : null;
+}
+
+function fetchGalley(key: string, path: string, refresh: boolean): Promise<Galley | null> {
   // one flight per chapter: the reader asks on mount, on band change and on a
   // narrator switch, and those can land in the same tick
   const running = inflight.get(key);
   if (running) return running;
 
   const flight = (async () => {
+    const was = cache.get(key);
     try {
-      const res = await fetch(audioUrl(path));
+      const res = await fetch(audioUrl(path), refresh ? { cache: "no-store" } : undefined);
       if (!res.ok) throw new Error(String(res.status));
       const g = asGalley(await res.json());
+      // a live cue file that is not there yet (a 404 before the first
+      // passage lands) is not "no text" — the watch asks again
+      if (!g && refresh) return was ?? null;
       cache.set(key, g);
+      if (refresh && g !== was) bump();
       return g;
     } catch {
+      if (refresh) return was ?? null;
       cache.set(key, null);
       return null;
     } finally {

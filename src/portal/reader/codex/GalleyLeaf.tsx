@@ -40,6 +40,7 @@ import {
   loadGalley,
   paraRuns,
   sentenceOf,
+  useGalleyVersion,
   wordAt,
   wordStart,
   type Galley,
@@ -101,16 +102,23 @@ export function GalleyLeaf({
 
   const [gal, setGal] = useState<Galley | null | undefined>(undefined);
   const [tries, setTries] = useState(0);
+  // a live reading's cue file grows while it streams (galley.ts): the
+  // version moves on every replacement and the chapter is re-read
+  const galleyVersion = useGalleyVersion();
   useEffect(() => {
     let alive = true;
     const chapters = chaptersOf(recording, voice);
-    setGal(undefined);
     loadGalley(recording.slug, voice, band, chapters[band]?.galley).then((g) => {
       if (alive) setGal(g);
     });
     return () => {
       alive = false;
     };
+  }, [recording, voice, band, tries, galleyVersion]);
+  // the strip clears for a NEW chapter, never for a grown one — a blank
+  // leaf between two readings of the same galley would flash on every tick
+  useEffect(() => {
+    setGal(undefined);
   }, [recording, voice, band, tries]);
 
   const runs = useMemo(() => (gal ? paraRuns(gal) : []), [gal]);

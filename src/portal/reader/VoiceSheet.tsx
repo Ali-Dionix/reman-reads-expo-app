@@ -39,10 +39,21 @@
 // the directory carries the refusal in brick. Signed in, a pressed reader is
 // "reads this book" / "on the platter"; a LIVE reader is the subscription's,
 // which the site answers on the TAP (a 402 said over the directory), never
-// on the disc — the gate is pressed-vs-live, not "Featured". Choosing a live
-// reader here is not yet wired: it needs the live-reading pipeline (a chapter
-// synthesized on request), which the app does not carry, so a signed-in tap
-// says so on the same line.
+// on the disc — the gate is pressed-vs-live, not "Featured". The app says
+// the same sentence on the tap, without the round trip when it already
+// knows the answer (src/lib/subscription.tsx), and under it offers the one
+// door the site cannot: "Subscribe on the website", which opens the site in
+// the reader's real browser, signed in (src/lib/web.ts openSignedIn) —
+// the subscription is bought there and only there.
+//
+// A LIVE READER, CHOSEN. The site's pickLiveNarrator, in the hand: the
+// chapter is asked for FIRST (src/lib/liveRead.ts ensureLiveChapter — the
+// site's maker route answers "already made" or "may be made" with a pass),
+// and only then is the reader registered as a pressing of this book and
+// handed to the deck's setNarrator like any other. Registering first would
+// put a pressing on the shelf whose every chapter 404s, and a reader the
+// site refused would be left with a narrator selected and nothing that
+// plays. The row says "Reading…" while the site is being asked.
 //
 // THE SHEET IS A LIST, NOT A SCROLLVIEW: three hundred and thirty-eight
 // readers as rows would mount in one go otherwise. Everything on the sheet is
@@ -76,8 +87,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import Svg, { Circle, Path, Polygon, Rect } from "react-native-svg";
 
 import { useDeck, type Recording } from "../../lib/audioStore";
+import { dressLiveChapter, ensureLiveChapter, registerLiveVoice } from "../../lib/liveRead";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
+import { SUBSCRIPTION_PATH, SUBSCRIPTION_SAY, useSubscription } from "../../lib/subscription";
+import { openSignedIn } from "../../lib/web";
 import { useInk } from "../../theme/ink";
 import { FONTS, lh, lineOf } from "../../theme/type";
 import { Face } from "./voice/Face";
@@ -110,6 +124,7 @@ const LIVE = narrators.live as Live[];
 const FEATURED_LIVE = narrators.featured as string[];
 const LANGUAGES = narrators.languages as Lang[];
 const PRESSED_BY_ID = new Map(PRESSED.map((n) => [n.id, n]));
+const LIVE_BY_ID = new Map(LIVE.map((n) => [n.id, n]));
 
 /** ListeningEnhancer's LIVE_CAP — rows past it fold under "Show N more". */
 const LIVE_CAP = 5;
@@ -120,20 +135,11 @@ const LOCKED_TAG = "Sign up to listen";
 const LOCKED_SAY = "Listening needs an account. Sign up to listen.";
 const LIVE_SAY =
   "These readers are not pressed. Pick one and they begin reading this chapter to you straight away, and it is kept for next time.";
-/** What a signed-in tap on a live reader says while the app carries no
- *  live-reading pipeline. (The site's own refusal for a reader the
- *  subscription has not opened — "This needs the subscription." — waits on
- *  useDeck().voiceLocked telling a missing subscription from an unwired
- *  one; today it says every live voice is shut.) */
-const LIVE_SOON = "Live readers are coming to the app soon.";
-/** The live pipeline — a chapter synthesized on request, read down the
- *  response as it is made — is not in the app. While it is not, the sheet
- *  must not promise what a tap then refuses: the standing line over the
- *  directory is the coming-soon sentence and every live row is tagged
- *  "Coming soon", not "Available". Flip this (or read a deck flag) when the
- *  pipeline ships, and LIVE_SAY / "Available" come back on their own. */
-const LIVE_READY = false;
-const SOON_TAG = "Coming soon";
+/** paintLiveTags' word for the reader the site is being asked to read. */
+const READING_TAG = "Reading…";
+/** The sheet's own door under a subscription refusal — the one line the
+ *  site does not print, because the site sells the plan on the same page. */
+const SUBSCRIBE_LINK = "Subscribe on the website →";
 
 /** ListeningEnhancer's voiceLocale — the region a provider voice id names,
  *  as the chip prints it; an opaque id yields nothing and the chip carries
@@ -286,6 +292,7 @@ export function VoiceSheet({
   bottom,
   onSignIn,
   onSay,
+  standingBand,
 }: {
   open: boolean;
   onClose: () => void;
@@ -309,20 +316,32 @@ export function VoiceSheet({
    *  shut the sheet (or whose sheet is scrolled past the line). The frame
    *  paints it into the Console's say slot, as it does the locked-room
    *  sentence; `bad` is the site's { bad: true } — brick and 600. Cleared
-   *  with an empty text when the sheet shuts. */
-  onSay?: (text: string, bad: boolean) => void;
+   *  with an empty text when the sheet shuts. `subscribe` marks the
+   *  subscription's refusal, so the console can print the website's door
+   *  under it as this sheet does. */
+  onSay?: (text: string, bad: boolean, subscribe?: boolean) => void;
+  /** The chapter the codex has standing — the site's galleyBand — so a live
+   *  reader is asked to read THAT chapter, not band one. -1 when the volume
+   *  stands folded; the platter's band, then the ledger's, answer instead. */
+  standingBand?: number;
 }) {
   const { clamp } = useInk();
   const { width, height: windowH } = useWindowDimensions();
-  const { now, voice: deckVoice, setNarrator, refuse, locked } = useDeck();
+  const { now, voice: deckVoice, setNarrator, refuse, locked, spots, bumpLive, liveTick } = useDeck();
   const { user } = useSession();
+  const sub = useSubscription();
   const standing = useStanding(ownerOf(user?.id));
   const pal = useMemo(() => paletteFor(night), [night]);
 
-  // the pressings are the BOOK's; the deck's voice counts only while this
-  // book is on the platter, and the ledger's choice the rest of the time
-  const voices = recording.voices ?? [];
-  const voiceIds = useMemo(() => voices.map((v) => v.id), [voices]);
+  // the pressings are the BOOK's — the house pair and any live reader
+  // registered this run (liveRead.ts writes into the same map, so the tick
+  // is read for the memo); the deck's voice counts only while this book is
+  // on the platter, and the ledger's choice the rest of the time
+  const voiceIds = useMemo(
+    () => Object.keys(recording.pressings ?? {}),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [recording, liveTick],
+  );
   const here = now?.slug === recording.slug;
   const chosen = useMemo(
     () => voiceInForce(recording.slug, voiceIds, recording.voiceId ?? null, standing),
@@ -347,6 +366,10 @@ export function VoiceSheet({
   const [unfolded, setUnfolded] = useState<Set<string>>(() => new Set());
   /** liveNote — what a tap on a live reader said, over the directory. */
   const [liveNote, setLiveNote] = useState("");
+  /** The note is the subscription's refusal: the door goes under it. */
+  const [liveDoor, setLiveDoor] = useState(false);
+  /** paintLiveTags' liveSay — the reader the site is being asked to read. */
+  const [asking, setAsking] = useState("");
   const [sheetH, setSheetH] = useState(0);
   /** The list's scroll offset — the language menu hangs from the chip, which
    *  moves with the list. */
@@ -359,10 +382,11 @@ export function VoiceSheet({
   onSayRef.current = onSay;
   const liveNoteRef = useRef("");
   /** The site's sayLive: to the eye over the list, and to the console. */
-  const sayLive = useCallback((text: string) => {
+  const sayLive = useCallback((text: string, subscribe = false) => {
     liveNoteRef.current = text;
     setLiveNote(text);
-    onSayRef.current?.(text, !!text);
+    setLiveDoor(!!text && subscribe);
+    onSayRef.current?.(text, !!text, subscribe);
   }, []);
   useEffect(() => {
     if (!open) {
@@ -371,8 +395,9 @@ export function VoiceSheet({
     }
   }, [open, sayLive]);
 
-  // one pressing (or none yet) → the caption; two or more → the picker
-  const picker = voices.length > 1;
+  // one pressing (or none yet) → the caption; two or more → the picker —
+  // a live reader registered this run counts, as the site's audioVoicesFor
+  const picker = voiceIds.length > 1;
   const needle = q.trim().toLowerCase();
   const matches = useCallback(
     (name: string) => !needle || name.toLowerCase().includes(needle),
@@ -426,9 +451,19 @@ export function VoiceSheet({
     [on, voiceIds, here, recording.slug, setNarrator],
   );
 
-  /** pickLiveNarrator — a locked room refuses; an open one is not wired yet. */
+  // the band a live reader is asked to read: the codex's standing chapter,
+  // else the platter's, else where the ledger rests (the site's galleyBand
+  // >= 0 ? galleyBand : getAudioState().band)
+  const askBand =
+    standingBand != null && standingBand >= 0
+      ? standingBand
+      : here && now
+        ? now.band
+        : Math.max(0, spots[recording.slug]?.chapter ?? 0);
+
+  /** The site's pickLiveNarrator: ask, then register, then setNarrator. */
   const pickLive = useCallback(
-    (id: string) => {
+    async (id: string) => {
       setLangOpen(false);
       // refuseLocked: the deck's own sentence goes brick and semibold, and
       // the same line is said over the list (the site's sayLive says it twice)
@@ -436,11 +471,47 @@ export function VoiceSheet({
         sayLive(LOCKED_SAY);
         return;
       }
-      // TODO(live pipeline): a reader the subscription opens still has no
-      // live reading to start in the app.
-      sayLive(LIVE_SOON);
+      const n = LIVE_BY_ID.get(id);
+      if (!n || id === on || asking) return;
+      // The app already holds the desk's answer: a reader it has said no to
+      // is answered here, in the desk's own words, without the round trip.
+      // A subscriber, or an answer not yet in, goes to the desk — which
+      // decides, and is trusted over the copy either way.
+      if (sub.state && !sub.state.guest && !sub.state.active) {
+        sayLive(SUBSCRIPTION_SAY, true);
+        return;
+      }
+      const slug = recording.slug;
+      const band = askBand;
+      setAsking(id);
+      const opened = await ensureLiveChapter(slug, id, band);
+      setAsking("");
+      if (!opened.made) {
+        // the desk said no: the sentence, and the door when it is the
+        // subscription's — and the app's copy of the answer is refreshed,
+        // since it evidently disagreed
+        if (opened.subscribe) void sub.refresh();
+        sayLive(opened.why, !!opened.subscribe);
+        return;
+      }
+      // registered only now — a pressing whose chapters would 404 must
+      // never sit on the shelf — and dressed before the needle moves,
+      // because the href is what the needle will fetch
+      if (!registerLiveVoice(recording, n)) return;
+      dressLiveChapter(recording, id, band, opened);
+      bumpLive();
+      // from here it is an ordinary narrator change: the ledger, and the
+      // deck if this book is on the platter
+      chooseVoice(slug, id);
+      if (here) setNarrator(id);
+      if (opened.reading) {
+        sayLive(`${n.name} reads this chapter as you listen. The words light up as they are spoken.`);
+      } else if (liveNoteRef.current) {
+        // it worked, so a warning left over the list would be its own small lie
+        sayLive("");
+      }
     },
-    [refuse, sayLive],
+    [refuse, sayLive, on, asking, sub, recording, askBand, here, setNarrator, bumpLive],
   );
 
   const unfold = useCallback((code: string) => {
@@ -715,14 +786,30 @@ export function VoiceSheet({
         case "cv":
           return <CloneCard pal={pal} locked={locked} onSignIn={onSignIn} />;
         case "livesay": {
-          // an open room with no live pipeline says so at rest, in the
-          // muted ink — a note (a tap's answer) is the refusal's
+          // the standing line at rest, in the muted ink — a note (a tap's
+          // answer) is the refusal's; under the subscription's refusal, the
+          // website's door
           const bad = locked || !!liveNote;
-          const text = locked ? LOCKED_SAY : liveNote || (LIVE_READY ? LIVE_SAY : LIVE_SOON);
+          const text = locked ? LOCKED_SAY : liveNote || LIVE_SAY;
           return (
-            <Text style={[styles.livesay, bad ? styles.livesayBad : null, { color: bad ? pal.livesayBad : pal.livesay }]}>
-              {text}
-            </Text>
+            <View>
+              <Text style={[styles.livesay, bad ? styles.livesayBad : null, { color: bad ? pal.livesayBad : pal.livesay }]}>
+                {text}
+              </Text>
+              {!locked && liveDoor ? (
+                <Pressable
+                  onPress={() => void openSignedIn(SUBSCRIPTION_PATH)}
+                  accessibilityRole="link"
+                  accessibilityLabel="Subscribe on the website"
+                  hitSlop={6}
+                  style={styles.liveDoor}
+                >
+                  <Text style={[styles.livesay, styles.livesayBad, styles.liveDoorText, { color: pal.livesayBad }]}>
+                    {SUBSCRIBE_LINK}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
           );
         }
         case "tongue":
@@ -734,7 +821,10 @@ export function VoiceSheet({
         case "row": {
           const n = item.n;
           const isHere = n.id === on;
-          const tag = locked ? LOCKED_TAG : isHere ? "Playing" : LIVE_READY ? "Available" : SOON_TAG;
+          // "Available", the same word the pressed rows use, because it is
+          // the same fact: this reader will read the book. That an unpressed
+          // one is read as you listen is said once by the line over the list.
+          const tag = locked ? LOCKED_TAG : isHere ? "Playing" : asking === n.id ? READING_TAG : "Available";
           return (
             <Shown
               onPress={() => pickLive(n.id)}
@@ -781,7 +871,7 @@ export function VoiceSheet({
           return null;
       }
     },
-    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, on, onSignIn, liveNote],
+    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, on, onSignIn, liveNote, liveDoor, asking],
   );
 
   const shutLang = useCallback(() => setLangOpen(false), []);
@@ -1178,6 +1268,8 @@ const styles = StyleSheet.create({
   pickLine: { maxWidth: 168, fontFamily: FONTS.sans, fontSize: 10.5, lineHeight: lineOf(10.5, 1.5), letterSpacing: 0.158, textAlign: "center" },
   // .rr-lr-vc-livesay{margin:0 0 2px;font:400 12px/1.45}
   livesay: { marginBottom: 2, fontFamily: FONTS.sans, fontSize: 12, lineHeight: lineOf(12, 1.45) },
+  liveDoor: { alignSelf: "flex-start", marginTop: 2, marginBottom: 8, paddingHorizontal: 14 },
+  liveDoorText: { textDecorationLine: "underline" },
   livesayBad: { fontFamily: FONTS.sansSemi },
   // .rr-lr-vc-tongue{padding:7px 2px 4px;font:700 9.5px;letter-spacing:.15em;uppercase}
   tongue: { paddingTop: 7, paddingBottom: 4, paddingHorizontal: 2, fontFamily: FONTS.sansBold, fontSize: 9.5, lineHeight: lh("Manrope", 9.5), letterSpacing: 1.425, textTransform: "uppercase" },

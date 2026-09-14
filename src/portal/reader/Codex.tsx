@@ -57,6 +57,7 @@ import {
   boxesForSentence,
   boxesForWord,
   loadGalley,
+  useGalleyVersion,
   wordAt,
   wordOfBox,
   wordStart,
@@ -396,17 +397,21 @@ function useReadAlong(
 ) {
   const [gal, setGal] = useState<Galley | null | undefined>(undefined);
   const position = useFastPosition();
+  // a live reading's cue file grows while it streams — see galley.ts
+  const galleyVersion = useGalleyVersion();
 
   useEffect(() => {
     let alive = true;
     const chapters = chaptersOf(recording, voice);
-    setGal(undefined);
     loadGalley(recording.slug, voice, band, chapters[band]?.galley).then((g) => {
       if (alive) setGal(g);
     });
     return () => {
       alive = false;
     };
+  }, [recording, voice, band, galleyVersion]);
+  useEffect(() => {
+    setGal(undefined);
   }, [recording, voice, band]);
 
   // every printed run of the chapter being read — the paper half of the join

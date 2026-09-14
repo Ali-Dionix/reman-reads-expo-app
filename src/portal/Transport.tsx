@@ -61,12 +61,19 @@ export function Transport() {
     nudge,
     seekTo,
     now,
+    voice,
   } = useDeck();
   const { ink } = useInk();
   const { colors, mode } = useTheme();
   const [grooveW, setGrooveW] = useState(0);
 
   if (!recording || !now) return null;
+
+  // the pressing in force's reader — a live reader registered this run
+  // stands in the same list as the house pair (liveRead.ts), so the caption
+  // follows the platter rather than the book's printed default
+  const reader = recording.voices.find((v) => v.id === voice);
+  const caption = reader ? `Read by ${reader.name}.` : recording.voice;
 
   const pct = duration > 0 ? Math.min(1, position / duration) : 0;
 
@@ -165,7 +172,7 @@ export function Transport() {
         </Pressable>
       </View>
 
-      <Text style={[styles.voice, { color: colors.brown }]}>{recording.voice}</Text>
+      <Text style={[styles.voice, { color: colors.brown }]}>{caption}</Text>
     </View>
   );
 }

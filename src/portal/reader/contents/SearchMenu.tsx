@@ -36,7 +36,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 
-import { loadGalley, type Galley } from "../../../lib/galley";
+import { loadGalley, useGalleyVersion, type Galley } from "../../../lib/galley";
 import { FONTS, lh, lineOf } from "../../../theme/type";
 import { useBox } from "../../../ui/DashedBox";
 import { SmallCaps } from "./SmallCaps";
@@ -125,15 +125,18 @@ export function SearchMenu({
   const [focused, setFocused] = useState(false);
   // undefined while the galley is in the post; null when there is none
   const [gal, setGal] = useState<Galley | null | undefined>(undefined);
+  const galleyVersion = useGalleyVersion();
   useEffect(() => {
     let alive = true;
-    setGal(undefined);
     loadGalley(slug, voice, band, galleyPath).then((g) => {
       if (alive) setGal(g);
     });
     return () => {
       alive = false;
     };
+  }, [slug, voice, band, galleyPath, galleyVersion]);
+  useEffect(() => {
+    setGal(undefined);
   }, [slug, voice, band, galleyPath]);
 
   // toggleMenu("search"): the sheet opens onto its input, ready to type.

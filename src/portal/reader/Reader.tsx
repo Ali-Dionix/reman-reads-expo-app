@@ -51,7 +51,7 @@ import Svg, { Circle, Path } from "react-native-svg";
 import { chaptersOf, useDeck, type Recording } from "../../lib/audioStore";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
-import { boxesForWord, loadGalley, wordAt, type Galley } from "../../lib/galley";
+import { boxesForWord, loadGalley, useGalleyVersion, wordAt, type Galley } from "../../lib/galley";
 import { leafOfChapter, leafOfPage, loadPages, pagesShape, type BookPages } from "../../lib/pages";
 import { NightField } from "../../theme/NightField";
 import { ThemeReveal } from "../../theme/ThemeReveal";
@@ -238,7 +238,7 @@ export function Reader({
   // min(100%,…)}`), so the codex is told the measure rather than guessing it
   const [stageH, setStageH] = useState(0);
   // the narrator sheet's line, said on the console too (the site's sayLive)
-  const [liveSay, setLiveSay] = useState<{ text: string; bad: boolean } | null>(null);
+  const [liveSay, setLiveSay] = useState<{ text: string; bad: boolean; subscribe?: boolean } | null>(null);
   // the search menu hangs under the rail — its box, for the menu's top
   const [railH, setRailH] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -393,6 +393,8 @@ export function Reader({
   // them); the frame keeps a handle so a slip can be pressed ON the word
   // and a slip's go can turn the leaf to it.
   const gal = useRef<Galley | null>(null);
+  // a live reading's cue file grows while it streams — see galley.ts
+  const galleyVersion = useGalleyVersion();
   useEffect(() => {
     gal.current = null;
     if (!deep) return;
@@ -405,7 +407,7 @@ export function Reader({
     };
     // chapters is derived from (recording, voice)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [recording.slug, voice, galleyBand, deep]);
+  }, [recording.slug, voice, galleyBand, deep, galleyVersion]);
 
   // readAlong.ts wordAnchor(): the word sounding at `seconds` in the
   // standing galley — only when the sounding band IS the standing one — and
@@ -849,7 +851,8 @@ export function Reader({
         bottom={sheetBottom}
         maxHeight={windowH * 0.72}
         onSignIn={onSignIn}
-        onSay={(text, bad) => setLiveSay(text ? { text, bad } : null)}
+        onSay={(text, bad, subscribe) => setLiveSay(text ? { text, bad, subscribe } : null)}
+        standingBand={deep ? galleyBand : -1}
       />
       <SpeedSheet
         open={sheet === "speed"}

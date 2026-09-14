@@ -16,10 +16,13 @@
 // and drops the param, so a guest and a subscriber alike landed on the site's
 // login page with the intent lost. On the web the same tap opens THIS panel
 // in place; now it does here too. Only the Continue press goes out, through
-// openToBuy ("browsing in, buying out" — the app never starts a checkout),
-// and it goes to the site's own gate-login href, `/login?next=%2Faccount%3F
-// add%3D<key>` — the one URL that keeps the intent across the site's sign-in
-// and lands the reader on this same panel with the site's Stripe press live.
+// openSignedIn ("browsing in, buying out" — the app never starts a checkout),
+// carrying the intent the site's own gate-login href carries as `next`:
+// `/account?add=<key>`, the one path that lands the reader on this same panel
+// with the site's Stripe press live. Signed in through the handoff
+// (/api/account/handoff), so the site's sign-in is not asked for a second
+// time on the way to paying; when the handoff cannot be had, the same path
+// rides the plain `/login?next=…` the site's gate writes.
 //
 // COLOURS. importUpgrade.ts's three vars are hexes the token pass maps as
 // backgrounds (--upgrade-paper #FFFFFF → white, --upgrade-ink #0B0A08 → ink,
@@ -28,7 +31,7 @@
 // maps, hence the one night rule for the device's shadow — carried in DEVICE.
 //
 // A KIT PIECE: Home's five cells open it, and the Library room's locked
-// cells want the same panel; `gateHref(key)` is the one URL both go out on.
+// cells want the same panel; `gateNext(key)` is the one path both go out on.
 
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef, useState } from "react";
@@ -64,10 +67,11 @@ const ADD_WAYS: { key: "files" | "scan" | "text" | "link"; label: string; note: 
 /** app/data/subscription.ts — PRICE_LABEL. */
 const PRICE_LABEL = "$14.99";
 
-/** The gate's way out, exactly as importUpgrade.ts writes the login href:
- *  the site's sign-in, with the panel as `next`. */
-export const gateHref = (key: string): string =>
-  `/login?next=${encodeURIComponent(`/account?add=${key}`)}`;
+/** Where the gate's way out lands: the site's own panel for this source,
+ *  which importUpgrade.ts writes as the login href's `next`. Opened through
+ *  openSignedIn, which adds the sign-in itself (the handoff, or the plain
+ *  /login?next= when it cannot be had). */
+export const gateNext = (key: string): string => `/account?add=${key}`;
 
 const EASE = Easing.bezier(0.22, 0.61, 0.36, 1);
 

@@ -8,13 +8,15 @@
 // The five cells are ADD_WAYS (Files, Scan, Text, Link — appShell.ts, the same
 // list the + sheet draws its rows from) plus Clone, which is deliberately NOT
 // in ADD_WAYS: it records the voice that reads the books, it does not bring
-// one in. All five are behind the subscription (IMPORTS_NEED_SUBSCRIPTION):
-// padlocked, full strength, and STILL TAPPABLE — a locked cell's job is to
-// explain itself, so it opens the gate panel rather than its own.
+// one in. All five are behind the subscription: padlocked, full strength,
+// and STILL TAPPABLE — a locked cell's job is to explain itself, so it opens
+// the gate panel rather than its own. `locked` is the site's answer
+// (src/lib/subscription.tsx), which the home screen reads; null-is-locked
+// until it has answered, exactly as the site bakes its padlocks ON and
+// takes them off once /api/subscription has spoken (paintLocks).
 //
 // The supporting line is the "shut" wording the page bakes; ImportsEnhancer
-// rewrites it for a subscriber (ADD_SUB_OPEN). The app has no subscription
-// state yet, so it bakes the same safe one.
+// rewrites it for a subscriber (ADD_SUB_OPEN), and so does this.
 
 import { BandHead } from "../../ui/BandHead";
 import { Acts, type Act } from "../../ui/Acts";
@@ -31,26 +33,23 @@ const CELLS: { key: AddKey; label: string; icon: IconName }[] = [
   { key: "voice", label: "Clone", icon: "mic" },
 ];
 
-/** app/data/importFormats.ts — a shop door, not a safe. */
-export const IMPORTS_NEED_SUBSCRIPTION = true;
-
 const ADD_SUB_SHUT =
   "Add a book from your files, a photo, a link, or text you paste, and the app reads it out loud. Clone your voice and the book is read in it. Both come with the subscription. Only you can open a book you add.";
 const ADD_SUB_OPEN =
   "Add a book from your files, a photo, a link, or text you paste, and the app reads it out loud. Clone your voice and the book is read in it. Only you can open a book you add.";
 
-export function AddBand({ onOpen }: { onOpen: (key: AddKey) => void }) {
+export function AddBand({ onOpen, locked }: { onOpen: (key: AddKey) => void; locked: boolean }) {
   const acts: Act[] = CELLS.map((c) => ({
     label: c.label,
     icon: c.icon,
-    locked: IMPORTS_NEED_SUBSCRIPTION,
+    locked,
     onPress: () => onOpen(c.key),
   }));
   return (
     <>
       <BandHead
         title="Add your own book."
-        sub={IMPORTS_NEED_SUBSCRIPTION ? ADD_SUB_SHUT : ADD_SUB_OPEN}
+        sub={locked ? ADD_SUB_SHUT : ADD_SUB_OPEN}
       />
       <Acts acts={acts} columns={5} />
     </>

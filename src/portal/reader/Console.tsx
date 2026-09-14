@@ -63,6 +63,8 @@ import { Image } from "expo-image";
 import { chaptersOf, mmss, useDeck, type Recording } from "../../lib/audioStore";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
+import { SUBSCRIPTION_PATH } from "../../lib/subscription";
+import { openSignedIn } from "../../lib/web";
 import { em } from "../../theme/ink";
 import { FONTS, lh, lineOf } from "../../theme/type";
 import { Disc } from "../../ui/Disc";
@@ -215,7 +217,7 @@ export function Console({
    *  Printed in place of the deck's own when the room is not locked (a
    *  locked room's sentence carries the "Sign up to listen." door and is
    *  already brick from the refusal that raised it). */
-  liveSay?: { text: string; bad: boolean } | null;
+  liveSay?: { text: string; bad: boolean; subscribe?: boolean } | null;
   /** The rail's own gutter; the deck measures its own (see `pad`). */
   bandPad?: number;
   bottomInset: number;
@@ -251,6 +253,9 @@ export function Console({
     spots,
   } = useDeck();
   const say = deckSay ?? (liveSay?.text ? liveSay : null);
+  // the subscription's refusal — from the deck (a live band the site would
+  // not read) or the narrator sheet (a tap) — carries the website's door
+  const subscribeDoor = !!say && "subscribe" in say && !!say.subscribe;
   // the dial, this book's own; the creep belongs to the room's root
   // (console/SpeedFollower.tsx) and is only stood in for here until that
   // is mounted — counting nothing while it is
@@ -324,14 +329,22 @@ export function Console({
   // a rise, from any control, however many came before.
   const n = deckSay?.n ?? 0;
   const atMount = useRef(n);
-  const bad = deckSay ? deckSay.bad && n > atMount.current : !!say?.bad;
+  // a NOTE of the deck's own (a refused seek, a live chapter the site would
+  // not read) is brick or muted as it says; only the LOCK line reads its rise
+  const bad = deckSay
+    ? deckSay.kind === "note"
+      ? deckSay.bad
+      : deckSay.bad && n > atMount.current
+    : !!say?.bad;
   // every refusal is announced (the site's say() → announce()) —
   // accessibilityLiveRegion is Android's alone, so VoiceOver is told here
   const seen = useRef(n);
   useEffect(() => {
     const was = seen.current;
     seen.current = n;
-    if (deckSay && bad && n !== was) AccessibilityInfo.announceForAccessibility(LOCKED_ANNOUNCE);
+    if (deckSay && bad && n !== was) {
+      AccessibilityInfo.announceForAccessibility(deckSay.kind === "note" ? deckSay.text : LOCKED_ANNOUNCE);
+    }
   }, [deckSay, bad, n]);
 
   /* ------------------------------------------------- the groove --- */
@@ -545,11 +558,22 @@ export function Console({
       {say ? (
         <View style={styles.sayRow} accessibilityLiveRegion="polite">
           <Text style={[styles.say, bad && styles.sayBad, { color: bad ? ink.sayBad : ink.say }]}>
-            {locked ? `${say.text} ` : say.text}
+            {locked || subscribeDoor ? `${say.text} ` : say.text}
           </Text>
           {locked ? (
             <Pressable onPress={onSignUp} accessibilityRole="link" style={styles.sayLinkBox}>
               <Text style={[styles.say, styles.sayLink, { color: bad ? ink.sayBad : ink.say }]}>Sign up to listen.</Text>
+              <View style={[styles.sayRule, { backgroundColor: bad ? ink.sayBad : ink.say }]} />
+            </Pressable>
+          ) : subscribeDoor ? (
+            // the subscription is bought on the WEBSITE, in the reader's real
+            // browser, signed in — the one door the site's own line needs none of
+            <Pressable
+              onPress={() => void openSignedIn(SUBSCRIPTION_PATH)}
+              accessibilityRole="link"
+              style={styles.sayLinkBox}
+            >
+              <Text style={[styles.say, styles.sayLink, { color: bad ? ink.sayBad : ink.say }]}>Subscribe on the website.</Text>
               <View style={[styles.sayRule, { backgroundColor: bad ? ink.sayBad : ink.say }]} />
             </Pressable>
           ) : null}

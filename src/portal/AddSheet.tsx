@@ -43,6 +43,7 @@ import {
 import Svg, { Path } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { PRICE_PER_MONTH, useSubscription } from "../lib/subscription";
 import { roomByKey, SHEET_KEYS } from "../nav/rooms";
 import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
@@ -53,11 +54,6 @@ import { TornSheet } from "../ui/TornEdge";
 import { Txt } from "../ui/Type";
 import { GUT } from "./PortalPage";
 import { strokeProps } from "../ui/svgPaint";
-
-/** importFormats.ts — the four ways are behind the subscription. */
-const IMPORTS_NEED_SUBSCRIPTION = true;
-/** subscription.ts — PRICE_PER_MONTH. */
-const PRICE_PER_MONTH = "$14.99 a month";
 
 /** ADD_WAYS, verbatim. `key` is `?add=` off the home screen. */
 export type AddWay = {
@@ -78,6 +74,10 @@ const EASE = Easing.bezier(0.22, 0.61, 0.36, 1);
 
 export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { colors, chrome } = useTheme();
+  // the four ways are behind the subscription — the site's answer, null-is-
+  // locked until it has answered (paintLocks bakes the padlocks ON likewise)
+  const { active: subscribed } = useSubscription();
+  const locked = !subscribed;
   const { ink, brick, width } = useInk();
   const insets = useSafeAreaInsets();
   const { height: vh } = useWindowDimensions();
@@ -225,7 +225,7 @@ export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void
                 key={w.key}
                 way={w}
                 index={i}
-                locked={IMPORTS_NEED_SUBSCRIPTION}
+                locked={locked}
                 open={open}
                 onPress={() => go("/", { add: w.key })}
               />
@@ -233,7 +233,7 @@ export function AddSheet({ open, onClose }: { open: boolean; onClose: () => void
           </View>
 
           {/* .rr-ap-add-gate — hidden for a subscriber on the web (paintLocks) */}
-          {IMPORTS_NEED_SUBSCRIPTION ? (
+          {locked ? (
             <View
               style={{ flexDirection: "row", alignItems: "baseline", gap: 8, marginTop: 13, opacity: 0.62 }}
             >
