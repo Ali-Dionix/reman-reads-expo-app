@@ -102,6 +102,11 @@ export function paletteFor(night: boolean) {
     rowLine: d ? "rgba(240,229,207,.6)" : "rgba(11,10,8,.58)",
     tag: d ? "rgba(240,229,207,.45)" : "rgba(11,10,8,.42)",
     tagOn: d ? "#F4EBD6" : "#0B0A08",
+    // the padlock in the tag column of a reader behind the subscription —
+    // the + sheet's `.rr-ap-add-lock{color:#8C6A3F}` (appShell.ts), which
+    // the shell's tokeniser turns to the gold2 role's night value
+    // (src/theme/tokens.ts); not a rule of this sheet's own
+    rowLock: d ? "#D4AD67" : "#8C6A3F",
     // .rr-lr-vc-more
     more: d ? "#D98A70" : "#7E2D1F",
 

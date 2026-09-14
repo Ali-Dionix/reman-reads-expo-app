@@ -37,14 +37,39 @@
 // wear a lock badge and "sign up to listen"; the live readers' second line
 // says the same, their rows are tagged "Sign up to listen", and the line over
 // the directory carries the refusal in brick. Signed in, a pressed reader is
-// "reads this book" / "on the platter"; a LIVE reader is the subscription's,
-// which the site answers on the TAP (a 402 said over the directory), never
-// on the disc — the gate is pressed-vs-live, not "Featured". The app says
-// the same sentence on the tap, without the round trip when it already
-// knows the answer (src/lib/subscription.tsx), and under it offers the one
-// door the site cannot: "Subscribe on the website", which opens the site in
-// the reader's real browser, signed in (src/lib/web.ts openSignedIn) —
-// the subscription is bought there and only there.
+// "reads this book" / "on the platter"; a LIVE reader is the subscription's
+// — the gate is pressed-vs-live, not "Featured" — and WITHOUT IT EVERY LIVE
+// READER IS PADLOCKED, not only refused on the tap. The padlock is the
+// site's own for anything behind the subscription, drawn the way the Home
+// cells and the + sheet's rows draw it (appShell.ts `.rr-ap-act.is-locked`
+// and `.rr-ap-add-lock`, ported in src/ui/Acts.tsx and AddSheet.tsx):
+// SHUT, NOT DISABLED. The disc keeps its full strength and takes the lock
+// badge struck on its rim — `.rr-lr-nar-badge.is-locked`, the sheet's own,
+// which the site's comment names as the one motif for "not yours yet" —
+// with its descriptor line left under the name; a row keeps its full
+// strength and takes the brass padlock in the tag column, where the +
+// sheet puts it in place of the chevron, with "Subscription" said to a
+// screen reader; and the line over the directory says the plan and its
+// price once, with the website's door under it. Nothing is dimmed, greyed
+// or aria-disabled: that is the site's grammar for a guest and for a reader
+// with no recording of this book, and it says "this does nothing", which a
+// locked reader does not — its job is to explain itself on the tap. The
+// answer is the site's (src/lib/subscription.tsx), asked once per reader
+// and again on every foreground, and NULL IS LOCKED — a subscriber sees
+// the padlocks for the moment the desk takes, which is better than
+// everybody else seeing three hundred readers open for one paint. The
+// site's own narrator sheet draws no padlock and answers on the tap with a
+// 402 (the owner's call, 2026-09-14: lock the app, leave the site); the
+// deck's voiceLocked is the same rule for one voice.
+//
+// A tap on a padlocked reader answers: the desk's own sentence, "This
+// needs the subscription.", said over the directory and on the console,
+// with the one door the site does not print under it — "Subscribe on the
+// website", which opens the site in the reader's real browser, signed in
+// (src/lib/web.ts openSignedIn) — the subscription is bought there and
+// only there. While the desk has not yet answered, the tap goes to the
+// desk, which decides and is trusted over the copy; a yes from it
+// refreshes the copy, so the padlocks come off.
 //
 // A LIVE READER, CHOSEN. The site's pickLiveNarrator, in the hand: the
 // chapter is asked for FIRST (src/lib/liveRead.ts ensureLiveChapter — the
@@ -90,7 +115,7 @@ import { useDeck, type Recording } from "../../lib/audioStore";
 import { dressLiveChapter, ensureLiveChapter, registerLiveVoice } from "../../lib/liveRead";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
-import { SUBSCRIPTION_PATH, SUBSCRIPTION_SAY, useSubscription } from "../../lib/subscription";
+import { PRICE_PER_MONTH, SUBSCRIPTION_PATH, SUBSCRIPTION_SAY, useSubscription } from "../../lib/subscription";
 import { openSignedIn } from "../../lib/web";
 import { useInk } from "../../theme/ink";
 import { FONTS, lh, lineOf } from "../../theme/type";
@@ -99,6 +124,7 @@ import { SheetPaper } from "./voice/SheetPaper";
 import { paletteFor, type Palette } from "./voice/palette";
 import { chooseVoice, noteHeard, useStanding, voiceInForce } from "./voice/standing";
 import narrators from "./narrators.json";
+import { Icon } from "../../ui/Icon";
 import { fillProps, strokeProps } from "../../ui/svgPaint";
 
 /** The house mark on the clone tile — /public/favicon/favicon-96x96.png,
@@ -131,10 +157,18 @@ const LIVE_CAP = 5;
 
 /** The word every voice in the picker wears while the room is locked. */
 const LOCKED_TAG = "Sign up to listen";
+/** What the padlock says to a screen reader — the + sheet's `.rr-pt-sr`
+ *  word, inside the row's own label so it is read WITH the row. */
+const SUBSCRIPTION_SR = "Subscription";
 /** paintLiveSay's line for a locked room (LOCKED_SAY) and its standing text (LIVE_SAY). */
 const LOCKED_SAY = "Listening needs an account. Sign up to listen.";
 const LIVE_SAY =
   "These readers are not pressed. Pick one and they begin reading this chapter to you straight away, and it is kept for next time.";
+/** The standing line over a directory the subscription has shut — what the
+ *  padlocks are for, and the price, in the words the + sheet uses ("come
+ *  with the subscription"). LIVE_SAY would promise what every tap then
+ *  refuses. */
+const LIVE_SHUT_SAY = `These readers come with the subscription, ${PRICE_PER_MONTH}.`;
 /** paintLiveTags' word for the reader the site is being asked to read. */
 const READING_TAG = "Reading…";
 /** The sheet's own door under a subscription refusal — the one line the
@@ -330,6 +364,11 @@ export function VoiceSheet({
   const { now, voice: deckVoice, setNarrator, refuse, locked, spots, bumpLive, liveTick } = useDeck();
   const { user } = useSession();
   const sub = useSubscription();
+  // THE LIVE READERS ARE SHUT until the desk has said this reader has the
+  // plan — the deck's voiceLocked for the whole directory at once (every
+  // live reader gets the same answer). `sub.active` is false while the
+  // answer is null, which is the fail-closed the site argues for.
+  const liveShut = locked || !sub.active;
   const standing = useStanding(ownerOf(user?.id));
   const pal = useMemo(() => paletteFor(night), [night]);
 
@@ -381,11 +420,13 @@ export function VoiceSheet({
   const onSayRef = useRef(onSay);
   onSayRef.current = onSay;
   const liveNoteRef = useRef("");
+  const liveDoorRef = useRef(false);
   /** The site's sayLive: to the eye over the list, and to the console. */
   const sayLive = useCallback((text: string, subscribe = false) => {
     liveNoteRef.current = text;
+    liveDoorRef.current = !!text && subscribe;
     setLiveNote(text);
-    setLiveDoor(!!text && subscribe);
+    setLiveDoor(liveDoorRef.current);
     onSayRef.current?.(text, !!text, subscribe);
   }, []);
   useEffect(() => {
@@ -394,6 +435,18 @@ export function VoiceSheet({
       if (liveNoteRef.current) sayLive("");
     }
   }, [open, sayLive]);
+  // THE READER IS BACK WITH THE PLAN. The sequence a subscriber actually
+  // goes through is tap → "This needs the subscription." → the website →
+  // pay → back here, where the foreground refresh takes the padlocks off:
+  // the subscription's refusal must go with them, or it stands over a
+  // directory that has just opened. Only on the flip to active — a refusal
+  // said while the copy still says active (the desk disagreed, and
+  // pickLive is refreshing) is left to be read.
+  const wasActive = useRef(sub.active);
+  useEffect(() => {
+    if (sub.active && !wasActive.current && liveDoorRef.current) sayLive("");
+    wasActive.current = sub.active;
+  }, [sub.active, sayLive]);
 
   // one pressing (or none yet) → the caption; two or more → the picker —
   // a live reader registered this run counts, as the site's audioVoicesFor
@@ -474,9 +527,10 @@ export function VoiceSheet({
       const n = LIVE_BY_ID.get(id);
       if (!n || id === on || asking) return;
       // The app already holds the desk's answer: a reader it has said no to
-      // is answered here, in the desk's own words, without the round trip.
-      // A subscriber, or an answer not yet in, goes to the desk — which
-      // decides, and is trusted over the copy either way.
+      // is answered here, in the desk's own words, without the round trip —
+      // the padlock the disc wears, explained. A subscriber, or an answer
+      // not yet in, goes to the desk — which decides, and is trusted over
+      // the copy either way.
       if (sub.state && !sub.state.guest && !sub.state.active) {
         sayLive(SUBSCRIPTION_SAY, true);
         return;
@@ -494,6 +548,10 @@ export function VoiceSheet({
         sayLive(opened.why, !!opened.subscribe);
         return;
       }
+      // the desk said yes to a reader the copy had padlocked (the answer was
+      // still on its way, or the ask had failed): the copy is refreshed so
+      // the padlocks come off the directory this reading came from
+      if (!sub.active) void sub.refresh();
       // registered only now — a pressing whose chapters would 404 must
       // never sit on the shelf — and dressed before the needle moves,
       // because the href is what the needle will fetch
@@ -753,17 +811,19 @@ export function VoiceSheet({
           return (
             <View style={[styles.rack, { paddingTop: 0, paddingBottom: 10 }]} role="group" accessibilityLabel="More featured readers">
               {item.readers.map((n) => {
-                // dimmed for a guest only — the site's paintLiveTags sets
-                // aria-disabled from locked(); the subscription answers on
-                // the tap, not on the disc
-                const shut = locked;
+                // dimmed and aria-disabled for a guest only (the site's
+                // paintLiveTags, from locked()); behind the subscription the
+                // disc keeps its full strength and its descriptor, and takes
+                // the lock badge on its rim — the site's motif for "not
+                // yours yet", still pressable
+                const padlocked = !locked && liveShut;
                 const line = locked ? "sign up to listen" : n.line.split(" · ").slice(2).join(", ") || "reads this book";
                 return (
                   <Shown
                     key={n.id}
                     onPress={() => pickLive(n.id)}
                     shut={locked}
-                    accessibilityLabel={`${n.name} ${line}`}
+                    accessibilityLabel={padlocked ? `${n.name} ${line} ${SUBSCRIPTION_SR}` : `${n.name} ${line}`}
                     style={[styles.pick, { width: cell }]}
                   >
                     <Face
@@ -773,9 +833,24 @@ export function VoiceSheet({
                       portrait={n.portrait}
                       name={n.name}
                       cast
-                      opacity={shut ? 0.34 : n.id === on ? 1 : 0.6}
-                      grey={shut}
-                    />
+                      opacity={locked ? 0.34 : n.id === on ? 1 : 0.6}
+                      grey={locked}
+                    >
+                      {/* .rr-lr-nar-badge.is-locked — the rack's own lock */}
+                      {padlocked ? (
+                        <View
+                          style={[
+                            styles.badge,
+                            {
+                              backgroundColor: pal.badgeBg,
+                              boxShadow: `0 0 0 1.5px ${pal.badgeRing},0 1px 3px ${night ? "rgba(0,0,0,.6)" : "rgba(43,30,16,.3)"}`,
+                            },
+                          ]}
+                        >
+                          <Lock color={pal.badgeInk} />
+                        </View>
+                      ) : null}
+                    </Face>
                     <Text style={[styles.pickName, { color: pal.pickName }]}>{n.name}</Text>
                     <Text style={[styles.pickLine, { color: pal.pickLine }]}>{line}</Text>
                   </Shown>
@@ -786,17 +861,19 @@ export function VoiceSheet({
         case "cv":
           return <CloneCard pal={pal} locked={locked} onSignIn={onSignIn} />;
         case "livesay": {
-          // the standing line at rest, in the muted ink — a note (a tap's
-          // answer) is the refusal's; under the subscription's refusal, the
-          // website's door
+          // the standing line at rest, in the muted ink — for a directory
+          // the subscription has shut, the plan and its price; a note (a
+          // tap's answer) is the refusal's, in brick. The website's door
+          // stands under the line the whole time the readers are shut, and
+          // under the subscription's refusal.
           const bad = locked || !!liveNote;
-          const text = locked ? LOCKED_SAY : liveNote || LIVE_SAY;
+          const text = locked ? LOCKED_SAY : liveNote || (liveShut ? LIVE_SHUT_SAY : LIVE_SAY);
           return (
             <View>
               <Text style={[styles.livesay, bad ? styles.livesayBad : null, { color: bad ? pal.livesayBad : pal.livesay }]}>
                 {text}
               </Text>
-              {!locked && liveDoor ? (
+              {!locked && (liveDoor || liveShut) ? (
                 <Pressable
                   onPress={() => void openSignedIn(SUBSCRIPTION_PATH)}
                   accessibilityRole="link"
@@ -824,6 +901,11 @@ export function VoiceSheet({
           // "Available", the same word the pressed rows use, because it is
           // the same fact: this reader will read the book. That an unpressed
           // one is read as you listen is said once by the line over the list.
+          // Behind the subscription the row keeps its full strength and the
+          // tag column takes the padlock instead — the + sheet's row, which
+          // puts the lock where the chevron was, in the same 20px column so
+          // nothing moves when it unlocks. The guest's word stays a word.
+          const padlocked = !locked && liveShut;
           const tag = locked ? LOCKED_TAG : isHere ? "Playing" : asking === n.id ? READING_TAG : "Available";
           return (
             <Shown
@@ -831,8 +913,9 @@ export function VoiceSheet({
               shut={locked}
               // the site's name is the button's whole text: the name, the
               // line under it and the tag — a screen reader needs the tag,
-              // and the rig needs the site's exact run
-              accessibilityLabel={`${n.name} ${n.line || n.note} ${tag}`}
+              // and the rig needs the site's exact run; the padlock says
+              // "Subscription" in that slot, as the + sheet's does
+              accessibilityLabel={`${n.name} ${n.line || n.note} ${padlocked ? SUBSCRIPTION_SR : tag}`}
               style={[styles.row, { borderTopColor: pal.rowRule }]}
             >
               <Face
@@ -853,7 +936,13 @@ export function VoiceSheet({
                   {n.line || n.note}
                 </Text>
               </View>
-              <Text style={[styles.tag, { color: isHere ? pal.tagOn : pal.tag }]}>{tag}</Text>
+              {padlocked ? (
+                <View style={styles.rowLock}>
+                  <Icon name="lock" size={17} color={pal.rowLock} />
+                </View>
+              ) : (
+                <Text style={[styles.tag, { color: isHere ? pal.tagOn : pal.tag }]}>{tag}</Text>
+              )}
             </Shown>
           );
         }
@@ -871,7 +960,7 @@ export function VoiceSheet({
           return null;
       }
     },
-    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, on, onSignIn, liveNote, liveDoor, asking],
+    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, liveShut, on, onSignIn, liveNote, liveDoor, asking],
   );
 
   const shutLang = useCallback(() => setLangOpen(false), []);
@@ -1283,6 +1372,8 @@ const styles = StyleSheet.create({
   rowLine: { fontFamily: FONTS.sans, fontSize: 11, lineHeight: lineOf(11, 1.45) },
   // .rr-lr-vc-tag{font:700 9.5px;letter-spacing:.13em;uppercase;white-space:nowrap}
   tag: { fontFamily: FONTS.sansBold, fontSize: 9.5, letterSpacing: 1.235, textTransform: "uppercase" },
+  // .rr-ap-add-lock — the + sheet's 20px trailing column, the padlock centred in it
+  rowLock: { width: 20, height: 20, alignItems: "center", justifyContent: "center" },
   // .rr-lr-vc-more{padding:11px 2px 13px;font:600 12px;letter-spacing:.01em;text-align:center}
   more: { paddingTop: 11, paddingBottom: 13, paddingHorizontal: 2, alignItems: "center" },
   moreText: { fontFamily: FONTS.sansSemi, fontSize: 12, letterSpacing: 0.12 },
