@@ -63,8 +63,7 @@ import { Image } from "expo-image";
 import { chaptersOf, mmss, useDeck, type Recording } from "../../lib/audioStore";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
-import { SUBSCRIPTION_PATH } from "../../lib/subscription";
-import { openSignedIn } from "../../lib/web";
+import { useSubscribe } from "../../lib/subscription";
 import { em } from "../../theme/ink";
 import { FONTS, lh, lineOf } from "../../theme/type";
 import { Disc } from "../../ui/Disc";
@@ -256,6 +255,7 @@ export function Console({
   // the subscription's refusal — from the deck (a live band the site would
   // not read) or the narrator sheet (a tap) — carries the website's door
   const subscribeDoor = !!say && "subscribe" in say && !!say.subscribe;
+  const { subscribe, inApp: sheetInApp } = useSubscribe();
   // the dial, this book's own; the creep belongs to the room's root
   // (console/SpeedFollower.tsx) and is only stood in for here until that
   // is mounted — counting nothing while it is
@@ -566,14 +566,18 @@ export function Console({
               <View style={[styles.sayRule, { backgroundColor: bad ? ink.sayBad : ink.say }]} />
             </Pressable>
           ) : subscribeDoor ? (
-            // the subscription is bought on the WEBSITE, in the reader's real
-            // browser, signed in — the one door the site's own line needs none of
+            // the subscription's sheet, in the app (the website on a build
+            // with none) — the one door the site's own line needs none of. A
+            // paid sheet takes the padlocks off through the provider; the
+            // sentence itself is the deck's or the sheet's to clear.
             <Pressable
-              onPress={() => void openSignedIn(SUBSCRIPTION_PATH)}
-              accessibilityRole="link"
+              onPress={() => void subscribe()}
+              accessibilityRole="button"
               style={styles.sayLinkBox}
             >
-              <Text style={[styles.say, styles.sayLink, { color: bad ? ink.sayBad : ink.say }]}>Subscribe on the website.</Text>
+              <Text style={[styles.say, styles.sayLink, { color: bad ? ink.sayBad : ink.say }]}>
+                {sheetInApp === false ? "Subscribe on the website." : "Subscribe."}
+              </Text>
               <View style={[styles.sayRule, { backgroundColor: bad ? ink.sayBad : ink.say }]} />
             </Pressable>
           ) : null}

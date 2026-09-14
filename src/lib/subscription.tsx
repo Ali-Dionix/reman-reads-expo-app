@@ -8,13 +8,15 @@
 // the app whether to draw a padlock, so a subscriber is not shown a paywall
 // and a non-subscriber is not shown a control that will refuse them.
 //
-// THE SUBSCRIPTION IS BOUGHT ON THE WEBSITE, NEVER HERE. The app sells
-// nothing (src/lib/web.ts, docs/APP-FULL-PARITY.md §2): a Subscribe press
-// opens the site in the reader's real browser, signed in through the
-// handoff, and the reader comes back to the app afterwards. That "comes
-// back" is why this is a provider and not a memoised promise: the site asks
-// once per page life because a page is short; an app is open for weeks. So
-// the answer is asked
+// THE SUBSCRIPTION IS BOUGHT IN THE APP since 14 Sep 2026 — Stripe's
+// Payment Sheet, presented by the app (src/lib/payments.ts; useSubscribe()
+// at the foot of this file) — and MANAGED on the website, in Stripe's billing
+// portal. A build with no sheet (the web rig, or a deployment with no
+// publishable key yet) still opens the site in the reader's real browser,
+// signed in through the handoff, and the reader comes back afterwards. That
+// "comes back" is why this is a provider and not a memoised promise: the
+// site asks once per page life because a page is short; an app is open for
+// weeks. So the answer is asked
 //
 //   once per signed-in reader   — the padlocks are drawn from it
 //   again on every foreground   — the reader returning from the Stripe page
@@ -49,8 +51,10 @@ import {
 import { AppState, type AppStateStatus } from "react-native";
 
 import { apiUrl } from "./config";
+import { subscribeInApp, sheetAvailable, waitForSubscription } from "./payments";
 import { useSession } from "./session";
 import { readerBearerToken, supabaseReady } from "./supabase";
+import { openSignedIn } from "./web";
 
 /** app/data/subscription.ts — quoted here as the site's surfaces quote it. */
 export const PRICE_LABEL = "$14.99";
@@ -275,4 +279,83 @@ function onDay(iso: string | null): string {
   } catch {
     return new Date(t).toDateString();
   }
+}
+
+/* ---------------------------------------------------- the Subscribe press --- */
+
+/** What a Subscribe press came to, phrased for the reader. */
+export type SubscribeSaid = {
+  kind: "paid" | "pending" | "already" | "cancelled" | "website" | "refused";
+  text: string;
+};
+
+/**
+ * One press for every Subscribe in the app — the gate panel, Settings, the
+ * voice sheet's and the console's doors. The sheet when there is one; the
+ * website when there is not (`websitePath`, the site's Settings by default,
+ * or the site's own gate panel for a source the reader reached for).
+ *
+ * AFTER A PAID SHEET THE ROW IS STILL A MOMENT BEHIND: the sheet closing is
+ * the card being taken, and the entitlement is written by Stripe's webhook a
+ * second or so later. So the desk is asked again until it says active, and
+ * only then is "You are subscribed" said — the padlocks come off on the
+ * provider's state, never on the sheet's word alone. If the webhook is slow
+ * the press says so and the provider's foreground refresh finishes the job.
+ *
+ * `inApp` says which door the press will take, so a label can read
+ * "Subscribe" or "Subscribe on the website" honestly before the tap.
+ */
+export function useSubscribe(): {
+  subscribe: (o?: { websitePath?: string }) => Promise<SubscribeSaid>;
+  busy: boolean;
+  /** Null until known; false on the web rig and on a site with no key yet. */
+  inApp: boolean | null;
+} {
+  const { user } = useSession();
+  const { refresh } = useSubscription();
+  const [busy, setBusy] = useState(false);
+  const [inApp, setInApp] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let live = true;
+    void sheetAvailable().then((ok) => {
+      if (live) setInApp(ok);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  const subscribe = useCallback(
+    async (o: { websitePath?: string } = {}): Promise<SubscribeSaid> => {
+      if (busy) return { kind: "pending", text: "" };
+      setBusy(true);
+      try {
+        const out = await subscribeInApp({ email: user?.email ?? null, name: user?.name ?? null });
+        if (out.kind === "paid") {
+          const active = await waitForSubscription(refresh);
+          return active
+            ? { kind: "paid", text: "You are subscribed. Every reader and every way to bring a book in is open." }
+            : { kind: "pending", text: "Paid. The subscription is being confirmed and opens in a moment." };
+        }
+        if (out.kind === "already") {
+          void refresh();
+          return { kind: "already", text: "You are already subscribed." };
+        }
+        if (out.kind === "cancelled") return { kind: "cancelled", text: "Nothing was charged." };
+        if (out.kind === "unavailable") {
+          // the website, signed in — and asked again once the reader is back
+          void openSignedIn(o.websitePath ?? SUBSCRIPTION_PATH);
+          setTimeout(() => void refresh(), 1500);
+          return { kind: "website", text: "opening the website…" };
+        }
+        return { kind: "refused", text: out.why };
+      } finally {
+        setBusy(false);
+      }
+    },
+    [busy, user?.email, user?.name, refresh],
+  );
+
+  return { subscribe, busy, inApp };
 }

@@ -1,10 +1,14 @@
 // The way out to the website. ONE seam, for every link that leaves the app.
 //
-// docs/APP-FULL-PARITY.md §2 decided this: browsing moves into the app, buying
-// does not. Anything that would take a reader's money — a book, the
-// subscription — opens the WEBSITE, and the website calls its own checkout.
-// The app never calls POST /api/checkout; that would make the binary the thing
-// initiating the sale, which is the whole of what the rule is about.
+// docs/APP-FULL-PARITY.md §2 decided, on 9 Sep 2026, that browsing moves into
+// the app and buying does not. THAT HALF WAS REVERSED ON 14 SEP (owner:
+// "integrate Stripe directly in the app"): a book and the subscription are
+// now paid in Stripe's Payment Sheet inside the app — src/lib/payments.ts
+// calls POST /api/checkout and POST /api/subscription with `pay: "sheet"` —
+// and what still leaves for the website is MANAGING the subscription (Stripe's
+// billing portal), the site's own panels for bringing a book in, and every
+// page that is read rather than bought. A build with no sheet (the web rig, a
+// deployment with no publishable key) falls back to the doors below.
 //
 // TWO DOORS, AND THE DIFFERENCE IS LOAD-BEARING.
 //

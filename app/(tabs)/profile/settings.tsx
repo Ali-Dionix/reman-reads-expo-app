@@ -30,6 +30,7 @@ import {
   PRICE_PER_MONTH,
   SUBSCRIPTION_PATH,
   describeSubscription,
+  useSubscribe,
   useSubscription,
 } from "../../../src/lib/subscription";
 import { readerBearerToken } from "../../../src/lib/supabase";
@@ -781,9 +782,18 @@ export default function SettingsScreen() {
  */
 function SubscriptionFold() {
   const { state, refresh } = useSubscription();
+  const { subscribe, inApp } = useSubscribe();
   const d = describeSubscription(state);
   const [said, setSaid] = useState("");
+  // Subscribe: the sheet, in the app (useSubscribe says what came of it);
+  // manage or cancel: the website's billing portal, as before
   const go = useCallback(async () => {
+    setSaid(inApp ? "opening the card sheet…" : "opening the website…");
+    const out = await subscribe();
+    setSaid(out.text);
+    if (out.kind === "website" || out.kind === "cancelled") setTimeout(() => setSaid(""), 4000);
+  }, [subscribe, inApp]);
+  const manage = useCallback(async () => {
     setSaid("opening the website…");
     await openSignedIn(SUBSCRIPTION_PATH);
     // the answer may have changed by the time the reader is back — the
@@ -804,7 +814,7 @@ function SubscriptionFold() {
           {d.press === "subscribe" ? (
             <MiniButton label={`Subscribe — ${PRICE_PER_MONTH}`} onPress={() => void go()} />
           ) : null}
-          {d.portal ? <MiniButton label="Manage or cancel" onPress={() => void go()} /> : null}
+          {d.portal ? <MiniButton label="Manage or cancel" onPress={() => void manage()} /> : null}
           <Say text={said} />
         </Act>
       ) : null}

@@ -115,8 +115,7 @@ import { useDeck, type Recording } from "../../lib/audioStore";
 import { dressLiveChapter, ensureLiveChapter, registerLiveVoice } from "../../lib/liveRead";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
-import { PRICE_PER_MONTH, SUBSCRIPTION_PATH, SUBSCRIPTION_SAY, useSubscription } from "../../lib/subscription";
-import { openSignedIn } from "../../lib/web";
+import { PRICE_PER_MONTH, SUBSCRIPTION_SAY, useSubscribe, useSubscription } from "../../lib/subscription";
 import { useInk } from "../../theme/ink";
 import { FONTS, lh, lineOf } from "../../theme/type";
 import { Face } from "./voice/Face";
@@ -172,8 +171,11 @@ const LIVE_SHUT_SAY = `These readers come with the subscription, ${PRICE_PER_MON
 /** paintLiveTags' word for the reader the site is being asked to read. */
 const READING_TAG = "Reading…";
 /** The sheet's own door under a subscription refusal — the one line the
- *  site does not print, because the site sells the plan on the same page. */
-const SUBSCRIBE_LINK = "Subscribe on the website →";
+ *  site does not print, because the site sells the plan on the same page.
+ *  Since 14 Sep 2026 the door opens Stripe's sheet in the app; on a build
+ *  with none it still opens the website. */
+const SUBSCRIBE_LINK = "Subscribe →";
+const SUBSCRIBE_LINK_WEB = "Subscribe on the website →";
 
 /** ListeningEnhancer's voiceLocale — the region a provider voice id names,
  *  as the chip prints it; an opaque id yields nothing and the chip carries
@@ -364,6 +366,7 @@ export function VoiceSheet({
   const { now, voice: deckVoice, setNarrator, refuse, locked, spots, bumpLive, liveTick } = useDeck();
   const { user } = useSession();
   const sub = useSubscription();
+  const { subscribe, inApp: sheetInApp } = useSubscribe();
   // THE LIVE READERS ARE SHUT until the desk has said this reader has the
   // plan — the deck's voiceLocked for the whole directory at once (every
   // live reader gets the same answer). `sub.active` is false while the
@@ -875,14 +878,22 @@ export function VoiceSheet({
               </Text>
               {!locked && (liveDoor || liveShut) ? (
                 <Pressable
-                  onPress={() => void openSignedIn(SUBSCRIPTION_PATH)}
-                  accessibilityRole="link"
-                  accessibilityLabel="Subscribe on the website"
+                  onPress={() => {
+                    // the sheet; what came of it is said where the refusal
+                    // was, and a paid sheet takes the padlocks off through
+                    // the provider (liveShut reads sub.active)
+                    void subscribe().then((out) => {
+                      if (out.kind === "paid" || out.kind === "already") sayLive("");
+                      else if (out.text) sayLive(out.text, out.kind !== "website");
+                    });
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel={sheetInApp === false ? "Subscribe on the website" : "Subscribe"}
                   hitSlop={6}
                   style={styles.liveDoor}
                 >
                   <Text style={[styles.livesay, styles.livesayBad, styles.liveDoorText, { color: pal.livesayBad }]}>
-                    {SUBSCRIBE_LINK}
+                    {sheetInApp === false ? SUBSCRIBE_LINK_WEB : SUBSCRIBE_LINK}
                   </Text>
                 </Pressable>
               ) : null}
@@ -960,7 +971,7 @@ export function VoiceSheet({
           return null;
       }
     },
-    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, liveShut, on, onSignIn, liveNote, liveDoor, asking],
+    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, liveShut, on, onSignIn, liveNote, liveDoor, asking, subscribe, sheetInApp, sayLive],
   );
 
   const shutLang = useCallback(() => setLangOpen(false), []);

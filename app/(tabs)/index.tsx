@@ -28,7 +28,7 @@ import shelf from "../../src/data/listeningShelf.json";
 import { heardSeconds, recordingFor, resumable, useDeck, type Spots } from "../../src/lib/audioStore";
 import { useCardNo, useSession } from "../../src/lib/session";
 import { cache } from "../../src/lib/storage";
-import { useSubscription } from "../../src/lib/subscription";
+import { useSubscribe, useSubscription } from "../../src/lib/subscription";
 import { openSignedIn } from "../../src/lib/web";
 import { AddBand, type AddKey } from "../../src/portal/home/AddBand";
 import { ContinueShelf, type ShelfCard } from "../../src/portal/home/ContinueShelf";
@@ -111,6 +111,7 @@ export default function Home() {
    * being drawn over something the reader has paid for.
    */
   const { active: subscribed } = useSubscription();
+  const { subscribe } = useSubscribe();
   const [gate, setGate] = useState<AddKey | null>(null);
   const openImport = useCallback(
     (key: AddKey | string) => {
@@ -204,11 +205,12 @@ export default function Home() {
         onContinue={() => {
           const key = gate ?? "files";
           setGate(null);
-          // Money may change hands on the far side: the reader's REAL
-          // browser, never the in-app tab (src/lib/web.ts's header) — and
-          // signed in, so the site's gate opens on its Stripe press rather
-          // than on a second sign-in
-          void openSignedIn(gateNext(key));
+          // The sheet, in the app; a build with no sheet opens the site's own
+          // gate panel for this source, signed in (useSubscribe). A paid
+          // sheet takes the padlocks off through the provider, and the
+          // source's own panel is on the website still — so a subscriber's
+          // next tap on the cell goes there, as the padlock-free tap does.
+          void subscribe({ websitePath: gateNext(key) });
         }}
       />
     </PortalPage>
