@@ -51,9 +51,10 @@ import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { Disc } from "../ui/Disc";
 import { Icon } from "../ui/Icon";
+import { SunMoon } from "../ui/ThemeSwitch";
 import { TornSheet } from "../ui/TornEdge";
 import { Kicker, Txt } from "../ui/Type";
-import { fillProps, strokeProps } from "../ui/svgPaint";
+import { fillProps } from "../ui/svgPaint";
 
 const MARK = require("../../assets/mark.png");
 
@@ -76,45 +77,13 @@ export function useContentInsets() {
 }
 
 /**
- * `.rr-pt-theme` — the theme disc. The web shows the SUN in light and the
- * MOON in dark: the icon names the mode you are in, not the one you would
- * switch to. 36px, 1.5px ink ring at .32, brown glyph at 18px, 2° off true.
+ * `.rr-pt-theme` — the theme disc: the switch in its portal cut, 36px with a
+ * 1.5px ink ring at .32 and the glyph at 18px. It flips the theme through
+ * the reveal, as the sign-in wall's and the reader's do (src/ui/ThemeSwitch).
  */
 export function ThemeDisc({ size = 36, glyph = 18 }: { size?: number; glyph?: number }) {
-  const { colors, mode, toggle } = useTheme();
-  const { ink } = useInk();
-  const c = colors.brown;
-  return (
-    <Disc
-      size={size}
-      ring={ink(0.32, "border")}
-      ringWidth={1.5}
-      tilt={-2}
-      onPress={toggle}
-      accessibilityRole="switch"
-      accessibilityState={{ checked: mode === "dark" }}
-      accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      hitSlop={6}
-    >
-      <Svg viewBox="0 0 24 24" width={glyph} height={glyph}>
-        {mode === "dark" ? (
-          <Path d="M20.2 13.6A8.1 8.1 0 0 1 10.4 3.8a8.1 8.1 0 1 0 9.8 9.8Z" {...fillProps(c)} />
-        ) : (
-          <>
-            <Path d="M12 12m-4.6 0a4.6 4.6 0 1 0 9.2 0a4.6 4.6 0 1 0 -9.2 0" fill="none" {...strokeProps(c)} strokeWidth={1.6} />
-            <Path
-              d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"
-              {...strokeProps(c)}
-              strokeWidth={1.6}
-              strokeLinecap="round"
-            />
-          </>
-        )}
-      </Svg>
-    </Disc>
-  );
+  return <SunMoon size={size} glyph={glyph} ringAlpha={0.32} hitSlop={6} />;
 }
-
 
 /** `.rr-ap-top` — the bar itself, with its torn paper. */
 export function TopBar({

@@ -21,17 +21,14 @@
 // The scroll-progress hairline (.rr-nav5-progress) is scaleX(0) at the top of
 // a page and is not drawn.
 
-import { useRef } from "react";
 import { Image, Pressable, View } from "react-native";
-import Svg, { Circle, G, Path } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
-import { Disc } from "../ui/Disc";
+import { SunMoon } from "../ui/ThemeSwitch";
 import { TornSheet } from "../ui/TornEdge";
 import { Txt } from "../ui/Type";
-import { fillProps, strokeProps } from "../ui/svgPaint";
 
 const MARK_192 = require("../../assets/mark-192.png");
 
@@ -39,74 +36,11 @@ const MARK_192 = require("../../assets/mark-192.png");
 export const NAV_H = 70;
 
 /**
- * `.rr-nav5-theme` — one button, both faces. The web shows the SUN in light
- * and the MOON in dark: the icon names the mode you are in.
+ * `.rr-nav5-theme` — the theme switch. Drawn in src/ui/ThemeSwitch.tsx, where
+ * the portal bar's disc shares it; re-exported here for the reader's console,
+ * which imports it from the bar.
  */
-export function SunMoon({
-  size = 40,
-  glyph = 19,
-  ink: inkOverride,
-  line,
-}: {
-  size?: number;
-  glyph?: number;
-  /** The glyph's ink, when a room lights it differently from the bar. */
-  ink?: string;
-  /** The ring, likewise. */
-  line?: string;
-}) {
-  const { colors, mode, toggle, toggleFrom } = useTheme();
-  const { ink } = useInk();
-  const c = inkOverride ?? colors.brown;
-
-  // The reveal grows from the switch itself, so the button has to say where it
-  // is. Measured on press-IN: measureInWindow answers through a callback, and
-  // measuring on press would start the sweep a frame late.
-  const self = useRef<View>(null);
-  const at = useRef<{ x: number; y: number } | null>(null);
-
-  return (
-    <View ref={self} collapsable={false}>
-    <Disc
-      size={size}
-      ring={line ?? ink(0.35, "border")}
-      ringWidth={1.5}
-      tilt={-2}
-      onPressIn={() =>
-        self.current?.measureInWindow((x, y, w, h) => {
-          at.current = { x: x + w / 2, y: y + h / 2 };
-        })
-      }
-      onPress={() => {
-        // a keyboard or accessibility activation never pressed in — the plain
-        // flip is the honest answer there, as the web's (0,0) fallback is
-        if (at.current) toggleFrom(at.current.x, at.current.y);
-        else toggle();
-      }}
-      accessibilityRole="switch"
-      accessibilityState={{ checked: mode === "dark" }}
-      accessibilityLabel={mode === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-      hitSlop={8}
-    >
-      <Svg viewBox="0 0 24 24" width={glyph} height={glyph}>
-        {mode === "dark" ? (
-          <Path d="M20.2 13.6A8.1 8.1 0 0 1 10.4 3.8a8.1 8.1 0 1 0 9.8 9.8Z" {...fillProps(c)} />
-        ) : (
-          <G>
-            <Circle cx={12} cy={12} r={4.6} fill="none" {...strokeProps(c)} strokeWidth={1.6} />
-            <Path
-              d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.2 5.2l1.7 1.7M17.1 17.1l1.7 1.7M18.8 5.2l-1.7 1.7M6.9 17.1l-1.7 1.7"
-              {...strokeProps(c)}
-              strokeWidth={1.6}
-              strokeLinecap="round"
-            />
-          </G>
-        )}
-      </Svg>
-    </Disc>
-    </View>
-  );
-}
+export { SunMoon } from "../ui/ThemeSwitch";
 
 /**
  * The bar. In flow (it sits at the top of a scrolling page as the site's

@@ -60,6 +60,14 @@ const THEME_STORAGE_KEY = "rr-theme";
 // leaves. That tail is therefore kept SHORT and front-loaded — out-quad puts
 // most of the opacity away in the first forty milliseconds, so the book is back
 // almost as the wipe lands rather than sitting under a wash.
+//
+// AND IT WAITS FOR THE PAINT. The flip re-renders every useTheme consumer in
+// the app, and on a phone that render can outlast a 140ms tail; a tail that
+// starts the instant the sweep lands then fades the disc off the OLD theme,
+// which snaps to the new one a beat later — the very blink the sweep exists
+// to hide. So the tail is not started by the sweep's callback but by an
+// effect that runs once the tree has committed in the incoming mode, one
+// frame on, when the native side has drawn it.
 const SWEEP_MS = 500;
 const TAIL_MS = 140;
 
@@ -161,25 +169,43 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const sweep = useSharedValue(0);
   const fade = useSharedValue(1);
   const [reveal, setReveal] = useState<{ origin: Origin; to: Mode } | null>(null);
+  // the disc has reached full cover and the tokens have been flipped; the
+  // tail may start as soon as the flipped tree is on screen
+  const [landed, setLanded] = useState(false);
   // the sweep's callbacks fire on the UI thread and must not close over stale
   // render state
   const pending = useRef<Mode | null>(null);
 
-  const end = useCallback(() => setReveal(null), []);
+  const end = useCallback(() => {
+    setReveal(null);
+    setLanded(false);
+  }, []);
 
   const land = useCallback(() => {
     const to = pending.current;
+    pending.current = null;
+    // the flip, under full cover — and nothing else: the tail is the
+    // effect's, once this has rendered
     if (to) setPref(to);
-    // the tail runs over a screen that is ALREADY the new theme, so it only
-    // has to take the disc away
-    fade.value = withTiming(
-      0,
-      { duration: TAIL_MS, easing: Easing.out(Easing.quad) },
-      (done) => {
-        if (done) runOnJS(end)();
-      },
-    );
-  }, [setPref, fade, end]);
+    setLanded(true);
+  }, [setPref]);
+
+  // The tail. `mode` is read from the same render as `landed`, so this runs
+  // only once the tree has committed in the incoming mode; the frame's wait
+  // is for the native side to have painted that commit.
+  useEffect(() => {
+    if (!reveal || !landed || mode !== reveal.to) return;
+    const id = requestAnimationFrame(() => {
+      fade.value = withTiming(
+        0,
+        { duration: TAIL_MS, easing: Easing.out(Easing.quad) },
+        (done) => {
+          if (done) runOnJS(end)();
+        },
+      );
+    });
+    return () => cancelAnimationFrame(id);
+  }, [reveal, landed, mode, fade, end]);
 
   const toggleFrom = useCallback(
     (cx: number, cy: number) => {
@@ -198,6 +224,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       pending.current = to;
       sweep.value = 0;
       fade.value = 1;
+      setLanded(false);
       setReveal({ origin: { x: cx, y: cy, r, w, h }, to });
     },
     [mode, reduced, setPref, sweep, fade],
