@@ -9,14 +9,16 @@
 //   .rr-pt-theme    the portal bar's, 36px, 1.5px ink ring at .32, brown
 //                   glyph at 18px, 2° off true (every room, PortalPage)
 //
-// Both flip the theme THROUGH THE REVEAL — ThemeProvider's toggleFrom, the
-// site's circular wipe growing from the switch itself. The portal's disc
-// used to call the plain toggle, so a room changed mode in one hard cut while
-// the sign-in wall and the reader swept; now there is one switch and one
-// behaviour. The button measures itself on press-IN (measureInWindow answers
-// through a callback, and measuring on press would start the sweep a frame
-// late); a keyboard or assistive activation that never pressed in gets the
-// plain flip, as the web's (0,0) fallback does.
+// Both flip the theme THROUGH THE REVEAL — the nearest ThemeStage's
+// `reveal`, the site's circular wipe growing from the switch itself, with the
+// screen held still on both sides of the edge (src/theme/ThemeStage.tsx). The
+// portal's disc used to call the plain toggle, so a room changed mode in one
+// hard cut while the sign-in wall and the reader swept; now there is one
+// switch and one behaviour. The button measures itself on press-IN
+// (measureInWindow answers through a callback, and measuring on press would
+// start the reveal a frame late); a keyboard or assistive activation that
+// never pressed in, or a switch outside any stage, gets the plain flip, as
+// the web's (0,0) fallback does.
 
 import { useRef } from "react";
 import { View } from "react-native";
@@ -24,6 +26,7 @@ import Svg, { Circle, G, Path } from "react-native-svg";
 
 import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
+import { useThemeStage } from "../theme/ThemeStage";
 import { Disc } from "./Disc";
 import { fillProps, strokeProps } from "./svgPaint";
 
@@ -45,12 +48,13 @@ export function SunMoon({
   /** The ring, likewise. */
   line?: string;
 }) {
-  const { colors, mode, toggle, toggleFrom } = useTheme();
+  const { colors, mode, toggle } = useTheme();
+  const stage = useThemeStage();
   const { ink } = useInk();
   const c = inkOverride ?? colors.brown;
 
   // The reveal grows from the switch itself, so the button has to say where
-  // it is — in WINDOW coordinates, which is what the reveal draws in.
+  // it is — in WINDOW coordinates, which the stage converts to its own.
   const self = useRef<View>(null);
   const at = useRef<{ x: number; y: number } | null>(null);
 
@@ -67,7 +71,7 @@ export function SunMoon({
           })
         }
         onPress={() => {
-          if (at.current) toggleFrom(at.current.x, at.current.y);
+          if (at.current && stage) stage.reveal(at.current.x, at.current.y);
           else toggle();
         }}
         accessibilityRole="switch"

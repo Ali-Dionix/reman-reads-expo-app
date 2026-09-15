@@ -92,6 +92,16 @@ cd roman-reads && npm install && npm run mobile:shelf
 `roman-reads/.gitignore` ignores `/mobile/`, so the app checkout stays its own
 repo — commit the regenerated JSON here, not there.
 
+Three more generators live **in this repo**, beside the screens they feed, and
+run from the site root in the same two-tree setup — each imports the modules
+its page builder imports and writes a JSON slice next to itself:
+
+```bash
+node mobile/src/portal/library/gen-library-floor.mjs   # the Library floor + grid
+node mobile/src/portal/listening/gen-catalogue.mjs     # the Audiobooks catalogue
+node mobile/src/portal/book/gen-book-pages.mjs         # the book pages (+ notes.json)
+```
+
 **You do not need this to work on the app.** `src/data/` is committed; clone
 this repo alone and the shelves paint. Reach for the two-tree setup only when
 the catalogue itself has moved.

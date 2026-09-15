@@ -1,14 +1,18 @@
 // The way out to the website. ONE seam, for every link that leaves the app.
 //
 // docs/APP-FULL-PARITY.md §2 decided, on 9 Sep 2026, that browsing moves into
-// the app and buying does not. THAT HALF WAS REVERSED ON 14 SEP (owner:
-// "integrate Stripe directly in the app"): a book and the subscription are
-// now paid in Stripe's Payment Sheet inside the app — src/lib/payments.ts
-// calls POST /api/checkout and POST /api/subscription with `pay: "sheet"` —
-// and what still leaves for the website is MANAGING the subscription (Stripe's
-// billing portal), the site's own panels for bringing a book in, and every
-// page that is read rather than bought. A build with no sheet (the web rig, a
-// deployment with no publishable key) falls back to the doors below.
+// the app and buying does not. HALF OF THAT WAS REVERSED ON 14 SEP (owner:
+// "integrate Stripe directly in the app") and settled on the 15th: a PRINTED
+// BOOK is paid in Stripe's Payment Sheet inside the app — src/lib/payments.ts
+// calls POST /api/checkout with `pay: "sheet"` — and THE SUBSCRIPTION IS NOT.
+// It is bought and managed on the website, in the reader's real browser,
+// signed in (openSignedIn below, through src/lib/subscription.tsx's
+// useSubscribe): a physical good may be paid through a third-party sheet in
+// the app, a digital one may not (Apple's 3.1.1, Google Play's billing
+// policy). So what leaves for the website is the subscription, the site's
+// own panels for bringing a book in, and every page that is read rather than
+// bought. A build with no sheet (the web rig, a deployment with no
+// publishable key) sends a card order out through the same doors.
 //
 // TWO DOORS, AND THE DIFFERENCE IS LOAD-BEARING.
 //

@@ -252,6 +252,42 @@ export async function selectRows<T>(table: string, query = "select=*"): Promise<
   }
 }
 
+/**
+ * PostgREST upsert, with the reader's own token so RLS applies — the site's
+ * supabaseClient.upsertRows, verbatim in its headers: merge on `onConflict`,
+ * no rows back. Unlike selectRows this THROWS on a refusal, because a write
+ * that silently did not happen is worse than one the caller can undo (the
+ * wishlist heart flips back).
+ */
+export async function upsertRows(
+  table: string,
+  rows: Record<string, unknown>[],
+  onConflict: string,
+): Promise<void> {
+  if (!rows.length) return;
+  if (!supabaseReady) throw new Error(`${table}: no backend configured`);
+  const token = await readerBearerToken();
+  if (!token) throw new Error(`${table}: signed out`);
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?on_conflict=${onConflict}`, {
+    method: "POST",
+    headers: { ...authHeaders(token), Prefer: "resolution=merge-duplicates,return=minimal" },
+    body: JSON.stringify(rows),
+  });
+  if (!res.ok) throw new Error(`${table}: ${res.status}`);
+}
+
+/** PostgREST delete by filter, same token, same refusal. */
+export async function deleteRows(table: string, filter: string): Promise<void> {
+  if (!supabaseReady) throw new Error(`${table}: no backend configured`);
+  const token = await readerBearerToken();
+  if (!token) throw new Error(`${table}: signed out`);
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}`, {
+    method: "DELETE",
+    headers: { ...authHeaders(token), Prefer: "return=minimal" },
+  });
+  if (!res.ok) throw new Error(`${table}: ${res.status}`);
+}
+
 /* ---------------------------------------------------------------- code --- */
 
 /**

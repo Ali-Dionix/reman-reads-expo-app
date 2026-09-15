@@ -43,8 +43,8 @@ import { AudioProvider } from "../src/lib/audioStore";
 import { SessionProvider, useSession } from "../src/lib/session";
 import { SubscriptionProvider } from "../src/lib/subscription";
 import { SpeedFollower } from "../src/portal/reader/console/SpeedFollower";
-import { ThemeProvider, useTheme } from "../src/theme/ThemeProvider";
-import { ThemeReveal } from "../src/theme/ThemeReveal";
+import { ThemeProvider, useTheme, useThemeLook } from "../src/theme/ThemeProvider";
+import { ThemeStage } from "../src/theme/ThemeStage";
 
 // THE SPLASH STAYS UP UNTIL THERE IS SOMETHING TO SHOW. Left to itself it
 // hides on the first frame the root draws, which here is nothing: the faces
@@ -114,6 +114,9 @@ export default function RootLayout() {
  *  otherwise a push animation flashes white over the desk. */
 function Chrome() {
   const { colors, mode } = useTheme();
+  // the status bar is system chrome: it changes with the reveal's edge, not
+  // with the flip that happens under the held picture
+  const look = useThemeLook();
   const { booting } = useSession();
 
   // The router paints surfaces of its own — the scene behind every tab, the
@@ -153,23 +156,25 @@ function Chrome() {
   return (
     <NavigationTheme value={navTheme}>
       <View style={{ flex: 1, backgroundColor: colors.desk }}>
-        <StatusBar style={mode === "dark" ? "light" : "dark"} />
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: colors.desk },
-            // The platform's own push, not a custom one. A portal that animates
-            // like the web feels like a website in a frame.
-            animation: "default",
-          }}
-        >
-          <Stack.Screen name="(tabs)" />
-          <Stack.Screen name="sign-in" options={{ animation: "fade" }} />
-        </Stack>
-        {/* The lamp switch's reveal, over every ordinary screen. The reader is a
-            native Modal and therefore its own window, so it mounts a SECOND
-            copy — see ThemeReveal. Both read the same shared values. */}
-        <ThemeReveal />
+        <StatusBar style={look === "dark" ? "light" : "dark"} />
+        {/* The lamp switch's stage: it takes the pictures of every ordinary
+            screen and draws the reveal over them. The reader is a native Modal
+            and therefore its own window, so it wraps its content in a stage of
+            its own — see ThemeStage. */}
+        <ThemeStage>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: colors.desk },
+              // The platform's own push, not a custom one. A portal that animates
+              // like the web feels like a website in a frame.
+              animation: "default",
+            }}
+          >
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="sign-in" options={{ animation: "fade" }} />
+          </Stack>
+        </ThemeStage>
       </View>
     </NavigationTheme>
   );

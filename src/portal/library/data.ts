@@ -207,14 +207,15 @@ export function sampleMarks(): Marks {
 }
 
 /**
- * The marks the room draws for this session. The reader's shelf_items and
- * orders are not yet read through the session, so the shelf is honestly
- * empty — the site's own empty rooms (savedSet() / ownedBySlug() over an
- * empty PortalState). sampleMarks() above is the site's demo state, kept for
- * the day a preview wants it; no screen reads it now that the app has no
- * guest.
- * TODO(Phase 2): read the signed-in reader's shelf_items and orders here.
+ * The OWNED marks the room draws for this session. The reader's orders are
+ * not yet read through the session, so the "Yours" shelf is honestly empty —
+ * the site's own empty room (ownedBySlug() over an empty PortalState). The
+ * SAVED marks are live: marks.ts reads and writes the reader's shelf_items,
+ * and the room and the book page both subscribe to it. sampleMarks() above
+ * is the site's demo state, kept for the day a preview wants it; no screen
+ * reads it now that the app has no guest.
+ * TODO(Phase 2): read the signed-in reader's orders into `owned` here.
  */
-export function readerMarks(): Marks {
-  return { owned: new Map(), saved: new Set() };
+export function ownedMarks(): Map<string, OwnedCopy> {
+  return new Map();
 }

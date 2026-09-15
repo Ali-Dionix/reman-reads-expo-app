@@ -9,8 +9,10 @@
 //   .rr-ly-band-row  gap 10, 15px above, centred, wrapping
 //   .rr-pt-btn       the kit's Button (src/ui/Button.tsx); --ghost its ghost
 //
-// Copy is the builder's, verbatim. Both presses leave the app for the website
-// — one to ask for a book, one to browse the shop — through the reading door.
+// Copy is the builder's, verbatim. "Request any book" leaves the app for the
+// website's contact page through the reading door; "Browse all books" is the
+// site's /library, which in the app is THIS room — the press hands the room
+// `onBrowse`, and the room lands the reader on the whole catalogue.
 
 import { View } from "react-native";
 
@@ -19,7 +21,7 @@ import { Button } from "../../ui/Button";
 import { Rule } from "../../ui/Rule";
 import { Txt } from "../../ui/Type";
 
-export function Band() {
+export function Band({ onBrowse }: { onBrowse: () => void }) {
   return (
     <View style={{ marginTop: 8 }}>
       <Rule kind="brick" />
@@ -32,7 +34,7 @@ export function Band() {
         </Txt>
         <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", gap: 10, marginTop: 15 }}>
           <Button label="Request any book" onPress={() => void openOnSite("/contact")} />
-          <Button label="Browse all books" ghost onPress={() => void openOnSite("/library")} />
+          <Button label="Browse all books" ghost onPress={onBrowse} />
         </View>
       </View>
     </View>

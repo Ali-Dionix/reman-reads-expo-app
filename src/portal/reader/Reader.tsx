@@ -54,8 +54,8 @@ import { useSession } from "../../lib/session";
 import { boxesForWord, loadGalley, useGalleyVersion, wordAt, type Galley } from "../../lib/galley";
 import { leafOfChapter, leafOfPage, loadPages, pagesShape, type BookPages } from "../../lib/pages";
 import { NightField } from "../../theme/NightField";
-import { ThemeReveal } from "../../theme/ThemeReveal";
 import { useTheme } from "../../theme/ThemeProvider";
+import { ThemeStage } from "../../theme/ThemeStage";
 import { FONTS, lineOf } from "../../theme/type";
 import { hairline } from "../../ui/DashedBox";
 import { Disc } from "../../ui/Disc";
@@ -557,6 +557,11 @@ export function Reader({
         here. Without this the pinch works on the web target and does nothing
         at all on a device, which is the worst kind of silent. */}
     <GestureHandlerRootView style={styles.reader}>
+    {/* The lamp switch's stage, again: a Modal is its OWN native window, so
+        the root stage's pictures and overlay never reach in here — and the
+        switch that starts the reveal is in this room's head band. See
+        ThemeStage. */}
+    <ThemeStage>
     {/* the site's `.rr-lr-reader` is role=dialog aria-modal — the volume is
         the only thing on screen while it stands */}
     <View
@@ -566,9 +571,7 @@ export function Reader({
       aria-modal
       accessibilityViewIsModal
     >
-      {/* the night field — STARS over a settling navy, not a flat swatch.
-          Shared with the theme reveal on purpose: the disc that wipes this
-          field in has to be the SAME drawing, or the wipe shows a seam. */}
+      {/* the night field — STARS over a settling navy, not a flat swatch. */}
       {night ? <NightField /> : null}
       <Veil night={night} />
 
@@ -902,13 +905,7 @@ export function Reader({
         maxHeight={keyboardH ? Math.min(windowH * 0.7, windowH - keyboardH - drawerBottom - railH - 8) : windowH * 0.7}
       />
     </View>
-
-    {/* The lamp switch's reveal, again. A Modal is its OWN native window, so
-        the root instance paints behind it — and the switch that starts the
-        sweep is in this room's head band. `field="room"` because the disc has
-        to be indistinguishable from what it lands on, and what it lands on
-        here is the starred navy, not the app's plain paper. */}
-    <ThemeReveal field="room" />
+    </ThemeStage>
     </GestureHandlerRootView>
     </Modal>
   );

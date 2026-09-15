@@ -32,6 +32,17 @@
 //
 // A KIT PIECE: Home's five cells open it, and the Library room's locked
 // cells want the same panel; `gateNext(key)` is the one path both go out on.
+//
+// TWO PITCHES, ONE PANEL. The site has this panel for one thing — bringing
+// a book in — because that is the one place the site draws a lock. The app
+// padlocks every narrator too (VoiceSheet.tsx: all of them, pressed and
+// live, since 15 Sep 2026), and a padlock's job is to explain itself on the
+// tap; a brick sentence over a list did not read as "this needs the
+// subscription", so the tap opens THIS panel with the narrator's pitch
+// (`pitch="voices"`): the same frame, the same price row and press, the
+// device drawing the picker instead of the add sheet, and the copy the site
+// already uses for the voices — the book page's "read out loud, in a voice
+// you pick" and subscription.ts's COVERS.
 
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useRef, useState } from "react";
@@ -54,6 +65,7 @@ import { Disc } from "../ui/Disc";
 import { Icon, type IconName } from "../ui/Icon";
 import { Txt } from "../ui/Type";
 import { fillProps, strokeProps } from "../ui/svgPaint";
+import narrators from "./reader/narrators.json";
 
 /** appShell.ts ADD_WAYS, verbatim — the four rows the device shows and the
  *  four labels the copy lists. */
@@ -63,6 +75,62 @@ const ADD_WAYS: { key: "files" | "scan" | "text" | "link"; label: string; note: 
   { key: "text", label: "Text", note: "Paste a chapter or a whole book", icon: "pencil" },
   { key: "link", label: "Link", note: "A link to an article or web page", icon: "link" },
 ];
+
+/** The readers the narrator sheet features, as the device draws them — the
+ *  same baked directory VoiceSheet reads (./reader/gen-narrators.mjs). */
+type Reader = { id: string; name: string; line: string; hue: string };
+const LIVE = narrators.live as Reader[];
+const FEATURED: Reader[] = (narrators.featured as string[])
+  .map((id) => LIVE.find((n) => n.id === id))
+  .filter((n): n is Reader => !!n)
+  .slice(0, 4);
+/** How many live readers there are — counted, never typed, so the panel is
+ *  right the day the register changes. */
+const LIVE_COUNT = LIVE.length;
+
+/** What the plan opens, for the narrator's pitch — subscription.ts's COVERS,
+ *  each cut to a label the way ADD_WAYS are. */
+const VOICE_WAYS: { key: string; label: string; icon: IconName }[] = [
+  { key: "readers", label: `${LIVE_COUNT} readers`, icon: "listening" },
+  { key: "books", label: "Every audiobook", icon: "book" },
+  { key: "along", label: "The read-along", icon: "pencil" },
+  { key: "place", label: "Your place kept", icon: "cloud" },
+];
+
+export type GatePitch = "imports" | "voices";
+
+/** The copy, per pitch. The imports' is importUpgrade.ts verbatim; the
+ *  voices' is the book page's line ("This book is read out loud, in a voice
+ *  you pick") and the first two COVERS, in the same shape. */
+const COPY: Record<
+  GatePitch,
+  {
+    head: [string, string];
+    lede: string;
+    ways: { key: string; label: string; icon: IconName }[];
+    /** Two ways to a row rather than four — for labels that are phrases. */
+    twoUp: boolean;
+    waysLabel: string;
+    included: string;
+  }
+> = {
+  imports: {
+    head: ["Your books,", "read out loud."],
+    lede: "One subscription. Every audiobook on the site, plus any book you add yourself, in a voice you pick.",
+    ways: ADD_WAYS,
+    twoUp: false,
+    waysLabel: "Included ways to add a book",
+    included: "You can also clone your own voice to read them. Books you add are private to you.",
+  },
+  voices: {
+    head: ["This book,", "in a voice you pick."],
+    lede: "One subscription. Every audiobook we have, read in whichever narrator's voice you pick — and any book you add yourself, read aloud the same way.",
+    ways: VOICE_WAYS,
+    twoUp: true,
+    waysLabel: "Included with the subscription",
+    included: "You can also clone your own voice to read them. A chapter read in a new voice is kept for next time.",
+  },
+};
 
 /** app/data/subscription.ts — PRICE_LABEL. */
 const PRICE_LABEL = "$14.99";
@@ -84,12 +152,17 @@ export function GateSheet({
   open,
   onClose,
   onContinue,
+  pitch = "imports",
 }: {
   open: boolean;
   onClose: () => void;
   /** The press. The caller decides where it goes (openToBuy). */
   onContinue: () => void;
+  /** Which lock opened it: a source for bringing a book in (the site's own
+   *  panel), or a padlocked narrator. */
+  pitch?: GatePitch;
 }) {
+  const copy = COPY[pitch];
   const { colors, mode } = useTheme();
   const { ink, brass, width, clamp } = useInk();
   const insets = useSafeAreaInsets();
@@ -166,7 +239,7 @@ export function GateSheet({
                 backgroundColor: paper,
               }}
             >
-              <Device width={deviceW} short={short} paper={paper} shadow={DEVICE.shadow[mode]} />
+              <Device width={deviceW} short={short} paper={paper} shadow={DEVICE.shadow[mode]} pitch={pitch} />
               {/* ::after — the fade into the paper */}
               <LinearGradient
                 pointerEvents="none"
@@ -210,32 +283,38 @@ export function GateSheet({
 
               {/* h2 — "Your books,<br><i>read out loud.</i>" */}
               <Txt family="Cormorant Garamond" weight={500} size={h2} line={1} ls={-0.025} accessibilityRole="header">
-                Your books,{"\n"}
+                {copy.head[0]}
+                {"\n"}
                 <Txt family="Cormorant Garamond" weight={500} italic size={h2} line={1} ls={-0.025} color="brass">
-                  read out loud.
+                  {copy.head[1]}
                 </Txt>
               </Txt>
 
               {/* .rr-im-upgrade-lede */}
               <Txt size={ledeSize} line={1.55} tone={0.66} style={{ marginTop: pocket ? 10 : short ? 12 : 14 }}>
-                One subscription. Every audiobook on the site, plus any book you add yourself, in a voice you
-                pick.
+                {copy.lede}
               </Txt>
 
-              {/* .rr-im-upgrade-ways — four even columns */}
+              {/* .rr-im-upgrade-ways — four even columns for the site's four
+                  one-word ways; the narrator's four are phrases, and stand
+                  two to a row so none is cut short on a phone */}
               <View
-                accessibilityLabel="Included ways to add a book"
+                accessibilityLabel={copy.waysLabel}
                 style={{
                   flexDirection: "row",
+                  flexWrap: copy.twoUp ? "wrap" : "nowrap",
                   marginTop: pocket ? 12 : short ? 14 : 18,
                   columnGap: width <= 380 ? 6 : 8,
                   rowGap: width <= 380 ? 9 : 10,
                 }}
               >
-                {ADD_WAYS.map((w) => (
+                {copy.ways.map((w) => (
                   <View
                     key={w.key}
-                    style={{ flex: 1, minWidth: 0, flexDirection: "row", alignItems: "center", gap: width <= 380 ? 5 : 7 }}
+                    style={[
+                      { minWidth: 0, flexDirection: "row", alignItems: "center", gap: width <= 380 ? 5 : 7 },
+                      copy.twoUp ? { flexBasis: "47%", flexGrow: 1 } : { flex: 1 },
+                    ]}
                   >
                     <Icon name={w.icon} size={18} color={colors.brass} />
                     <Txt weight={500} size={width <= 380 ? 12.5 : 13.5} line={1.5} numberOfLines={1}>
@@ -252,7 +331,7 @@ export function GateSheet({
                 tone={0.6}
                 style={{ marginTop: pocket ? 10 : short ? 12 : 16 }}
               >
-                You can also clone your own voice to read them. Books you add are private to you.
+                {copy.included}
               </Txt>
 
               {/* .rr-im-upgrade-bottom */}
@@ -314,7 +393,9 @@ export function GateSheet({
                   </Svg>
                 </Pressable>
 
-                {/* .rr-im-gate-fine — paintGate's two wordings */}
+                {/* .rr-im-gate-fine — paintGate's wording, plus where the press
+                    goes: the plan is bought on the website, never in the app
+                    (src/lib/payments.ts's header), and Continue says so. */}
                 <Txt
                   size={12}
                   line={1.5}
@@ -322,7 +403,7 @@ export function GateSheet({
                   style={{ marginTop: pocket ? 8 : 10, textAlign: "center" }}
                   accessibilityRole="text"
                 >
-                  Monthly subscription. Cancel from Settings.
+                  Monthly subscription, taken on the website. Cancel from Settings.
                 </Txt>
               </View>
             </View>
@@ -364,14 +445,29 @@ export function GateSheet({
 
 /**
  * `.rr-im-up-device` — the phone, drawn: a bezel (1px ink .16, radius 30,
- * paper, 9/19.5), a status strip, and the app's own add sheet on its screen —
- * ADD_WAYS unlocked, then the deck row that says what the four rows are FOR.
- * The window bar (.rr-im-up-chrome) is desktop chrome and stays out.
+ * paper, 9/19.5), a status strip, and the app's own sheet on its screen —
+ * the add sheet's ADD_WAYS unlocked for the imports' pitch, the narrator
+ * sheet's featured readers unlocked for the voices' — then the deck row that
+ * says what the rows are FOR. The window bar (.rr-im-up-chrome) is desktop
+ * chrome and stays out.
  */
-function Device({ width, short, paper, shadow }: { width: number; short: boolean; paper: string; shadow: string }) {
+function Device({
+  width,
+  short,
+  paper,
+  shadow,
+  pitch,
+}: {
+  width: number;
+  short: boolean;
+  paper: string;
+  shadow: string;
+  pitch: GatePitch;
+}) {
   const { colors } = useTheme();
   const { ink, brass } = useInk();
   const height = (width * 19.5) / 9;
+  const voices = pitch === "voices";
   return (
     <View
       style={{
@@ -421,7 +517,7 @@ function Device({ width, short, paper, shadow }: { width: number; short: boolean
       {/* .rr-im-up-screen */}
       <View style={{ flex: 1, minHeight: 0, paddingTop: 10, paddingHorizontal: 14, overflow: "hidden" }}>
         <Txt weight={700} size={6} ls={0.2} upper color="brass">
-          Add to your library
+          {voices ? "Narrator" : "Add to your library"}
         </Txt>
         <Txt
           family="Cormorant Garamond"
@@ -431,54 +527,97 @@ function Device({ width, short, paper, shadow }: { width: number; short: boolean
           ls={-0.01}
           style={{ marginTop: 3, marginBottom: short ? 6 : 8 }}
         >
-          Your books
+          {voices ? "Read it in another voice" : "Your books"}
         </Txt>
 
-        {/* .rr-im-up-rows */}
-        {ADD_WAYS.map((w, i) => (
-          <View
-            key={w.key}
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 9,
-              paddingVertical: short ? 5 : 7,
-              borderTopWidth: i === 0 ? 0 : 1,
-              borderTopColor: ink(0.08, "border"),
-            }}
-          >
-            <View
-              style={{
-                width: 24,
-                height: 24,
-                alignItems: "center",
-                justifyContent: "center",
-                borderWidth: 1,
-                borderColor: brass(0.32, "border"),
-                borderRadius: 12,
-              }}
-            >
-              <Icon name={w.icon} size={13} color={colors.brass} />
-            </View>
-            <View style={{ flex: 1, minWidth: 0 }}>
-              <Txt weight={600} size={9.5} line={1.3}>
-                {w.label}
-              </Txt>
-              <Txt size={7.5} line={1.35} tone={0.52} numberOfLines={1} ellipsizeMode="tail" style={{ marginTop: 1 }}>
-                {w.note}
-              </Txt>
-            </View>
-            <Svg viewBox="0 0 16 16" width={9} height={9}>
-              <Path
-                d="M6 3.5 10.5 8 6 12.5"
-                {...strokeProps(ink(0.3))}
-                strokeWidth={1.9}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </Svg>
-          </View>
-        ))}
+        {/* .rr-im-up-rows — the add sheet's four ways, or the narrator
+            sheet's featured readers as its directory rows draw them (a face
+            in the reader's own hue, the name, the descriptor, the tag), with
+            one of them on the platter and every one of them OPEN */}
+        {voices
+          ? FEATURED.map((n, i) => (
+              <View
+                key={n.id}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 9,
+                  paddingVertical: short ? 5 : 7,
+                  borderTopWidth: i === 0 ? 0 : 1,
+                  borderTopColor: ink(0.08, "border"),
+                }}
+              >
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderRadius: 12,
+                    backgroundColor: n.hue,
+                  }}
+                >
+                  <Txt family="Cormorant Garamond" weight={600} size={11} line={1} style={{ color: "#FFFEFB" }}>
+                    {n.name.slice(0, 1)}
+                  </Txt>
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Txt weight={600} size={9.5} line={1.3}>
+                    {n.name}
+                  </Txt>
+                  <Txt size={7.5} line={1.35} tone={0.52} numberOfLines={1} ellipsizeMode="tail" style={{ marginTop: 1 }}>
+                    {n.line}
+                  </Txt>
+                </View>
+                <Txt weight={600} size={6.5} ls={0.14} upper color={i === 0 ? "brass" : undefined} tone={i === 0 ? undefined : 0.45}>
+                  {i === 0 ? "Playing" : "Available"}
+                </Txt>
+              </View>
+            ))
+          : ADD_WAYS.map((w, i) => (
+              <View
+                key={w.key}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 9,
+                  paddingVertical: short ? 5 : 7,
+                  borderTopWidth: i === 0 ? 0 : 1,
+                  borderTopColor: ink(0.08, "border"),
+                }}
+              >
+                <View
+                  style={{
+                    width: 24,
+                    height: 24,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderWidth: 1,
+                    borderColor: brass(0.32, "border"),
+                    borderRadius: 12,
+                  }}
+                >
+                  <Icon name={w.icon} size={13} color={colors.brass} />
+                </View>
+                <View style={{ flex: 1, minWidth: 0 }}>
+                  <Txt weight={600} size={9.5} line={1.3}>
+                    {w.label}
+                  </Txt>
+                  <Txt size={7.5} line={1.35} tone={0.52} numberOfLines={1} ellipsizeMode="tail" style={{ marginTop: 1 }}>
+                    {w.note}
+                  </Txt>
+                </View>
+                <Svg viewBox="0 0 16 16" width={9} height={9}>
+                  <Path
+                    d="M6 3.5 10.5 8 6 12.5"
+                    {...strokeProps(ink(0.3))}
+                    strokeWidth={1.9}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </Svg>
+              </View>
+            ))}
 
         {/* .rr-im-up-deck — a chapter already being read */}
         <View

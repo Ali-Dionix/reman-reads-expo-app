@@ -255,7 +255,7 @@ export function Console({
   // the subscription's refusal — from the deck (a live band the site would
   // not read) or the narrator sheet (a tap) — carries the website's door
   const subscribeDoor = !!say && "subscribe" in say && !!say.subscribe;
-  const { subscribe, inApp: sheetInApp } = useSubscribe();
+  const { subscribe } = useSubscribe();
   // the dial, this book's own; the creep belongs to the room's root
   // (console/SpeedFollower.tsx) and is only stood in for here until that
   // is mounted — counting nothing while it is
@@ -566,18 +566,17 @@ export function Console({
               <View style={[styles.sayRule, { backgroundColor: bad ? ink.sayBad : ink.say }]} />
             </Pressable>
           ) : subscribeDoor ? (
-            // the subscription's sheet, in the app (the website on a build
-            // with none) — the one door the site's own line needs none of. A
-            // paid sheet takes the padlocks off through the provider; the
-            // sentence itself is the deck's or the sheet's to clear.
+            // the subscription is bought on the WEBSITE, in the reader's real
+            // browser, signed in (useSubscribe) — the one door the site's own
+            // line needs none of. The provider's foreground refresh takes the
+            // padlocks off when the reader is back; the sentence itself is
+            // the deck's or the sheet's to clear.
             <Pressable
               onPress={() => void subscribe()}
-              accessibilityRole="button"
+              accessibilityRole="link"
               style={styles.sayLinkBox}
             >
-              <Text style={[styles.say, styles.sayLink, { color: bad ? ink.sayBad : ink.say }]}>
-                {sheetInApp === false ? "Subscribe on the website." : "Subscribe."}
-              </Text>
+              <Text style={[styles.say, styles.sayLink, { color: bad ? ink.sayBad : ink.say }]}>Subscribe on the website.</Text>
               <View style={[styles.sayRule, { backgroundColor: bad ? ink.sayBad : ink.say }]} />
             </Pressable>
           ) : null}

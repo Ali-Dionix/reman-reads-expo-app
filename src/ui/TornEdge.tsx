@@ -86,6 +86,11 @@ export function sheetPath(
 /** How far the drawing hangs past the box on the torn side. */
 export const TORN_BLEED = { bottom: 32, top: 30 } as const;
 
+/** How far a RISING sheet's paper teeth reach above its box — the tab bar's
+ *  `::before{inset:-17px 0 0}`. The rest of TORN_BLEED.top is shadow and
+ *  haze; anything that must read clear of the bar sits above this. */
+export const TEETH_RISE = 17;
+
 /** The haze fan: offsets and opacities standing in for a Gaussian drop-shadow. */
 const HAZE_BAR = [4, 5.2, 6.4, 7.6, 8.8, 10] as const;
 const HAZE_SHEET = [5, 8, 11, 14, 17, 20] as const;

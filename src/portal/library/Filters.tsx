@@ -32,6 +32,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { useDockHeight } from "../dockSpace";
 import { useInk } from "../../theme/ink";
 import { useTheme } from "../../theme/ThemeProvider";
 import { FONTS } from "../../theme/type";
@@ -123,6 +124,7 @@ export function FilterSheet({
   const { colors } = useTheme();
   const { ink } = useInk();
   const insets = useSafeAreaInsets();
+  const dock = useDockHeight();
   const { height: winH } = useWindowDimensions();
   const [find, setFind] = useState("");
   const [focused, setFocused] = useState(false);
@@ -157,7 +159,8 @@ export function FilterSheet({
         accessibilityViewIsModal
         style={{
           marginHorizontal: 12,
-          marginBottom: TAB_H + insets.bottom + 12,
+          // clear of the bar — and of the record docked above it, when there is one
+          marginBottom: TAB_H + insets.bottom + 12 + dock,
           maxHeight: winH * 0.62,
           paddingTop: 18,
           paddingHorizontal: 18,

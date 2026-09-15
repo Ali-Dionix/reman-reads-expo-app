@@ -36,40 +36,44 @@
 // THE LOCKS. A guest sees every reader and can play none: the pressed pair
 // wear a lock badge and "sign up to listen"; the live readers' second line
 // says the same, their rows are tagged "Sign up to listen", and the line over
-// the directory carries the refusal in brick. Signed in, a pressed reader is
-// "reads this book" / "on the platter"; a LIVE reader is the subscription's
-// — the gate is pressed-vs-live, not "Featured" — and WITHOUT IT EVERY LIVE
-// READER IS PADLOCKED, not only refused on the tap. The padlock is the
-// site's own for anything behind the subscription, drawn the way the Home
-// cells and the + sheet's rows draw it (appShell.ts `.rr-ap-act.is-locked`
-// and `.rr-ap-add-lock`, ported in src/ui/Acts.tsx and AddSheet.tsx):
-// SHUT, NOT DISABLED. The disc keeps its full strength and takes the lock
-// badge struck on its rim — `.rr-lr-nar-badge.is-locked`, the sheet's own,
-// which the site's comment names as the one motif for "not yours yet" —
-// with its descriptor line left under the name; a row keeps its full
-// strength and takes the brass padlock in the tag column, where the +
-// sheet puts it in place of the chevron, with "Subscription" said to a
-// screen reader; and the line over the directory says the plan and its
-// price once, with the website's door under it. Nothing is dimmed, greyed
-// or aria-disabled: that is the site's grammar for a guest and for a reader
-// with no recording of this book, and it says "this does nothing", which a
-// locked reader does not — its job is to explain itself on the tap. The
-// answer is the site's (src/lib/subscription.tsx), asked once per reader
-// and again on every foreground, and NULL IS LOCKED — a subscriber sees
-// the padlocks for the moment the desk takes, which is better than
-// everybody else seeing three hundred readers open for one paint. The
-// site's own narrator sheet draws no padlock and answers on the tap with a
-// 402 (the owner's call, 2026-09-14: lock the app, leave the site); the
-// deck's voiceLocked is the same rule for one voice.
+// the directory carries the refusal in brick. Signed in, the reader on the
+// platter is the book's and EVERY OTHER VOICE IS THE SUBSCRIPTION'S — the
+// pressed pair as much as the live directory (the owner, 15 Sep 2026: "all
+// voices should be locked"; until then the pressed pair were free and only
+// the live readers padlocked) — and WITHOUT IT EVERY ONE OF THEM IS
+// PADLOCKED, not only refused on the tap. The padlock is the site's own for
+// anything behind the subscription, drawn the way the Home cells and the +
+// sheet's rows draw it (appShell.ts `.rr-ap-act.is-locked` and
+// `.rr-ap-add-lock`, ported in src/ui/Acts.tsx and AddSheet.tsx): SHUT, NOT
+// DISABLED. A disc keeps its full strength and takes the lock badge struck
+// on its rim — `.rr-lr-nar-badge.is-locked`, the sheet's own, which the
+// site's comment names as the one motif for "not yours yet" — with its
+// descriptor line left under the name; a recent-voice chip takes it in the
+// tick's slot; a row keeps its full strength and takes the brass padlock in
+// the tag column, where the + sheet puts it in place of the chevron, with
+// "Subscription" said to a screen reader; and the line over the directory
+// says the plan and its price once, with the website's door under it.
+// Nothing is dimmed, greyed or aria-disabled: that is the site's grammar for
+// a guest and for a reader with no recording of this book, and it says
+// "this does nothing", which a locked reader does not — its job is to
+// explain itself on the tap. The answer is the site's
+// (src/lib/subscription.tsx), asked once per reader and again on every
+// foreground, and NULL IS LOCKED — a subscriber sees the padlocks for the
+// moment the desk takes, which is better than everybody else seeing three
+// hundred readers open for one paint. The site's own narrator sheet draws
+// no padlock and answers on the tap with a 402 (the owner's call,
+// 2026-09-14: lock the app, leave the site); the deck's voiceLocked is the
+// same rule for one voice.
 //
-// A tap on a padlocked reader answers: the desk's own sentence, "This
-// needs the subscription.", said over the directory and on the console,
-// with the one door the site does not print under it — "Subscribe on the
-// website", which opens the site in the reader's real browser, signed in
-// (src/lib/web.ts openSignedIn) — the subscription is bought there and
-// only there. While the desk has not yet answered, the tap goes to the
-// desk, which decides and is trusted over the copy; a yes from it
-// refreshes the copy, so the padlocks come off.
+// A TAP ON A PADLOCKED READER OPENS THE GATE — the site's own subscription
+// panel (src/portal/GateSheet.tsx, the one Home's locked cells open) with
+// the narrator's pitch: the plan, what it opens, the price, and Continue,
+// which goes to the website signed in (src/lib/web.ts openSignedIn) — the
+// subscription is bought there and only there. The desk's sentence, "This
+// needs the subscription.", is said over the directory and on the console
+// as well, so the reason stands once the panel is shut. While the app holds
+// no answer yet, the tap asks the desk, which decides and is trusted over
+// the copy; a yes from it refreshes the copy, so the padlocks come off.
 //
 // A LIVE READER, CHOSEN. The site's pickLiveNarrator, in the hand: the
 // chapter is asked for FIRST (src/lib/liveRead.ts ensureLiveChapter — the
@@ -123,6 +127,7 @@ import { SheetPaper } from "./voice/SheetPaper";
 import { paletteFor, type Palette } from "./voice/palette";
 import { chooseVoice, noteHeard, useStanding, voiceInForce } from "./voice/standing";
 import narrators from "./narrators.json";
+import { GateSheet } from "../GateSheet";
 import { Icon } from "../../ui/Icon";
 import { fillProps, strokeProps } from "../../ui/svgPaint";
 
@@ -172,10 +177,9 @@ const LIVE_SHUT_SAY = `These readers come with the subscription, ${PRICE_PER_MON
 const READING_TAG = "Reading…";
 /** The sheet's own door under a subscription refusal — the one line the
  *  site does not print, because the site sells the plan on the same page.
- *  Since 14 Sep 2026 the door opens Stripe's sheet in the app; on a build
- *  with none it still opens the website. */
-const SUBSCRIBE_LINK = "Subscribe →";
-const SUBSCRIBE_LINK_WEB = "Subscribe on the website →";
+ *  The plan is bought on the website and nowhere else (the 15 Sep 2026
+ *  rule in src/lib/payments.ts's header), so the door says so. */
+const SUBSCRIBE_LINK = "Subscribe on the website →";
 
 /** ListeningEnhancer's voiceLocale — the region a provider voice id names,
  *  as the chip prints it; an opaque id yields nothing and the chip carries
@@ -366,12 +370,17 @@ export function VoiceSheet({
   const { now, voice: deckVoice, setNarrator, refuse, locked, spots, bumpLive, liveTick } = useDeck();
   const { user } = useSession();
   const sub = useSubscription();
-  const { subscribe, inApp: sheetInApp } = useSubscribe();
-  // THE LIVE READERS ARE SHUT until the desk has said this reader has the
-  // plan — the deck's voiceLocked for the whole directory at once (every
-  // live reader gets the same answer). `sub.active` is false while the
-  // answer is null, which is the fail-closed the site argues for.
+  const { subscribe } = useSubscribe();
+  // EVERY READER IS SHUT until the desk has said this reader has the plan —
+  // the deck's voiceLocked for the whole sheet at once (every reader gets
+  // the same answer). `sub.active` is false while the answer is null, which
+  // is the fail-closed the site argues for. Since 15 Sep 2026 (owner: "all
+  // voices should be locked") this is the pressed pair too, not only the
+  // live directory: the one reader on the platter is the book's, and every
+  // other voice is the subscription's.
   const liveShut = locked || !sub.active;
+  /** The subscription's padlock, as distinct from the guest's lock. */
+  const shut = !locked && !sub.active;
   const standing = useStanding(ownerOf(user?.id));
   const pal = useMemo(() => paletteFor(night), [night]);
 
@@ -451,6 +460,44 @@ export function VoiceSheet({
     wasActive.current = sub.active;
   }, [sub.active, sayLive]);
 
+  // THE GATE. A padlock's job is to explain itself on the tap, and a
+  // sentence over the list did not read as "this needs the subscription"
+  // (the owner, 15 Sep 2026): the tap opens the site's own gate panel with
+  // the narrator's pitch — GateSheet, `pitch="voices"`, the panel Home's
+  // locked cells open — whose Continue goes to the website, signed in. The
+  // sentence is still said under it, so the reason stands over the list
+  // once the panel is shut.
+  const [gate, setGate] = useState(false);
+  const openGate = useCallback(() => {
+    setLangOpen(false);
+    sayLive(SUBSCRIPTION_SAY, true);
+    setGate(true);
+  }, [sayLive]);
+  /** A tap on a padlocked reader. The app's copy of the desk's answer
+   *  decides when it has one; when it has none yet (a bad connection at
+   *  launch), the desk is asked once more and trusted, so a subscriber is
+   *  never gated on a stale null. */
+  const gateOrProceed = useCallback(
+    (proceed: () => void) => {
+      if (sub.state && !sub.state.guest) {
+        if (sub.state.active) proceed();
+        else openGate();
+        return;
+      }
+      void sub.refresh().then((s) => {
+        if (s?.active) proceed();
+        else openGate();
+      });
+    },
+    [sub, openGate],
+  );
+  // the panel shuts on its own when the reader is back with the plan: the
+  // foreground refresh flips `sub.active`, and a gate over an open sheet
+  // would be arguing with it
+  useEffect(() => {
+    if (sub.active) setGate(false);
+  }, [sub.active]);
+
   // one pressing (or none yet) → the caption; two or more → the picker —
   // a live reader registered this run counts, as the site's audioVoicesFor
   const picker = voiceIds.length > 1;
@@ -496,15 +543,23 @@ export function VoiceSheet({
   );
 
   /** pickNarrator — the reader's choice, written down; on the platter the
-   *  deck changes pressing mid-sentence. The tick moves, the sheet stays. */
+   *  deck changes pressing mid-sentence. The tick moves, the sheet stays.
+   *  Behind the subscription the choice is the gate's to explain: the
+   *  pressed pair are locked like every other voice (the site serves them
+   *  freely, so the app's copy of the answer is the only gate — asked again
+   *  when it has none). */
   const pick = useCallback(
     (id: string) => {
       setLangOpen(false);
       if (id === on || !voiceIds.includes(id)) return;
-      chooseVoice(recording.slug, id);
-      if (here) setNarrator(id);
+      const choose = () => {
+        chooseVoice(recording.slug, id);
+        if (here) setNarrator(id);
+      };
+      if (shut) gateOrProceed(choose);
+      else choose();
     },
-    [on, voiceIds, here, recording.slug, setNarrator],
+    [on, voiceIds, here, recording.slug, setNarrator, shut, gateOrProceed],
   );
 
   // the band a live reader is asked to read: the codex's standing chapter,
@@ -530,12 +585,12 @@ export function VoiceSheet({
       const n = LIVE_BY_ID.get(id);
       if (!n || id === on || asking) return;
       // The app already holds the desk's answer: a reader it has said no to
-      // is answered here, in the desk's own words, without the round trip —
-      // the padlock the disc wears, explained. A subscriber, or an answer
-      // not yet in, goes to the desk — which decides, and is trusted over
-      // the copy either way.
+      // is answered here, without the round trip — the padlock the disc
+      // wears, explained by the gate. A subscriber, or an answer not yet
+      // in, goes to the desk — which decides, and is trusted over the copy
+      // either way.
       if (sub.state && !sub.state.guest && !sub.state.active) {
-        sayLive(SUBSCRIPTION_SAY, true);
+        openGate();
         return;
       }
       const slug = recording.slug;
@@ -544,11 +599,15 @@ export function VoiceSheet({
       const opened = await ensureLiveChapter(slug, id, band);
       setAsking("");
       if (!opened.made) {
-        // the desk said no: the sentence, and the door when it is the
-        // subscription's — and the app's copy of the answer is refreshed,
-        // since it evidently disagreed
-        if (opened.subscribe) void sub.refresh();
-        sayLive(opened.why, !!opened.subscribe);
+        // the desk said no: the subscription's refusal opens the gate (and
+        // the app's copy of the answer is refreshed, since it evidently
+        // disagreed); any other refusal is said in the desk's words
+        if (opened.subscribe) {
+          void sub.refresh();
+          openGate();
+          return;
+        }
+        sayLive(opened.why);
         return;
       }
       // the desk said yes to a reader the copy had padlocked (the answer was
@@ -572,7 +631,7 @@ export function VoiceSheet({
         sayLive("");
       }
     },
-    [refuse, sayLive, on, asking, sub, recording, askBand, here, setNarrator, bumpLive],
+    [refuse, sayLive, on, asking, sub, recording, askBand, here, setNarrator, bumpLive, openGate],
   );
 
   const unfold = useCallback((code: string) => {
@@ -716,6 +775,11 @@ export function VoiceSheet({
                 const n = PRESSED_BY_ID.get(id)!;
                 const checked = id === on;
                 const em = voiceLocale(id);
+                // a chip that is not the one playing wears the padlock in
+                // the tick's slot behind the subscription — full strength,
+                // still a press (it opens the gate)
+                const padlocked = shut && !checked;
+                const name = em ? `${n.name} ${em}` : n.name;
                 return (
                   <Pressable
                     key={id}
@@ -723,7 +787,7 @@ export function VoiceSheet({
                     accessibilityRole="radio"
                     accessibilityState={{ checked }}
                     aria-checked={checked}
-                    accessibilityLabel={em ? `${n.name} ${em}` : n.name}
+                    accessibilityLabel={padlocked ? `${name} ${SUBSCRIPTION_SR}` : name}
                     style={[
                       styles.pickChip,
                       { boxShadow: checked ? `inset 0 0 0 1.5px ${pal.chipOnRing}` : `inset 0 0 0 1px ${pal.chipRestRing}` },
@@ -748,6 +812,10 @@ export function VoiceSheet({
                       <View style={[styles.pickTick, { backgroundColor: pal.badgeOnBg }]}>
                         <Tick color={pal.badgeOnInk} />
                       </View>
+                    ) : padlocked ? (
+                      <View style={[styles.pickTick, { backgroundColor: pal.badgeBg, boxShadow: `0 0 0 1px ${pal.badgeRing}` }]}>
+                        <Lock color={pal.badgeInk} />
+                      </View>
                     ) : null}
                   </Pressable>
                 );
@@ -759,6 +827,11 @@ export function VoiceSheet({
             <View style={[styles.rack, { paddingTop: 4, paddingBottom: 10 }]} accessibilityRole="radiogroup" accessibilityLabel="Choose a narrator">
               {item.readers.map((n) => {
                 const st = pressedState(n.id);
+                // behind the subscription every reader but the one on the
+                // platter takes the lock badge on its rim — the same badge
+                // the live discs wear, at the same strength: SHUT, NOT
+                // DISABLED, the tap explains itself (pick → the gate)
+                const padlocked = shut && st.pressed && !st.here;
                 return (
                   <Pressable
                     key={n.id}
@@ -771,8 +844,9 @@ export function VoiceSheet({
                     accessibilityState={{ checked: st.here, disabled: !st.pressed }}
                     aria-checked={st.here}
                     // the site's accessible name is the label's whole text:
-                    // the name and the state line under it
-                    accessibilityLabel={`${n.name} ${st.line}`}
+                    // the name and the state line under it; the padlock says
+                    // "Subscription" in it, as the + sheet's rows do
+                    accessibilityLabel={padlocked ? `${n.name} ${st.line} ${SUBSCRIPTION_SR}` : `${n.name} ${st.line}`}
                     accessibilityHint={n.note}
                     style={[styles.pick, { width: cell }]}
                   >
@@ -788,8 +862,9 @@ export function VoiceSheet({
                       outline={st.here ? pal.discOutline : undefined}
                       scale={st.here ? 1.04 : 1}
                     >
-                      {/* .rr-lr-nar-badge — a tick on the platter, a lock when shut */}
-                      {st.here || !st.pressed ? (
+                      {/* .rr-lr-nar-badge — a tick on the platter, a lock when shut
+                          (the guest's, or the subscription's) */}
+                      {st.here || !st.pressed || padlocked ? (
                         <View
                           style={[
                             styles.badge,
@@ -878,22 +953,18 @@ export function VoiceSheet({
               </Text>
               {!locked && (liveDoor || liveShut) ? (
                 <Pressable
-                  onPress={() => {
-                    // the sheet; what came of it is said where the refusal
-                    // was, and a paid sheet takes the padlocks off through
-                    // the provider (liveShut reads sub.active)
-                    void subscribe().then((out) => {
-                      if (out.kind === "paid" || out.kind === "already") sayLive("");
-                      else if (out.text) sayLive(out.text, out.kind !== "website");
-                    });
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel={sheetInApp === false ? "Subscribe on the website" : "Subscribe"}
+                  // the website, signed in (useSubscribe); the refusal stays
+                  // where it was, and the padlocks come off through the
+                  // provider when the reader is back with the plan (the
+                  // flip-to-active effect above clears it then)
+                  onPress={() => void subscribe()}
+                  accessibilityRole="link"
+                  accessibilityLabel="Subscribe on the website"
                   hitSlop={6}
                   style={styles.liveDoor}
                 >
                   <Text style={[styles.livesay, styles.livesayBad, styles.liveDoorText, { color: pal.livesayBad }]}>
-                    {sheetInApp === false ? SUBSCRIBE_LINK_WEB : SUBSCRIBE_LINK}
+                    {SUBSCRIBE_LINK}
                   </Text>
                 </Pressable>
               ) : null}
@@ -971,7 +1042,7 @@ export function VoiceSheet({
           return null;
       }
     },
-    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, liveShut, on, onSignIn, liveNote, liveDoor, asking, subscribe, sheetInApp, sayLive],
+    [pal, q, lang, langOpen, pressedState, pick, pickLive, unfold, cell, night, locked, liveShut, shut, on, onSignIn, liveNote, liveDoor, asking, subscribe],
   );
 
   const shutLang = useCallback(() => setLangOpen(false), []);
@@ -1052,6 +1123,20 @@ export function VoiceSheet({
           />
         ) : null}
       </View>
+
+      {/* the subscription's gate, over the sheet — a Modal of its own, so it
+          stands over the reader's Modal window; Continue leaves for the
+          website signed in (useSubscribe), and the provider's foreground
+          refresh takes the padlocks off when the reader is back */}
+      <GateSheet
+        pitch="voices"
+        open={gate}
+        onClose={() => setGate(false)}
+        onContinue={() => {
+          setGate(false);
+          void subscribe();
+        }}
+      />
     </>
   );
 }

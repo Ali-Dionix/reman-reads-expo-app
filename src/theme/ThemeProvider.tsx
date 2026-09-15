@@ -15,6 +15,13 @@
 // `colors` is the unscoped map every existing caller reads. `bg()`, `text()`
 // and `border()` are the scoped lookups — they refuse a role used outside its
 // scope (tokens.ts's resolve), which is the whole point of carrying scopes.
+//
+// THE REVEAL IS NOT HERE. The lamp switch's circular wipe lives in
+// ThemeStage.tsx, one stage per native window, because it works from
+// pictures of the screen and a picture belongs to the window it was taken
+// in. What this provider keeps for it is `look` — the mode the screen still
+// LOOKS like while a stage holds the outgoing picture over the flip — so the
+// system chrome (the status bar) changes with the wipe and not a beat before.
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
@@ -23,19 +30,10 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
-import { Dimensions, Platform, useColorScheme } from "react-native";
-import {
-  Easing,
-  runOnJS,
-  useReducedMotion,
-  useSharedValue,
-  withTiming,
-  type SharedValue,
-} from "react-native-reanimated";
+import { Platform, useColorScheme } from "react-native";
 
 import {
   CHROME,
@@ -50,42 +48,7 @@ import {
 
 const THEME_STORAGE_KEY = "rr-theme";
 
-// `::view-transition-group(root){animation-duration:.5s;
-//  animation-timing-function:cubic-bezier(.4,0,.2,1)}` — matched exactly, and
-// it is the part that must not be touched.
-//
-// The TAIL is ours, and it is the one place this cannot be the web. The browser
-// has a snapshot, so behind its wipe edge the FINISHED PAGE is already painted.
-// We have only the finished FIELD, so the ink and the book arrive as the disc
-// leaves. That tail is therefore kept SHORT and front-loaded — out-quad puts
-// most of the opacity away in the first forty milliseconds, so the book is back
-// almost as the wipe lands rather than sitting under a wash.
-//
-// AND IT WAITS FOR THE PAINT. The flip re-renders every useTheme consumer in
-// the app, and on a phone that render can outlast a 140ms tail; a tail that
-// starts the instant the sweep lands then fades the disc off the OLD theme,
-// which snaps to the new one a beat later — the very blink the sweep exists
-// to hide. So the tail is not started by the sweep's callback but by an
-// effect that runs once the tree has committed in the incoming mode, one
-// frame on, when the native side has drawn it.
-const SWEEP_MS = 500;
-const TAIL_MS = 140;
-
 type Pref = Mode | "system";
-
-/** Where the wipe starts, and how far it has to reach. */
-type Origin = { x: number; y: number; r: number; w: number; h: number };
-
-type RevealValue = {
-  active: boolean;
-  /** The mode being wiped IN — not the one in force until the sweep lands. */
-  incoming: Mode;
-  origin: Origin;
-  /** 0 → 1 across the sweep. */
-  sweep: SharedValue<number>;
-  /** 1 → 0 across the tail. */
-  fade: SharedValue<number>;
-};
 
 type ThemeValue = {
   mode: Mode;
@@ -110,18 +73,18 @@ type ThemeValue = {
   };
   paperGradient: readonly [string, string];
   setPref: (next: Pref) => void;
+  /** The plain flip — one hard cut. The switch takes the stage's reveal
+   *  instead whenever it can (src/ui/ThemeSwitch.tsx). */
   toggle: () => void;
-  /**
-   * Flip the theme with the site's circular reveal, growing from a point in
-   * SCREEN coordinates — the toggle's own centre. Falls back to an instant
-   * flip under reduced motion, exactly as ThemeToggle.tsx does: the theme
-   * change itself must never be blocked by the animation.
-   */
-  toggleFrom: (cx: number, cy: number) => void;
+  /** A stage's word that the outgoing mode is still what is on screen
+   *  (`hold("light")`), and that it no longer is (`hold(null)`). */
+  hold: (looksLike: Mode | null) => void;
 };
 
 const ThemeContext = createContext<ThemeValue | null>(null);
-const RevealContext = createContext<RevealValue | null>(null);
+/** Its own context, so a stage's hold and release re-render the one thing
+ *  that reads it (the status bar) and not every useTheme consumer twice. */
+const LookContext = createContext<Mode>("light");
 
 /** On web the store is localStorage and can be read before first paint;
  *  everywhere else the pinned mode arrives with the async read below. */
@@ -163,85 +126,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   const mode: Mode = pref === "system" ? (system === "dark" ? "dark" : "light") : pref;
 
-  /* ------------------------------------------------ the lamp switch --- */
-
-  const reduced = useReducedMotion();
-  const sweep = useSharedValue(0);
-  const fade = useSharedValue(1);
-  const [reveal, setReveal] = useState<{ origin: Origin; to: Mode } | null>(null);
-  // the disc has reached full cover and the tokens have been flipped; the
-  // tail may start as soon as the flipped tree is on screen
-  const [landed, setLanded] = useState(false);
-  // the sweep's callbacks fire on the UI thread and must not close over stale
-  // render state
-  const pending = useRef<Mode | null>(null);
-
-  const end = useCallback(() => {
-    setReveal(null);
-    setLanded(false);
-  }, []);
-
-  const land = useCallback(() => {
-    const to = pending.current;
-    pending.current = null;
-    // the flip, under full cover — and nothing else: the tail is the
-    // effect's, once this has rendered
-    if (to) setPref(to);
-    setLanded(true);
-  }, [setPref]);
-
-  // The tail. `mode` is read from the same render as `landed`, so this runs
-  // only once the tree has committed in the incoming mode; the frame's wait
-  // is for the native side to have painted that commit.
-  useEffect(() => {
-    if (!reveal || !landed || mode !== reveal.to) return;
-    const id = requestAnimationFrame(() => {
-      fade.value = withTiming(
-        0,
-        { duration: TAIL_MS, easing: Easing.out(Easing.quad) },
-        (done) => {
-          if (done) runOnJS(end)();
-        },
-      );
-    });
-    return () => cancelAnimationFrame(id);
-  }, [reveal, landed, mode, fade, end]);
-
-  const toggleFrom = useCallback(
-    (cx: number, cy: number) => {
-      const to: Mode = mode === "dark" ? "light" : "dark";
-      if (reduced) {
-        setPref(to);
-        return;
-      }
-      // SCREEN, not window: the reader's Modal is statusBarTranslucent and
-      // paints full-bleed, so a window-sized radius leaves a strip uncovered
-      // under the status bar.
-      const { width: w, height: h } = Dimensions.get("screen");
-      // setRevealOrigin() — the distance to the farthest corner, so the circle
-      // always finishes off-screen
-      const r = Math.hypot(Math.max(cx, w - cx), Math.max(cy, h - cy));
-      pending.current = to;
-      sweep.value = 0;
-      fade.value = 1;
-      setLanded(false);
-      setReveal({ origin: { x: cx, y: cy, r, w, h }, to });
-    },
-    [mode, reduced, setPref, sweep, fade],
-  );
-
-  // Start the sweep once the overlay is mounted, so its first frame is drawn
-  // at r=0 rather than jumping in a few pixels wide.
-  useEffect(() => {
-    if (!reveal) return;
-    sweep.value = withTiming(
-      1,
-      { duration: SWEEP_MS, easing: Easing.bezier(0.4, 0, 0.2, 1) },
-      (done) => {
-        if (done) runOnJS(land)();
-      },
-    );
-  }, [reveal, sweep, land]);
+  // what a stage says is still on screen, while it holds the old picture
+  const [held, setHeld] = useState<Mode | null>(null);
+  const hold = useCallback((looksLike: Mode | null) => setHeld(looksLike), []);
+  const look = held ?? mode;
 
   const value = useMemo<ThemeValue>(
     () => ({
@@ -268,37 +156,31 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       paperGradient: PAPER_GRADIENT[mode],
       setPref,
       toggle: () => setPref(mode === "dark" ? "light" : "dark"),
-      toggleFrom,
+      hold,
     }),
-    [mode, pref, setPref, toggleFrom],
-  );
-
-  const revealValue = useMemo<RevealValue>(
-    () => ({
-      active: !!reveal,
-      incoming: reveal?.to ?? mode,
-      origin: reveal?.origin ?? { x: 0, y: 0, r: 0, w: 0, h: 0 },
-      sweep,
-      fade,
-    }),
-    [reveal, mode, sweep, fade],
+    [mode, pref, setPref, hold],
   );
 
   return (
     <ThemeContext.Provider value={value}>
-      <RevealContext.Provider value={revealValue}>{children}</RevealContext.Provider>
+      <LookContext.Provider value={look}>{children}</LookContext.Provider>
     </ThemeContext.Provider>
   );
-}
-
-export function useThemeReveal(): RevealValue {
-  const ctx = useContext(RevealContext);
-  if (!ctx) throw new Error("useThemeReveal must be used inside <ThemeProvider>");
-  return ctx;
 }
 
 export function useTheme(): ThemeValue {
   const ctx = useContext(ThemeContext);
   if (!ctx) throw new Error("useTheme must be used inside <ThemeProvider>");
   return ctx;
+}
+
+/**
+ * The mode the screen LOOKS like right now. Equal to `mode` except during a
+ * reveal, when a stage holds the outgoing picture over a tree that has
+ * already flipped. Paint SYSTEM chrome from this — the status bar — and
+ * nothing else: the tree itself must flip on `mode`, so the picture taken
+ * under the hold is of the finished screen.
+ */
+export function useThemeLook(): Mode {
+  return useContext(LookContext);
 }

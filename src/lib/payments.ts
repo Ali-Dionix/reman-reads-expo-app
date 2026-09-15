@@ -1,11 +1,18 @@
-// Paying inside the app — Stripe's Payment Sheet, for a book and for the plan.
+// Paying inside the app — Stripe's Payment Sheet, for a PRINTED BOOK.
 //
 // Since 14 Sep 2026 (owner: "integrate Stripe directly in the app") a book
-// order and the subscription are paid HERE, in Stripe's own sheet presented
-// by the app, and not on the website. web.ts's rule that money changes hands
-// on the site is therefore over for the two things this file handles; the
-// site is still where the subscription is MANAGED (Stripe's billing portal),
-// because cancelling and card changes are a page the site already has.
+// order is paid HERE, in Stripe's own sheet presented by the app, and not on
+// the website. web.ts's rule that money changes hands on the site is
+// therefore over for the one thing this file handles.
+//
+// THE SUBSCRIPTION IS NOT PAID HERE (owner, 15 Sep 2026: the printed book
+// through Stripe in the app, the subscription through the website). A book
+// is a physical good, which both app stores let a third-party sheet take
+// money for; the plan is a digital one, which they do not (Apple's 3.1.1,
+// Google Play's billing policy) — so it is bought AND managed on the site,
+// signed in through the handoff (src/lib/subscription.tsx useSubscribe →
+// web.ts openSignedIn). This file knows nothing about the plan, and nothing
+// in the app posts `pay: "sheet"` to /api/subscription.
 //
 // THE SITE STILL PRICES AND STILL SETTLES. Nothing here decides an amount:
 // the app posts the same body the website's checkout posts — the titles, the
@@ -14,15 +21,14 @@
 // back the sheet's ticket (the client secret, the reader's Stripe customer
 // and an ephemeral key for it, and the publishable key). The sheet takes the
 // card, Stripe tells the site's webhook, and the order is marked paid by the
-// same settlePayment the website's orders go through. /api/subscription does
-// the same for the plan with an incomplete subscription. The card goes from
-// the phone to Stripe and never through the site or this app's own code.
+// same settlePayment the website's orders go through. The card goes from the
+// phone to Stripe and never through the site or this app's own code.
 //
 // THE PUBLISHABLE KEY IS SERVED, NOT BAKED — /api/payments/config — so a key
 // rotation is an env change on the site and not a store release. Until the
-// site has one to serve (`ready: false`) there is no sheet, and every press
-// that would have opened one opens the website instead, exactly as the app
-// did before there was a sheet at all.
+// site has one to serve (`ready: false`) there is no sheet, and a card order
+// opens the website instead, exactly as the app did before there was a sheet
+// at all.
 //
 // NATIVE ONLY. @stripe/stripe-react-native has no web build, so it is
 // reached through ./stripeSdk — resolved by platform, null on web — and the
@@ -203,70 +209,4 @@ export async function orderBook(o: {
   if (paid.kind === "cancelled") return { kind: "cancelled", orderId: body.orderId };
   if (paid.kind === "unavailable") return { kind: "unavailable" };
   return { kind: "refused", why: paid.why };
-}
-
-/* ------------------------------------------------------- the plan --- */
-
-export type SubscribeOutcome =
-  | { kind: "paid" }
-  | { kind: "already" }
-  | { kind: "cancelled" }
-  | { kind: "refused"; why: string }
-  | { kind: "unavailable" };
-
-/**
- * Subscribe: the site starts the plan incomplete on the reader's customer,
- * the sheet confirms its first invoice, and Stripe's webhook turns the row
- * active a moment later — the caller refreshes the entitlement until it
- * sees that (subscription.tsx), since the sheet closing is not the row
- * changing.
- */
-export async function subscribeInApp(o: { email?: string | null; name?: string | null } = {}): Promise<SubscribeOutcome> {
-  const token = await readerBearerToken();
-  if (!token) return { kind: "refused", why: "Sign in first." };
-  if (!(await sheetAvailable())) return { kind: "unavailable" };
-
-  let res: Response;
-  try {
-    res = await fetch(apiUrl("/api/subscription"), {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ pay: "sheet" }),
-    });
-  } catch {
-    return { kind: "refused", why: "We couldn’t reach our server. Check your connection and try again." };
-  }
-  const body = (await res.json().catch(() => ({}))) as { error?: string; sheet?: Ticket; retryAfter?: number };
-  if (res.status === 409) return { kind: "already" };
-  if (!res.ok) {
-    if (res.status === 503) return { kind: "unavailable" };
-    if (res.status === 429) return { kind: "refused", why: "Too many attempts for now. Try again in a few minutes." };
-    return { kind: "refused", why: body.error || "Could not start the subscription. Try again." };
-  }
-  if (!body.sheet) return { kind: "unavailable" };
-
-  const paid = await present(body.sheet, { title: "Subscribe", email: o.email, name: o.name });
-  if (paid.kind === "paid") return { kind: "paid" };
-  if (paid.kind === "cancelled") return { kind: "cancelled" };
-  if (paid.kind === "unavailable") return { kind: "unavailable" };
-  return { kind: "refused", why: paid.why };
-}
-
-/**
- * After a paid sheet: ask the desk again until the row says active, or give
- * up after a while. Stripe's webhook is usually a second behind the sheet
- * and occasionally a few; the padlocks should not wait for a foreground.
- */
-export async function waitForSubscription(
-  refresh: () => Promise<{ active: boolean } | null>,
-  o: { tries?: number; everyMs?: number } = {},
-): Promise<boolean> {
-  const tries = o.tries ?? 10;
-  const every = o.everyMs ?? 1500;
-  for (let i = 0; i < tries; i++) {
-    const s = await refresh();
-    if (s?.active) return true;
-    await new Promise((r) => setTimeout(r, every));
-  }
-  return false;
 }

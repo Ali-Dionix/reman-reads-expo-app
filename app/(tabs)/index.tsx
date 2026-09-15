@@ -205,11 +205,14 @@ export default function Home() {
         onContinue={() => {
           const key = gate ?? "files";
           setGate(null);
-          // The sheet, in the app; a build with no sheet opens the site's own
-          // gate panel for this source, signed in (useSubscribe). A paid
-          // sheet takes the padlocks off through the provider, and the
-          // source's own panel is on the website still — so a subscriber's
-          // next tap on the cell goes there, as the padlock-free tap does.
+          // Money changes hands on the far side: the site's own gate panel
+          // for this source, in the reader's REAL browser (src/lib/web.ts's
+          // header), signed in through the handoff so it opens on its Stripe
+          // press and not on a second sign-in (useSubscribe). The provider
+          // asks again on the foreground, so the padlocks come off when the
+          // reader is back — and the source's own panel is on the website
+          // still, so a subscriber's next tap on the cell goes there, as the
+          // padlock-free tap does.
           void subscribe({ websitePath: gateNext(key) });
         }}
       />

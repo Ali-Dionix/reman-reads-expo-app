@@ -782,17 +782,18 @@ export default function SettingsScreen() {
  */
 function SubscriptionFold() {
   const { state, refresh } = useSubscription();
-  const { subscribe, inApp } = useSubscribe();
+  const { subscribe } = useSubscribe();
   const d = describeSubscription(state);
   const [said, setSaid] = useState("");
-  // Subscribe: the sheet, in the app (useSubscribe says what came of it);
-  // manage or cancel: the website's billing portal, as before
+  // Subscribe, and manage or cancel: BOTH on the website, signed in through
+  // the handoff — the plan is bought there (useSubscribe, which asks the
+  // desk again once the reader is back) and its billing portal lives there
   const go = useCallback(async () => {
-    setSaid(inApp ? "opening the card sheet…" : "opening the website…");
+    setSaid("opening the website…");
     const out = await subscribe();
-    setSaid(out.text);
-    if (out.kind === "website" || out.kind === "cancelled") setTimeout(() => setSaid(""), 4000);
-  }, [subscribe, inApp]);
+    if (out.kind === "pending") return;
+    setTimeout(() => setSaid(""), 4000);
+  }, [subscribe]);
   const manage = useCallback(async () => {
     setSaid("opening the website…");
     await openSignedIn(SUBSCRIPTION_PATH);

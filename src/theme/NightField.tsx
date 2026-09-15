@@ -1,10 +1,9 @@
 // The Listening Room's night field, in one place.
 //
-// The reader paints it behind the codex; the theme reveal paints it inside the
-// disc that wipes the new theme in. Those two MUST be the same drawing — the
-// disc's whole job is to be indistinguishable from what it lands on, and a
-// second copy of the star tile that drifted by one dot would show as a seam at
-// the wipe's edge.
+// The reader paints it behind the codex. (The theme reveal used to paint a
+// second copy inside its disc; since 15 Sep 2026 the reveal works from
+// pictures of the screen — src/theme/ThemeStage.tsx — and this is the one
+// drawing there is.)
 //
 // `html[data-rr-theme="dark"] .rr-lr-cx{background:${STARS},linear-gradient(180deg,#0C1220,#070C15)}`
 

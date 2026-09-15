@@ -4,6 +4,19 @@
 // wherever the reader goes. It exists so that leaving the Listening Room does
 // not mean losing the needle: the deck keeps playing and this is its handle.
 //
+// A CARD ABOVE THE BAR, NOT A STRIP GLUED TO IT — listening-dock.css at the
+// phone branch: `.rr-ld{left:10px;right:10px;bottom:calc(74px + safe)}`,
+// the slip floating clear of the tab bar with the page passing beneath it,
+// the shape every listening app's mini-player takes. The bar's torn paper
+// reaches TEETH_RISE (17px) above its own box (TornEdge.tsx, the rising
+// sheet), so the card sits above the teeth with a breath of desk between —
+// glued to the box, its second line was under the tear.
+//
+// AND THE PAGE ENDS ABOVE IT. The card measures itself and publishes its
+// height (dockSpace.ts); useContentInsets adds it, exactly as the site's
+// `body.rr-ld-on` pads .rr-pt-content by the dock's own height. Zero again
+// the moment the needle lifts.
+//
 // The label disc is a LIT OBJECT (`.rr-ld-label` is a theme island on the
 // web) — it keeps its colours at night while the paper slip it rides on flips
 // with the page.
@@ -17,12 +30,29 @@ import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
 import { fillProps } from "../ui/svgPaint";
+import { TEETH_RISE } from "../ui/TornEdge";
+import { setDockHeight } from "./dockSpace";
+
+/** `.rr-ld{left:10px;right:10px}` — the card's own gutter. */
+const GUTTER = 10;
+/** The desk showing between the card and the bar's teeth. */
+const BREATH = 8;
+/** The slip's shadow — the order slip's, a lit object's, never mapped. */
+const SLIP_SHADOW = "1px 2px 1px rgba(54,42,28,.16), 8px 12px 20px rgba(54,42,28,.14)";
 
 export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
   const { now, recording, chapter, playing, position, duration, loading, toggle, stop } =
     useDeck();
   const { ink } = useInk();
-  const { colors } = useTheme();
+  const { colors, bg } = useTheme();
+
+  // The room the card takes: published as it lays out, withdrawn the moment
+  // there is nothing to show (and on unmount, for good measure).
+  const show = !!now && !!recording;
+  useEffect(() => {
+    if (!show) setDockHeight(0);
+  }, [show]);
+  useEffect(() => () => setDockHeight(0), []);
 
   // The label turns while the needle is down. 33⅓ rpm is 1.8s a revolution;
   // slowed to 4s so it reads as motion rather than a strobe at 60fps.
@@ -44,15 +74,23 @@ export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
     return () => loop.stop();
   }, [playing, spin]);
 
-  if (!now || !recording) return null;
+  if (!show) return null;
 
   const pct = duration > 0 ? Math.min(1, position / duration) : 0;
 
   return (
+    // the card's box in the bottom stack — the gutters and the breath are
+    // part of the room it takes, so they are measured with it; touches on
+    // the desk beside the card fall through to the page
+    <View
+      pointerEvents="box-none"
+      style={{ paddingHorizontal: GUTTER, paddingBottom: TEETH_RISE + BREATH }}
+      onLayout={(e) => setDockHeight(e.nativeEvent.layout.height)}
+    >
     <View
       style={[
         styles.dock,
-        { backgroundColor: colors.cream2, borderTopColor: ink(0.14) },
+        { backgroundColor: bg("white"), borderColor: ink(0.16, "border") },
       ]}
     >
       {/* the gilt progress rule, flush with the slip's top edge */}
@@ -132,11 +170,14 @@ export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
         </Pressable>
       </View>
     </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  dock: { borderTopWidth: 1 },
+  // .rr-ld-card — a 1px ink .16 ring, 3px radius, the slip's two shadows;
+  // the rule sits inside the ring, so the corners clip
+  dock: { borderWidth: 1, borderRadius: 3, overflow: "hidden", boxShadow: SLIP_SHADOW },
   rule: { height: 3, width: "100%" },
   ruleFill: { height: 3 },
   body: {

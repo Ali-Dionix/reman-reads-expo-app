@@ -15,20 +15,20 @@
 // BROWSE OR RESULTS, NEVER BOTH (LibraryRoomEnhancer.tsx): the floor shows
 // while the reader is on the whole catalogue with nothing typed and nothing
 // ticked; the moment a query, a pick or another tab lands, the list replaces
-// it. Tapping a book opens the website's book page in the reading tab — never
-// a checkout; docs/APP-FULL-PARITY.md §2 keeps buying on the website.
+// it. Tapping a book pushes its page (./[slug].tsx) on this room's own stack
+// — the site's /books/<slug>, in the app; only the ORDER press on that page
+// leaves for the website, since docs/APP-FULL-PARITY.md §2 keeps buying there.
 
+import { useRouter } from "expo-router";
 import { useMemo, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 
-import { useSession } from "../../src/lib/session";
-import { openOnSite } from "../../src/lib/web";
-import { Head, PortalPage, TOP_BOX, Wrap } from "../../src/portal/PortalPage";
-import { Band } from "../../src/portal/library/Band";
-import { Bar } from "../../src/portal/library/Bar";
-import { FilterSheet } from "../../src/portal/library/Filters";
-import { Floor } from "../../src/portal/library/Floor";
-import { BookRow, EmptyRoom, FileNote, PAGE_SIZE, Pager } from "../../src/portal/library/Grid";
+import { Head, PortalPage, TOP_BOX, Wrap } from "../../../src/portal/PortalPage";
+import { Band } from "../../../src/portal/library/Band";
+import { Bar } from "../../../src/portal/library/Bar";
+import { FilterSheet } from "../../../src/portal/library/Filters";
+import { Floor } from "../../../src/portal/library/Floor";
+import { BookRow, EmptyRoom, FileNote, PAGE_SIZE, Pager } from "../../../src/portal/library/Grid";
 import {
   BOOKS,
   CLAIM,
@@ -37,21 +37,42 @@ import {
   emptyPicks,
   hits,
   ownLine,
+  ownedMarks,
   pickCount,
-  readerMarks,
   type FacetKey,
   type Picks,
   type Tab,
-} from "../../src/portal/library/data";
-import { Txt } from "../../src/ui/Type";
+} from "../../../src/portal/library/data";
+import { useSaved } from "../../../src/portal/library/marks";
+import { bookHref } from "../../../src/portal/book/href";
+import { Txt } from "../../../src/ui/Type";
 
 export default function Library() {
-  // The reader's marks: empty until their shelf and orders arrive through
-  // the session in Phase 2 (see data.ts) — the site's own empty rooms.
-  const marks = useMemo(() => readerMarks(), []);
+  const router = useRouter();
+
+  // The reader's marks. The wishlist is live (marks.ts — the same set the
+  // book page's heart flips); the owned shelf stays empty until the orders
+  // arrive through the session in Phase 2 (see data.ts).
+  const { saved } = useSaved();
+  const owned = useMemo(() => ownedMarks(), []);
+  const marks = useMemo(() => ({ owned, saved }), [owned, saved]);
 
   // Land on the shelf that actually has something on it (the enhancer's rule).
   const [tab, setTab] = useState<Tab>(() => (marks.owned.size ? "owned" : "all"));
+
+  // The book's own page, on this room's stack — back returns here.
+  const open = (slug: string) => router.push(bookHref(slug));
+
+  // The band's "Browse all books" — the site's /library, which is this room:
+  // the whole catalogue, nothing typed, nothing ticked, from the top.
+  const browseAll = () => {
+    setTab("all");
+    setQ("");
+    setPicks(emptyPicks());
+    setOpenFacet(null);
+    setPage(1);
+    scroller.current?.scrollTo({ y: 0, animated: true });
+  };
   const [q, setQ] = useState("");
   const [picks, setPicks] = useState<Picks>(emptyPicks);
   const [openFacet, setOpenFacet] = useState<FacetKey | null>(null);
@@ -179,7 +200,7 @@ export default function Library() {
         >
           <Wrap style={{ paddingBottom: 24 }}>
             {browsing ? (
-              <Floor onOpen={(b) => void openOnSite(`/books/${b.slug}`)} onSeeAll={seeAll} />
+              <Floor onOpen={(b) => open(b.slug)} onSeeAll={seeAll} />
             ) : (
               <>
                 {onFiles ? null : (
@@ -211,7 +232,7 @@ export default function Library() {
                             book={b}
                             ownLine={marks.owned.has(b.slug) ? ownLine(marks.owned.get(b.slug)!) : undefined}
                             first={i === 0}
-                            onPress={() => void openOnSite(`/books/${b.slug}`)}
+                            onPress={() => open(b.slug)}
                           />
                         ))}
                       </View>
@@ -226,7 +247,7 @@ export default function Library() {
           </Wrap>
         </View>
 
-        <Band />
+        <Band onBrowse={browseAll} />
 
       {openFacet ? (
         <FilterSheet

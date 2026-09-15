@@ -49,6 +49,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
+import { useDockHeight } from "./dockSpace";
 import { Disc } from "../ui/Disc";
 import { Icon } from "../ui/Icon";
 import { SunMoon } from "../ui/ThemeSwitch";
@@ -67,12 +68,18 @@ export const TAB_H = 64;
 /** --ap-gut: the phone gutter, `.rr-pt-wrap`'s padding. */
 export const GUT = 20;
 
-/** `.rr-pt-content` bottom padding: calc(var(--ap-tab) + 30px + env(safe-area-inset-bottom)). */
+/**
+ * `.rr-pt-content` bottom padding: calc(var(--ap-tab) + 30px + env(safe-area-inset-bottom))
+ * — and, while the travelling record is docked above the bar, its height on
+ * top: `body.rr-ld-on .rr-pt-content` on the site. The page must end above
+ * the player, not under it.
+ */
 export function useContentInsets() {
   const insets = useSafeAreaInsets();
+  const dock = useDockHeight();
   return {
     top: insets.top + TOP_BOX + TOP_BLEED,
-    bottom: TAB_H + 30 + insets.bottom,
+    bottom: TAB_H + 30 + insets.bottom + dock,
   };
 }
 
