@@ -3,6 +3,7 @@
 # B: Home scroll. Starts INSIDE the reader, playing. Logcat is captured to
 # $OUT/logcat.txt for the run. Writes $OUT/gfx-A1.txt, gfx-A2.txt, gfx-B.txt.
 source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
+require_front app
 
 "$ADB" logcat -c
 "$ADB" logcat -v time > "$OUT/logcat.txt" 2>&1 &

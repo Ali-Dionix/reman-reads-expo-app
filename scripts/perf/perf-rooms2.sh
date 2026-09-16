@@ -8,12 +8,16 @@
 # Library tabs, the dock's play/pause. Confirm them from a screenshot before
 # trusting a run on another layout.
 source "$(dirname "${BASH_SOURCE[0]}")/env.sh"
+require_front app
 swipes() { for i in 1 2 3; do "$ADB" shell input swipe 504 1600 504 600 300; sleep 0.8; done; for i in 1 2; do "$ADB" shell input swipe 504 600 504 1600 300; sleep 0.8; done; sleep 0.8; }
 "$ADB" shell cmd statusbar collapse >/dev/null
 
-echo "== start playback: Meditations card, then leave the reader =="
-"$ADB" shell input tap 179 1249; sleep 6; shot rooms-reader
-"$ADB" shell input tap 62 185; sleep 2; "$ADB" shell input tap 62 185; sleep 2.5; shot rooms-after-reader
+# SKIP_START=1 when a chapter is already playing (the reader scripts leave it so)
+if [ -z "$SKIP_START" ]; then
+  echo "== start playback: the first Continue card, then leave the reader =="
+  "$ADB" shell input tap 179 1249; sleep 6; shot rooms-reader
+  "$ADB" shell input tap 62 185; sleep 2; "$ADB" shell input tap 62 185; sleep 2.5; shot rooms-after-reader
+fi
 
 echo "== P1: Home, audio PLAYING, no touch (8s) =="
 reset; sleep 8; dump P1
