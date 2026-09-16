@@ -739,6 +739,16 @@ function PagesCodex({
   // The leaf is width-derived: aspectRatio against a width-constrained parent.
   const pw = man?.pageW ?? shape?.w ?? 1191;
   const ph = man?.pageH ?? shape?.h ?? 1684;
+  // Where the page sits inside the sheet: contain-fit, centred — what
+  // contentFit="contain" does to the photograph and what an SVG viewBox with
+  // the default xMidYMid meet did to the gilt. Null until the sheet has a size.
+  const fit = useMemo(() => {
+    if (!win.w || !win.h || !pw || !ph) return null;
+    const k = Math.min(win.w / pw, win.h / ph);
+    const w = pw * k;
+    const h = ph * k;
+    return { x: (win.w - w) / 2, y: (win.h - h) / 2, w, h };
+  }, [win.w, win.h, pw, ph]);
   const ratio = pw / ph;
 
   // the cap: the stage less the foot the frame stands under the case
@@ -920,43 +930,63 @@ function PagesCodex({
 
             {/* THE GILDER'S THREE STROKES, in page coordinates — the sentence's
                 faint wash, the sounding word, and its one-pixel rule. The web
-                paints these into the page's own <svg> ink layer; the boxes are
-                normalised, so an SVG on the page's viewBox lands on the glyph
-                whatever size the leaf happens to be — including lifted. */}
-            {gilt.length || wash.length ? (
-              <Svg width="100%" height="100%" style={[StyleSheet.absoluteFill, styles.inert]} viewBox={`0 0 ${pw} ${ph}`}>
+                paints these into the page's own <svg> ink layer; here they are
+                plain Views, NOT an SVG. Until 16 Sep 2026 this was a
+                page-sized <Svg> of <Rect>s, and on Android react-native-svg
+                rasterises the WHOLE view to a bitmap on every change and
+                uploads it: a 1008×1633 texture every other frame while a
+                chapter sounded (measured on a Pixel 8 Pro), which with the
+                narrator's platter turning at 120 fps was the reader's stutter.
+                A View is drawn by the renderer itself — a rect, no bitmap.
+                The boxes are normalised; `fit` is the page's contain-fit inside
+                the sheet, the same letterbox the SVG's viewBox and the
+                photograph's contentFit="contain" both used, so the strokes land
+                on the glyph whatever size the leaf happens to be — including
+                lifted, since the sheet's transform carries its children. */}
+            {(gilt.length || wash.length) && fit ? (
+              <View style={[StyleSheet.absoluteFill, styles.inert]}>
                 {wash.map((b, i) => (
-                  <Rect
+                  <View
                     key={`s${i}`}
-                    x={b[4] * pw}
-                    y={b[5] * ph}
-                    width={b[6] * pw}
-                    height={b[7] * ph}
-                    {...fillProps(night ? "rgba(224,183,112,.14)" : "rgba(155,122,77,.14)")}
+                    style={{
+                      position: "absolute",
+                      left: fit.x + b[4] * fit.w,
+                      top: fit.y + b[5] * fit.h,
+                      width: b[6] * fit.w,
+                      height: b[7] * fit.h,
+                      backgroundColor: night ? "rgba(224,183,112,.14)" : "rgba(155,122,77,.14)",
+                    }}
                   />
                 ))}
                 {gilt.map((b, i) => (
-                  <Rect
+                  <View
                     key={`w${i}`}
-                    x={b[4] * pw}
-                    y={b[5] * ph}
-                    width={b[6] * pw}
-                    height={b[7] * ph}
-                    {...fillProps(night ? "rgba(224,183,112,.4)" : "rgba(155,122,77,.38)")}
+                    style={{
+                      position: "absolute",
+                      left: fit.x + b[4] * fit.w,
+                      top: fit.y + b[5] * fit.h,
+                      width: b[6] * fit.w,
+                      height: b[7] * fit.h,
+                      backgroundColor: night ? "rgba(224,183,112,.4)" : "rgba(155,122,77,.38)",
+                    }}
                   />
                 ))}
                 {/* the rule is ONE device pixel at every scale, the way a printed
-                    rule is one rule — a stroke in page units would fatten */}
+                    rule is one rule — a height in page units would fatten */}
                 {gilt.map((b, i) => (
-                  <Path
+                  <View
                     key={`u${i}`}
-                    d={`M${b[4] * pw} ${(b[5] + b[7]) * ph}h${b[6] * pw}`}
-                    {...strokeProps(night ? "rgba(224,183,112,.6)" : "rgba(155,122,77,.6)")}
-                    strokeWidth={1}
-                    vectorEffect="non-scaling-stroke"
+                    style={{
+                      position: "absolute",
+                      left: fit.x + b[4] * fit.w,
+                      top: fit.y + (b[5] + b[7]) * fit.h,
+                      width: b[6] * fit.w,
+                      height: StyleSheet.hairlineWidth,
+                      backgroundColor: night ? "rgba(224,183,112,.6)" : "rgba(155,122,77,.6)",
+                    }}
                   />
                 ))}
-              </Svg>
+              </View>
             ) : null}
           </Animated.View>
 
