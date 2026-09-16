@@ -67,7 +67,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Line, Path } from "react-native-svg";
 
-import { chaptersOf, mmss, useDeck, type Recording } from "../../lib/audioStore";
+import { chaptersOf, mmss, useDeck, useDeckClock, type Recording } from "../../lib/audioStore";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
 import { FONTS, lh, snap } from "../../theme/type";
@@ -574,7 +574,8 @@ function Bands({
   onBand: (band: number) => void;
   shown: boolean;
 }) {
-  const { now, playing, voice, position, spots } = useDeck();
+  const { now, playing, voice, spots } = useDeck();
+  const { position } = useDeckClock();
   const { ref, onScroll } = usePaneScroll(shown);
   // the frame's onBand is a fresh closure on every tick (the frame reads the
   // deck too); the rows get one stable function so their memo holds
@@ -660,7 +661,8 @@ function Slips({
   /** the chip's "add a note": focus the fresh slip's input when next rendered */
   noteFocusAsk: React.MutableRefObject<boolean>;
 }) {
-  const { now, position } = useDeck();
+  const { now } = useDeck();
+  const { position } = useDeckClock();
   const { ref, onScroll } = usePaneScroll(shown);
   const marks = useBookmarks(owner, recording.slug);
   // "Live only while this book is sounding" — on the platter, playing or paused

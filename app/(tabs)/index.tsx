@@ -25,7 +25,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 
 import shelf from "../../src/data/listeningShelf.json";
-import { heardSeconds, recordingFor, resumable, useDeck, type Spots } from "../../src/lib/audioStore";
+import { heardSeconds, recordingFor, resumable, useDeck } from "../../src/lib/audioStore";
 import { useCardNo, useSession } from "../../src/lib/session";
 import { cache } from "../../src/lib/storage";
 import { useSubscribe, useSubscription } from "../../src/lib/subscription";
@@ -73,7 +73,7 @@ const startable: ShelfCard[] = shelf.pressings.map((p) => ({
 export default function Home() {
   const { user } = useSession();
   const router = useRouter();
-  const { now, position, begin, spots } = useDeck();
+  const { begin, spots } = useDeck();
   const { add } = useLocalSearchParams<{ add?: string }>();
   const { colors } = useTheme();
 
@@ -144,24 +144,16 @@ export default function Home() {
   const name = (user?.name ?? "").trim() || "Reader";
   const cardNo = useCardNo();
 
-  // AccountEnhancer's `resumable` over the persisted spots, with the one on
-  // the platter overlaid by the live needle (the recorder writes it every
-  // few seconds, but the card should not wait for the tick). A recording
-  // counts as resting only once something has actually been heard — whole
-  // bands before the needle plus the seconds into this one — never a cover
-  // tapped and left at 0/0.
-  const live: Spots = { ...spots };
-  if (now && recordingFor(now.slug)) {
-    const prev = live[now.slug];
-    live[now.slug] = {
-      chapter: now.band,
-      seconds: Math.max(0, position),
-      speed: prev?.speed ?? 1,
-      at: Date.now(),
-      ...(prev?.listenedS != null ? { listenedS: prev.listenedS } : {}),
-    };
-  }
-  const sideTable: ShelfCard[] = resumable(live)
+  // AccountEnhancer's `resumable` over the persisted spots. The one on the
+  // platter is NOT overlaid with the live needle any more: the recorder
+  // stamps it the moment a band starts, pauses or resumes and every few
+  // seconds after, and a card that says "2h 14m left" over a progress bar
+  // cannot show the half-seconds anyway — while reading the tick here made
+  // this whole room re-render twice a second for as long as a chapter
+  // played (16 Sep 2026). A recording counts as resting only once something
+  // has actually been heard — whole bands before the needle plus the
+  // seconds into this one — never a cover tapped and left at 0/0.
+  const sideTable: ShelfCard[] = resumable(spots)
     .slice(0, 6)
     .map(({ slug, spot, book }) => {
       const total = book.seconds;

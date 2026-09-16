@@ -61,12 +61,17 @@
 //   — and never before, because on this platform a new source is a new
 //   player and swapping it under a listener would put a gap mid-sentence.
 //
-// TWO CLOCKS. The context's `position` ticks at the player's 500ms — enough
-// for a groove and a readout, and every useDeck() consumer (the tab bar, the
-// rooms) re-renders on it. The read-along needs ten a second or it gilds
-// every other word, and that must not cost the whole tree: `useFastPosition`
-// subscribes a single component to a 100ms sample of the player's own clock
-// through a ref, so only the leaf that paints the gilt re-renders.
+// TWO CLOCKS, NEITHER ON THE DECK. `position` ticks at the player's 500ms —
+// enough for a groove and a readout — and it lives in its OWN context
+// (useDeckClock), because until 16 Sep 2026 it sat on the deck's value and
+// every useDeck() consumer (the home room, the audiobooks room, the reader,
+// the voice sheet, the dock) re-rendered twice a second for as long as a
+// chapter played; on a phone that was the stutter the owner felt in every
+// room. Only the chrome that PRINTS a time reads the clock. The read-along
+// needs ten a second or it gilds every other word, and that must not cost
+// even the console: `useFastPosition` subscribes a single component to a
+// 100ms sample of the player's own clock through a ref, so only the leaf
+// that paints the gilt re-renders.
 //
 // WHAT THIS IS NOT, yet: lock-screen and notification transport, and playback
 // that survives the app being backgrounded on iOS. Those need
@@ -313,8 +318,9 @@ export type DeckValue = {
   recording: Recording | null;
   chapter: Chapter | null;
   playing: boolean;
-  /** Seconds into the current chapter, and its length. */
-  position: number;
+  /** The current chapter's length. Where the needle IS — the seconds into
+   *  it — is on useDeckClock(), not here, so a room does not re-render on
+   *  every tick of a chapter it is not even showing. */
   duration: number;
   /** True while the chapter is still buffering. */
   loading: boolean;
@@ -395,6 +401,13 @@ export type DeckValue = {
 };
 
 const DeckContext = createContext<DeckValue | null>(null);
+
+/** The coarse clock on its own: where the needle is, at the player's 500ms,
+ *  and the chapter's length beside it for a fraction. Its own context so
+ *  that the tick reaches only the chrome that prints a time (the dock, the
+ *  transport, the console, the contents drawer) and never a whole room. */
+export type DeckClock = { position: number; duration: number };
+const DeckClockContext = createContext<DeckClock>({ position: 0, duration: 0 });
 
 /** How often the needle is written while it is moving. The web writes on
  *  band change and pause only, and the position is restated by the
@@ -1093,14 +1106,17 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     [locked, subscribed],
   );
 
+  const duration = status.duration || (chapter?.duration ?? 0);
+  // the tick, kept OFF the value below — see TWO CLOCKS at the top
+  const clock = useMemo<DeckClock>(() => ({ position, duration }), [position, duration]);
+
   const value = useMemo<DeckValue>(
     () => ({
       now,
       recording,
       chapter,
       playing,
-      position,
-      duration: status.duration || (chapter?.duration ?? 0),
+      duration,
       // the platform's wait, or the site's — a live band it would not read
       // is neither: the needle stands, with the reason under the groove
       loading: !!now && (asking || (!gated && !status.isLoaded)),
@@ -1134,8 +1150,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       recording,
       chapter,
       playing,
-      position,
-      status.duration,
+      duration,
       status.isLoaded,
       asking,
       gated,
@@ -1164,7 +1179,19 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return <DeckContext.Provider value={value}>{children}</DeckContext.Provider>;
+  return (
+    <DeckContext.Provider value={value}>
+      <DeckClockContext.Provider value={clock}>{children}</DeckClockContext.Provider>
+    </DeckContext.Provider>
+  );
+}
+
+/** Where the needle is, at the player's 500ms — for the chrome that prints
+ *  a time or draws a groove. The component that calls this re-renders on
+ *  every tick, so call it in the leaf that shows the number, never in a
+ *  room. Everything else about the deck is on useDeck(). */
+export function useDeckClock(): DeckClock {
+  return useContext(DeckClockContext);
 }
 
 export function useDeck(): DeckValue {
@@ -1176,7 +1203,7 @@ export function useDeck(): DeckValue {
 /**
  * The read-along's clock: the needle, sampled ten times a second while the
  * deck is playing, and only the component that calls this re-renders on it.
- * Everything else reads `useDeck().position` at the transport's rate.
+ * The chrome that prints a time reads `useDeckClock().position` at the transport's rate.
  */
 export function useFastPosition(): number {
   const { subscribePosition } = useDeck();

@@ -52,7 +52,7 @@
 import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { Platform } from "react-native";
 
-import { useDeck, type Spots } from "../../../lib/audioStore";
+import { useDeck, useDeckClock, type Spots } from "../../../lib/audioStore";
 import { ownerOf } from "../../../lib/portalState";
 import { useSession } from "../../../lib/session";
 import { readSettings } from "../../settings/state";
@@ -218,7 +218,10 @@ let roomRamps = 0;
  * count stands in only until a root is mounted.
  */
 export function useSpeedRamp(slug: string, owner: "room" | "console" = "console"): void {
-  const { now, playing, position } = useDeck();
+  const { now, playing } = useDeck();
+  // the beat the creep counts by — the clock, not the deck, so only this
+  // (null-rendering) follower ticks with it
+  const { position } = useDeckClock();
   const { speed, set, ramp } = useBookSpeed(slug);
   const last = useRef<number | null>(null);
   useEffect(() => {

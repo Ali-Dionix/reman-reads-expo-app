@@ -60,7 +60,7 @@ import {
 import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
 import { Image } from "expo-image";
 
-import { chaptersOf, mmss, useDeck, type Recording } from "../../lib/audioStore";
+import { chaptersOf, mmss, useDeck, useDeckClock, type Recording } from "../../lib/audioStore";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
 import { useSubscribe } from "../../lib/subscription";
@@ -238,7 +238,6 @@ export function Console({
     now,
     chapter,
     playing,
-    position,
     duration,
     finished,
     toggle,
@@ -251,6 +250,7 @@ export function Console({
     locked,
     spots,
   } = useDeck();
+  const { position } = useDeckClock();
   const say = deckSay ?? (liveSay?.text ? liveSay : null);
   // the subscription's refusal — from the deck (a live band the site would
   // not read) or the narrator sheet (a tap) — carries the website's door

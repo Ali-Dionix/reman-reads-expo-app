@@ -25,7 +25,7 @@ import { useEffect, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Path, Rect } from "react-native-svg";
 
-import { mmss, useDeck } from "../lib/audioStore";
+import { mmss, useDeck, useDeckClock } from "../lib/audioStore";
 import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
@@ -41,8 +41,9 @@ const BREATH = 8;
 const SLIP_SHADOW = "1px 2px 1px rgba(54,42,28,.16), 8px 12px 20px rgba(54,42,28,.14)";
 
 export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
-  const { now, recording, chapter, playing, position, duration, loading, toggle, stop } =
-    useDeck();
+  const { now, recording, chapter, playing, duration, loading, toggle, stop } = useDeck();
+  // the tick, taken here and not off the deck — this bar prints the time
+  const { position } = useDeckClock();
   const { ink } = useInk();
   const { colors, bg } = useTheme();
 

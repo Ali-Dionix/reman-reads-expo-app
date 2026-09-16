@@ -14,7 +14,7 @@ import { useState } from "react";
 import { LayoutChangeEvent, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Path, Rect, Text as SvgText } from "react-native-svg";
 
-import { mmss, useDeck } from "../lib/audioStore";
+import { mmss, useDeck, useDeckClock } from "../lib/audioStore";
 import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
@@ -54,7 +54,6 @@ export function Transport() {
     recording,
     chapter,
     playing,
-    position,
     duration,
     loading,
     toggle,
@@ -63,6 +62,8 @@ export function Transport() {
     now,
     voice,
   } = useDeck();
+  // the groove and the readout are the two things here that need the tick
+  const { position } = useDeckClock();
   const { ink } = useInk();
   const { colors, mode } = useTheme();
   const [grooveW, setGrooveW] = useState(0);
