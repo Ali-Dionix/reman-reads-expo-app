@@ -18,30 +18,33 @@
 //                desk's colour. Unset, it is the router theme's light grey —
 //                invisible by day, a flash at night in the frame a lazy room
 //                takes to mount.
-//   animation    a short cross-fade between the outgoing room and the
-//                incoming one, native-driven, so a mount that is still
-//                laying out is arriving under a fade rather than snapping
-//                in. Rooms not involved in a change are left alone.
+//   animation    NONE — a cut. There was a cross-fade here until 16 Sep 2026,
+//                and it is what made the whole app drag on a Pixel 8 Pro:
+//                with an animation set, a blurred room's activityState is an
+//                Animated interpolation, and a preloaded room that has never
+//                been visited sits at "transitioning" — ATTACHED to the native
+//                view tree, invisible, and prepared by the renderer on every
+//                frame. Five rooms' covers, torn edges and icons (~60 MB of
+//                bitmaps) were being re-uploaded to the GPU every frame,
+//                which is more than the texture cache holds: 200 uploads a
+//                frame, 100 ms frames, on every scroll and for as long as the
+//                dock's disc turned (measured with gfxinfo + atrace). With no
+//                animation a blurred room is inactive at once — detached, not
+//                drawn, not prepared — and the frame is the visible room's
+//                alone.
 //   preload      the rooms not yet visited are mounted in the background once
 //                the first screen has settled (BottomBar's effect), so the
-//                first tap on each tab does not pay its mount — the one place
-//                the JS thread could stall a fade.
+//                first tap on each tab does not pay its mount. A detached
+//                room's React tree still exists; attaching it is cheap.
+//   freezeOnBlur a blurred room does not re-render either. It only works
+//                without an animation (the library's check compares an
+//                animated value to a number), which is the other reason the
+//                fade is gone.
 //
-// Rooms are not frozen while blurred: with an animation set the library
-// never freezes them (its check compares an animated value to a number), and
-// the cross-fade is the part a reader can see. What a blurred room re-renders
-// on is kept cheap instead — the torn sheets memoised, the deck's tick only
-// where it is read.
-//
-// THE FADE IS NATIVE ONLY. The same animated activity state means the web
-// fallback (react-native-screens' Screen.web) can no longer `display:none` a
-// blurred room, which leaves five invisible rooms in the keyboard's tab
-// order; and the web build is the parity rig's, which reads screenshots and
-// wants a room fully drawn the moment it is asked for. So the web keeps the
-// cut it had, and the phone gets the fade.
+// The web keeps the same cut it always had; there is nothing platform-
+// specific left here.
 
 import { Redirect, Tabs } from "expo-router";
-import { Platform } from "react-native";
 
 import { useSession } from "../../src/lib/session";
 import { BottomBar } from "../../src/portal/BottomBar";
@@ -74,7 +77,8 @@ export default function TabsLayout() {
         headerShown: false,
         lazy: true,
         sceneStyle: { backgroundColor: colors.desk },
-        animation: Platform.OS === "web" ? "none" : "fade",
+        animation: "none",
+        freezeOnBlur: true,
       }}
       tabBar={(props) => <BottomBar {...props} />}
     >
