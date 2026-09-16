@@ -35,11 +35,12 @@
 //
 // ONE STAGE PER NATIVE WINDOW. A React Native <Modal> is a separate window:
 // an overlay in the root tree paints behind it, and a picture of the root
-// tree does not contain it. The root layout wraps the stack in a stage; the
-// reader, a full-screen Modal, wraps its own content in another. The switch
-// reaches the NEAREST stage through context, so the one that takes the
-// pictures is the one whose screen is showing. A future full-screen Modal
-// that carries the switch needs the same wrap.
+// tree does not contain it. The root layout wraps the stack in a stage, and
+// every screen on it — the reader included, a screen of the root stack
+// since 16 Sep 2026 (it was a full-screen Modal with a stage of its own) —
+// is inside that one. The switch reaches the NEAREST stage through context,
+// so a future full-screen Modal that carries the switch needs a wrap of its
+// own.
 //
 // WHATEVER GOES WRONG IS ANSWERED WITH THE PLAIN FLIP. No snapshot module
 // (the web build), reduced motion, a capture that throws, a picture that

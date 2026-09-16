@@ -14,23 +14,23 @@
 //     .rr-lr-all         "All audiobooks." — pills, the grid, the genre rails
 //   .rr-lr-note          "Which books are fully recorded." — full bleed
 //
-// NOT transcribed here: the OPENED VOLUME (`readerHtml`) — the codex reader is
-// a modal over this floor and is not in this room's golden. It is the existing
-// src/portal/reader/Reader, opened from every play seal exactly as before.
+// NOT transcribed here: the OPENED VOLUME (`readerHtml`) — the codex reader
+// stands over this floor and is not in this room's golden. It is
+// src/portal/reader/Reader on its own screen of the root stack
+// (app/reader.tsx), pushed from every play seal and title here.
 //
 // The catalogue is baked from the site's own modules by
 // src/portal/listening/gen-catalogue.mjs; rerun it after a pressing lands.
 
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { View } from "react-native";
 
 import catalogue from "../../src/portal/listening/catalogue.json";
-import { recordingFor, useDeck } from "../../src/lib/audioStore";
+import { recordingFor } from "../../src/lib/audioStore";
 import { Billboard } from "../../src/portal/listening/Billboard";
 import { Catalogue, type AudioEntry, type AudioFilter } from "../../src/portal/listening/Catalogue";
 import { Head as RoomHead, PortalPage, Wrap } from "../../src/portal/PortalPage";
-import { Reader } from "../../src/portal/reader/Reader";
 import { useInk } from "../../src/theme/ink";
 import { useTheme } from "../../src/theme/ThemeProvider";
 import { Txt } from "../../src/ui/Type";
@@ -62,31 +62,39 @@ const CATEGORIES = catalogue.categories as string[];
 export default function Listening() {
   const { ink, vw } = useInk();
   const { bg } = useTheme();
-  const { begin } = useDeck();
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const router = useRouter();
+
+  // the volume's own screen, over this floor (app/reader.tsx); `play` drops
+  // the needle there, once the desk has landed
+  const stand = (slug: string, play = false) =>
+    router.push({ pathname: "/reader", params: play ? { slug, play: "1" } : { slug } });
 
   // `/account/listening?book=<slug>` — the site's deep link (the orders
-  // ledger's clerk's note): the volume opens to browse, the needle stays
-  // where it is. Spent on arrival, so the next visit is the floor.
-  const router = useRouter();
+  // ledger's clerk's note, the book page's Listen): the volume opens to
+  // browse, the needle stays where it is. Spent on arrival, so the next
+  // visit is the floor.
   const { book } = useLocalSearchParams<{ book?: string }>();
   useEffect(() => {
     if (!book) return;
-    if (recordingFor(book)) setOpenSlug(book);
+    if (recordingFor(book)) stand(book);
     router.setParams({ book: undefined });
+    // stand is this render's closure over a stable router
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [book, router]);
 
   /**
    * ONE TAP INTO THE ROOM, NEEDLE DOWN. The billboard's seal and a grid cell
    * both open the volume AND start it, as the site's `openAndBegin` does —
-   * and `begin` is the site's `beginBook`: where this book was left, or the
-   * top if it was played through. The audio then continues room-wide through
-   * the deck singleton. A title this build cannot play (no recording pressed)
-   * declines the tap rather than swallowing it.
+   * the desk's screen calls `begin`, the site's `beginBook` (where this
+   * book was left, or the top if it was played through), once its push has
+   * landed, so the tap answers with the desk and not with a player being
+   * built. The audio then continues room-wide through the deck singleton. A
+   * title this build cannot play (no recording pressed) declines the tap
+   * rather than swallowing it.
    */
   const play = (slug: string) => {
-    if (!begin(slug)) return;
-    setOpenSlug(slug);
+    if (!recordingFor(slug)) return;
+    stand(slug, true);
   };
 
   /**
@@ -96,10 +104,9 @@ export default function Listening() {
    */
   const open = (slug: string) => {
     if (!recordingFor(slug)) return;
-    setOpenSlug(slug);
+    stand(slug);
   };
 
-  const opened = openSlug ? recordingFor(openSlug) : null;
   const billboard = catalogue.billboard;
 
   return (
@@ -146,10 +153,6 @@ export default function Listening() {
           where you stopped. The subscription that opens all of them is $14.99 a month.
         </Txt>
       </View>
-
-      {/* The opened volume sits OVER the floor, as the web's dialog does —
-          the shelf stays behind it and the needle never lifts. */}
-      {opened ? <Reader recording={opened} onClose={() => setOpenSlug(null)} /> : null}
     </PortalPage>
   );
 }

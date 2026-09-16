@@ -73,6 +73,13 @@
 // 100ms sample of the player's own clock through a ref, so only the leaf
 // that paints the gilt re-renders.
 //
+// AND NOTHING ELSE ON THE VALUE MAY TICK. The value is a useMemo over every
+// field and callback it carries; one callback that closes over a ticking
+// status field (`nudge` did, over currentTime, until 16 Sep 2026) rebuilds
+// the whole value twice a second and the clock is back on the deck by
+// another door — measured as a 25-60 ms re-render of the entire reader
+// every 500 ms. A callback that needs the needle reads it through a ref.
+//
 // WHAT THIS IS NOT, yet: lock-screen and notification transport, and playback
 // that survives the app being backgrounded on iOS. Those need
 // react-native-track-player, which is not in Expo Go — so they land with the
@@ -838,6 +845,12 @@ export function AudioProvider({ children }: { children: ReactNode }) {
    * chapters — only the clock differs — so the place in the CHAPTER is a
    * proportion, and that proportion is what survives the change of reader.
    */
+  // the needle and the loaded flag through refs, NOT dependencies: see AND
+  // NOTHING ELSE ON THE VALUE MAY TICK at the top
+  const needleRef = useRef(0);
+  needleRef.current = status.currentTime || 0;
+  const loadedRef = useRef(false);
+  loadedRef.current = !!status.isLoaded;
   const setNarrator = useCallback(
     (voiceId: string) => {
       if (!now || !recording || now.voice === voiceId) return;
@@ -850,9 +863,9 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       // made before the chapter arrives throws the reader to the top.
       const parked = pendingSeek.current;
       const at =
-        parked && parked.slug === now.slug && parked.band === now.band && !status.isLoaded
+        parked && parked.slug === now.slug && parked.band === now.band && !loadedRef.current
           ? parked.seconds
-          : (status.currentTime ?? 0);
+          : needleRef.current;
       const seconds =
         from.duration && from.duration !== to.duration
           ? Math.max(0, Math.min(to.duration, at * (to.duration / from.duration)))
@@ -864,7 +877,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       pendingSeek.current = fresh ? null : { slug: now.slug, band: now.band, voice: voiceId, seconds };
       setNow({ ...now, voice: voiceId });
     },
-    [now, recording, status.currentTime, status.isLoaded, refuse],
+    [now, recording, refuse],
   );
 
   const toggle = useCallback(() => {
@@ -937,10 +950,8 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const seekRef = useRef(seekTo);
   seekRef.current = seekTo;
 
-  const nudge = useCallback(
-    (seconds: number) => seekTo((status.currentTime || 0) + seconds),
-    [seekTo, status.currentTime],
-  );
+  // the needle through needleRef (above), NOT a dependency
+  const nudge = useCallback((seconds: number) => seekRef.current(needleRef.current + seconds), []);
 
   const step = useCallback(
     (delta: 1 | -1) => {

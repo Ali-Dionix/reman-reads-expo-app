@@ -157,10 +157,9 @@ function Chrome() {
     <NavigationTheme value={navTheme}>
       <View style={{ flex: 1, backgroundColor: colors.desk }}>
         <StatusBar style={look === "dark" ? "light" : "dark"} />
-        {/* The lamp switch's stage: it takes the pictures of every ordinary
-            screen and draws the reveal over them. The reader is a native Modal
-            and therefore its own window, so it wraps its content in a stage of
-            its own — see ThemeStage. */}
+        {/* The lamp switch's stage: it takes the pictures of every screen on
+            the stack, the reader included, and draws the reveal over them —
+            see ThemeStage. */}
         <ThemeStage>
           <Stack
             screenOptions={{
@@ -171,8 +170,17 @@ function Chrome() {
               animation: "default",
             }}
           >
-            <Stack.Screen name="(tabs)" />
+            {/* frozen under whatever is pushed over it (the reader): the rooms
+                and the bar do not re-render for the deck while the desk
+                stands, and thaw as the pop begins */}
+            <Stack.Screen name="(tabs)" options={{ freezeOnBlur: true }} />
             <Stack.Screen name="sign-in" options={{ animation: "fade" }} />
+            {/* The Reading Desk, over the tabs: the platform's "open"
+                (a rise and a fade, 350 ms) and its reverse on close, drawn
+                by the system whatever the JS thread is doing. It was a
+                Modal inside the Audiobooks room until 16 Sep 2026 — see
+                app/reader.tsx. */}
+            <Stack.Screen name="reader" options={{ animation: "fade_from_bottom" }} />
           </Stack>
         </ThemeStage>
       </View>

@@ -140,8 +140,8 @@ export function SearchMenu({
   }, [slug, voice, band, galleyPath]);
 
   // toggleMenu("search"): the sheet opens onto its input, ready to type.
-  // autoFocus alone lands before the Modal's window is keyed on some
-  // platforms, so the focus is also asked for on the next frame.
+  // autoFocus alone can land before the window is keyed on some platforms,
+  // so the focus is also asked for on the next frame.
   const inputRef = useRef<TextInput>(null);
   useEffect(() => {
     const raf = requestAnimationFrame(() => inputRef.current?.focus());

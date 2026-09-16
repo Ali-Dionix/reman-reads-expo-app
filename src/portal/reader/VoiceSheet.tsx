@@ -346,10 +346,9 @@ export function VoiceSheet({
   maxHeight?: number;
   /** The clone tile's "Sign in" door — the site's guest card links to
    *  /login (sign-in, not sign-up), back to the room. The FRAME owns it:
-   *  this sheet stands inside the Reader's Modal, which is its own window
-   *  on a device, so a route pushed from in here lands under the volume and
-   *  is never seen. The frame shuts the volume first, then pushes
-   *  /sign-in?next=/listening. */
+   *  the desk is a screen of the root stack, so the frame pops it first
+   *  and then pushes /sign-in?next=/listening, and the door is never seen
+   *  under an open volume. */
   onSignIn: () => void;
   /** The site's sayLive says a refusal TWICE — over the list of readers it
    *  is about, and on the console's sentence for a reader who has already
@@ -1125,9 +1124,9 @@ export function VoiceSheet({
       </View>
 
       {/* the subscription's gate, over the sheet — a Modal of its own, so it
-          stands over the reader's Modal window; Continue leaves for the
-          website signed in (useSubscribe), and the provider's foreground
-          refresh takes the padlocks off when the reader is back */}
+          stands over the whole desk; Continue leaves for the website signed
+          in (useSubscribe), and the provider's foreground refresh takes the
+          padlocks off when the reader is back */}
       <GateSheet
         pitch="voices"
         open={gate}

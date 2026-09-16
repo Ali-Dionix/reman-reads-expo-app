@@ -32,13 +32,16 @@
 // Read-along is wired through the page manifest's normalised word boxes: they
 // index the same paragraph strings the galley's timings do, so a word's
 // position and a word's moment meet without either file knowing the other.
-// THE FAST CLOCK IS READ HERE AND NOWHERE ELSE: useFastPosition subscribes
-// this one component to the 100ms sample, so the gilt lands on every word
-// while the frame around it re-renders at the transport's 500ms.
+// THE FAST CLOCK IS READ BY THE GILT AND NOWHERE ELSE: useFastPosition
+// subscribes the Gilt leaf alone to the 100ms sample, so the strokes land on
+// every word while the codex around them — the case, the sheet, the lens's
+// gestures — renders only when a leaf turns or a chapter changes. (Until
+// 16 Sep 2026 the whole PagesCodex re-rendered ten times a second for the
+// gilt, re-describing three gestures to the native side each time.)
 
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -64,13 +67,16 @@ import {
   type Galley,
 } from "../../lib/galley";
 import {
+  boxesNow,
   hasPages,
   leafOfChapter,
   leafOfPage,
+  loadBoxes,
   loadPages,
   pageImageUrl,
   pagesShape,
   type BookPages,
+  type PageBox,
 } from "../../lib/pages";
 import { FONTS } from "../../theme/type";
 import { TYPE_DEFAULTS, type TypePrefs } from "./TypeSheet";
@@ -272,28 +278,6 @@ function useLens(
     };
   };
 
-  const pinch = Gesture.Pinch()
-    .onStart(() => {
-      scale0.value = scale.value;
-      tx0.value = tx.value;
-      ty0.value = ty.value;
-    })
-    .onUpdate((e) => {
-      const s = Math.max(1, Math.min(LENS_MAX, scale0.value * e.scale));
-      const c = clamp(s, tx.value, ty.value);
-      scale.value = s;
-      tx.value = c.x;
-      ty.value = c.y;
-    })
-    .onEnd(() => {
-      // a pinch that ends under 1.05 was a reader letting the page go
-      if (scale.value < 1.05) {
-        scale.value = withTiming(1, { duration: 180 });
-        tx.value = withTiming(0, { duration: 180 });
-        ty.value = withTiming(0, { duration: 180 });
-      }
-    });
-
   // Whether the sheet is lifted, on the JS side — the pan is built
   // differently at rest and lifted, and a gesture's config is not a worklet.
   const [lifted, setLifted] = useState(false);
@@ -304,63 +288,95 @@ function useLens(
     },
   );
 
-  // One finger moves the sheet — once it is off the desk. AT REST a drag is
-  // the site's onTouchEnd: 48px or more across, more across than down, turns
-  // the page ("the codex does not scroll: a swipe across it is a page turn,
-  // as on any book"). The rest-pan activates on 20px of horizontal travel
-  // and fails on 15px of vertical, so a tap still seeks and the stage still
-  // scrolls; the lifted pan takes any direction, because a lifted sheet is
-  // dragged every way.
-  const panBase = Gesture.Pan()
-    .minPointers(1)
-    .maxPointers(1)
-    .onStart(() => {
-      tx0.value = tx.value;
-      ty0.value = ty.value;
-    })
-    .onUpdate((e) => {
-      if (scale.value <= 1.001) return;
-      const c = clamp(scale.value, tx0.value + e.translationX, ty0.value + e.translationY);
-      tx.value = c.x;
-      ty.value = c.y;
-    })
-    .onEnd((e) => {
-      if (scale.value > 1.001) return;
-      if (Math.abs(e.translationX) < SWIPE_PX || Math.abs(e.translationY) > Math.abs(e.translationX)) return;
-      runOnJS(onTurn)(e.translationX < 0 ? 1 : -1);
-    });
-  const pan = lifted ? panBase : panBase.activeOffsetX([-20, 20]).failOffsetY([-15, 15]);
+  // BUILT ONCE PER REAL CHANGE. A GestureDetector re-describes its gestures
+  // to the native side whenever it is handed new ones, and this hook used to
+  // hand it three new ones on every render of the codex — ten times a
+  // second while a chapter sounded, for the gilt. The window's size, the
+  // handlers and the lifted state are the only things a gesture reads that
+  // can change; everything else is a shared value.
+  const gesture = useMemo(() => {
+    const pinch = Gesture.Pinch()
+      .onStart(() => {
+        scale0.value = scale.value;
+        tx0.value = tx.value;
+        ty0.value = ty.value;
+      })
+      .onUpdate((e) => {
+        const s = Math.max(1, Math.min(LENS_MAX, scale0.value * e.scale));
+        const c = clamp(s, tx.value, ty.value);
+        scale.value = s;
+        tx.value = c.x;
+        ty.value = c.y;
+      })
+      .onEnd(() => {
+        // a pinch that ends under 1.05 was a reader letting the page go
+        if (scale.value < 1.05) {
+          scale.value = withTiming(1, { duration: 180 });
+          tx.value = withTiming(0, { duration: 180 });
+          ty.value = withTiming(0, { duration: 180 });
+        }
+      });
 
-  /**
-   * The tap lives HERE, not on a Pressable underneath, because a
-   * GestureDetector consumes the touches its children would otherwise see —
-   * wrapping the leaf in one silently killed tap-to-seek. One gesture system
-   * owns the leaf, so the tap is one of its gestures.
-   *
-   * Still only ONE tap: `numberOfTaps` stays at 1. A double-tap would make
-   * every single tap wait out the arbitration window before it could seek.
-   *
-   * A tap arrives in WINDOW space; the boxes are in PAGE space. While the paper
-   * is lifted those are not the same thing, so the lens is undone here.
-   */
-  const tap = Gesture.Tap()
-    .maxDuration(300)
-    .onEnd((e, ok) => {
-      if (!ok || !onTapPage) return;
-      const cw = win.w - WIN_RULE * 2;
-      const ch = win.h - WIN_RULE * 2;
-      if (cw <= 0 || ch <= 0) return;
-      const wx = (e.x - WIN_RULE) / cw;
-      const wy = (e.y - WIN_RULE) / ch;
-      const s = scale.value;
-      const nx = s <= 1.001 ? wx : (wx - 0.5 - tx.value / cw) / s + 0.5;
-      const ny = s <= 1.001 ? wy : (wy - 0.5 - ty.value / ch) / s + 0.5;
-      runOnJS(onTapPage)(nx, ny);
-    });
+    // One finger moves the sheet — once it is off the desk. AT REST a drag is
+    // the site's onTouchEnd: 48px or more across, more across than down, turns
+    // the page ("the codex does not scroll: a swipe across it is a page turn,
+    // as on any book"). The rest-pan activates on 20px of horizontal travel
+    // and fails on 15px of vertical, so a tap still seeks and the stage still
+    // scrolls; the lifted pan takes any direction, because a lifted sheet is
+    // dragged every way.
+    const panBase = Gesture.Pan()
+      .minPointers(1)
+      .maxPointers(1)
+      .onStart(() => {
+        tx0.value = tx.value;
+        ty0.value = ty.value;
+      })
+      .onUpdate((e) => {
+        if (scale.value <= 1.001) return;
+        const c = clamp(scale.value, tx0.value + e.translationX, ty0.value + e.translationY);
+        tx.value = c.x;
+        ty.value = c.y;
+      })
+      .onEnd((e) => {
+        if (scale.value > 1.001) return;
+        if (Math.abs(e.translationX) < SWIPE_PX || Math.abs(e.translationY) > Math.abs(e.translationX)) return;
+        runOnJS(onTurn)(e.translationX < 0 ? 1 : -1);
+      });
+    const pan = lifted ? panBase : panBase.activeOffsetX([-20, 20]).failOffsetY([-15, 15]);
 
-  // pinch and pan share the leaf; a tap races them and loses the moment a
-  // finger travels, which is what keeps a drag from seeking
-  const gesture = Gesture.Simultaneous(Gesture.Race(tap, pan), pinch);
+    /**
+     * The tap lives HERE, not on a Pressable underneath, because a
+     * GestureDetector consumes the touches its children would otherwise see —
+     * wrapping the leaf in one silently killed tap-to-seek. One gesture system
+     * owns the leaf, so the tap is one of its gestures.
+     *
+     * Still only ONE tap: `numberOfTaps` stays at 1. A double-tap would make
+     * every single tap wait out the arbitration window before it could seek.
+     *
+     * A tap arrives in WINDOW space; the boxes are in PAGE space. While the paper
+     * is lifted those are not the same thing, so the lens is undone here.
+     */
+    const tap = Gesture.Tap()
+      .maxDuration(300)
+      .onEnd((e, ok) => {
+        if (!ok || !onTapPage) return;
+        const cw = win.w - WIN_RULE * 2;
+        const ch = win.h - WIN_RULE * 2;
+        if (cw <= 0 || ch <= 0) return;
+        const wx = (e.x - WIN_RULE) / cw;
+        const wy = (e.y - WIN_RULE) / ch;
+        const s = scale.value;
+        const nx = s <= 1.001 ? wx : (wx - 0.5 - tx.value / cw) / s + 0.5;
+        const ny = s <= 1.001 ? wy : (wy - 0.5 - ty.value / ch) / s + 0.5;
+        runOnJS(onTapPage)(nx, ny);
+      });
+
+    // pinch and pan share the leaf; a tap races them and loses the moment a
+    // finger travels, which is what keeps a drag from seeking
+    return Gesture.Simultaneous(Gesture.Race(tap, pan), pinch);
+    // the shared values and clamp's window are stable or covered by win
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [win.w, win.h, lifted, onTapPage, onTurn]);
 
   const style = useAnimatedStyle(() => ({
     transform: [{ translateX: tx.value }, { translateY: ty.value }, { scale: scale.value }],
@@ -370,6 +386,9 @@ function useLens(
 }
 
 /* -------------------------------------------------------- read-along --- */
+
+/** One empty list, so a chapter without boxes is not a new array per render. */
+const NO_BOXES: PageBox[] = [];
 
 /**
  * The join: the galley (per PRESSING — the same words, a different clock) met
@@ -392,11 +411,9 @@ function useReadAlong(
   recording: Recording,
   voice: string | null,
   band: number,
-  sounding: boolean,
   man: BookPages | null,
 ) {
   const [gal, setGal] = useState<Galley | null | undefined>(undefined);
-  const position = useFastPosition();
   // a live reading's cue file grows while it streams — see galley.ts
   const galleyVersion = useGalleyVersion();
 
@@ -414,33 +431,144 @@ function useReadAlong(
     setGal(undefined);
   }, [recording, voice, band]);
 
-  // every printed run of the chapter being read — the paper half of the join
-  const chapterBoxes = useMemo(
-    () => man?.chapters.find((c) => c.idx === band)?.boxes ?? [],
-    [man, band],
-  );
+  // every printed run of the chapter being read — the paper half of the
+  // join. Its own small file (pages.ts loadBoxes), fetched as the chapter
+  // opens: the manifest carries none, so opening a book never parses the
+  // whole book's boxes. Until it lands the chapter gilds nothing.
+  const [chapterBoxes, setChapterBoxes] = useState<PageBox[]>(() => boxesNow(recording.slug, band) ?? NO_BOXES);
+  useEffect(() => {
+    const have = boxesNow(recording.slug, band);
+    if (have) {
+      setChapterBoxes(have);
+      return;
+    }
+    setChapterBoxes(NO_BOXES);
+    if (!man) return;
+    let alive = true;
+    loadBoxes(recording.slug, band).then((b) => {
+      if (alive) setChapterBoxes(b);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [recording.slug, band, man]);
 
+  return { gal, chapterBoxes };
+}
+
+/**
+ * THE GILDER'S THREE STROKES, in page coordinates — the sentence's faint
+ * wash, the sounding word, and its one-pixel rule — and the one leaf that
+ * reads the fast clock. The web paints these into the page's own <svg> ink
+ * layer; here they are plain Views, NOT an SVG. Until 16 Sep 2026 this was a
+ * page-sized <Svg> of <Rect>s, and on Android react-native-svg rasterises
+ * the WHOLE view to a bitmap on every change and uploads it: a 1008×1633
+ * texture every other frame while a chapter sounded (measured on a Pixel 8
+ * Pro), which with the narrator's platter turning at 120 fps was the
+ * reader's stutter. A View is drawn by the renderer itself — a rect, no
+ * bitmap. The boxes are normalised; `fit` is the page's contain-fit inside
+ * the sheet, the same letterbox the SVG's viewBox and the photograph's
+ * contentFit="contain" both used, so the strokes land on the glyph whatever
+ * size the leaf happens to be — including lifted, since the sheet's
+ * transform carries its children.
+ *
+ * The page the sounding word is printed on is told to the codex through
+ * `onHome` only when it CHANGES — a page turn's worth of news, not a
+ * word's — so the follow can turn the leaf without the codex riding the
+ * clock. `sounding` false (a chapter opened to read, not the one on the
+ * platter) paints nothing and says -1.
+ */
+const Gilt = memo(function Gilt({
+  gal,
+  boxes,
+  sounding,
+  gild,
+  shownPage,
+  fit,
+  night,
+  onHome,
+}: {
+  gal: Galley | null | undefined;
+  boxes: PageBox[];
+  sounding: boolean;
+  /** The gilder's hand — off, the follow still turns but nothing is painted. */
+  gild: boolean;
+  /** The printed page number of the leaf showing. */
+  shownPage: number;
+  fit: { x: number; y: number; w: number; h: number } | null;
+  night: boolean;
+  onHome: (page: number) => void;
+}) {
+  const position = useFastPosition();
   const wordIdx = gal && sounding ? wordAt(gal, position * 1000) : -1;
   const word = wordIdx >= 0 ? gal?.words[wordIdx] : undefined;
 
   // The word's printed home, and its sentence's. Both are recomputed per beat,
   // which is cheap: a chapter holds a few hundred boxes, not the book's.
-  const wordBoxes = useMemo(
-    () => (word ? boxesForWord(chapterBoxes, word) : []),
-    [chapterBoxes, word],
-  );
+  const wordBoxes = useMemo(() => (word ? boxesForWord(boxes, word) : NO_BOXES), [boxes, word]);
   const sentBoxes = useMemo(
-    () => (gal && wordIdx >= 0 ? boxesForSentence(gal, chapterBoxes, wordIdx) : []),
-    [gal, chapterBoxes, wordIdx],
+    () => (gal && wordIdx >= 0 ? boxesForSentence(gal, boxes, wordIdx) : NO_BOXES),
+    [gal, boxes, wordIdx],
   );
 
   // the page the needle is standing on — -1 when the word has no printed home
   // (front matter, a plate, a chapter whose boxes never arrived): silence,
   // not an error, and never a page turn
   const homePage = wordBoxes[0]?.[3] ?? -1;
+  useEffect(() => {
+    onHome(homePage);
+  }, [homePage, onHome]);
 
-  return { gal, wordBoxes, sentBoxes, homePage };
-}
+  if (!gild || !fit) return null;
+  const gilt = wordBoxes.filter((b) => b[3] === shownPage);
+  const wash = sentBoxes.filter((b) => b[3] === shownPage);
+  if (!gilt.length && !wash.length) return null;
+  return (
+    <View style={[StyleSheet.absoluteFill, styles.inert]}>
+      {wash.map((b, i) => (
+        <View
+          key={`s${i}`}
+          style={{
+            position: "absolute",
+            left: fit.x + b[4] * fit.w,
+            top: fit.y + b[5] * fit.h,
+            width: b[6] * fit.w,
+            height: b[7] * fit.h,
+            backgroundColor: night ? "rgba(224,183,112,.14)" : "rgba(155,122,77,.14)",
+          }}
+        />
+      ))}
+      {gilt.map((b, i) => (
+        <View
+          key={`w${i}`}
+          style={{
+            position: "absolute",
+            left: fit.x + b[4] * fit.w,
+            top: fit.y + b[5] * fit.h,
+            width: b[6] * fit.w,
+            height: b[7] * fit.h,
+            backgroundColor: night ? "rgba(224,183,112,.4)" : "rgba(155,122,77,.38)",
+          }}
+        />
+      ))}
+      {/* the rule is ONE device pixel at every scale, the way a printed
+          rule is one rule — a height in page units would fatten */}
+      {gilt.map((b, i) => (
+        <View
+          key={`u${i}`}
+          style={{
+            position: "absolute",
+            left: fit.x + b[4] * fit.w,
+            top: fit.y + (b[5] + b[7]) * fit.h,
+            width: b[6] * fit.w,
+            height: StyleSheet.hairlineWidth,
+            backgroundColor: night ? "rgba(224,183,112,.6)" : "rgba(155,122,77,.6)",
+          }}
+        />
+      ))}
+    </View>
+  );
+});
 
 /* -------------------------------------------------------------- Codex --- */
 
@@ -759,13 +887,9 @@ function PagesCodex({
   const tall = stageW > 0 && blockW / ratio + 32 > caseCap;
   const boundW = tall ? Math.max(120, (caseCap - 32) * ratio) : undefined;
 
-  const { gal, wordBoxes, sentBoxes, homePage } = useReadAlong(
-    recording,
-    voice,
-    band,
-    sounding === band,
-    man ?? null,
-  );
+  const { gal, chapterBoxes } = useReadAlong(recording, voice, band, man ?? null);
+  // the page the sounding word is printed on, as the gilt reports it
+  const [homePage, setHomePage] = useState(-1);
 
   // the site's onGalley error phase, with the pages standing: "only the cues
   // are missing, so say that and leave the book alone"
@@ -788,8 +912,6 @@ function PagesCodex({
   // gilder's hand is on (setGilding(false) clears the ink; the follow goes
   // on turning to the page the word is printed on)
   const shownPage = page?.n ?? -1;
-  const gilt = prefs.gild ? wordBoxes.filter((b) => b[3] === shownPage) : [];
-  const wash = prefs.gild ? sentBoxes.filter((b) => b[3] === shownPage) : [];
 
   /**
    * A finger on the paper: read from that word.
@@ -816,23 +938,28 @@ function PagesCodex({
         .filter((c) => pageN >= c.firstPage && pageN <= c.lastPage)
         .sort((a, b) => Number(b.idx === band) - Number(a.idx === band));
 
-      for (const ch of here) {
-        const box = boxAtPoint(ch.boxes, pageN, nx, ny);
-        if (!box) continue;
+      // the open chapter's boxes are here already (useReadAlong fetched
+      // them); a seam chapter's may still be in the post — awaited, so the
+      // ask is the same tap either way
+      void (async () => {
+        for (const ch of here) {
+          const boxes = boxesNow(slug, ch.idx) ?? (await loadBoxes(slug, ch.idx));
+          const box = boxAtPoint(boxes, pageN, nx, ny);
+          if (!box) continue;
 
-        // the chapter already sounding: the needle just moves
-        if (ch.idx === sounding && gal) {
-          const i = wordOfBox(gal, box);
-          if (i < 0) return;
-          onReadFrom(false);
-          seekTo(wordStart(gal, i) / 1000);
-          return;
-        }
+          // the chapter already sounding: the needle just moves
+          if (ch.idx === sounding && gal) {
+            const i = wordOfBox(gal, box);
+            if (i < 0) return;
+            onReadFrom(false);
+            seekTo(wordStart(gal, i) / 1000);
+            return;
+          }
 
-        // elsewhere in the book — or this chapter, opened but not yet
-        // sounding: cue that band, at that word (the deck refuses a guest)
-        const chapters = chaptersOf(recording, voice);
-        loadGalley(slug, voice, ch.idx, chapters[ch.idx]?.galley).then((g2) => {
+          // elsewhere in the book — or this chapter, opened but not yet
+          // sounding: cue that band, at that word (the deck refuses a guest)
+          const chapters = chaptersOf(recording, voice);
+          const g2 = await loadGalley(slug, voice, ch.idx, chapters[ch.idx]?.galley);
           if (!g2) return;
           const i = wordOfBox(g2, box);
           if (i < 0) return;
@@ -840,10 +967,10 @@ function PagesCodex({
           // page — they are looking at the page they tapped
           onReadFrom(true);
           playAt(slug, ch.idx, wordStart(g2, i) / 1000);
-        });
-        return;
-      }
-      // the margin, a plate, a blank — nothing to read from, so nothing happens
+          return;
+        }
+        // the margin, a plate, a blank — nothing to read from, so nothing happens
+      })();
     },
     [man, leaf, band, sounding, gal, recording, voice, slug, seekTo, playAt, onReadFrom],
   );
@@ -928,66 +1055,17 @@ function PagesCodex({
               </>
             ) : null}
 
-            {/* THE GILDER'S THREE STROKES, in page coordinates — the sentence's
-                faint wash, the sounding word, and its one-pixel rule. The web
-                paints these into the page's own <svg> ink layer; here they are
-                plain Views, NOT an SVG. Until 16 Sep 2026 this was a
-                page-sized <Svg> of <Rect>s, and on Android react-native-svg
-                rasterises the WHOLE view to a bitmap on every change and
-                uploads it: a 1008×1633 texture every other frame while a
-                chapter sounded (measured on a Pixel 8 Pro), which with the
-                narrator's platter turning at 120 fps was the reader's stutter.
-                A View is drawn by the renderer itself — a rect, no bitmap.
-                The boxes are normalised; `fit` is the page's contain-fit inside
-                the sheet, the same letterbox the SVG's viewBox and the
-                photograph's contentFit="contain" both used, so the strokes land
-                on the glyph whatever size the leaf happens to be — including
-                lifted, since the sheet's transform carries its children. */}
-            {(gilt.length || wash.length) && fit ? (
-              <View style={[StyleSheet.absoluteFill, styles.inert]}>
-                {wash.map((b, i) => (
-                  <View
-                    key={`s${i}`}
-                    style={{
-                      position: "absolute",
-                      left: fit.x + b[4] * fit.w,
-                      top: fit.y + b[5] * fit.h,
-                      width: b[6] * fit.w,
-                      height: b[7] * fit.h,
-                      backgroundColor: night ? "rgba(224,183,112,.14)" : "rgba(155,122,77,.14)",
-                    }}
-                  />
-                ))}
-                {gilt.map((b, i) => (
-                  <View
-                    key={`w${i}`}
-                    style={{
-                      position: "absolute",
-                      left: fit.x + b[4] * fit.w,
-                      top: fit.y + b[5] * fit.h,
-                      width: b[6] * fit.w,
-                      height: b[7] * fit.h,
-                      backgroundColor: night ? "rgba(224,183,112,.4)" : "rgba(155,122,77,.38)",
-                    }}
-                  />
-                ))}
-                {/* the rule is ONE device pixel at every scale, the way a printed
-                    rule is one rule — a height in page units would fatten */}
-                {gilt.map((b, i) => (
-                  <View
-                    key={`u${i}`}
-                    style={{
-                      position: "absolute",
-                      left: fit.x + b[4] * fit.w,
-                      top: fit.y + (b[5] + b[7]) * fit.h,
-                      width: b[6] * fit.w,
-                      height: StyleSheet.hairlineWidth,
-                      backgroundColor: night ? "rgba(224,183,112,.6)" : "rgba(155,122,77,.6)",
-                    }}
-                  />
-                ))}
-              </View>
-            ) : null}
+            {/* the gilder's three strokes — the one leaf on the fast clock (Gilt) */}
+            <Gilt
+              gal={gal}
+              boxes={chapterBoxes}
+              sounding={sounding === band}
+              gild={prefs.gild}
+              shownPage={shownPage}
+              fit={fit}
+              night={night}
+              onHome={setHomePage}
+            />
           </Animated.View>
 
           {/* the gutter, `#rr-gtl` — drawn in PAGE coordinates on the web, so

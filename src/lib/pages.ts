@@ -11,6 +11,18 @@
 // asBookPages() is the gate everything off the wire goes through — a
 // half-written manifest must degrade to the galley, never paint a book with
 // holes in it.
+//
+// THE MANIFEST IS READ LIGHT. pages.json carries every chapter's word boxes
+// — 9.2 MB for crime-and-punishment — and a phone parses JSON on the one
+// thread it also draws with: opening that book stalled the app for the
+// parse of boxes it would not need for hours. So the press tool cuts two
+// more shapes of the same data beside the immutable pages.json
+// (scripts/audio-press.mjs `split`): leaves.json, the manifest less its
+// boxes, and boxes/NN.json, one chapter's boxes each. loadPages reads the
+// first; loadBoxes fetches a chapter's as it is opened; a bucket without the
+// split (a press from before it) falls back to pages.json, whose inline
+// boxes go straight into the same cache. Nothing here parses a book's worth
+// of boxes when it can help it.
 
 import { audioUrl } from "./audioResolve";
 
@@ -33,8 +45,14 @@ export type BookPages = {
   pageW: number;
   pageH: number;
   pages: { n: number; image: string }[];
-  chapters: { idx: number; firstPage: number; lastPage: number; boxes: PageBox[] }[];
+  /** The chapters' page ranges. A chapter's word boxes are NOT carried
+   *  here — boxesNow() / loadBoxes() hand them out per chapter. */
+  chapters: { idx: number; firstPage: number; lastPage: number }[];
 };
+
+/** The light manifest's name beside pages.json, and a chapter's boxes file —
+ *  the press tool's own spelling (audio-press.mjs boxesKeyOf). */
+const LEAVES_FILE = "leaves.json";
 
 /** The committed pointer, mirrored from audioEditions.json. */
 type PagesRecord = { v: number; n: number; w: number; h: number; manifest: string };
@@ -89,36 +107,135 @@ const dirFor = (slug: string): string => {
   return cut < 0 ? "" : path.slice(0, cut + 1);
 };
 
-/** Reject anything that would paint a book with holes in it. */
-function asBookPages(raw: unknown, slug: string): BookPages | null {
-  const m = raw as Partial<BookPages> | null;
+/** What a chapter's boxes are on the wire: inline (pages.json) or the
+ *  bucket-relative key of their own file (leaves.json). */
+type RawChapter = { idx: number; firstPage: number; lastPage: number; boxes?: unknown };
+
+/** Reject anything that would paint a book with holes in it. The chapters'
+ *  boxes — inline or by key — come back beside the manifest, never in it. */
+function asBookPages(
+  raw: unknown,
+  slug: string,
+): { man: BookPages; boxes: Map<number, PageBox[] | string> } | null {
+  const m = raw as (Omit<Partial<BookPages>, "chapters"> & { chapters?: RawChapter[] }) | null;
   if (!m || typeof m !== "object") return null;
   if (!Array.isArray(m.pages) || !m.pages.length) return null;
   if (!Array.isArray(m.chapters)) return null;
   if (!(m.pageW! > 0) || !(m.pageH! > 0)) return null;
   if (m.pages.some((p) => typeof p?.image !== "string" || !(p.n >= 0))) return null;
-  return { ...(m as BookPages), slug };
+  const boxes = new Map<number, PageBox[] | string>();
+  const chapters: BookPages["chapters"] = [];
+  for (const c of m.chapters) {
+    if (!c || typeof c !== "object" || !(c.idx >= 0)) continue;
+    chapters.push({ idx: c.idx, firstPage: c.firstPage, lastPage: c.lastPage });
+    if (typeof c.boxes === "string") boxes.set(c.idx, c.boxes);
+    else if (Array.isArray(c.boxes)) {
+      const bs: PageBox[] = [];
+      for (const b of c.boxes) {
+        if (Array.isArray(b) && b.length >= 8 && b.every((n) => typeof n === "number")) bs.push(b.slice(0, 8) as PageBox);
+      }
+      boxes.set(c.idx, bs);
+    } else boxes.set(c.idx, []);
+  }
+  return {
+    man: { v: m.v ?? 1, slug, pageW: m.pageW!, pageH: m.pageH!, pages: m.pages, chapters },
+    boxes,
+  };
 }
 
 const cache = new Map<string, BookPages | null>();
+// one fetch between everyone who asks while it is in the post — the frame
+// and the codex both ask on the same tap
+const posted = new Map<string, Promise<BookPages | null>>();
+
+// A chapter's boxes: loaded, or the key they can be fetched from, per
+// `slug/idx`. Filled by loadPages (inline boxes, or keys) and loadBoxes.
+const boxCache = new Map<string, PageBox[]>();
+const boxKeys = new Map<string, string>();
+const boxPosted = new Map<string, Promise<PageBox[]>>();
+const boxId = (slug: string, idx: number) => `${slug}/${idx}`;
 
 /** Fetch and validate a book's page manifest. Null means "read the galley". */
-export async function loadPages(slug: string): Promise<BookPages | null> {
-  if (cache.has(slug)) return cache.get(slug)!;
+export function loadPages(slug: string): Promise<BookPages | null> {
+  if (cache.has(slug)) return Promise.resolve(cache.get(slug)!);
+  const pending = posted.get(slug);
+  if (pending) return pending;
+  const p = fetchPages(slug).finally(() => posted.delete(slug));
+  posted.set(slug, p);
+  return p;
+}
+
+async function fetchPages(slug: string): Promise<BookPages | null> {
   const path = PAGES[slug]?.manifest;
   if (!path) {
     cache.set(slug, null);
     return null;
   }
   try {
-    const res = await fetch(audioUrl(path));
+    // the light manifest first; a bucket from before the split has only
+    // pages.json, whose boxes come inline and go straight into the cache
+    let res = await fetch(audioUrl(dirFor(slug) + LEAVES_FILE));
+    if (!res.ok) res = await fetch(audioUrl(path));
     if (!res.ok) throw new Error(String(res.status));
-    const man = asBookPages(await res.json(), slug);
-    cache.set(slug, man);
-    return man;
+    const got = asBookPages(await res.json(), slug);
+    if (!got) throw new Error("manifest");
+    for (const [idx, b] of got.boxes) {
+      if (typeof b === "string") boxKeys.set(boxId(slug, idx), dirFor(slug) + b);
+      else boxCache.set(boxId(slug, idx), b);
+    }
+    cache.set(slug, got.man);
+    return got.man;
   } catch {
     cache.set(slug, null);
     return null;
+  }
+}
+
+/** A chapter's word boxes, if they are already here — [] for a chapter with
+ *  none, undefined while they are still to be fetched. */
+export const boxesNow = (slug: string, idx: number): PageBox[] | undefined => boxCache.get(boxId(slug, idx));
+
+/**
+ * A chapter's word boxes, fetched on first ask (its own small file — a few
+ * hundred KB at most, parsed in a few ms). Never throws: a chapter whose
+ * boxes cannot be had carries none, and the pages still turn — the gilt is
+ * the only thing that goes missing. Waits for the manifest itself when it
+ * is asked before the manifest has arrived.
+ */
+export function loadBoxes(slug: string, idx: number): Promise<PageBox[]> {
+  const id = boxId(slug, idx);
+  const have = boxCache.get(id);
+  if (have) return Promise.resolve(have);
+  const pending = boxPosted.get(id);
+  if (pending) return pending;
+  const p = fetchBoxes(slug, idx).finally(() => boxPosted.delete(id));
+  boxPosted.set(id, p);
+  return p;
+}
+
+async function fetchBoxes(slug: string, idx: number): Promise<PageBox[]> {
+  const id = boxId(slug, idx);
+  if (!boxKeys.has(id)) await loadPages(slug);
+  const have = boxCache.get(id);
+  if (have) return have;
+  const key = boxKeys.get(id);
+  if (!key) {
+    boxCache.set(id, []);
+    return [];
+  }
+  try {
+    const res = await fetch(audioUrl(key));
+    if (!res.ok) throw new Error(String(res.status));
+    const raw = (await res.json()) as unknown;
+    const bs: PageBox[] = [];
+    for (const b of Array.isArray(raw) ? raw : []) {
+      if (Array.isArray(b) && b.length >= 8 && b.every((n) => typeof n === "number")) bs.push(b.slice(0, 8) as PageBox);
+    }
+    boxCache.set(id, bs);
+    return bs;
+  } catch {
+    // not cached: the next ask tries the wire again
+    return [];
   }
 }
 

@@ -22,7 +22,7 @@
 
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Animated, {
   Easing,
@@ -319,16 +319,20 @@ function FrontDisc({ size, label, spinning }: { size: number; label: string; spi
 
   const r = size / 2;
   // repeating-radial-gradient(circle, rgba(0,0,0,.5) 0 1px, rgba(0,0,0,.18) 1px 3px)
-  const rings: number[] = [];
-  for (let d = 1.5; d < r; d += 3) rings.push(d);
+  // — the grooves are ONE path of concentric circles (two arcs each), not
+  // fifty <Circle>s: every SVG element is a native view of its own, and
+  // fifty of them were the heaviest thing on the volume's first mount
+  const grooves = useMemo(() => {
+    let d = "";
+    for (let g = 1.5; g < r; g += 3) d += `M${r + g} ${r}A${g} ${g} 0 1 0 ${r - g} ${r}A${g} ${g} 0 1 0 ${r + g} ${r}`;
+    return d;
+  }, [r]);
   return (
     <Animated.View style={[{ width: size, height: size, borderRadius: size / 2 }, styles.disc, style]}>
       <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <Circle cx={r} cy={r} r={r} fill="#171411" />
         <Circle cx={r} cy={r} r={r} fill="rgba(0,0,0,.18)" />
-        {rings.map((d) => (
-          <Circle key={d} cx={r} cy={r} r={d} fill="none" stroke="rgba(0,0,0,.5)" strokeWidth={1} />
-        ))}
+        <Path d={grooves} fill="none" stroke="rgba(0,0,0,.5)" strokeWidth={1} />
         {/* ::before — the label, 38%, with its inset ring */}
         <Circle cx={r} cy={r} r={r * 0.38} {...fillProps(label)} />
         <Circle cx={r} cy={r} r={r * 0.38 - 0.5} fill="none" stroke="rgba(0,0,0,.35)" strokeWidth={1} />
@@ -634,8 +638,8 @@ export function Colophon({
       <View style={styles.endActs}>
         <Button label="Back to your audiobooks" ghost onPress={onShut} />
         {/* an <a> on the site (role link — the kit's Button says "button";
-            see KIT.md for the role prop it still wants). The reader Modal
-            has to come down BEFORE the push, or Hermes opens under it. */}
+            see KIT.md for the role prop it still wants). The desk's screen
+            is popped BEFORE the push, so Hermes is the screen that shows. */}
         <Button
           label="Ask AI about this book"
           ghost

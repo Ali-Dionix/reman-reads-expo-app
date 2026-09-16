@@ -2,7 +2,7 @@
 // app/data/accountListeningPage.ts), transcribed at its ≤900px / ≤620px /
 // ≤560px branches.
 //
-// THE FRAME. This file is the modal, the torn head band (`.rr-lr-rail`:
+// THE FRAME. This file is the screen, the torn head band (`.rr-lr-rail`:
 // `.rr-lr-rail-side.is-l` — back "Audiobooks", Library; `.rr-lr-rail-mid` —
 // the running head, a contents opener; `.rr-lr-rail-side.is-r` — the chapter
 // steps, Bookmarks, the pages-per-view segment, the theme toggle), the stage
@@ -28,14 +28,26 @@
 // Behaviour: the reader half of app/components/ListeningEnhancer.tsx —
 // openBook / shutBook, openChapter / shutGalley / stepChapter, paintRail,
 // turn / paintLeaf, openDrawer, toggleMenu, refuseLocked. The accessible names are the site's aria-labels verbatim.
+//
+// A SCREEN, NOT A MODAL. The desk stands on the root stack (app/reader.tsx),
+// pushed over the tabs: the open and the close are the platform's own
+// transitions, drawn by the system at the display's rate, and the desk
+// lives in the app's one window — the root gesture handler reaches it, the
+// root theme stage pictures it, and the window resizes for the keyboard.
+// Until 16 Sep 2026 it was a React Native <Modal> mounted inside the
+// Audiobooks room: a window of its own, whose open was one JS build of the
+// whole desk before its first frame and whose close was six frames in 280 ms
+// (measured on a Pixel 8 Pro). The hardware back is read here, as the
+// Modal's onRequestClose was: it closes what is on top — a sheet, then the
+// chapter — and only then lets the screen pop.
 
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   AccessibilityInfo,
+  BackHandler,
   Keyboard,
-  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -44,7 +56,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import Animated, { FadeIn } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Circle, Path } from "react-native-svg";
 
@@ -52,10 +64,9 @@ import { chaptersOf, useDeck, type Recording } from "../../lib/audioStore";
 import { ownerOf } from "../../lib/portalState";
 import { useSession } from "../../lib/session";
 import { boxesForWord, loadGalley, useGalleyVersion, wordAt, type Galley } from "../../lib/galley";
-import { leafOfChapter, leafOfPage, loadPages, pagesShape, type BookPages } from "../../lib/pages";
+import { leafOfChapter, leafOfPage, loadBoxes, loadPages, pagesShape, type BookPages } from "../../lib/pages";
 import { NightField } from "../../theme/NightField";
 import { useTheme } from "../../theme/ThemeProvider";
-import { ThemeStage } from "../../theme/ThemeStage";
 import { FONTS, lineOf } from "../../theme/type";
 import { hairline } from "../../ui/DashedBox";
 import { Disc } from "../../ui/Disc";
@@ -146,11 +157,12 @@ function Glyph({
 const LIB_HIDDEN_BELOW = 900;
 
 /** The keyboard's height over the window. On iOS the window never resizes
- *  for the keyboard; on Android the activity does (Expo's default
- *  softwareKeyboardLayoutMode is "resize") but a statusBarTranslucent Modal
- *  is its own window and does NOT honour adjustResize — so on both a sheet
- *  pinned to the bottom is lifted by hand. iOS announces the keyboard before
- *  it moves (keyboardWill*), Android only once it has (keyboardDid*). */
+ *  for the keyboard, so a sheet pinned to the bottom is lifted by hand; on
+ *  Android the activity does (Expo's default softwareKeyboardLayoutMode is
+ *  "resize") and the desk, a screen of that window, shrinks with it — the
+ *  height is still read there, so a drawer can make room for the keyboard
+ *  in the window that is left. iOS announces the keyboard before it moves
+ *  (keyboardWill*), Android only once it has (keyboardDid*). */
 function useKeyboardHeight(): number {
   const [h, setH] = useState(0);
   useEffect(() => {
@@ -201,9 +213,19 @@ function Veil({ night }: { night: boolean }) {
 export function Reader({
   recording,
   onClose,
+  settled = true,
+  onLaid,
 }: {
   recording: Recording;
   onClose: () => void;
+  /** Whether the screen's push has finished animating (app/reader.tsx).
+   *  Until it has, the desk stands its bands and field alone: the book and
+   *  the sheets are laid on it after, so the transition starts on a light
+   *  tree. A host without a transition leaves this true. */
+  settled?: boolean;
+  /** Told once the book has been laid on the desk — the codex's first
+   *  layout — so the route can drop the needle after, not during. */
+  onLaid?: () => void;
 }) {
   const { mode } = useTheme();
   const insets = useSafeAreaInsets();
@@ -248,6 +270,9 @@ export function Reader({
   const [searchRight, setSearchRight] = useState(0);
   const { height: windowH, width } = useWindowDimensions();
   const keyboardH = useKeyboardHeight();
+  // what the keyboard lifts by hand: nothing on Android, where the window
+  // resizes under the desk (see useKeyboardHeight)
+  const keyboardLift = Platform.OS === "ios" ? keyboardH : 0;
 
   /* ------------------------------------------------ the galley --- */
 
@@ -333,7 +358,15 @@ export function Reader({
   // `.rr-lr-cx-foot`, a child of `[data-rr-lr-codex]` — the volume turns by
   // its dog-ears and shows none, and the type galley turns chapters from the
   // head.
-  const codexUp = codexStands(man, shownBand, typePrefs, recording.hasText);
+  // (and only once the desk has settled — the arrows are the codex's)
+  const codexUp = settled && codexStands(man, shownBand, typePrefs, recording.hasText);
+  // the book's first layout on the desk, said once (see onLaid)
+  const laidRef = useRef(false);
+  const laidOnce = useCallback(() => {
+    if (laidRef.current) return;
+    laidRef.current = true;
+    onLaid?.();
+  }, [onLaid]);
 
   // A hand on the arrows says "I am reading over here" — the follow lets go,
   // and is re-armed by reading from a word or by the next band.
@@ -433,10 +466,12 @@ export function Reader({
   // reveal lands once it is standing — the one-shot pendingWord of the site.
   const revealWord = (n: number, word: number) => {
     if (!man) return;
-    void loadGalley(recording.slug, voice, n, chapters[n]?.galley).then((g) => {
+    void Promise.all([
+      loadGalley(recording.slug, voice, n, chapters[n]?.galley),
+      loadBoxes(recording.slug, n),
+    ]).then(([g, boxes]) => {
       const gw = g?.words[word];
       if (!gw) return;
-      const boxes = man.chapters.find((c) => c.idx === n)?.boxes ?? [];
       const home = boxesForWord(boxes, gw)[0]?.[3];
       if (home == null) return;
       setLeaf(leafOfPage(man, home));
@@ -498,6 +533,32 @@ export function Reader({
     if (!deep) setSearchOpen(false);
   }, [deep]);
 
+  // THE HARDWARE BACK closes what is on top — the site's Esc: menu → drawer
+  // → the chapter — and only with nothing open does it fall through to the
+  // navigator, which pops the screen. Read through a ref so the listener
+  // is registered once and always sees the current state; registered after
+  // the navigator's own (BackHandler asks the newest listener first).
+  const onBack = useRef<() => boolean>(() => false);
+  onBack.current = () => {
+    if (searchOpen) {
+      setSearchOpen(false);
+      return true;
+    }
+    if (sheet) {
+      setSheet(null);
+      return true;
+    }
+    if (deep) {
+      shutGalley();
+      return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    const sub = BackHandler.addEventListener("hardwareBackPress", () => onBack.current());
+    return () => sub.remove();
+  }, []);
+
   // the console's "Sign up to listen." — the site's
   // /login?flow=signup&next=/account/listening, in the app's own route
   const onSignUp = () => {
@@ -542,28 +603,12 @@ export function Reader({
 
   return (
     // The desk takes the WHOLE screen, as the web's does — over the portal's
-    // top bar, the dock and the tab bar. A reader squeezed between the app's
-    // own chrome is a page lying on a desk, not an opened book.
-    <Modal
-      visible
-      animationType="fade"
-      // the hardware back closes what is on top: a sheet, then the volume
-      // (the site's Esc: menu → drawer → the book)
-      onRequestClose={() => (searchOpen ? setSearchOpen(false) : sheet ? setSheet(null) : deep ? shutGalley() : onClose())}
-      statusBarTranslucent
-    >
-    {/* A Modal is its OWN native window, and gesture-handler only sees touches
-        inside a root it owns — the one in app/_layout.tsx does not reach in
-        here. Without this the pinch works on the web target and does nothing
-        at all on a device, which is the worst kind of silent. */}
-    <GestureHandlerRootView style={styles.reader}>
-    {/* The lamp switch's stage, again: a Modal is its OWN native window, so
-        the root stage's pictures and overlay never reach in here — and the
-        switch that starts the reveal is in this room's head band. See
-        ThemeStage. */}
-    <ThemeStage>
-    {/* the site's `.rr-lr-reader` is role=dialog aria-modal — the volume is
-        the only thing on screen while it stands */}
+    // top bar, the dock and the tab bar: a screen of the root stack, above
+    // the tabs (app/reader.tsx). A reader squeezed between the app's own
+    // chrome is a page lying on a desk, not an opened book.
+    //
+    // the site's `.rr-lr-reader` is role=dialog aria-modal — the volume is
+    // the only thing on screen while it stands
     <View
       style={[styles.reader, !night && styles.fieldDay]}
       accessibilityLabel="Audiobook player"
@@ -748,26 +793,36 @@ export function Reader({
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.cxStage}>
-            <Codex
-              recording={recording}
-              voice={voice}
-              band={shownBand}
-              man={man}
-              leaf={leaf}
-              total={total}
-              night={night}
-              follow={follow}
-              onFollow={onFollow}
-              onReadFrom={onReadFrom}
-              onTurn={turn}
-              onShut={onClose}
-              // a leaf that opens a chapter (a contents row, Begin listening)
-              // tells the frame on the same tap: the rail turns deep, the
-              // foot's arrows appear, the case respects the stage's cap
-              onOpenChange={setGalleyBand}
-              prefs={typePrefs}
-              maxHeight={stageH || undefined}
-            />
+            {/* the book is laid on the desk once the push has landed (see
+                `settled`), and fades in as it is laid */}
+            {settled ? (
+              <Animated.View
+                style={styles.cxStage}
+                entering={FadeIn.duration(180)}
+                onLayout={laidOnce}
+              >
+                <Codex
+                  recording={recording}
+                  voice={voice}
+                  band={shownBand}
+                  man={man}
+                  leaf={leaf}
+                  total={total}
+                  night={night}
+                  follow={follow}
+                  onFollow={onFollow}
+                  onReadFrom={onReadFrom}
+                  onTurn={turn}
+                  onShut={onClose}
+                  // a leaf that opens a chapter (a contents row, Begin listening)
+                  // tells the frame on the same tap: the rail turns deep, the
+                  // foot's arrows appear, the case respects the stage's cap
+                  onOpenChange={setGalleyBand}
+                  prefs={typePrefs}
+                  maxHeight={stageH || undefined}
+                />
+              </Animated.View>
+            ) : null}
           </View>
 
           {/* .rr-lr-cx-foot — the arrows go UNDER the case on a phone, one to
@@ -832,7 +887,7 @@ export function Reader({
       </TornBand>
 
       {/* ============================== the search menu ============= */}
-      {searchOpen && deep ? (
+      {settled && searchOpen && deep ? (
         <SearchMenu
           top={railH + 10}
           night={night}
@@ -846,75 +901,76 @@ export function Reader({
       ) : null}
 
       {/* ================================== the sheets =============== */}
-      <VoiceSheet
-        open={sheet === "voice"}
-        onClose={() => setSheet(null)}
-        recording={recording}
-        night={night}
-        bottom={sheetBottom}
-        maxHeight={windowH * 0.72}
-        onSignIn={onSignIn}
-        onSay={(text, bad, subscribe) => setLiveSay(text ? { text, bad, subscribe } : null)}
-        standingBand={deep ? galleyBand : -1}
-      />
-      <SpeedSheet
-        open={sheet === "speed"}
-        onClose={() => setSheet(null)}
-        recording={recording}
-        night={night}
-        bottom={sheetBottom}
-        maxHeight={windowH * 0.72}
-      />
-      <LampSheet
-        open={sheet === "lamp"}
-        onClose={() => setSheet(null)}
-        night={night}
-        lamp={lamp}
-        setLamp={setLamp}
-        bottom={sheetBottom}
-        maxHeight={windowH * 0.72}
-      />
-      <TypeSheet
-        open={sheet === "type"}
-        onClose={() => setSheet(null)}
-        night={night}
-        prefs={typePrefs}
-        setPrefs={setTypePrefs}
-        bottom={sheetBottom}
-        maxHeight={windowH * 0.72}
-      />
-      <Contents
-        open={sheet === "contents"}
-        pane={pane}
-        onPane={setPane}
-        // the chip's "add a note" after the drawer was shut: openDrawer("slips")
-        onOpen={(which) => {
-          setPane(which);
-          setSheet("contents");
-        }}
-        onClose={() => setSheet(null)}
-        recording={recording}
-        night={night}
-        onBand={onBand}
-        onSlip={onSlip}
-        wordAnchor={wordAnchor}
-        // the keyboard (the Modal's window does not shrink for it) lifts the
-        // drawer and takes its room off the top, so a slip's note input is
-        // never under it and the card never rides over the head band
-        bottom={drawerBottom + keyboardH}
-        maxHeight={keyboardH ? Math.min(windowH * 0.7, windowH - keyboardH - drawerBottom - railH - 8) : windowH * 0.7}
-      />
+      {settled ? (
+        <>
+          <VoiceSheet
+            open={sheet === "voice"}
+            onClose={() => setSheet(null)}
+            recording={recording}
+            night={night}
+            bottom={sheetBottom}
+            maxHeight={windowH * 0.72}
+            onSignIn={onSignIn}
+            onSay={(text, bad, subscribe) => setLiveSay(text ? { text, bad, subscribe } : null)}
+            standingBand={deep ? galleyBand : -1}
+          />
+          <SpeedSheet
+            open={sheet === "speed"}
+            onClose={() => setSheet(null)}
+            recording={recording}
+            night={night}
+            bottom={sheetBottom}
+            maxHeight={windowH * 0.72}
+          />
+          <LampSheet
+            open={sheet === "lamp"}
+            onClose={() => setSheet(null)}
+            night={night}
+            lamp={lamp}
+            setLamp={setLamp}
+            bottom={sheetBottom}
+            maxHeight={windowH * 0.72}
+          />
+          <TypeSheet
+            open={sheet === "type"}
+            onClose={() => setSheet(null)}
+            night={night}
+            prefs={typePrefs}
+            setPrefs={setTypePrefs}
+            bottom={sheetBottom}
+            maxHeight={windowH * 0.72}
+          />
+          <Contents
+            open={sheet === "contents"}
+            pane={pane}
+            onPane={setPane}
+            // the chip's "add a note" after the drawer was shut: openDrawer("slips")
+            onOpen={(which) => {
+              setPane(which);
+              setSheet("contents");
+            }}
+            onClose={() => setSheet(null)}
+            recording={recording}
+            night={night}
+            onBand={onBand}
+            onSlip={onSlip}
+            wordAnchor={wordAnchor}
+            // the keyboard lifts the drawer (iOS — on Android the window shrinks
+            // under it instead) and takes its room off the top, so a slip's note
+            // input is never under it and the card never rides over the head band
+            bottom={drawerBottom + keyboardLift}
+            maxHeight={keyboardH ? Math.min(windowH * 0.7, windowH - keyboardH - drawerBottom - railH - 8) : windowH * 0.7}
+          />
+        </>
+      ) : null}
     </View>
-    </ThemeStage>
-    </GestureHandlerRootView>
-    </Modal>
   );
 }
 
 /* -------------------------------------------------------------- styles --- */
 
 const styles = StyleSheet.create({
-  // inside the Modal the desk owns the whole screen
+  // the desk owns the whole screen
   reader: { flex: 1 },
   // the field: white by day; the night field is the starred gradient above
   fieldDay: { backgroundColor: "#FFFEFB" },
