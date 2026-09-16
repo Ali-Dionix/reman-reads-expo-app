@@ -27,7 +27,7 @@ import { Head, PortalPage, TOP_BOX, Wrap } from "../../../src/portal/PortalPage"
 import { Band } from "../../../src/portal/library/Band";
 import { Bar } from "../../../src/portal/library/Bar";
 import { FilterSheet } from "../../../src/portal/library/Filters";
-import { Floor } from "../../../src/portal/library/Floor";
+import { Floor, useLibraryScroll } from "../../../src/portal/library/Floor";
 import { BookRow, EmptyRoom, FileNote, PAGE_SIZE, Pager } from "../../../src/portal/library/Grid";
 import {
   BOOKS,
@@ -86,6 +86,9 @@ export default function Library() {
   const scroller = useRef<ScrollView>(null);
   const wrapY = useRef(0);
   const gridY = useRef(0);
+  // the floor mounts covers near the viewport only; this carries the
+  // scroller's position to it without a render of this room (Floor.tsx)
+  const floorScroll = useLibraryScroll();
   const goPage = (n: number) => {
     setPage(n);
     scroller.current?.scrollTo({ y: Math.max(0, gridY.current - 150 + TOP_BOX), animated: true });
@@ -155,6 +158,7 @@ export default function Library() {
       title="Library"
       back="/"
       keyboardShouldPersistTaps="handled"
+      onScroll={floorScroll.onScroll}
       lead={
         // .rr-ly-head — padding 2px 0 (the kit's Head, at this room's -.012em);
         // then .rr-ly-zone's own 2px and the bar's 6px
@@ -196,11 +200,13 @@ export default function Library() {
           onLayout={(e) => {
             // The gridzone's offset in the scroller is this box's plus its own.
             wrapY.current = e.nativeEvent.layout.y;
+            // and the floor is this box's first child
+            floorScroll.setFloorTop(e.nativeEvent.layout.y);
           }}
         >
           <Wrap style={{ paddingBottom: 24 }}>
             {browsing ? (
-              <Floor onOpen={(b) => open(b.slug)} onSeeAll={seeAll} />
+              <Floor onOpen={(b) => open(b.slug)} onSeeAll={seeAll} scroll={floorScroll} />
             ) : (
               <>
                 {onFiles ? null : (

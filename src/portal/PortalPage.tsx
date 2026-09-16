@@ -215,6 +215,7 @@ export const PortalPage = forwardRef(function PortalPage(
     lead,
     sticky,
     keyboardShouldPersistTaps,
+    onScroll,
     lcd = true,
   }: {
     title: string;
@@ -232,6 +233,10 @@ export const PortalPage = forwardRef(function PortalPage(
     /** A bar pinned at `--ap-toph` once the lead has scrolled away. */
     sticky?: ReactNode;
     keyboardShouldPersistTaps?: ScrollViewProps["keyboardShouldPersistTaps"];
+    /** The scroller's position, at most ~12 times a second — for a room that
+     *  mounts what is near the viewport and not what is a metre below it
+     *  (the Library's floor). Nothing here re-renders on it. */
+    onScroll?: ScrollViewProps["onScroll"];
     /** Paint the scroller opaque (the header's LCD-text note). False for a
      *  room whose site page has a fixed sheet over it. */
     lcd?: boolean;
@@ -253,6 +258,8 @@ export const PortalPage = forwardRef(function PortalPage(
             showsVerticalScrollIndicator={false}
             stickyHeaderIndices={[1]}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+            onScroll={onScroll}
+            scrollEventThrottle={onScroll ? 80 : undefined}
             style={{ flex: 1, marginTop: insets.top + TOP_BOX, backgroundColor: ground }}
             contentContainerStyle={[
               { paddingTop: TOP_BLEED, paddingBottom: pad.bottom, backgroundColor: ground },
@@ -268,6 +275,8 @@ export const PortalPage = forwardRef(function PortalPage(
             ref={ref}
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps={keyboardShouldPersistTaps}
+            onScroll={onScroll}
+            scrollEventThrottle={onScroll ? 80 : undefined}
             style={{ flex: 1, backgroundColor: ground }}
             contentContainerStyle={[
               { paddingTop: pad.top, paddingBottom: pad.bottom, backgroundColor: ground },

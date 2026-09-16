@@ -12,10 +12,32 @@
 //
 // THE FLOOR AND THE GRID ARE NEVER BOTH ON SCREEN — the screen decides that,
 // this only draws the floor.
+//
+// A RAIL'S COVERS EXIST ONLY NEAR THE VIEWPORT. The floor is 24 rails and 232
+// covers, and until 16 Sep 2026 every one of them was mounted the moment the
+// room was — 232 expo-images decoded and uploaded, a native tree so large that
+// re-attaching the room on a tab press was one 142ms frame on a Pixel 8 Pro
+// (the site's page can afford it; the browser virtualises paint, the phone's
+// renderer does not). Each rail now measures where it sits and mounts its
+// row of sleeves only while it is within about a screen and a half of the
+// viewport, standing in for itself with a box of exactly the row's height the
+// rest of the time, so the page's length and every scroll position are what
+// they were. The room feeds the position through `LibraryScroll` — a tiny
+// bus, so only the floor re-renders on a scroll tick and never the room.
 
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { Pressable, ScrollView, StyleSheet, View, useWindowDimensions } from "react-native";
+import { Fragment, memo, useEffect, useRef, useState } from "react";
+import {
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+  type LayoutChangeEvent,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+} from "react-native";
 import Svg, { Path } from "react-native-svg";
 
 import { SITE_ORIGIN } from "../../lib/config";
@@ -36,6 +58,48 @@ const LIT_BRASS_38 = litRgba("brass", 0.38);
 
 /** ≤640px: .rr-shf-card{flex-basis:calc((100vw - 64px)/2.4)}; 158px above. */
 export const cardWidthFor = (window: number): number => (window <= 640 ? (window - 64) / 2.4 : 158);
+
+/** Where the room's scroller is: content offset and viewport height. */
+export type Viewport = { top: number; height: number };
+
+/** The room's scroll position, handed to whoever asks — the floor — without
+ *  a re-render of the room. Make one per room with `useLibraryScroll`. */
+export type LibraryScroll = {
+  onScroll: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
+  subscribe: (cb: (v: Viewport) => void) => () => void;
+  /** The floor's own offset inside the scroller's content — the room knows
+   *  the box it put the floor in, and says so from that box's onLayout. */
+  setFloorTop: (y: number) => void;
+  floorTop: () => number;
+};
+
+export function useLibraryScroll(): LibraryScroll {
+  const ref = useRef<LibraryScroll | null>(null);
+  if (!ref.current) {
+    const subs = new Set<(v: Viewport) => void>();
+    let floorTop = 0;
+    let last: Viewport | null = null;
+    ref.current = {
+      onScroll: (e) => {
+        const v = { top: e.nativeEvent.contentOffset.y, height: e.nativeEvent.layoutMeasurement.height };
+        last = v;
+        for (const cb of subs) cb(v);
+      },
+      subscribe: (cb) => {
+        subs.add(cb);
+        if (last) cb(last);
+        return () => {
+          subs.delete(cb);
+        };
+      },
+      setFloorTop: (y) => {
+        floorTop = y;
+      },
+      floorTop: () => floorTop,
+    };
+  }
+  return ref.current;
+}
 
 /** `.rr-ly-rail-all`'s arrow — the builder's own 12×10 box at 11×9. */
 function RailArrow({ color }: { color: string }) {
@@ -109,22 +173,36 @@ export function ShelfCover({ book, width, onPress }: { book: ShelfBook; width: n
   );
 }
 
-/** `.rr-shf.rr-ly-rail` — one subject's rail with its head and See all. */
-export function Rail({
+/** `.rr-shf.rr-ly-rail` — one subject's rail with its head and See all.
+ *  `near` false draws the head over a box the row's exact height and no
+ *  sleeves at all; `onPlace` reports where the rail sits in its parent. */
+export const Rail = memo(function Rail({
   rail,
   onOpen,
   onSeeAll,
+  near = true,
+  onPlace,
 }: {
   rail: RailT;
   onOpen: (book: ShelfBook) => void;
   onSeeAll: (subjectKey: string) => void;
+  near?: boolean;
+  onPlace?: (key: string, y: number, height: number) => void;
 }) {
   const { colors } = useTheme();
   const { width: windowW } = useWindowDimensions();
   const cardW = cardWidthFor(windowW);
+  // the row: paddingTop 2 + a 2:3 sleeve + paddingBottom 10 — the placeholder
+  // is this tall so a rail measures the same with or without its covers
+  const rowH = cardW * 1.5 + 12;
 
   return (
-    <View style={{ marginTop: 20 }} accessibilityRole="summary" accessibilityLabel={rail.label}>
+    <View
+      style={{ marginTop: 20 }}
+      accessibilityRole="summary"
+      accessibilityLabel={rail.label}
+      onLayout={onPlace ? (e: LayoutChangeEvent) => onPlace(rail.key, e.nativeEvent.layout.y, e.nativeEvent.layout.height) : undefined}
+    >
       {/* .rr-shf-h.rr-ly-rail-h — grid: title and count in column 1, the press
           in column 2 spanning both rows and centred on them */}
       <View style={{ flexDirection: "row", alignItems: "center", columnGap: 12, marginBottom: 4 }}>
@@ -157,34 +235,76 @@ export function Rail({
           <RailArrow color={colors.ink} />
         </Pressable>
       </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.row}
-        decelerationRate="fast"
-        snapToInterval={cardW + 14}
-        snapToAlignment="start"
-      >
-        {rail.books.map((b) => (
-          <ShelfCover key={b.slug} book={b} width={cardW} onPress={() => onOpen(b)} />
-        ))}
-      </ScrollView>
+      {near ? (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.row}
+          decelerationRate="fast"
+          snapToInterval={cardW + 14}
+          snapToAlignment="start"
+        >
+          {rail.books.map((b) => (
+            <ShelfCover key={b.slug} book={b} width={cardW} onPress={() => onOpen(b)} />
+          ))}
+        </ScrollView>
+      ) : (
+        <View style={{ height: rowH }} />
+      )}
     </View>
   );
-}
+});
+
+/** How far beyond the viewport a rail keeps its covers: a screen and a half
+ *  ahead (the direction a reader is going), two behind. */
+const AHEAD = 1.5;
+const BEHIND = 2;
 
 /** `.rr-ly-wing` + its rails — one family of shelves. */
 export function Floor({
   onOpen,
   onSeeAll,
+  scroll,
 }: {
   onOpen: (book: ShelfBook) => void;
   onSeeAll: (subjectKey: string) => void;
+  /** The room's scroll bus. Without one every rail is drawn, as before. */
+  scroll?: LibraryScroll;
 }) {
+  const { height: windowH } = useWindowDimensions();
+  // a first guess before the first scroll event: the scroller at the top,
+  // as tall as the window
+  const [view, setView] = useState<Viewport>({ top: 0, height: windowH });
+  useEffect(() => (scroll ? scroll.subscribe(setView) : undefined), [scroll]);
+
+  // where each rail sits, relative to this floor — the wing head and its
+  // rails are direct children here, so one onLayout is the whole answer
+  const places = useRef(new Map<string, { y: number; h: number }>());
+  const [, bump] = useState(0);
+  const onPlace = useRef((key: string, y: number, h: number) => {
+    const was = places.current.get(key);
+    if (was && was.y === y && was.h === h) return;
+    places.current.set(key, { y, h });
+    bump((n) => n + 1);
+  }).current;
+
+  const floorTop = scroll ? scroll.floorTop() : 0;
+  const near = (key: string, index: number): boolean => {
+    if (!scroll) return true;
+    const p = places.current.get(key);
+    // unmeasured: the first few are surely on the first screen
+    if (!p) return index < 3;
+    const top = floorTop + p.y;
+    return top < view.top + view.height * (1 + AHEAD) && top + p.h > view.top - view.height * BEHIND;
+  };
+
+  let n = 0;
   return (
     <View>
       {WINGS.map((w, i) => (
-        <View key={w.key}>
+        // a Fragment, not a wrapper View: a rail's onLayout is then relative to
+        // this floor, which is the one offset the room can add to
+        <Fragment key={w.key}>
           {/* .rr-ly-wing{margin:34px 0 2px;padding:16px 0 0;border-top:1px dashed} — 22px on
               the first; the 2px bottom margin collapses into the rail's 20px and is not drawn */}
           <View style={{ marginTop: i === 0 ? 22 : 34 }} accessibilityLabel={w.label}>
@@ -202,9 +322,16 @@ export function Floor({
             </View>
           </View>
           {w.rails.map((r) => (
-            <Rail key={r.key} rail={r} onOpen={onOpen} onSeeAll={onSeeAll} />
+            <Rail
+              key={r.key}
+              rail={r}
+              onOpen={onOpen}
+              onSeeAll={onSeeAll}
+              near={near(r.key, n++)}
+              onPlace={scroll ? onPlace : undefined}
+            />
           ))}
-        </View>
+        </Fragment>
       ))}
     </View>
   );
