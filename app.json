@@ -48,7 +48,8 @@
         {
           "enableGooglePay": false
         }
-      ]
+      ],
+      "./plugins/withReleaseSigning.js"
     ],
     "web": {
       "bundler": "metro",
