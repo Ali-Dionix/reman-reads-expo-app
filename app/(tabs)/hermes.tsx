@@ -55,6 +55,7 @@ import hermes from "../../src/data/hermes.json";
 import { useSession } from "../../src/lib/session";
 import { openOnSite } from "../../src/lib/web";
 import { Head, PortalPage, Wrap, useContentInsets } from "../../src/portal/PortalPage";
+import { Typewriter } from "../../src/portal/hermes/Typewriter";
 import {
   askHermes,
   companionFor,
@@ -136,7 +137,7 @@ export default function Hermes() {
   const [bookmarks, setBookmarks] = useState<Record<string, number>>({});
   const thread = useRef<ScrollView>(null);
   const input = useRef<TextInput>(null);
-  const timers = useRef<{ type?: ReturnType<typeof setInterval>; arm?: ReturnType<typeof setTimeout> }>({});
+  const timers = useRef<{ arm?: ReturnType<typeof setTimeout> }>({});
 
   /* --- the sample pages --- */
   const [lang, setLang] = useState<Lang>("english");
@@ -144,7 +145,6 @@ export default function Hermes() {
   const [upload, setUpload] = useState<PickedPage | null>(null);
   /** "remove" has run with no word lit: the margin shows the enhancer's idle line. */
   const [cleared, setCleared] = useState(false);
-  const [shown, setShown] = useState(0);
 
   // whose memory: a guest's, or this reader's — another reader's is discarded
   const owner = ownerOf(user?.id);
@@ -159,7 +159,6 @@ export default function Hermes() {
     });
     return () => {
       alive = false;
-      clearInterval(timers.current.type);
       clearTimeout(timers.current.arm);
     };
   }, [owner]);
@@ -169,22 +168,17 @@ export default function Hermes() {
 
   const scrollToEnd = () => thread.current?.scrollToEnd({ animated: true });
 
-  /** The reply typewrites onto its slip, 14ms a character, as on the web. */
+  /** The reply typewrites onto its slip, 14ms a character, as on the web —
+   *  inside the slip's own Typewriter (src/portal/hermes/Typewriter.tsx), so
+   *  this room renders when the typing starts and when it ends, not once a
+   *  character. `typing` names the slip and carries the whole text. */
   const typewrite = (index: number, text: string, source: string) => {
-    clearInterval(timers.current.type);
-    let i = 0;
     setSources((m) => ({ ...m, [index]: source }));
-    setTyping({ index, text: "" });
-    timers.current.type = setInterval(() => {
-      i += 1;
-      setTyping({ index, text: text.slice(0, i) });
-      if (i % 40 === 0) scrollToEnd();
-      if (i >= text.length) {
-        clearInterval(timers.current.type);
-        setTyping(null);
-        scrollToEnd();
-      }
-    }, 14);
+    setTyping({ index, text });
+  };
+  const typed = () => {
+    setTyping(null);
+    scrollToEnd();
   };
 
   const send = (raw: string, from: "input" | "chip" = "chip") => {
@@ -228,7 +222,6 @@ export default function Hermes() {
       return;
     }
     clearTimeout(timers.current.arm);
-    clearInterval(timers.current.type);
     setTyping(null);
     setArmed(false);
     setSources({});
@@ -301,20 +294,9 @@ export default function Hermes() {
     return null;
   })();
 
-  // the margin note typewrites too: 14ms a character over the WHOLE text,
-  // the bold word first, then ": " and the note (the site's walker order)
-  useEffect(() => {
-    if (!note) return;
-    const full = note.text;
-    let i = 0;
-    setShown(0);
-    const t = setInterval(() => {
-      i += 1;
-      setShown(i);
-      if (i >= full.length) clearInterval(t);
-    }, 14);
-    return () => clearInterval(t);
-  }, [note?.text]); // eslint-disable-line react-hooks/exhaustive-deps
+  // the margin note typewrites too — the same Typewriter, over the WHOLE
+  // text: the bold word first, then ": " and the note (the site's walker
+  // order); it restarts when the text changes, as the interval used to
 
   const shelved = new Set(ledger.shelf);
   /** markShelfOptions on the site rewrites the option text; the closed
@@ -401,7 +383,7 @@ export default function Hermes() {
                       rot={i % 2 ? -SLIP_ROT[turn.role] : SLIP_ROT[turn.role]}
                       source={turn.role === "hermes" ? sources[i] : undefined}
                     >
-                      {live ? live.text : turn.text}
+                      {live ? <Typewriter text={live.text} onProgress={scrollToEnd} onDone={typed} /> : turn.text}
                     </Slip>
                   );
                 })
@@ -743,11 +725,18 @@ export default function Hermes() {
                   accessibilityLiveRegion="polite"
                   style={{ marginTop: 14, minHeight: 76 }}
                 >
-                  {/* .rr-hm-out b — Cormorant 700, brick: the revealed prefix up to the word's end */}
-                  <Txt family="Cormorant Garamond" weight={700} size={18} line={1.7} color="brick">
-                    {note.text.slice(0, Math.min(shown, note.word.length))}
-                  </Txt>
-                  {note.text.slice(note.word.length, shown)}
+                  <Typewriter
+                    text={note.text}
+                    render={(shown) => (
+                      <>
+                        {/* .rr-hm-out b — Cormorant 700, brick: the revealed prefix up to the word's end */}
+                        <Txt family="Cormorant Garamond" weight={700} size={18} line={1.7} color="brick">
+                          {note.text.slice(0, Math.min(shown, note.word.length))}
+                        </Txt>
+                        {note.text.slice(note.word.length, shown)}
+                      </>
+                    )}
+                  />
                 </Txt>
               ) : (
                 <Txt
