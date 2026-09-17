@@ -80,13 +80,18 @@
 // another door — measured as a 25-60 ms re-render of the entire reader
 // every 500 ms. A callback that needs the needle reads it through a ref.
 //
-// WHAT THIS IS NOT, yet: lock-screen and notification transport, and playback
-// that survives the app being backgrounded on iOS. Those need
-// react-native-track-player, which is not in Expo Go — so they land with the
-// development build (Phase 3). expo-audio gives real playback today, in Expo
-// Go, which is what the room needs to stop being a picture of a room.
+// THE LOCK SCREEN AND THE SHADE. Since 16 Sep 2026 the playing chapter is
+// handed to expo-audio's lock-screen controls (setActiveForLockScreen: a
+// media session with the book's title, the chapter, the author and the
+// cover, ±15 s and play/pause in the notification shade and on the lock
+// screen). On Android that same call is what keeps a backgrounded chapter
+// sounding: without it the OS stops playback after about three minutes
+// (expo-audio's own note on shouldPlayInBackground — measured before the
+// change: no notification, no foreground service). interruptionMode is
+// doNotMix for it, which is also what pauses the book for a phone call and
+// resumes it after.
 
-import { useAudioPlayer, useAudioPlayerStatus, setAudioModeAsync } from "expo-audio";
+import { useAudioPlayer, useAudioPlayerStatus, setAudioModeAsync, type AudioMetadata } from "expo-audio";
 import {
   createContext,
   useCallback,
@@ -101,6 +106,7 @@ import {
 import shelf from "../data/listeningShelf.json";
 import { useStanding, voiceInForce } from "../portal/reader/voice/standing";
 import { audioUrl } from "./audioResolve";
+import { SITE_ORIGIN } from "./config";
 import { refreshGalley } from "./galley";
 import {
   dressLiveChapter,
@@ -516,14 +522,33 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   const status = stale.id === player.id ? stale : player.currentStatus;
 
   // Keep sounding with the ringer switch flipped — an audiobook the silent
-  // switch mutes is an audiobook that appears broken.
+  // switch mutes is an audiobook that appears broken. doNotMix: the book
+  // takes audio focus like any player (a call pauses it, and it comes back
+  // after), and it is what the lock-screen controls below require.
   useEffect(() => {
-    setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true }).catch(
+    setAudioModeAsync({ playsInSilentMode: true, shouldPlayInBackground: true, interruptionMode: "doNotMix" }).catch(
       (e: unknown) => {
         if (__DEV__) console.log("[deck] setAudioModeAsync threw", String(e));
       },
     );
   }, []);
+
+  // What the lock screen prints for the chapter on the platter: the chapter
+  // as the title, the book as the album, the author, the cover the shelf
+  // carries. Read through a ref by the play effect so a re-render never
+  // re-cues anything.
+  const lockMeta = useRef<AudioMetadata>({});
+  {
+    const art = recording ? shelf.pressings.find((p) => p.slug === recording.slug)?.art : undefined;
+    lockMeta.current = recording
+      ? {
+          title: chapter?.title ?? recording.title,
+          artist: recording.author,
+          albumTitle: recording.title,
+          ...(art ? { artworkUrl: /^https?:\/\//.test(art) ? art : `${SITE_ORIGIN}${art}` } : {}),
+        }
+      : {};
+  }
 
   // Start or stop whatever is on the platter. Keyed on the URI and the intent,
   // so a re-render never re-cues a chapter mid-sentence.
@@ -532,10 +557,22 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   // every platform's player, whereas waiting for a flag that may never arrive
   // gives you a transport that is drawn and dead.
   useEffect(() => {
-    if (!uri) return;
+    if (!uri) {
+      // the needle is up: nothing to print on the lock screen
+      try {
+        player.clearLockScreenControls();
+      } catch {
+        /* a player with no source may have nothing to clear */
+      }
+      return;
+    }
     try {
       if (wantPlay) {
         if (__DEV__) console.log("[deck] play() called", uri);
+        // this player (a new one per chapter) takes the lock screen — the
+        // notification, the ±15 s, and the leave to keep sounding in the
+        // background
+        player.setActiveForLockScreen(true, lockMeta.current, { showSeekForward: true, showSeekBackward: true });
         player.play();
       } else player.pause();
     } catch (e) {
