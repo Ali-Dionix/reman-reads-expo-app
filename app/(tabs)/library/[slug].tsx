@@ -53,6 +53,7 @@ import { useCurrency } from "../../../src/portal/library/region";
 import { PortalPage, Wrap } from "../../../src/portal/PortalPage";
 import { useInk } from "../../../src/theme/ink";
 import { Txt } from "../../../src/ui/Type";
+import { haptic } from "../../../src/ui/haptics";
 
 /** ShopDock's two labels for [data-rr-shop-wish], verbatim. */
 const WISH_OFF = "Add to wishlist";
@@ -106,7 +107,9 @@ export default function Book() {
   const wish = () => {
     // the rows have not been read yet: a flip now would be overwritten by
     // the read landing a moment later
-    if (ready) void toggle(slug);
+    if (!ready) return;
+    haptic.tap();
+    void toggle(slug);
   };
   const listen = () => router.navigate({ pathname: "/listening", params: { book: slug } });
 

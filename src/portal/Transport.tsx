@@ -19,6 +19,7 @@ import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
 import { fillProps, strokeProps } from "../ui/svgPaint";
+import { haptic } from "../ui/haptics";
 
 /** icBack15 / its mirror — the ± buttons. Shared with the Reading Desk. */
 export function Jump({ back, color }: { back?: boolean; color: string }) {
@@ -139,7 +140,10 @@ export function Transport() {
           band steps live on the shelf and in the reader's head, not here */}
       <View style={styles.deck}>
         <Pressable
-          onPress={() => nudge(-15)}
+          onPress={() => {
+            haptic.tick();
+            nudge(-15);
+          }}
           accessibilityLabel="Back fifteen seconds"
           style={[styles.jog, { borderColor: ink(0.22) }]}
         >
@@ -147,7 +151,10 @@ export function Transport() {
         </Pressable>
 
         <Pressable
-          onPress={toggle}
+          onPress={() => {
+            haptic.tap();
+            toggle();
+          }}
           accessibilityRole="button"
           accessibilityLabel={playing ? "Pause" : "Play"}
           style={[styles.big, { backgroundColor: colors.ink }]}
@@ -165,7 +172,10 @@ export function Transport() {
         </Pressable>
 
         <Pressable
-          onPress={() => nudge(15)}
+          onPress={() => {
+            haptic.tick();
+            nudge(15);
+          }}
           accessibilityLabel="Forward fifteen seconds"
           style={[styles.jog, { borderColor: ink(0.22) }]}
         >

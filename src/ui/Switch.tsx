@@ -14,6 +14,7 @@ import { Animated, Pressable } from "react-native";
 
 import { useInk } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
+import { haptic } from "./haptics";
 
 export function Switch({
   on,
@@ -37,7 +38,10 @@ export function Switch({
 
   return (
     <Pressable
-      onPress={() => onChange(!on)}
+      onPress={() => {
+        haptic.tap();
+        onChange(!on);
+      }}
       disabled={disabled}
       accessibilityRole="switch"
       accessibilityLabel={label}

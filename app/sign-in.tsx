@@ -82,6 +82,7 @@ import { useInk } from "../src/theme/ink";
 import { useTheme } from "../src/theme/ThemeProvider";
 import { FONTS } from "../src/theme/type";
 import { Txt } from "../src/ui/Type";
+import { haptic } from "../src/ui/haptics";
 
 /**
  * Whether the desk speaks as a live one. The site's split is supabaseReady;
@@ -596,6 +597,7 @@ export default function SignIn() {
   /** Carry the card in: adopt the session and go to the rooms. */
   const enter = useCallback(
     (u: { id: string; email: string; name: string }) => {
+      haptic.done();
       setUser(u);
       router.replace(landing(next));
     },

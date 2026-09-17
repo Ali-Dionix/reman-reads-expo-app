@@ -30,6 +30,7 @@ import { useInk, em } from "../theme/ink";
 import { useTheme } from "../theme/ThemeProvider";
 import { FONTS } from "../theme/type";
 import { fillProps } from "../ui/svgPaint";
+import { haptic } from "../ui/haptics";
 import { TEETH_RISE } from "../ui/TornEdge";
 import { setDockHeight } from "./dockSpace";
 
@@ -142,7 +143,10 @@ export function ListeningDock({ onOpen }: { onOpen?: () => void }) {
         </Pressable>
 
         <Pressable
-          onPress={toggle}
+          onPress={() => {
+            haptic.tap();
+            toggle();
+          }}
           accessibilityRole="button"
           accessibilityLabel={playing ? "Pause" : "Play"}
           hitSlop={10}

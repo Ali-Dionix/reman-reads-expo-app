@@ -44,6 +44,7 @@ import { FONTS } from "../../../src/theme/type";
 import { Rule } from "../../../src/ui/Rule";
 import { Seg } from "../../../src/ui/Seg";
 import { Txt } from "../../../src/ui/Type";
+import { haptic } from "../../../src/ui/haptics";
 
 /* -------------------------------------------------------- the countries --- */
 
@@ -166,6 +167,7 @@ export default function Checkout() {
         email: user?.email ?? null,
       });
       if (out.kind === "paid" || out.kind === "placed") {
+        haptic.done();
         setDone({ kind: out.kind, orderId: out.orderId });
       } else if (out.kind === "cancelled") {
         setNote({ text: "Nothing was charged. The order is here when you are ready.", bad: false });

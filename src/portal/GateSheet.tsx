@@ -65,6 +65,7 @@ import { Disc } from "../ui/Disc";
 import { Icon, type IconName } from "../ui/Icon";
 import { Txt } from "../ui/Type";
 import { fillProps, strokeProps } from "../ui/svgPaint";
+import { haptic } from "../ui/haptics";
 import narrators from "./reader/narrators.json";
 
 /** appShell.ts ADD_WAYS, verbatim — the four rows the device shows and the
@@ -174,6 +175,8 @@ export function GateSheet({
 
   useEffect(() => {
     if (open) {
+      // the app said no — a padlock, a locked cell — and the panel rises
+      haptic.warn();
       setMounted(true);
       Animated.timing(rise, { toValue: 0, duration: 320, easing: EASE, useNativeDriver: true }).start();
     } else if (mounted) {
