@@ -217,6 +217,7 @@ export const PortalPage = forwardRef(function PortalPage(
     keyboardShouldPersistTaps,
     onScroll,
     lcd = true,
+    overlay,
   }: {
     title: string;
     /** `.rr-ap-title i`. Default "Your account"; a sub-screen passes its room ("Profile"). */
@@ -240,6 +241,12 @@ export const PortalPage = forwardRef(function PortalPage(
     /** Paint the scroller opaque (the header's LCD-text note). False for a
      *  room whose site page has a fixed sheet over it. */
     lcd?: boolean;
+    /** What stands OVER the room, pinned to the window — the site's
+     *  position:fixed sheets (the Library's filter panel). Laid beside the
+     *  scroller, never inside it: a child of the scroller that fills its
+     *  parent fills the CONTENT, and lands at the foot of a floor twenty-four
+     *  rails long (seen on a Pixel 8 Pro, 16 Sep 2026). */
+    overlay?: ReactNode;
   },
   ref: Ref<ScrollView>,
 ) {
@@ -297,6 +304,7 @@ export const PortalPage = forwardRef(function PortalPage(
         </View>
       )}
       <TopBar title={title} eyebrow={eyebrow} home={isHome} back={back} />
+      {overlay}
     </View>
   );
 });

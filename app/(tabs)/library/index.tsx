@@ -159,6 +159,20 @@ export default function Library() {
       back="/"
       keyboardShouldPersistTaps="handled"
       onScroll={floorScroll.onScroll}
+      // the filter panel stands over the room, pinned to the window — the
+      // site's position:fixed; inside the scroller it sat at the foot of
+      // the floor, out of sight from the chips that open it
+      overlay={
+        openFacet ? (
+          <FilterSheet
+            facet={openFacet}
+            picks={picks}
+            onPick={pick}
+            onClose={() => setOpenFacet(null)}
+            hitCount={found.length}
+          />
+        ) : null
+      }
       lead={
         // .rr-ly-head — padding 2px 0 (the kit's Head, at this room's -.012em);
         // then .rr-ly-zone's own 2px and the bar's 6px
@@ -254,16 +268,6 @@ export default function Library() {
         </View>
 
         <Band onBrowse={browseAll} />
-
-      {openFacet ? (
-        <FilterSheet
-          facet={openFacet}
-          picks={picks}
-          onPick={pick}
-          onClose={() => setOpenFacet(null)}
-          hitCount={found.length}
-        />
-      ) : null}
     </PortalPage>
   );
 }
